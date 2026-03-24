@@ -1,0 +1,205 @@
+// src/components/Settings.tsx
+import { useState, useEffect } from "react";
+import { t } from "../../locales/i18n";
+import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
+import type { Lang } from "../../locales/locales";
+
+import "./Settings.css";
+import { audioManager } from "../../audio/AudioManager";
+
+interface Props {
+  setIsSettings: () => void;
+  setCurrentLang: (el: Lang) => void;
+  // Опциональные пропсы для управления звуком (передаются из Game)
+  isPaused?: boolean;
+  onPauseToggle?: () => void;
+}
+
+export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPauseToggle }: Props) {
+  const audioConfig = audioManager.getState();
+  const [globalMusicVol, setGlobalMusicVol] = useState(audioConfig.musicVolume);
+  const [globalSfxVol, setGlobalSfxVol] = useState(audioConfig.sfxVolume);
+  const [showCredits, setShowCredits] = useState(false);
+
+  const handleMusicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setGlobalMusicVol(value);
+    audioManager.setMusicVolume(value);
+  };
+
+  const handleSfxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setGlobalSfxVol(value);
+    audioManager.setSFXVolume(value);
+  };
+
+  const handleMuteAll = () => {
+    setGlobalMusicVol(0);
+    setGlobalSfxVol(0);
+    audioManager.setMusicVolume(0);
+    audioManager.setSFXVolume(0);
+  };
+
+  const handleResetVolume = () => {
+    setGlobalMusicVol(0.5);
+    setGlobalSfxVol(0.5);
+    audioManager.setMusicVolume(0.5);
+    audioManager.setSFXVolume(0.5);
+  };
+
+  return (
+    <div className="settings-overlay">
+      <div className="settings-modal">
+        <div className="settings-header">
+          <h1>{t("settings")}</h1>
+          <button className="btn-close" onClick={setIsSettings}>
+            ✕
+          </button>
+        </div>
+
+        <div className="settings-content">
+          {/* Секция языка */}
+          <section className="settings-section">
+            <div className="section-icon">🌐</div>
+            <div className="section-content">
+              <LanguageSelector variant="buttons" showLabel={true} onLanguageChange={setCurrentLang} />
+            </div>
+          </section>
+
+          {/* Секция звука */}
+          <section className="settings-section">
+            <div className="section-icon">🔊</div>
+            <div className="section-content">
+              <h3>{t("audio")}</h3>
+
+              {/* Ползунок музыки */}
+              <div className="volume-control">
+                <div className="volume-header">
+                  <label>{t("music")}</label>
+                  <span className="volume-value">{Math.round(globalMusicVol * 100)}%</span>
+                </div>
+                <div className="slider-container">
+                  <span className="slider-icon">🎵</span>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={globalMusicVol}
+                    onChange={handleMusicChange}
+                    className="volume-slider"
+                  />
+                  <button
+                    className="mute-btn"
+                    onClick={() => {
+                      const newVal = globalMusicVol > 0 ? 0 : 0.2;
+                      setGlobalMusicVol(newVal);
+                      audioManager.setMusicVolume(newVal);
+                    }}
+                  >
+                    {globalMusicVol === 0 ? "🔇" : globalMusicVol < 0.5 ? "🔉" : "🔊"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Ползунок эффектов */}
+              <div className="volume-control">
+                <div className="volume-header">
+                  <label>{t("sfx")}</label>
+                  <span className="volume-value">{Math.round(globalSfxVol * 100)}%</span>
+                </div>
+                <div className="slider-container">
+                  <span className="slider-icon">🎮</span>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={globalSfxVol}
+                    onChange={handleSfxChange}
+                    className="volume-slider"
+                  />
+                  <button
+                    className="mute-btn"
+                    onClick={() => {
+                      const newVal = globalSfxVol > 0 ? 0 : 0.2;
+                      setGlobalSfxVol(newVal);
+                      audioManager.setSFXVolume(newVal);
+                    }}
+                  >
+                    {globalSfxVol === 0 ? "🔇" : globalSfxVol < 0.5 ? "🔉" : "🔊"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Быстрые кнопки */}
+              <div className="volume-quick-actions">
+                <button className="btn-text" onClick={handleMuteAll}>
+                  {t("muteAll")}
+                </button>
+                <button className="btn-text" onClick={handleResetVolume}>
+                  {t("resetVolume")}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* Секция игрового процесса (пауза) */}
+          {onPauseToggle && (
+            <section className="settings-section">
+              <div className="section-icon">⏸</div>
+              <div className="section-content">
+                <h3>{t("gameplay")}</h3>
+                <button className={`btn-toggle ${isPaused ? "active" : ""}`} onClick={onPauseToggle}>
+                  <span className="toggle-icon">{isPaused ? "▶" : "⏸"}</span>
+                  {isPaused ? t("resumeGame") : t("pauseGame")}
+                </button>
+              </div>
+            </section>
+          )}
+
+          {/* Секция обратной связи (требование 6.1 Яндекс) */}
+          <section className="settings-section">
+            <div className="section-icon">✉</div>
+            <div className="section-content">
+              <h3>{t("support")}</h3>
+              <a
+                href="mailto:support@haremclicker.com"
+                className="support-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                support@haremclicker.com
+              </a>
+            </div>
+          </section>
+
+          {/* Секция информации */}
+          <section className="settings-section">
+            <div className="section-icon">ℹ</div>
+            <div className="section-content">
+              <h3>{t("about")}</h3>
+              <button className="btn-text" onClick={() => setShowCredits(!showCredits)}>
+                {showCredits ? t("hideCredits") : t("showCredits")}
+              </button>
+
+              {showCredits && (
+                <div className="credits">
+                  <p>Harem Clicker Infinity v1.0.0</p>
+                  <p>© 2024 Your Studio</p>
+                  <p>{t("thanksForPlaying")}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        </div>
+
+        <div className="settings-footer">
+          <button className="btn-primary btn-back" onClick={setIsSettings}>
+            {t("back")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

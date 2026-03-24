@@ -1,0 +1,127 @@
+.upgrade-panel-modal {
+  width: 90vw;
+  max-width: 500px;
+  min-height: 400px;
+}
+
+.gems-display {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.upgrades-global-hint {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.upgrade-list-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upgrade-item-modal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all var(--transition-fast);
+}
+
+.upgrade-item-modal:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.upgrade-info-modal {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.upgrade-icon-modal {
+  font-size: 36px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius);
+}
+
+.upgrade-details-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.upgrade-name-modal {
+  font-weight: bold;
+  font-size: 17px;
+  color: var(--text-primary);
+}
+
+.upgrade-desc-modal {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.upgrade-level-modal {
+  font-size: 13px;
+  color: var(--rarity-epic);
+  font-weight: 600;
+}
+
+.btn-upgrade-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+  border-radius: var(--border-radius);
+  color: white;
+  font-weight: bold;
+  min-width: 100px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 15px rgba(81, 207, 102, 0.3);
+}
+
+.btn-upgrade-modal:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-upgrade-modal:not(:disabled):hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(81, 207, 102, 0.4);
+}
+
+.upgrade-effect-modal {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.upgrade-cost-modal {
+  font-size: 13px;
+  opacity: 0.9;
+  margin-top: 2px;
+}
