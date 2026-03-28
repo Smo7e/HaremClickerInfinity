@@ -18,7 +18,7 @@ export type TElementType =
 
 export type TWaifu = {
     id: string;
-    name: string;
+    nameKey: string;
     rarity: TRarity;
     element: TElementType;
     image: string;

@@ -9,15 +9,6 @@ export const BASE_DROP_RATES: Record<TRarity, number> = {
     mythic: 0.001,
 };
 
-export const ELEMENT_ICONS: Record<TElementType, string> = {
-    water: "💧",
-    fire: "🔥",
-    earth: "🌍",
-    ice: "❄️",
-    light: "✨",
-    dark: "🌑",
-    physical: "👊",
-};
 export const ELEMENT_COLORS: Record<TElementType, string> = {
     water: "#2196f3",
     fire: "#f44336",
@@ -27,7 +18,8 @@ export const ELEMENT_COLORS: Record<TElementType, string> = {
     dark: "#9c27b0",
     physical: "#9e9e9e",
 };
-export const RARITY_COLORS = {
+
+export const RARITY_COLORS: Record<TRarity, string> = {
     common: "#9e9e9e",
     uncommon: "#4caf50",
     rare: "#2196f3",
@@ -36,11 +28,29 @@ export const RARITY_COLORS = {
     mythic: "#f44336",
 };
 
+export const RARITY_KEYS: Record<TRarity, string> = {
+    common: "common",
+    uncommon: "uncommon",
+    rare: "rare",
+    epic: "epic",
+    legendary: "legendary",
+    mythic: "mythic",
+};
+
+export const ELEMENT_KEYS: Record<TElementType, string> = {
+    water: "water",
+    fire: "fire",
+    earth: "earth",
+    ice: "ice",
+    light: "light",
+    dark: "dark",
+    physical: "physical",
+};
+
 export const testWaifus: TWaifu[] = [
-    // MYTHIC (1) - Божественные сущности
     {
         id: "wf_tiamat_001",
-        name: "Tiamat",
+        nameKey: "Tiamat",
         rarity: "mythic",
         element: "water",
         image: "/assets/images/waifus/Tiamat.png",
@@ -49,11 +59,9 @@ export const testWaifus: TWaifu[] = [
         autoClick: 500,
         multiplier: 5.0,
     },
-
-    // LEGENDARY (2)
     {
         id: "wf_cerberus_001",
-        name: "Cerberus",
+        nameKey: "Cerberus",
         rarity: "legendary",
         element: "dark",
         image: "/assets/images/waifus/Cerberus.png",
@@ -64,7 +72,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_phoenix_001",
-        name: "Phoenix",
+        nameKey: "Phoenix",
         rarity: "legendary",
         element: "fire",
         image: "/assets/images/waifus/Phoenix.png",
@@ -73,11 +81,9 @@ export const testWaifus: TWaifu[] = [
         autoClick: 380,
         multiplier: 3.8,
     },
-
-    // EPIC (3)
     {
         id: "wf_leviathan_001",
-        name: "Leviathan",
+        nameKey: "Leviathan",
         rarity: "epic",
         element: "water",
         image: "/assets/images/waifus/Leviathan.png",
@@ -88,7 +94,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_terra_001",
-        name: "Terra",
+        nameKey: "Terra",
         rarity: "epic",
         element: "earth",
         image: "/assets/images/waifus/Terra.png",
@@ -99,7 +105,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_yuki_001",
-        name: "YukiOnna",
+        nameKey: "YukiOnna",
         rarity: "epic",
         element: "ice",
         image: "/assets/images/waifus/YukiOnna.png",
@@ -108,11 +114,9 @@ export const testWaifus: TWaifu[] = [
         autoClick: 245,
         multiplier: 2.95,
     },
-
-    // RARE (4)
     {
         id: "wf_ignis_001",
-        name: "Ignis",
+        nameKey: "Ignis",
         rarity: "rare",
         element: "fire",
         image: "/assets/images/waifus/Ignis.png",
@@ -123,7 +127,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_aqua_001",
-        name: "Aqua",
+        nameKey: "Aqua",
         rarity: "rare",
         element: "water",
         image: "/assets/images/waifus/Aqua.png",
@@ -134,7 +138,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_gaia_001",
-        name: "Gaia",
+        nameKey: "Gaia",
         rarity: "rare",
         element: "earth",
         image: "/assets/images/waifus/Gaia.png",
@@ -145,7 +149,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_umbra_001",
-        name: "Umbra",
+        nameKey: "Umbra",
         rarity: "rare",
         element: "dark",
         image: "/assets/images/waifus/Umbra.png",
@@ -154,11 +158,9 @@ export const testWaifus: TWaifu[] = [
         autoClick: 160,
         multiplier: 2.4,
     },
-
-    // UNCOMMON (5)
     {
         id: "wf_ruby_001",
-        name: "Ruby",
+        nameKey: "Ruby",
         rarity: "uncommon",
         element: "fire",
         image: "/assets/images/waifus/Ruby.png",
@@ -169,7 +171,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_sapphire_001",
-        name: "Sapphire",
+        nameKey: "Sapphire",
         rarity: "uncommon",
         element: "water",
         image: "/assets/images/waifus/Sapphire.png",
@@ -180,7 +182,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_emerald_001",
-        name: "Emerald",
+        nameKey: "Emerald",
         rarity: "uncommon",
         element: "earth",
         image: "/assets/images/waifus/Emerald.png",
@@ -191,7 +193,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_frost_001",
-        name: "Frost",
+        nameKey: "Frost",
         rarity: "uncommon",
         element: "ice",
         image: "/assets/images/waifus/Frost.png",
@@ -202,7 +204,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_lux_001",
-        name: "Lux",
+        nameKey: "Lux",
         rarity: "uncommon",
         element: "light",
         image: "/assets/images/waifus/Lux.png",
@@ -211,11 +213,9 @@ export const testWaifus: TWaifu[] = [
         autoClick: 72,
         multiplier: 1.45,
     },
-
-    // COMMON (6)
     {
         id: "wf_sakura_001",
-        name: "Sakura",
+        nameKey: "Sakura",
         rarity: "common",
         element: "physical",
         image: "/assets/images/waifus/Sakura.png",
@@ -226,7 +226,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_yui_001",
-        name: "Yui",
+        nameKey: "Yui",
         rarity: "common",
         element: "physical",
         image: "/assets/images/waifus/Yui.png",
@@ -237,7 +237,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_hana_001",
-        name: "Hana",
+        nameKey: "Hana",
         rarity: "common",
         element: "water",
         image: "/assets/images/waifus/Hana.png",
@@ -248,7 +248,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_momo_001",
-        name: "Momo",
+        nameKey: "Momo",
         rarity: "common",
         element: "fire",
         image: "/assets/images/waifus/Momo.png",
@@ -259,7 +259,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_rin_001",
-        name: "Rin",
+        nameKey: "Rin",
         rarity: "common",
         element: "earth",
         image: "/assets/images/waifus/Rin.png",
@@ -270,7 +270,7 @@ export const testWaifus: TWaifu[] = [
     },
     {
         id: "wf_sora_001",
-        name: "Sora",
+        nameKey: "Sora",
         rarity: "common",
         element: "physical",
         image: "/assets/images/waifus/Sora.png",

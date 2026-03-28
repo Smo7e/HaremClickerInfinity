@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { t } from "../../../../locales/i18n";
+import { RARITY_KEYS } from "../../../../game/constant";
+import type { TRarity } from "../../../../types";
 
 import "./CollectionPanel.css";
+import { Icon } from "../../../Icon/Icon";
 
 export interface CollectionItem {
     id: string;
     name: string;
     description: string;
     icon: string;
-    rarity: "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
+    rarity: TRarity;
     obtained: boolean;
     category: "weapon" | "accessory" | "memoria" | "outfit";
     bonus?: string;
@@ -28,11 +31,15 @@ export function CollectionPanel({
     const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
     const categories = [
-        { id: "all", name: t("ui.all"), icon: "📦" },
-        { id: "weapon", name: t("collection.weapons"), icon: "⚔️" },
-        { id: "accessory", name: t("collection.accessories"), icon: "💍" },
-        { id: "memoria", name: t("collection.memoria"), icon: "📜" },
-        { id: "outfit", name: t("collection.outfits"), icon: "👗" },
+        { id: "all", name: t("ui.all"), icon: "all" },
+        { id: "weapon", name: t("collection.weapons"), icon: "weapon" },
+        {
+            id: "accessory",
+            name: t("collection.accessories"),
+            icon: "accessory",
+        },
+        { id: "memoria", name: t("collection.memoria"), icon: "memoria" },
+        { id: "outfit", name: t("collection.outfits"), icon: "outfit" },
     ];
 
     const filteredItems =
@@ -51,7 +58,7 @@ export function CollectionPanel({
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="panel-header">
-                    <h2>📚 {t("ui.collection")}</h2>
+                    <h2> {t("ui.collection")}</h2>
                     <div className="collection-progress">
                         {obtainedCount} / {items.length}
                     </div>
@@ -67,7 +74,8 @@ export function CollectionPanel({
                             className={`category-tab ${selectedCategory === cat.id ? "active" : ""}`}
                             onClick={() => setSelectedCategory(cat.id)}
                         >
-                            <span>{cat.icon}</span>
+                            <Icon name={cat.icon} size="md" />
+
                             <span>{cat.name}</span>
                         </button>
                     ))}
@@ -83,7 +91,11 @@ export function CollectionPanel({
                                 className={`collection-item ${item.obtained ? "obtained" : "locked"} rarity-${item.rarity}`}
                             >
                                 <div className="item-icon">
-                                    {item.obtained ? item.icon : "❓"}
+                                    {item.obtained ? (
+                                        <Icon name={item.icon} size="lg" />
+                                    ) : (
+                                        <Icon name="unknown" size="lg" />
+                                    )}
                                 </div>
                                 <div className="item-info">
                                     <span className="item-name">

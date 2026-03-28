@@ -1,8 +1,9 @@
 import type { TElementType, TRarity, TWaifu } from "../types";
+import { t } from "../locales/i18n";
 
 export interface WaifuConfig {
     id: string;
-    name: string;
+    nameKey: string;
     rarity: TRarity;
     element: TElementType;
     image: string;
@@ -26,7 +27,7 @@ export interface WaifuStats {
 
 export class Waifu {
     id: string;
-    name: string;
+    nameKey: string;
     rarity: TRarity;
     element: TElementType;
     image: string;
@@ -47,7 +48,7 @@ export class Waifu {
 
     constructor(config: WaifuConfig) {
         this.id = config.id;
-        this.name = config.name;
+        this.nameKey = config.nameKey;
         this.rarity = config.rarity;
         this.element = config.element;
         this.image = config.image;
@@ -70,6 +71,10 @@ export class Waifu {
         this.duplicateCount = 0;
         this.unlockedOutfits = ["default"];
         this.currentOutfit = "default";
+    }
+
+    get name(): string {
+        return t(`waifus.names.${this.nameKey}` as any);
     }
 
     getDuplicateMultiplier(): number {
@@ -166,7 +171,7 @@ export class Waifu {
     static createDefault(): Waifu {
         return new Waifu({
             id: "wf_sakura_001",
-            name: "Sakura",
+            nameKey: "Sakura",
             rarity: "common",
             element: "physical",
             image: "/assets/images/waifus/Sakura.png",
@@ -183,7 +188,7 @@ export class Waifu {
     static fromTemplate(template: TWaifu): Waifu {
         return new Waifu({
             id: template.id,
-            name: template.name,
+            nameKey: template.nameKey,
             rarity: template.rarity,
             element: template.element,
             image: template.image,

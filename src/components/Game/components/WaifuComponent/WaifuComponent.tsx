@@ -1,6 +1,8 @@
 import { Waifu } from "../../../../classes/Waifu";
-import { RARITY_COLORS, ELEMENT_ICONS } from "../../../../game/constant";
+import { RARITY_COLORS, ELEMENT_KEYS } from "../../../../game/constant";
 import "./WaifuComponent.css";
+import { t } from "../../../../locales/i18n";
+import { Icon } from "../../../Icon/Icon";
 
 interface WaifuComponentProps {
   waifu: Waifu;
@@ -20,8 +22,8 @@ export function WaifuComponent({ waifu }: WaifuComponentProps) {
             (e.target as HTMLImageElement).src = "/waifus/placeholder.png";
           }}
         />
-        <div className="waifu-element-icon" title={waifu.element}>
-          {ELEMENT_ICONS[waifu.element]}
+        <div className="waifu-element-icon">
+          <Icon name={waifu.element} size="md" />
         </div>
       </div>
 
@@ -31,8 +33,12 @@ export function WaifuComponent({ waifu }: WaifuComponentProps) {
         </h3>
 
         <div className="waifu-stats-battle">
-          <span className="waifu-level">⭐ Lv.{waifu.stats.level}</span>
-          <span className="waifu-click-power">👆 {waifu.getClickPower()}</span>
+          <span className="waifu-level">
+            <Icon name="level" size="sm" /> {t("ui.level")}.{waifu.stats.level}
+          </span>
+          <span className="waifu-click-power">
+            <Icon name="click" size="sm" /> {waifu.getClickPower()}
+          </span>
         </div>
       </div>
     </div>

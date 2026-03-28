@@ -5,17 +5,68 @@
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  /* GPU ускорение */
+  transform: translateZ(0);
 }
 
 .game-header {
-  height: var(--header-height);
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 10;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  /* Убран backdrop-filter */
+  /* backdrop-filter: blur(10px); */
+  padding: 12px 24px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Упрощенная тень */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  will-change: transform;
+}
+
+.currency-display {
+  display: flex;
+  gap: 30px;
+}
+
+.currency-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  /* Убран text-shadow */
+  /* text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); */
+}
+
+.currency-item.essence {
+  color: #a855f7;
+}
+
+.currency-value {
+  min-width: 60px;
+  text-align: left;
+}
+
+.btn-icon-only {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.btn-icon-only:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
 }
 
 .game-main {
@@ -25,36 +76,20 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
   padding: 20px;
   padding-left: 100px;
+  /* GPU ускорение */
+  transform: translateZ(0);
 }
 
 .battle-arena {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 60px;
+  gap: 80px;
   width: 100%;
-  padding: 20px;
+  padding: 40px;
   flex-wrap: wrap;
-}
-
-.currency-group {
-  display: flex;
-  gap: 20px;
-}
-
-.currency-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.currency-icon {
-  font-size: 20px;
 }
 
 .game-sidebar {
@@ -66,51 +101,50 @@
   flex-direction: column;
   gap: 15px;
   z-index: 50;
+  will-change: transform;
 }
 
 .side-btn {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   border-radius: 16px;
-  background: var(--bg-panel);
+  background: rgba(0, 0, 0, 0.6);
+  /* Убран backdrop-filter */
+  /* backdrop-filter: blur(10px); */
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 4px;
   position: relative;
   transition: all 0.3s ease;
   color: var(--text-primary);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  /* Упрощенная тень */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  will-change: transform;
 }
 
 .side-btn:hover {
-  transform: scale(1.1);
-  background: var(--bg-secondary);
+  transform: scale(1.08);
+  background: rgba(0, 0, 0, 0.8);
   border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-}
-
-.side-btn span:first-child {
-  font-size: 24px;
 }
 
 .side-btn span:nth-child(2) {
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .side-btn-cost {
   position: absolute;
   top: -8px;
   right: -8px;
-  background: #f44336;
+  background: #ef4444;
   color: white;
   font-size: 10px;
-  padding: 2px 6px;
+  padding: 2px 8px;
   border-radius: 10px;
   font-weight: bold;
   border: 2px solid var(--bg-primary);
@@ -120,11 +154,11 @@
   position: absolute;
   top: -8px;
   right: -8px;
-  background: var(--rarity-epic);
+  background: #8b5cf6;
   color: white;
   font-size: 11px;
-  min-width: 22px;
-  height: 22px;
+  min-width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,55 +167,12 @@
   border: 2px solid var(--bg-primary);
 }
 
-.btn-icon-only {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  font-size: 20px;
-}
-
-@media (max-width: 768px) {
-  .game-sidebar {
-    left: 10px;
-    gap: 10px;
-  }
-
-  .side-btn {
-    width: 56px;
-    height: 56px;
-  }
-
-  .side-btn span:first-child {
-    font-size: 20px;
-  }
-
-  .side-btn span:nth-child(2) {
-    font-size: 9px;
-  }
-
-  .game-main {
-    padding-left: 80px;
-  }
-
-  .battle-arena {
-    gap: 30px;
-    flex-direction: column;
-  }
-}
-
-@media (min-width: 1024px) {
-  .battle-arena {
-    gap: 100px;
-  }
-}
-
 .waifu-clickable {
   cursor: pointer;
   transition: transform 0.2s ease;
+  /* Упрощенная тень */
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+  will-change: transform;
 }
 
 .waifu-clickable:hover {
@@ -190,4 +181,34 @@
 
 .waifu-clickable:active {
   transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .game-header {
+    top: 10px;
+    padding: 10px 20px;
+  }
+
+  .currency-item {
+    font-size: 16px;
+  }
+
+  .game-sidebar {
+    left: 10px;
+    gap: 10px;
+  }
+
+  .side-btn {
+    width: 60px;
+    height: 60px;
+  }
+
+  .game-main {
+    padding-left: 80px;
+  }
+
+  .battle-arena {
+    gap: 40px;
+    flex-direction: column;
+  }
 }
