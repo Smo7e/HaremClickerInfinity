@@ -1,5 +1,7 @@
+// src/classes/Enemy.ts
 import type { TElementType } from "../types";
 import { t } from "../locales/i18n";
+import { MONSTER_TEMPLATES } from "../game/constant";
 
 export type TEnemyRewards = { gems: number; essence?: number; exp: number };
 
@@ -12,7 +14,7 @@ export interface DamageInfo {
 
 export interface EnemyConfig {
   id: string;
-  name: string;
+  nameKey: string;
   level: number;
   maxHp: number;
   resistances: Partial<Record<TElementType, number>>;
@@ -26,7 +28,7 @@ export interface EnemyConfig {
 
 export class Enemy {
   id: string;
-  name: string;
+  nameKey: string;
   level: number;
   maxHp: number;
   currentHp: number;
@@ -37,7 +39,7 @@ export class Enemy {
 
   constructor(config: EnemyConfig) {
     this.id = config.id;
-    this.name = config.name;
+    this.nameKey = config.nameKey;
     this.level = config.level;
     this.maxHp = config.maxHp;
     this.currentHp = config.maxHp;
@@ -58,6 +60,14 @@ export class Enemy {
       physical: 0,
       ...config.resistances,
     };
+  }
+
+  get name(): string {
+    return t(`monsters.${this.nameKey}.name`);
+  }
+
+  get description(): string {
+    return t(`monsters.${this.nameKey}.desc`);
   }
 
   takeDamage(damage: DamageInfo): number {
@@ -93,52 +103,39 @@ export class Enemy {
 
   static spawn(level: number): Enemy {
     const isBoss = level % 10 === 0;
-    const baseHp = 100 * Math.pow(1.15, level - 1);
+
+    const templates = MONSTER_TEMPLATES.filter((m) => m.isBoss === isBoss);
+    const template = templates[Math.floor(Math.random() * templates.length)] || MONSTER_TEMPLATES[0];
+
+    const baseHp = template.baseHp * Math.pow(template.hpMultiplier, level - 1);
     const maxHp = isBoss ? baseHp * 5 : baseHp;
 
     const elements: TElementType[] = ["water", "fire", "earth", "ice", "light", "dark", "physical"];
-    const resistances: Partial<Record<TElementType, number>> = {};
+    const resistances: Partial<Record<TElementType, number>> = { ...template.resistances };
 
     const resistCount = isBoss ? 3 : 1;
     const shuffled = [...elements].sort(() => Math.random() - 0.5);
 
     for (let i = 0; i < resistCount; i++) {
-      resistances[shuffled[i]] = 0.25 + Math.random() * 0.5;
+      if (resistances[shuffled[i]] === undefined) {
+        resistances[shuffled[i]] = 0.25 + Math.random() * 0.5;
+      }
     }
 
     const weakCount = isBoss ? 2 : 1;
-    for (let i = resistCount; i < resistCount + weakCount; i++) {
-      resistances[shuffled[i]] = -0.5;
+    for (let i = 0; i < weakCount; i++) {
+      if (resistances[shuffled[i]] === undefined) {
+        resistances[shuffled[i]] = -0.5;
+      }
     }
-    const ENEMY_SPRITES = {
-      normal: [
-        "/assets/images/enemies/Slime.png",
-        "/assets/images/enemies/Goblin.png",
-        "/assets/images/enemies/Skeleton.png",
-        "/assets/images/enemies/Ghost.png",
-        "/assets/images/enemies/DireWolf.png",
-        "/assets/images/enemies/Mummy.png",
-        "/assets/images/enemies/Mimic.png",
-        "/assets/images/enemies/VampireThrall.png",
-      ],
-      boss: [
-        "/assets/images/enemies/DarkMage.png",
-        "/assets/images/enemies/LesserDemon.png",
-        "/assets/images/enemies/Whelp.png",
-      ],
-    };
-
-    const sprite = isBoss
-      ? ENEMY_SPRITES.boss[Math.floor(Math.random() * ENEMY_SPRITES.boss.length)]
-      : ENEMY_SPRITES.normal[Math.floor(Math.random() * ENEMY_SPRITES.normal.length)];
 
     return new Enemy({
-      id: `enemy_${level}_${Date.now()}`,
-      name: isBoss ? `${t("ui.boss")} ${level}` : `${t("ui.enemy")} ${level}`,
+      id: `${template.id}_${level}_${Date.now()}`,
+      nameKey: template.nameKey,
       level,
       maxHp,
       resistances,
-      sprite,
+      sprite: template.sprite,
       isBoss,
       rewards: {
         gems: isBoss ? 50 : 10 + Math.floor(level / 5),

@@ -135,7 +135,7 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, onDamageDe
       <div className="enemy-header">
         <span className="enemy-name">{enemy.name}</span>
         <span className="enemy-level">
-          {t("ui.level")}.{enemy.level}
+          {t("ui.level")} {enemy.level}
         </span>
         {enemy.isBoss && <span className="boss-badge">{t("ui.boss")}</span>}
       </div>

@@ -1,5 +1,5 @@
 import { Waifu } from "../../../../classes/Waifu";
-import { RARITY_COLORS, ELEMENT_KEYS } from "../../../../game/constant";
+import { RARITY_COLORS } from "../../../../game/constant";
 import "./WaifuComponent.css";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";

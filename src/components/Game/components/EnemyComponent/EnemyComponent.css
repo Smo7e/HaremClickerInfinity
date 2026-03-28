@@ -2,18 +2,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  width: auto;
+  gap: 15px;
+  width: 320px;
   position: relative;
+  flex-shrink: 0;
 }
 
 .enemy-header {
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-size: 28px;
+  gap: 10px;
+  font-size: 22px;
   font-weight: bold;
   white-space: nowrap;
+  min-height: 32px;
 }
 
 .enemy-name {
@@ -22,21 +24,21 @@
 
 .enemy-level {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .boss-badge {
   background: linear-gradient(135deg, #f44336, #ff9800);
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;
 }
 
 .enemy-sprite-container {
-  width: 260px;
-  height: 260px;
+  width: 220px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,15 +75,16 @@
 
 .enemy-hp-container {
   width: 100%;
-  min-width: 280px;
+  max-width: 280px;
   display: flex;
   flex-direction: column;
   gap: 5px;
+  min-height: 42px;
 }
 
 .enemy-hp-bar {
   width: 100%;
-  height: 24px;
+  height: 20px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 12px;
   overflow: hidden;
@@ -96,22 +99,24 @@
 
 .enemy-hp-text {
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text-secondary);
   font-weight: 600;
+  min-height: 18px;
 }
 
 .enemy-resists {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
+  min-height: 32px;
 }
 
 .resist-badge {
-  padding: 6px 10px;
+  padding: 4px 8px;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 13px;
   background: rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
@@ -173,21 +178,207 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
+  .enemy-component {
+    width: 280px;
+  }
+
   .enemy-sprite-container {
     width: 200px;
     height: 200px;
   }
 
   .enemy-header {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .enemy-level {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .enemy-hp-container {
-    min-width: 240px;
+    max-width: 260px;
   }
+}
+
+@media (max-width: 1024px) {
+  .enemy-component {
+    width: 240px;
+  }
+
+  .enemy-sprite-container {
+    width: 180px;
+    height: 180px;
+  }
+
+  .enemy-header {
+    font-size: 18px;
+    min-height: 28px;
+  }
+
+  .enemy-level {
+    font-size: 14px;
+  }
+
+  .enemy-hp-container {
+    max-width: 220px;
+    min-height: 38px;
+  }
+
+  .enemy-resists {
+    min-height: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .enemy-component {
+    width: 160px;
+    gap: 10px;
+  }
+
+  .enemy-sprite-container {
+    width: 130px;
+    height: 130px;
+  }
+
+  .enemy-header {
+    font-size: 14px;
+    gap: 6px;
+    min-height: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .enemy-level {
+    font-size: 12px;
+  }
+
+  .boss-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .enemy-hp-container {
+    max-width: 150px;
+    min-height: 32px;
+  }
+
+  .enemy-hp-bar {
+    height: 16px;
+  }
+
+  .enemy-hp-text {
+    font-size: 11px;
+    min-height: 14px;
+  }
+
+  .resist-badge {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .enemy-resists {
+    min-height: 24px;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .enemy-component {
+    width: 120px;
+    gap: 8px;
+  }
+
+  .enemy-sprite-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .enemy-header {
+    font-size: 12px;
+    gap: 4px;
+    min-height: 20px;
+  }
+
+  .enemy-level {
+    font-size: 10px;
+  }
+
+  .boss-badge {
+    font-size: 8px;
+    padding: 2px 5px;
+  }
+
+  .enemy-hp-container {
+    max-width: 110px;
+    min-height: 28px;
+  }
+
+  .enemy-hp-bar {
+    height: 14px;
+  }
+
+  .enemy-hp-text {
+    font-size: 9px;
+    min-height: 12px;
+  }
+
+  .resist-badge {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+
+  .enemy-resists {
+    min-height: 20px;
+    gap: 3px;
+  }
+}
+.enemy-drops {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  width: 100%;
+}
+
+.enemy-drops h4 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.drop-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.drop-item:last-child {
+  border-bottom: none;
+}
+
+.drop-name {
+  flex: 1;
+}
+
+.drop-chance {
+  color: #ffd43b;
+  font-weight: 600;
+}
+
+.drop-count {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.drop-item.currency .drop-chance {
+  color: #51cf66;
+}
+
+.drop-item.collection .drop-chance {
+  color: #a855f7;
 }

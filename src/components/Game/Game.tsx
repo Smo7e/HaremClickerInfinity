@@ -1,3 +1,4 @@
+// src/components/Game/Game.tsx
 import { useState, useEffect, useCallback } from "react";
 import { t } from "../../locales/i18n";
 import { Enemy, type TEnemyRewards } from "../../classes/Enemy";
@@ -24,9 +25,9 @@ interface Props {
 const INITIAL_COLLECTION: CollectionItem[] = [
   {
     id: "sword1",
-    name: "Iron Sword",
-    description: "Basic weapon",
-    icon: "⚔️",
+    nameKey: "ironSword",
+    descriptionKey: "items.ironSword.desc",
+    icon: "weapon",
     rarity: "common",
     obtained: false,
     category: "weapon",
@@ -127,7 +128,7 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
           rarity: waifu.rarity,
           element: waifu.element,
           image: waifu.image,
-          description: waifu.description,
+          description: waifu.descriptionKey,
           baseStats: {
             clickPower: waifu.baseClickPower + (type === "click_power" ? 1 : 0),
             autoClick: waifu.baseAutoClick + (type === "auto_click" ? 0.5 : 0),
@@ -235,6 +236,9 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
 
       <main className="game-main">
         <div className="battle-arena">
+          <div onClick={handleWaifuClick} className="waifu-clickable">
+            <WaifuComponent waifu={activeWaifu} />
+          </div>
           <EnemyComponent
             enemy={enemy}
             activeWaifu={activeWaifu}
@@ -242,9 +246,6 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
             onDamageDealt={handleDamageDealt}
             isPaused={isGlobalPaused || showPause}
           />
-          <div onClick={handleWaifuClick} className="waifu-clickable">
-            <WaifuComponent waifu={activeWaifu} />
-          </div>
         </div>
       </main>
 

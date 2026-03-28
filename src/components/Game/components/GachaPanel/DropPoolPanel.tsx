@@ -1,8 +1,8 @@
+// src/components/Game/components/GachaPanel/DropPoolPanel.tsx
 import { memo, useState } from "react";
 import { t } from "../../../../locales/i18n";
 import { testWaifus, RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
 import type { Waifu } from "../../../../classes/Waifu";
-import { ELEMENT_KEYS } from "../../../../game/constant";
 import type { TRarity, TWaifu } from "../../../../types";
 
 import "./DropPoolPanel.css";
@@ -91,7 +91,7 @@ export const DropPoolPanel = memo(({ isOpen, onClose, ownedWaifus }: DropPoolPan
                         {status.isOwned ? (
                           <img
                             src={template.image}
-                            alt={t(`waifus.names.${template.nameKey}`)}
+                            alt={t(`waifus.${template.nameKey}.name`)}
                             className="pool-waifu-image"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = "/assets/images/waifus/default.png";
@@ -118,7 +118,7 @@ export const DropPoolPanel = memo(({ isOpen, onClose, ownedWaifus }: DropPoolPan
 
                       <div className="pool-waifu-info">
                         <span className="pool-waifu-name">
-                          {status.isOwned ? t(`waifus.names.${template.nameKey}`) : "???"}
+                          {status.isOwned ? t(`waifus.${template.nameKey}.name`) : "???"}
                         </span>
 
                         {status.isOwned && (

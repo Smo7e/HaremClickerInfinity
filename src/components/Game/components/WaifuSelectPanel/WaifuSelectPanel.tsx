@@ -2,7 +2,7 @@ import { t } from "../../../../locales/i18n";
 import { Waifu } from "../../../../classes/Waifu";
 
 import "./WaifuSelectPanel.css";
-import { ELEMENT_KEYS, RARITY_COLORS } from "../../../../game/constant";
+import { RARITY_COLORS } from "../../../../game/constant";
 import { Icon } from "../../../Icon/Icon";
 
 interface WaifuSelectPanelProps {
@@ -21,9 +21,9 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
     <div className="panel-overlay" onClick={onClose}>
       <div className="panel waifu-select-panel" onClick={(e) => e.stopPropagation()}>
         <div className="panel-header">
-          <h2>👩 {t("ui.selectWaifu")}</h2>
+          <h2>{t("ui.selectWaifu")}</h2>
           <button className="btn-close" onClick={onClose}>
-            ✕
+            <Icon name="close" size="md" />
           </button>
         </div>
 
@@ -35,7 +35,7 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
               <button
                 key={waifu.id}
                 className={`waifu-card ${activeWaifu?.id === waifu.id ? "active" : ""}`}
-                style={{ color: RARITY_COLORS[waifu.rarity] }}
+                style={{ borderColor: activeWaifu?.id === waifu.id ? undefined : RARITY_COLORS[waifu.rarity] }}
                 onClick={() => {
                   onSelect(waifu);
                   onClose();
@@ -55,17 +55,23 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
                 </div>
 
                 <div className="waifu-card-info">
-                  <span className="waifu-name">{waifu.name}</span>
+                  <span className="waifu-name" style={{ color: RARITY_COLORS[waifu.rarity] }}>
+                    {waifu.name}
+                  </span>
                   <span className="waifu-lvl">
                     {t("ui.level")}.{waifu.stats.level}
                   </span>
                   <div className="waifu-stats-row">
-                    <small>👆 {waifu.getClickPower()}</small>
-                    <small>⚙️ {waifu.getAutoClick()}</small>
+                    <small>
+                      <Icon name="click" size="sm" /> {waifu.getClickPower()}
+                    </small>
+                    <small>
+                      <Icon name="auto" size="sm" /> {waifu.getAutoClick()}
+                    </small>
                   </div>
                 </div>
 
-                {activeWaifu?.id === waifu.id && <span className="active-badge">✓ {t("ui.active")}</span>}
+                {activeWaifu?.id === waifu.id && <span className="active-badge">✓</span>}
               </button>
             ))
           )}

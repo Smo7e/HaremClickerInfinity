@@ -122,6 +122,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel
@@ -205,6 +206,12 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\index.tsx ===== 
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\index.ts ===== 
@@ -1262,6 +1269,9 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
 
       <main className="game-main">
         <div className="battle-arena">
+          <div onClick={handleWaifuClick} className="waifu-clickable">
+            <WaifuComponent waifu={activeWaifu} />
+          </div>
           <EnemyComponent
             enemy={enemy}
             activeWaifu={activeWaifu}
@@ -1269,9 +1279,6 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
             onDamageDealt={handleDamageDealt}
             isPaused={isGlobalPaused || showPause}
           />
-          <div onClick={handleWaifuClick} className="waifu-clickable">
-            <WaifuComponent waifu={activeWaifu} />
-          </div>
         </div>
       </main>
 
@@ -1614,7 +1621,7 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, onDamageDe
       <div className="enemy-header">
         <span className="enemy-name">{enemy.name}</span>
         <span className="enemy-level">
-          {t("ui.level")}.{enemy.level}
+          {t("ui.level")} {enemy.level}
         </span>
         {enemy.isBoss && <span className="boss-badge">{t("ui.boss")}</span>}
       </div>
@@ -1677,7 +1684,6 @@ import { memo, useState } from "react";
 import { t } from "../../../../locales/i18n";
 import { testWaifus, RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
 import type { Waifu } from "../../../../classes/Waifu";
-import { ELEMENT_KEYS } from "../../../../game/constant";
 import type { TRarity, TWaifu } from "../../../../types";
 
 import "./DropPoolPanel.css";
@@ -2283,7 +2289,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuComponent\WaifuComponent.tsx ===== 
 import { Waifu } from "../../../../classes/Waifu";
-import { RARITY_COLORS, ELEMENT_KEYS } from "../../../../game/constant";
+import { RARITY_COLORS } from "../../../../game/constant";
 import "./WaifuComponent.css";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
@@ -2458,7 +2464,7 @@ import { t } from "../../../../locales/i18n";
 import { Waifu } from "../../../../classes/Waifu";
 
 import "./WaifuSelectPanel.css";
-import { ELEMENT_KEYS, RARITY_COLORS } from "../../../../game/constant";
+import { RARITY_COLORS } from "../../../../game/constant";
 import { Icon } from "../../../Icon/Icon";
 
 interface WaifuSelectPanelProps {
@@ -2477,9 +2483,9 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
     <div className="panel-overlay" onClick={onClose}>
       <div className="panel waifu-select-panel" onClick={(e) => e.stopPropagation()}>
         <div className="panel-header">
-          <h2>👩 {t("ui.selectWaifu")}</h2>
+          <h2>{t("ui.selectWaifu")}</h2>
           <button className="btn-close" onClick={onClose}>
-            ✕
+            <Icon name="close" size="md" />
           </button>
         </div>
 
@@ -2491,7 +2497,7 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
               <button
                 key={waifu.id}
                 className={`waifu-card ${activeWaifu?.id === waifu.id ? "active" : ""}`}
-                style={{ color: RARITY_COLORS[waifu.rarity] }}
+                style={{ borderColor: activeWaifu?.id === waifu.id ? undefined : RARITY_COLORS[waifu.rarity] }}
                 onClick={() => {
                   onSelect(waifu);
                   onClose();
@@ -2511,17 +2517,23 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
                 </div>
 
                 <div className="waifu-card-info">
-                  <span className="waifu-name">{waifu.name}</span>
+                  <span className="waifu-name" style={{ color: RARITY_COLORS[waifu.rarity] }}>
+                    {waifu.name}
+                  </span>
                   <span className="waifu-lvl">
                     {t("ui.level")}.{waifu.stats.level}
                   </span>
                   <div className="waifu-stats-row">
-                    <small>👆 {waifu.getClickPower()}</small>
-                    <small>⚙️ {waifu.getAutoClick()}</small>
+                    <small>
+                      <Icon name="click" size="sm" /> {waifu.getClickPower()}
+                    </small>
+                    <small>
+                      <Icon name="auto" size="sm" /> {waifu.getAutoClick()}
+                    </small>
                   </div>
                 </div>
 
-                {activeWaifu?.id === waifu.id && <span className="active-badge">✓ {t("ui.active")}</span>}
+                {activeWaifu?.id === waifu.id && <span className="active-badge">✓</span>}
               </button>
             ))
           )}
@@ -3029,288 +3041,442 @@ export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPa
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\constant.ts ===== 
+import type { LocaleKeys } from "../locales/locales";
 import type { TElementType, TRarity, TWaifu } from "../types";
 
 export const BASE_DROP_RATES: Record<TRarity, number> = {
-    common: 0.6,
-    uncommon: 0.25,
-    rare: 0.1,
-    epic: 0.04,
-    legendary: 0.01,
-    mythic: 0.001,
+  common: 0.6,
+  uncommon: 0.25,
+  rare: 0.1,
+  epic: 0.04,
+  legendary: 0.01,
+  mythic: 0.001,
 };
 
 export const ELEMENT_COLORS: Record<TElementType, string> = {
-    water: "#2196f3",
-    fire: "#f44336",
-    earth: "#4caf50",
-    ice: "#00bcd4",
-    light: "#ffeb3b",
-    dark: "#9c27b0",
-    physical: "#9e9e9e",
+  water: "#2196f3",
+  fire: "#f44336",
+  earth: "#4caf50",
+  ice: "#00bcd4",
+  light: "#ffeb3b",
+  dark: "#9c27b0",
+  physical: "#9e9e9e",
 };
 
 export const RARITY_COLORS: Record<TRarity, string> = {
-    common: "#9e9e9e",
-    uncommon: "#4caf50",
-    rare: "#2196f3",
-    epic: "#9c27b0",
-    legendary: "#ff9800",
-    mythic: "#f44336",
+  common: "#9e9e9e",
+  uncommon: "#4caf50",
+  rare: "#2196f3",
+  epic: "#9c27b0",
+  legendary: "#ff9800",
+  mythic: "#f44336",
 };
 
 export const RARITY_KEYS: Record<TRarity, string> = {
-    common: "common",
-    uncommon: "uncommon",
-    rare: "rare",
-    epic: "epic",
-    legendary: "legendary",
-    mythic: "mythic",
+  common: "common",
+  uncommon: "uncommon",
+  rare: "rare",
+  epic: "epic",
+  legendary: "legendary",
+  mythic: "mythic",
 };
 
 export const ELEMENT_KEYS: Record<TElementType, string> = {
-    water: "water",
-    fire: "fire",
-    earth: "earth",
-    ice: "ice",
-    light: "light",
-    dark: "dark",
-    physical: "physical",
+  water: "water",
+  fire: "fire",
+  earth: "earth",
+  ice: "ice",
+  light: "light",
+  dark: "dark",
+  physical: "physical",
 };
 
 export const testWaifus: TWaifu[] = [
-    {
-        id: "wf_tiamat_001",
-        nameKey: "Tiamat",
-        rarity: "mythic",
-        element: "water",
-        image: "/assets/images/waifus/Tiamat.png",
-        description: "waifus.mythic.tiamat",
-        clickPower: 1000,
-        autoClick: 500,
-        multiplier: 5.0,
-    },
-    {
-        id: "wf_cerberus_001",
-        nameKey: "Cerberus",
-        rarity: "legendary",
-        element: "dark",
-        image: "/assets/images/waifus/Cerberus.png",
-        description: "waifus.legendary.cerberus",
-        clickPower: 800,
-        autoClick: 400,
-        multiplier: 4.0,
-    },
-    {
-        id: "wf_phoenix_001",
-        nameKey: "Phoenix",
-        rarity: "legendary",
-        element: "fire",
-        image: "/assets/images/waifus/Phoenix.png",
-        description: "waifus.legendary.phoenix",
-        clickPower: 750,
-        autoClick: 380,
-        multiplier: 3.8,
-    },
-    {
-        id: "wf_leviathan_001",
-        nameKey: "Leviathan",
-        rarity: "epic",
-        element: "water",
-        image: "/assets/images/waifus/Leviathan.png",
-        description: "waifus.epic.leviathan",
-        clickPower: 500,
-        autoClick: 250,
-        multiplier: 3.0,
-    },
-    {
-        id: "wf_terra_001",
-        nameKey: "Terra",
-        rarity: "epic",
-        element: "earth",
-        image: "/assets/images/waifus/Terra.png",
-        description: "waifus.epic.terra",
-        clickPower: 480,
-        autoClick: 240,
-        multiplier: 2.9,
-    },
-    {
-        id: "wf_yuki_001",
-        nameKey: "YukiOnna",
-        rarity: "epic",
-        element: "ice",
-        image: "/assets/images/waifus/YukiOnna.png",
-        description: "waifus.epic.yukionna",
-        clickPower: 490,
-        autoClick: 245,
-        multiplier: 2.95,
-    },
-    {
-        id: "wf_ignis_001",
-        nameKey: "Ignis",
-        rarity: "rare",
-        element: "fire",
-        image: "/assets/images/waifus/Ignis.png",
-        description: "waifus.rare.ignis",
-        clickPower: 300,
-        autoClick: 150,
-        multiplier: 2.2,
-    },
-    {
-        id: "wf_aqua_001",
-        nameKey: "Aqua",
-        rarity: "rare",
-        element: "water",
-        image: "/assets/images/waifus/Aqua.png",
-        description: "waifus.rare.aqua",
-        clickPower: 290,
-        autoClick: 145,
-        multiplier: 2.1,
-    },
-    {
-        id: "wf_gaia_001",
-        nameKey: "Gaia",
-        rarity: "rare",
-        element: "earth",
-        image: "/assets/images/waifus/Gaia.png",
-        description: "waifus.rare.gaia",
-        clickPower: 310,
-        autoClick: 155,
-        multiplier: 2.3,
-    },
-    {
-        id: "wf_umbra_001",
-        nameKey: "Umbra",
-        rarity: "rare",
-        element: "dark",
-        image: "/assets/images/waifus/Umbra.png",
-        description: "waifus.rare.umbra",
-        clickPower: 320,
-        autoClick: 160,
-        multiplier: 2.4,
-    },
-    {
-        id: "wf_ruby_001",
-        nameKey: "Ruby",
-        rarity: "uncommon",
-        element: "fire",
-        image: "/assets/images/waifus/Ruby.png",
-        description: "waifus.uncommon.ruby",
-        clickPower: 160,
-        autoClick: 80,
-        multiplier: 1.6,
-    },
-    {
-        id: "wf_sapphire_001",
-        nameKey: "Sapphire",
-        rarity: "uncommon",
-        element: "water",
-        image: "/assets/images/waifus/Sapphire.png",
-        description: "waifus.uncommon.sapphire",
-        clickPower: 150,
-        autoClick: 75,
-        multiplier: 1.5,
-    },
-    {
-        id: "wf_emerald_001",
-        nameKey: "Emerald",
-        rarity: "uncommon",
-        element: "earth",
-        image: "/assets/images/waifus/Emerald.png",
-        description: "waifus.uncommon.emerald",
-        clickPower: 165,
-        autoClick: 82,
-        multiplier: 1.65,
-    },
-    {
-        id: "wf_frost_001",
-        nameKey: "Frost",
-        rarity: "uncommon",
-        element: "ice",
-        image: "/assets/images/waifus/Frost.png",
-        description: "waifus.uncommon.frost",
-        clickPower: 155,
-        autoClick: 77,
-        multiplier: 1.55,
-    },
-    {
-        id: "wf_lux_001",
-        nameKey: "Lux",
-        rarity: "uncommon",
-        element: "light",
-        image: "/assets/images/waifus/Lux.png",
-        description: "waifus.uncommon.lux",
-        clickPower: 145,
-        autoClick: 72,
-        multiplier: 1.45,
-    },
-    {
-        id: "wf_sakura_001",
-        nameKey: "Sakura",
-        rarity: "common",
-        element: "physical",
-        image: "/assets/images/waifus/Sakura.png",
-        description: "waifus.common.sakura",
-        clickPower: 100,
-        autoClick: 50,
-        multiplier: 1.0,
-    },
-    {
-        id: "wf_yui_001",
-        nameKey: "Yui",
-        rarity: "common",
-        element: "physical",
-        image: "/assets/images/waifus/Yui.png",
-        description: "waifus.common.yui",
-        clickPower: 90,
-        autoClick: 45,
-        multiplier: 0.9,
-    },
-    {
-        id: "wf_hana_001",
-        nameKey: "Hana",
-        rarity: "common",
-        element: "water",
-        image: "/assets/images/waifus/Hana.png",
-        description: "waifus.common.hana",
-        clickPower: 85,
-        autoClick: 42,
-        multiplier: 0.85,
-    },
-    {
-        id: "wf_momo_001",
-        nameKey: "Momo",
-        rarity: "common",
-        element: "fire",
-        image: "/assets/images/waifus/Momo.png",
-        description: "waifus.common.momo",
-        clickPower: 88,
-        autoClick: 44,
-        multiplier: 0.88,
-    },
-    {
-        id: "wf_rin_001",
-        nameKey: "Rin",
-        rarity: "common",
-        element: "earth",
-        image: "/assets/images/waifus/Rin.png",
-        description: "waifus.common.rin",
-        clickPower: 82,
-        autoClick: 41,
-        multiplier: 0.82,
-    },
-    {
-        id: "wf_sora_001",
-        nameKey: "Sora",
-        rarity: "common",
-        element: "physical",
-        image: "/assets/images/waifus/Sora.png",
-        description: "waifus.common.sora",
-        clickPower: 86,
-        autoClick: 43,
-        multiplier: 0.86,
-    },
+  {
+    id: "wf_tiamat_001",
+    nameKey: "Tiamat",
+    rarity: "mythic",
+    element: "water",
+    image: "/assets/images/waifus/Tiamat.png",
+    description: "waifus.mythic.tiamat",
+    clickPower: 1000,
+    autoClick: 500,
+    multiplier: 5.0,
+  },
+  {
+    id: "wf_cerberus_001",
+    nameKey: "Cerberus",
+    rarity: "legendary",
+    element: "dark",
+    image: "/assets/images/waifus/Cerberus.png",
+    description: "waifus.legendary.cerberus",
+    clickPower: 800,
+    autoClick: 400,
+    multiplier: 4.0,
+  },
+  {
+    id: "wf_phoenix_001",
+    nameKey: "Phoenix",
+    rarity: "legendary",
+    element: "fire",
+    image: "/assets/images/waifus/Phoenix.png",
+    description: "waifus.legendary.phoenix",
+    clickPower: 750,
+    autoClick: 380,
+    multiplier: 3.8,
+  },
+  {
+    id: "wf_leviathan_001",
+    nameKey: "Leviathan",
+    rarity: "epic",
+    element: "water",
+    image: "/assets/images/waifus/Leviathan.png",
+    description: "waifus.epic.leviathan",
+    clickPower: 500,
+    autoClick: 250,
+    multiplier: 3.0,
+  },
+  {
+    id: "wf_terra_001",
+    nameKey: "Terra",
+    rarity: "epic",
+    element: "earth",
+    image: "/assets/images/waifus/Terra.png",
+    description: "waifus.epic.terra",
+    clickPower: 480,
+    autoClick: 240,
+    multiplier: 2.9,
+  },
+  {
+    id: "wf_yuki_001",
+    nameKey: "YukiOnna",
+    rarity: "epic",
+    element: "ice",
+    image: "/assets/images/waifus/YukiOnna.png",
+    description: "waifus.epic.yukionna",
+    clickPower: 490,
+    autoClick: 245,
+    multiplier: 2.95,
+  },
+  {
+    id: "wf_ignis_001",
+    nameKey: "Ignis",
+    rarity: "rare",
+    element: "fire",
+    image: "/assets/images/waifus/Ignis.png",
+    description: "waifus.rare.ignis",
+    clickPower: 300,
+    autoClick: 150,
+    multiplier: 2.2,
+  },
+  {
+    id: "wf_aqua_001",
+    nameKey: "Aqua",
+    rarity: "rare",
+    element: "water",
+    image: "/assets/images/waifus/Aqua.png",
+    description: "waifus.rare.aqua",
+    clickPower: 290,
+    autoClick: 145,
+    multiplier: 2.1,
+  },
+  {
+    id: "wf_gaia_001",
+    nameKey: "Gaia",
+    rarity: "rare",
+    element: "earth",
+    image: "/assets/images/waifus/Gaia.png",
+    description: "waifus.rare.gaia",
+    clickPower: 310,
+    autoClick: 155,
+    multiplier: 2.3,
+  },
+  {
+    id: "wf_umbra_001",
+    nameKey: "Umbra",
+    rarity: "rare",
+    element: "dark",
+    image: "/assets/images/waifus/Umbra.png",
+    description: "waifus.rare.umbra",
+    clickPower: 320,
+    autoClick: 160,
+    multiplier: 2.4,
+  },
+  {
+    id: "wf_ruby_001",
+    nameKey: "Ruby",
+    rarity: "uncommon",
+    element: "fire",
+    image: "/assets/images/waifus/Ruby.png",
+    description: "waifus.uncommon.ruby",
+    clickPower: 160,
+    autoClick: 80,
+    multiplier: 1.6,
+  },
+  {
+    id: "wf_sapphire_001",
+    nameKey: "Sapphire",
+    rarity: "uncommon",
+    element: "water",
+    image: "/assets/images/waifus/Sapphire.png",
+    description: "waifus.uncommon.sapphire",
+    clickPower: 150,
+    autoClick: 75,
+    multiplier: 1.5,
+  },
+  {
+    id: "wf_emerald_001",
+    nameKey: "Emerald",
+    rarity: "uncommon",
+    element: "earth",
+    image: "/assets/images/waifus/Emerald.png",
+    description: "waifus.uncommon.emerald",
+    clickPower: 165,
+    autoClick: 82,
+    multiplier: 1.65,
+  },
+  {
+    id: "wf_frost_001",
+    nameKey: "Frost",
+    rarity: "uncommon",
+    element: "ice",
+    image: "/assets/images/waifus/Frost.png",
+    description: "waifus.uncommon.frost",
+    clickPower: 155,
+    autoClick: 77,
+    multiplier: 1.55,
+  },
+  {
+    id: "wf_lux_001",
+    nameKey: "Lux",
+    rarity: "uncommon",
+    element: "light",
+    image: "/assets/images/waifus/Lux.png",
+    description: "waifus.uncommon.lux",
+    clickPower: 145,
+    autoClick: 72,
+    multiplier: 1.45,
+  },
+  {
+    id: "wf_sakura_001",
+    nameKey: "Sakura",
+    rarity: "common",
+    element: "physical",
+    image: "/assets/images/waifus/Sakura.png",
+    description: "waifus.common.sakura",
+    clickPower: 100,
+    autoClick: 50,
+    multiplier: 1.0,
+  },
+  {
+    id: "wf_yui_001",
+    nameKey: "Yui",
+    rarity: "common",
+    element: "physical",
+    image: "/assets/images/waifus/Yui.png",
+    description: "waifus.common.yui",
+    clickPower: 90,
+    autoClick: 45,
+    multiplier: 0.9,
+  },
+  {
+    id: "wf_hana_001",
+    nameKey: "Hana",
+    rarity: "common",
+    element: "water",
+    image: "/assets/images/waifus/Hana.png",
+    description: "waifus.common.hana",
+    clickPower: 85,
+    autoClick: 42,
+    multiplier: 0.85,
+  },
+  {
+    id: "wf_momo_001",
+    nameKey: "Momo",
+    rarity: "common",
+    element: "fire",
+    image: "/assets/images/waifus/Momo.png",
+    description: "waifus.common.momo",
+    clickPower: 88,
+    autoClick: 44,
+    multiplier: 0.88,
+  },
+  {
+    id: "wf_rin_001",
+    nameKey: "Rin",
+    rarity: "common",
+    element: "earth",
+    image: "/assets/images/waifus/Rin.png",
+    description: "waifus.common.rin",
+    clickPower: 82,
+    autoClick: 41,
+    multiplier: 0.82,
+  },
+  {
+    id: "wf_sora_001",
+    nameKey: "Sora",
+    rarity: "common",
+    element: "physical",
+    image: "/assets/images/waifus/Sora.png",
+    description: "waifus.common.sora",
+    clickPower: 86,
+    autoClick: 43,
+    multiplier: 0.86,
+  },
 ];
+///////////////////////MONSTERS///////////////////////////////
+export type TDropItem = {
+  id: string;
+  nameKey: string;
+  chance: number; // 0-1
+  minCount: number;
+  maxCount: number;
+  type: "currency" | "collection" | "consumable" | "material";
+};
+
+export interface MonsterTemplate {
+  id: string;
+  nameKey: string;
+  baseHp: number;
+  hpMultiplier: number;
+  sprite: string;
+  resistances: Partial<Record<TElementType, number>>;
+  isBoss: boolean;
+  drops: TDropItem[];
+  description: LocaleKeys;
+}
+
+export const MONSTER_TEMPLATES: MonsterTemplate[] = [
+  {
+    id: "slime",
+    nameKey: "slime",
+    baseHp: 100,
+    hpMultiplier: 1.15,
+    sprite: "/assets/images/enemies/Slime.png",
+    resistances: { water: -0.3, fire: 0.2 },
+    isBoss: false,
+    description: "monsters.slime.desc",
+    drops: [
+      { id: "gel", nameKey: "gel", chance: 0.5, minCount: 1, maxCount: 3, type: "material" },
+      { id: "gem", nameKey: "gem", chance: 0.3, minCount: 1, maxCount: 2, type: "currency" },
+      { id: "slime_core", nameKey: "slimeCore", chance: 0.1, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "goblin",
+    nameKey: "goblin",
+    baseHp: 120,
+    hpMultiplier: 1.18,
+    sprite: "/assets/images/enemies/Goblin.png",
+    resistances: { physical: -0.2, fire: 0.1 },
+    isBoss: false,
+    description: "monsters.goblin.desc",
+    drops: [
+      { id: "coin", nameKey: "coin", chance: 0.6, minCount: 2, maxCount: 5, type: "currency" },
+      { id: "dagger", nameKey: "goblinDagger", chance: 0.15, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "ear", nameKey: "goblinEar", chance: 0.4, minCount: 1, maxCount: 2, type: "material" },
+    ],
+  },
+  {
+    id: "skeleton",
+    nameKey: "skeleton",
+    baseHp: 150,
+    hpMultiplier: 1.2,
+    sprite: "/assets/images/enemies/Skeleton.png",
+    resistances: { light: -0.5, dark: 0.3, physical: 0.1 },
+    isBoss: false,
+    description: "monsters.skeleton.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.7, minCount: 1, maxCount: 3, type: "material" },
+      { id: "skull", nameKey: "skull", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "ancient_coin", nameKey: "ancientCoin", chance: 0.25, minCount: 1, maxCount: 2, type: "currency" },
+    ],
+  },
+  {
+    id: "ghost",
+    nameKey: "ghost",
+    baseHp: 130,
+    hpMultiplier: 1.16,
+    sprite: "/assets/images/enemies/Ghost.png",
+    resistances: { physical: 0.8, light: -0.4, dark: -0.2 },
+    isBoss: false,
+    description: "monsters.ghost.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.45, minCount: 1, maxCount: 2, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 0.12, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "essence", nameKey: "essence", chance: 0.35, minCount: 1, maxCount: 3, type: "currency" },
+    ],
+  },
+  {
+    id: "dark_mage",
+    nameKey: "darkMage",
+    baseHp: 500,
+    hpMultiplier: 1.3,
+    sprite: "/assets/images/enemies/DarkMage.png",
+    resistances: { dark: -0.3, light: 0.4, fire: 0.2 },
+    isBoss: true,
+    description: "monsters.darkMage.desc",
+    drops: [
+      { id: "magic_scroll", nameKey: "magicScroll", chance: 0.4, minCount: 1, maxCount: 2, type: "material" },
+      { id: "dark_orb", nameKey: "darkOrb", chance: 0.25, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "gem", nameKey: "gem", chance: 0.8, minCount: 5, maxCount: 10, type: "currency" },
+      { id: "mage_staff", nameKey: "mageStaff", chance: 0.15, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "lesser_demon",
+    nameKey: "lesserDemon",
+    baseHp: 600,
+    hpMultiplier: 1.35,
+    sprite: "/assets/images/enemies/LesserDemon.png",
+    resistances: { fire: -0.4, ice: 0.3, light: 0.2 },
+    isBoss: true,
+    description: "monsters.lesserDemon.desc",
+    drops: [
+      { id: "demon_horn", nameKey: "demonHorn", chance: 0.5, minCount: 1, maxCount: 2, type: "material" },
+      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 0.3, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "gem", nameKey: "gem", chance: 0.9, minCount: 8, maxCount: 15, type: "currency" },
+      { id: "demon_wing", nameKey: "demonWing", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+];
+
+export const CONSUMABLE_ITEMS = [
+  {
+    id: "exp_scroll_500",
+    nameKey: "expScroll500",
+    description: "expScroll500Desc",
+    icon: "scroll",
+    effect: { type: "exp", value: 500, target: "selected_waifu" },
+    rarity: "uncommon",
+  },
+  {
+    id: "exp_scroll_1000",
+    nameKey: "expScroll1000",
+    description: "expScroll1000Desc",
+    icon: "scroll",
+    effect: { type: "exp", value: 1000, target: "selected_waifu" },
+    rarity: "rare",
+  },
+  {
+    id: "affection_potion",
+    nameKey: "affectionPotion",
+    description: "affectionPotionDesc",
+    icon: "potion",
+    effect: { type: "affection", value: 10, target: "selected_waifu" },
+    rarity: "common",
+  },
+  {
+    id: "crit_boost",
+    nameKey: "critBoost",
+    description: "critBoostDesc",
+    icon: "potion_red",
+    effect: { type: "crit_chance", value: 0.1, duration: 300, target: "global" },
+    rarity: "rare",
+  },
+] as const;
+
+export type TConsumableItem = (typeof CONSUMABLE_ITEMS)[number];
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\i18n.ts ===== 
@@ -3367,225 +3533,305 @@ export function getLang(): Lang {
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\locales.ts ===== 
 type DeepKeys<T, Prefix extends string = ""> = T extends string
-    ? Prefix extends ""
-        ? never
-        : Prefix
-    : T extends object
-      ? {
-            [K in keyof T]: K extends string
-                ? DeepKeys<T[K], Prefix extends "" ? K : `${Prefix}.${K}`>
-                : never;
-        }[keyof T]
-      : never;
+  ? Prefix extends ""
+    ? never
+    : Prefix
+  : T extends object
+    ? {
+        [K in keyof T]: K extends string ? DeepKeys<T[K], Prefix extends "" ? K : `${Prefix}.${K}`> : never;
+      }[keyof T]
+    : never;
 
 export type LocaleKeys = DeepKeys<typeof locales.ru>;
 
 export const locales = {
-    ru: {
-        ui: {
-            play: "Играть",
-            settings: "Настройки",
-            back: "Назад",
-            cancel: "Отмена",
-            continue: "Продолжить",
-            level: "Уровень",
-            language: "Язык",
-            changeLanguage: "Сменить язык",
-            audio: "Звук",
-            music: "Музыка",
-            sfx: "Эффекты",
-            muteAll: "Выключить все",
-            resetVolume: "Сбросить",
-            gameplay: "Игровой процесс",
-            pauseGame: "Поставить на паузу",
-            resumeGame: "Продолжить",
-            support: "Поддержка",
-            about: "О игре",
-            showCredits: "Показать авторов",
-            hideCredits: "Скрыть авторов",
-            thanksForPlaying: "Спасибо за игру!",
-            gems: "Кристаллы",
-            tokens: "Токены",
-            essence: "Эссенция",
-            click: "Клик",
-            auto: "Авто",
-            upgrades: "Улучшения",
-            waifus: "Вайфу",
-            gacha: "Призыв",
-            prestige: "Престиж",
-            collection: "Коллекция",
-            selectWaifu: "Выбрать вайфу",
-            all: "Все",
-            noItems: "Коллекция пуста",
-            noWaifus: "Нет вайфу",
-            summonFirst: "Сначала призовите вайфу",
-            summon: "Призвать",
-            summoning: "Призыв",
-            dropRates: "Шансы выпадения",
-            youHave: "У вас",
-            dropPool: "Пул призыва",
-            dropPoolHint:
-                "При повторном выпадении вайфу: +30% к базовым статам",
-            duplicate: "Дубликат!",
-            stats: "статов",
-            viewFullPool: "Открыть полный пул",
-            poolPreviewHint:
-                "Нажмите кнопку ниже чтобы увидеть всех доступных вайфу",
-            collectionProgress: "Прогресс коллекции",
-            maxedWaifus: "Максимум",
-            poolEmpty: "Все вайфу достигли максимума!",
-            poolEmptyWarning: "Все вайфу достигли лимита!",
-            available: "дост.",
-            affection: "Привязанность",
-            critChance: "Шанс крита",
-            critPower: "Сила крита",
-            outfits: "Наряды",
-            totalStats: "Всего нанесено урона",
-            clicks: "кликов",
-            damage: "урона",
-            pause: "Пауза",
-            resume: "Продолжить",
-            exitToMenu: "Выйти в меню",
-            rarity: "Редкость",
-            common: "Обычная",
-            uncommon: "Необычная",
-            rare: "Редкая",
-            epic: "Эпическая",
-            legendary: "Легендарная",
-            mythic: "Мифическая",
-            water: "Вода",
-            fire: "Огонь",
-            earth: "Земля",
-            ice: "Лед",
-            light: "Свет",
-            dark: "Тьма",
-            physical: "Физический",
-            boss: "БОСС",
-            enemy: "Враг",
-            hp: "ХП",
-            weak: "Уязвим",
-            resist: "Сопротивление",
-            normal: "Нормально",
-            obtained: "Получено",
-            locked: "Заблокировано",
-            weapon: "Оружие",
-            accessory: "Аксессуар",
-            memoria: "Мемория",
-            outfit: "Наряд",
-            close: "Закрыть",
-            select: "Выбрать",
-            active: "Активна",
-            max: "МАКС",
-            availableCount: "доступно",
-        },
-
-        title: {
-            accent: "Гарем",
-            main: "Кликер",
-            sub: "Бесконечность",
-        },
-
-        languages: {
-            ru: "Русский",
-            en: "English",
-            tr: "Türkçe",
-        },
-
-        upgrades: {
-            globalHint: "Улучшения применяются ко всем вайфу",
-            click: {
-                name: "Сила клика",
-                desc: "Увеличивает урон от клика",
-            },
-            auto: {
-                name: "Автоклик",
-                desc: "Автоматический урон в секунду",
-            },
-            crit: {
-                name: "Критический удар",
-                desc: "Шанс нанести двойной урон",
-            },
-            luck: {
-                name: "Удача призыва",
-                desc: "Увеличивает шанс редких вайфу",
-            },
-        },
-
-        gacha: {
-            desc: "Призовите новую вайфу за эссенцию",
-            luckBonus: "Бонус удачи",
-        },
-
-        collection: {
-            weapons: "Оружие",
-            accessories: "Аксессуары",
-            memoria: "Мемории",
-            outfits: "Наряды",
-        },
-
-        waifus: {
-            names: {
-                Tiamat: "Тиамат",
-                Cerberus: "Цербер",
-                Phoenix: "Феникс",
-                Leviathan: "Левиафан",
-                Terra: "Терра",
-                YukiOnna: "Юки-онна",
-                Ignis: "Игнис",
-                Aqua: "Аква",
-                Gaia: "Гайя",
-                Umbra: "Умбра",
-                Ruby: "Руби",
-                Sapphire: "Сапфир",
-                Emerald: "Изумруд",
-                Frost: "Фрост",
-                Lux: "Люкс",
-                Sakura: "Сакура",
-                Yui: "Юи",
-                Hana: "Хана",
-                Momo: "Момо",
-                Rin: "Рин",
-                Sora: "Сора",
-            },
-            mythic: {
-                tiamat: "Мать первозданного хаоса, из чьих вод родились боги. Когда её дети предали её, она породила чудовищ, чтобы уничтожить мир.",
-            },
-            legendary: {
-                cerberus:
-                    "Страж врат преисподней с тремя головами. Ни один дух не проходит мимо незамеченным.",
-                phoenix:
-                    "Бессмертная птица, возрождающаяся из пепла. Её крик разносится по всем мирам.",
-            },
-            epic: {
-                leviathan:
-                    "Древний змей бездонных глубин. Корабли дрожат при её появлении.",
-                terra: "Мать-земля, дарующая жизнь и защищающая природу.",
-                yukionna:
-                    "Дух зимних метелей и снежных вершин. Холодна как лёд, прекрасна как иней.",
-            },
-            rare: {
-                ignis: "Рыцарь пламени, чей меч горит вечным огнём.",
-                aqua: "Маг приливов, управляющая водой как продолжение своего тела.",
-                gaia: "Охотница за сокровищами древних руин, защищённая силой земли.",
-                umbra: "Теневой клинок, убивающий молча и исчезающий во тьме.",
-            },
-            uncommon: {
-                ruby: "Наёмница с горячим темпераментом и ещё более горячими клинками.",
-                sapphire: "Мудрая учёная, хранящая знания тысячелетий.",
-                emerald: "Лесная следопытка, чьи стрелы не промахиваются.",
-                frost: "Маг льда, способный заморозить само время.",
-                lux: "Жрица света, исцеляющая раны и души.",
-            },
-            common: {
-                sakura: "Начинающая воительница, мечтающая о великих подвигах.",
-                yui: "Простая деревенская девушка с добрым сердцем.",
-                hana: "Рыбачка, знающая все секреты моря.",
-                momo: "Повариха, способная накормить целую армию.",
-                rin: "Фермерша, выращивающая золотистый рис.",
-                sora: "Быстрая посыльная, доставляющая письма в любую точку мира.",
-            },
-        },
+  ru: {
+    ui: {
+      play: "Играть",
+      settings: "Настройки",
+      back: "Назад",
+      cancel: "Отмена",
+      continue: "Продолжить",
+      level: "Уровень",
+      language: "Язык",
+      changeLanguage: "Сменить язык",
+      audio: "Звук",
+      music: "Музыка",
+      sfx: "Эффекты",
+      muteAll: "Выключить все",
+      resetVolume: "Сбросить",
+      gameplay: "Игровой процесс",
+      pauseGame: "Поставить на паузу",
+      resumeGame: "Продолжить",
+      support: "Поддержка",
+      about: "О игре",
+      showCredits: "Показать авторов",
+      hideCredits: "Скрыть авторов",
+      thanksForPlaying: "Спасибо за игру!",
+      gems: "Кристаллы",
+      tokens: "Токены",
+      essence: "Эссенция",
+      click: "Клик",
+      auto: "Авто",
+      upgrades: "Улучшения",
+      waifus: "Вайфу",
+      gacha: "Призыв",
+      prestige: "Престиж",
+      collection: "Коллекция",
+      selectWaifu: "Выбрать вайфу",
+      all: "Все",
+      noCollection: "Коллекция пуста",
+      noWaifus: "Нет вайфу",
+      summonFirst: "Сначала призовите вайфу",
+      summon: "Призвать",
+      summoning: "Призыв",
+      dropRates: "Шансы выпадения",
+      youHave: "У вас",
+      dropPool: "Пул призыва",
+      dropPoolHint: "При повторном выпадении вайфу: +30% к базовым статам",
+      duplicate: "Дубликат!",
+      stats: "статов",
+      viewFullPool: "Открыть полный пул",
+      poolPreviewHint: "Нажмите кнопку ниже чтобы увидеть всех доступных вайфу",
+      collectionProgress: "Прогресс коллекции",
+      maxedWaifus: "Максимум",
+      poolEmpty: "Все вайфу достигли максимума!",
+      poolEmptyWarning: "Все вайфу достигли лимита!",
+      available: "дост.",
+      affection: "Привязанность",
+      critChance: "Шанс крита",
+      critPower: "Сила крита",
+      outfits: "Наряды",
+      totalStats: "Всего нанесено урона",
+      clicks: "кликов",
+      damage: "урона",
+      pause: "Пауза",
+      resume: "Продолжить",
+      exitToMenu: "Выйти в меню",
+      rarity: "Редкость",
+      common: "Обычная",
+      uncommon: "Необычная",
+      rare: "Редкая",
+      epic: "Эпическая",
+      legendary: "Легендарная",
+      mythic: "Мифическая",
+      water: "Вода",
+      fire: "Огонь",
+      earth: "Земля",
+      ice: "Лед",
+      light: "Свет",
+      dark: "Тьма",
+      physical: "Физический",
+      boss: "БОСС",
+      enemy: "Враг",
+      hp: "ХП",
+      weak: "Уязвим",
+      resist: "Сопротивление",
+      normal: "Нормально",
+      obtained: "Получено",
+      locked: "Заблокировано",
+      weapon: "Оружие",
+      accessory: "Аксессуар",
+      memoria: "Мемория",
+      outfit: "Наряд",
+      close: "Закрыть",
+      select: "Выбрать",
+      active: "Активна",
+      max: "МАКС",
+      availableCount: "доступно",
+      backpack: "Рюкзак",
+      currency: "Валюта",
+      items: "Предметы",
+      coins: "Монеты",
+      possibleDrops: "Возможный дроп",
+      selectTarget: "Выберите цель",
+      use: "Использовать",
+      expAdded: "{{name}} получила {{amount}} опыта!",
+      selectWaifuFirst: "Сначала выберите вайфу",
+      noCollectionItems: "Нет предметов коллекции",
+      noItems: "Нет предметов",
     },
+
+    title: {
+      accent: "Гарем",
+      main: "Кликер",
+      sub: "Бесконечность",
+    },
+
+    languages: {
+      ru: "Русский",
+      en: "English",
+      tr: "Türkçe",
+    },
+
+    upgrades: {
+      globalHint: "Улучшения применяются ко всем вайфу",
+      click: {
+        name: "Сила клика",
+        desc: "Увеличивает урон от клика",
+      },
+      auto: {
+        name: "Автоклик",
+        desc: "Автоматический урон в секунду",
+      },
+      crit: {
+        name: "Критический удар",
+        desc: "Шанс нанести двойной урон",
+      },
+      luck: {
+        name: "Удача призыва",
+        desc: "Увеличивает шанс редких вайфу",
+      },
+    },
+
+    gacha: {
+      desc: "Призовите новую вайфу за эссенцию",
+      luckBonus: "Бонус удачи",
+    },
+
+    collection: {
+      weapons: "Оружие",
+      accessories: "Аксессуары",
+      memoria: "Мемории",
+      outfits: "Наряды",
+    },
+    monsters: {
+      slime: {
+        name: "Слайм",
+        desc: "Желеобразное существо, питающееся магической энергией. Слабо к огню.",
+      },
+      goblin: {
+        name: "Гоблин",
+        desc: "Хитрый мелкий грабитель. Слаб к физическому урону.",
+      },
+      skeleton: {
+        name: "Скелет",
+        desc: "Оживлённые останки воина. Слаб к свету, сопротивляется тьме.",
+      },
+      ghost: {
+        name: "Призрак",
+        desc: "Бесплотный дух. Почти невосприимчив к физическому урону.",
+      },
+      darkMage: {
+        name: "Тёмный маг",
+        desc: "Падший волшебник, искусший запретные искусства. Босс.",
+      },
+      lesserDemon: {
+        name: "Малый демон",
+        desc: "Демон из преисподней. Слаб к льду, сопротивляется огню.",
+      },
+      direWolf: {
+        name: "Лютый волк",
+        desc: "Гигантский волк-оборотень. Жаждет крови.",
+      },
+      mummy: {
+        name: "Мумия",
+        desc: "Древнее проклятое существо. Горит как факел.",
+      },
+      mimic: {
+        name: "Мимик",
+        desc: "Монстр, притворяющийся сундуком с сокровищами.",
+      },
+      vampireThrall: {
+        name: "Вампир-прислужник",
+        desc: "Молодой вампир, служащий своему господину.",
+      },
+      whelp: {
+        name: "Дракончик",
+        desc: "Молодой дракон. Ещё не научился летать, но уже дышит огнём.",
+      },
+    },
+
+    waifus: {
+      names: {
+        Tiamat: "Тиамат",
+        Cerberus: "Цербер",
+        Phoenix: "Феникс",
+        Leviathan: "Левиафан",
+        Terra: "Терра",
+        YukiOnna: "Юки-онна",
+        Ignis: "Игнис",
+        Aqua: "Аква",
+        Gaia: "Гайя",
+        Umbra: "Умбра",
+        Ruby: "Руби",
+        Sapphire: "Сапфир",
+        Emerald: "Изумруд",
+        Frost: "Фрост",
+        Lux: "Люкс",
+        Sakura: "Сакура",
+        Yui: "Юи",
+        Hana: "Хана",
+        Momo: "Момо",
+        Rin: "Рин",
+        Sora: "Сора",
+      },
+      mythic: {
+        tiamat:
+          "Мать первозданного хаоса, из чьих вод родились боги. Когда её дети предали её, она породила чудовищ, чтобы уничтожить мир.",
+      },
+      legendary: {
+        cerberus: "Страж врат преисподней с тремя головами. Ни один дух не проходит мимо незамеченным.",
+        phoenix: "Бессмертная птица, возрождающаяся из пепла. Её крик разносится по всем мирам.",
+      },
+      epic: {
+        leviathan: "Древний змей бездонных глубин. Корабли дрожат при её появлении.",
+        terra: "Мать-земля, дарующая жизнь и защищающая природу.",
+        yukionna: "Дух зимних метелей и снежных вершин. Холодна как лёд, прекрасна как иней.",
+      },
+      rare: {
+        ignis: "Рыцарь пламени, чей меч горит вечным огнём.",
+        aqua: "Маг приливов, управляющая водой как продолжение своего тела.",
+        gaia: "Охотница за сокровищами древних руин, защищённая силой земли.",
+        umbra: "Теневой клинок, убивающий молча и исчезающий во тьме.",
+      },
+      uncommon: {
+        ruby: "Наёмница с горячим темпераментом и ещё более горячими клинками.",
+        sapphire: "Мудрая учёная, хранящая знания тысячелетий.",
+        emerald: "Лесная следопытка, чьи стрелы не промахиваются.",
+        frost: "Маг льда, способный заморозить само время.",
+        lux: "Жрица света, исцеляющая раны и души.",
+      },
+      common: {
+        sakura: "Начинающая воительница, мечтающая о великих подвигах.",
+        yui: "Простая деревенская девушка с добрым сердцем.",
+        hana: "Рыбачка, знающая все секреты моря.",
+        momo: "Повариха, способная накормить целую армию.",
+        rin: "Фермерша, выращивающая золотистый рис.",
+        sora: "Быстрая посыльная, доставляющая письма в любую точку мира.",
+      },
+    },
+    items: {
+      names: {
+        gel: "Слаймовая слизь",
+        slimeCore: "Ядро слайма",
+        coin: "Монета",
+        goblinDagger: "Кинжал гоблина",
+        goblinEar: "Ухо гоблина",
+        bone: "Кость",
+        skull: "Череп",
+        ancientCoin: "Древняя монета",
+        ectoplasm: "Эктоплазма",
+        soulShard: "Осколок души",
+        magicScroll: "Магический свиток",
+        darkOrb: "Тёмная сфера",
+        mageStaff: "Посох мага",
+        demonHorn: "Рог демона",
+        hellfireEssence: "Сущность адского пламени",
+        demonWing: "Крыло демона",
+        expScroll500: "Свиток опыта +500",
+        expScroll1000: "Свиток опыта +1000",
+        affectionPotion: "Зелье привязанности",
+        critBoost: "Зелье крита",
+      },
+      descs: {
+        expScroll500Desc: "Дает +500 опыта выбранной вайфу",
+        expScroll1000Desc: "Дает +1000 опыта выбранной вайфу",
+        affectionPotionDesc: "Увеличивает привязанность на 10",
+        critBoostDesc: "+10% шанс крита на 5 минут",
+      },
+    },
+  },
 } as const;
 
 export type Lang = keyof typeof locales;
@@ -3878,7 +4124,6 @@ button {
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  /* GPU ускорение */
   transform: translateZ(0);
 }
 
@@ -3892,12 +4137,9 @@ button {
   align-items: center;
   gap: 20px;
   background: rgba(0, 0, 0, 0.6);
-  /* Убран backdrop-filter */
-  /* backdrop-filter: blur(10px); */
   padding: 12px 24px;
   border-radius: 50px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  /* Упрощенная тень */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   will-change: transform;
 }
@@ -3913,8 +4155,6 @@ button {
   gap: 8px;
   font-size: 20px;
   font-weight: bold;
-  /* Убран text-shadow */
-  /* text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); */
 }
 
 .currency-item.essence {
@@ -3951,7 +4191,6 @@ button {
   position: relative;
   padding: 20px;
   padding-left: 100px;
-  /* GPU ускорение */
   transform: translateZ(0);
 }
 
@@ -3959,10 +4198,11 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 80px;
+  gap: 60px;
   width: 100%;
-  padding: 40px;
-  flex-wrap: wrap;
+  max-width: 1200px;
+  padding: 20px;
+  flex-wrap: nowrap;
 }
 
 .game-sidebar {
@@ -3982,8 +4222,6 @@ button {
   height: 72px;
   border-radius: 16px;
   background: rgba(0, 0, 0, 0.6);
-  /* Убран backdrop-filter */
-  /* backdrop-filter: blur(10px); */
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
@@ -3993,7 +4231,6 @@ button {
   position: relative;
   transition: all 0.3s ease;
   color: var(--text-primary);
-  /* Упрощенная тень */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   will-change: transform;
 }
@@ -4043,9 +4280,10 @@ button {
 .waifu-clickable {
   cursor: pointer;
   transition: transform 0.2s ease;
-  /* Упрощенная тень */
   filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
   will-change: transform;
+  order: -1;
+  flex-shrink: 0;
 }
 
 .waifu-clickable:hover {
@@ -4054,6 +4292,18 @@ button {
 
 .waifu-clickable:active {
   transform: scale(0.98);
+}
+
+@media (max-width: 1200px) {
+  .battle-arena {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .battle-arena {
+    gap: 30px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -4078,11 +4328,25 @@ button {
 
   .game-main {
     padding-left: 80px;
+    padding-right: 10px;
   }
 
   .battle-arena {
-    gap: 40px;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 20px;
+    padding: 10px;
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .battle-arena {
+    gap: 15px;
+  }
+
+  .game-main {
+    padding-left: 75px;
+    padding-right: 5px;
   }
 }
  
@@ -4202,18 +4466,20 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  width: auto;
+  gap: 15px;
+  width: 320px;
   position: relative;
+  flex-shrink: 0;
 }
 
 .enemy-header {
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-size: 28px;
+  gap: 10px;
+  font-size: 22px;
   font-weight: bold;
   white-space: nowrap;
+  min-height: 32px;
 }
 
 .enemy-name {
@@ -4222,21 +4488,21 @@ button {
 
 .enemy-level {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .boss-badge {
   background: linear-gradient(135deg, #f44336, #ff9800);
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;
 }
 
 .enemy-sprite-container {
-  width: 260px;
-  height: 260px;
+  width: 220px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4273,15 +4539,16 @@ button {
 
 .enemy-hp-container {
   width: 100%;
-  min-width: 280px;
+  max-width: 280px;
   display: flex;
   flex-direction: column;
   gap: 5px;
+  min-height: 42px;
 }
 
 .enemy-hp-bar {
   width: 100%;
-  height: 24px;
+  height: 20px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 12px;
   overflow: hidden;
@@ -4296,22 +4563,24 @@ button {
 
 .enemy-hp-text {
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text-secondary);
   font-weight: 600;
+  min-height: 18px;
 }
 
 .enemy-resists {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
+  min-height: 32px;
 }
 
 .resist-badge {
-  padding: 6px 10px;
+  padding: 4px 8px;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 13px;
   background: rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
@@ -4373,44 +4642,233 @@ button {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
+  .enemy-component {
+    width: 280px;
+  }
+
   .enemy-sprite-container {
     width: 200px;
     height: 200px;
   }
 
   .enemy-header {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .enemy-level {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .enemy-hp-container {
-    min-width: 240px;
+    max-width: 260px;
   }
+}
+
+@media (max-width: 1024px) {
+  .enemy-component {
+    width: 240px;
+  }
+
+  .enemy-sprite-container {
+    width: 180px;
+    height: 180px;
+  }
+
+  .enemy-header {
+    font-size: 18px;
+    min-height: 28px;
+  }
+
+  .enemy-level {
+    font-size: 14px;
+  }
+
+  .enemy-hp-container {
+    max-width: 220px;
+    min-height: 38px;
+  }
+
+  .enemy-resists {
+    min-height: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .enemy-component {
+    width: 160px;
+    gap: 10px;
+  }
+
+  .enemy-sprite-container {
+    width: 130px;
+    height: 130px;
+  }
+
+  .enemy-header {
+    font-size: 14px;
+    gap: 6px;
+    min-height: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .enemy-level {
+    font-size: 12px;
+  }
+
+  .boss-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .enemy-hp-container {
+    max-width: 150px;
+    min-height: 32px;
+  }
+
+  .enemy-hp-bar {
+    height: 16px;
+  }
+
+  .enemy-hp-text {
+    font-size: 11px;
+    min-height: 14px;
+  }
+
+  .resist-badge {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .enemy-resists {
+    min-height: 24px;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .enemy-component {
+    width: 120px;
+    gap: 8px;
+  }
+
+  .enemy-sprite-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .enemy-header {
+    font-size: 12px;
+    gap: 4px;
+    min-height: 20px;
+  }
+
+  .enemy-level {
+    font-size: 10px;
+  }
+
+  .boss-badge {
+    font-size: 8px;
+    padding: 2px 5px;
+  }
+
+  .enemy-hp-container {
+    max-width: 110px;
+    min-height: 28px;
+  }
+
+  .enemy-hp-bar {
+    height: 14px;
+  }
+
+  .enemy-hp-text {
+    font-size: 9px;
+    min-height: 12px;
+  }
+
+  .resist-badge {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+
+  .enemy-resists {
+    min-height: 20px;
+    gap: 3px;
+  }
+}
+.enemy-drops {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  width: 100%;
+}
+
+.enemy-drops h4 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.drop-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.drop-item:last-child {
+  border-bottom: none;
+}
+
+.drop-name {
+  flex: 1;
+}
+
+.drop-chance {
+  color: #ffd43b;
+  font-weight: 600;
+}
+
+.drop-count {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.drop-item.currency .drop-chance {
+  color: #51cf66;
+}
+
+.drop-item.collection .drop-chance {
+  color: #a855f7;
 }
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\DropPoolPanel.css ===== 
 .drop-pool-panel {
-  width: 90vw;
-  max-width: 900px;
-  max-height: 85vh;
+  width: 95vw;
+  max-width: 1000px;
+  max-height: 90vh;
 }
 
 .rarity-filter-tabs {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   padding: 15px 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  overflow-x: auto;
+  overflow: visible;
   flex-wrap: wrap;
+  justify-content: center;
+  min-height: auto;
+  height: auto;
 }
 
 .rarity-tab {
-  padding: 8px 16px;
+  padding: 10px 24px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid transparent;
@@ -4419,6 +4877,12 @@ button {
   font-weight: 600;
   transition: all 0.2s ease;
   text-transform: capitalize;
+  flex-shrink: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .rarity-tab:hover {
@@ -4433,11 +4897,12 @@ button {
 .drop-pool-content {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: 15px 20px;
+  min-height: 0;
 }
 
 .rarity-section {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .rarity-section:last-child {
@@ -4445,28 +4910,28 @@ button {
 }
 
 .rarity-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
-  margin-bottom: 15px;
-  padding-bottom: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
   border-bottom: 2px solid currentColor;
   opacity: 0.9;
 }
 
 .waifu-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
 }
 
 .pool-waifu-card {
   background: rgba(0, 0, 0, 0.3);
   border-radius: 12px;
-  padding: 10px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   border: 2px solid transparent;
   transition: all 0.2s ease;
 }
@@ -4506,7 +4971,7 @@ button {
 }
 
 .unknown-icon {
-  font-size: 48px;
+  font-size: 40px;
   opacity: 0.5;
 }
 
@@ -4514,14 +4979,14 @@ button {
   position: absolute;
   bottom: 4px;
   right: 4px;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: var(--bg-panel);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 14px;
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -4530,9 +4995,9 @@ button {
   top: 4px;
   left: 4px;
   background: rgba(0, 0, 0, 0.8);
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -4546,26 +5011,26 @@ button {
 
 .dup-separator {
   color: var(--text-muted);
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .dup-max {
   color: var(--text-secondary);
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .pool-waifu-info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   width: 100%;
   text-align: center;
 }
 
 .pool-waifu-name {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4574,53 +5039,208 @@ button {
 
 .pool-waifu-stats {
   display: flex;
-  gap: 8px;
-  font-size: 12px;
+  gap: 6px;
+  font-size: 10px;
   color: var(--text-secondary);
 }
 
 .maxed-badge {
   background: linear-gradient(135deg, #ffd43b 0%, #fab005 100%);
   color: #000;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: bold;
-  padding: 2px 8px;
-  border-radius: 10px;
+  padding: 2px 6px;
+  border-radius: 8px;
   margin-top: 2px;
 }
 
 .drop-pool-footer {
-  padding: 15px 20px;
+  padding: 12px 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
+  flex-shrink: 0;
 }
 
 .drop-hint {
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: 12px;
   font-style: italic;
+  margin: 0;
 }
 
 @media (max-width: 768px) {
+  .drop-pool-panel {
+    width: 98vw;
+    max-height: 95vh;
+  }
+
+  .rarity-filter-tabs {
+    padding: 12px 15px;
+    gap: 8px;
+  }
+
+  .rarity-tab {
+    padding: 8px 18px;
+    font-size: 13px;
+    height: 36px;
+  }
+
   .waifu-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
     gap: 10px;
   }
 
+  .pool-waifu-card {
+    padding: 6px;
+    gap: 5px;
+  }
+
   .pool-waifu-name {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .unknown-icon {
-    font-size: 36px;
+    font-size: 32px;
+  }
+
+  .pool-waifu-element {
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+  }
+
+  .duplicate-counter {
+    font-size: 10px;
+    padding: 2px 5px;
+  }
+
+  .drop-pool-content {
+    padding: 12px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rarity-filter-tabs {
+    padding: 10px 12px;
+    gap: 6px;
+  }
+
+  .rarity-tab {
+    padding: 6px 14px;
+    font-size: 12px;
+    height: 32px;
+  }
+
+  .waifu-grid {
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    gap: 8px;
+  }
+
+  .pool-waifu-card {
+    padding: 5px;
+    gap: 4px;
+  }
+
+  .pool-waifu-name {
+    font-size: 10px;
+  }
+
+  .pool-waifu-stats {
+    font-size: 9px;
+    gap: 4px;
+  }
+
+  .maxed-badge {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+
+  .pool-waifu-element {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    bottom: 3px;
+    right: 3px;
+  }
+
+  .duplicate-counter {
+    font-size: 9px;
+    padding: 1px 4px;
+    top: 3px;
+    left: 3px;
+  }
+
+  .drop-pool-content {
+    padding: 10px;
+  }
+
+  .rarity-title {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .drop-pool-footer {
+    padding: 10px 15px;
+  }
+
+  .drop-hint {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  .rarity-filter-tabs {
+    gap: 5px;
+    padding: 8px 10px;
+  }
+
+  .rarity-tab {
+    padding: 5px 12px;
+    font-size: 11px;
+    height: 30px;
+  }
+
+  .waifu-grid {
+    grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+    gap: 6px;
+  }
+
+  .pool-waifu-card {
+    padding: 4px;
+    gap: 3px;
+  }
+
+  .pool-waifu-name {
+    font-size: 9px;
+  }
+
+  .pool-waifu-stats {
+    font-size: 8px;
+    gap: 3px;
+  }
+
+  .unknown-icon {
+    font-size: 24px;
+  }
+
+  .pool-waifu-element {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+
+  .duplicate-counter {
+    font-size: 8px;
+    padding: 1px 3px;
   }
 }
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\GachaPanel.css ===== 
 .gacha-panel {
-  width: 90vw;
-  max-width: 450px;
+  width: 95vw;
+  max-width: 550px;
+  max-height: 95vh;
 }
 
 .gacha-animation {
@@ -4628,12 +5248,12 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 40px 20px;
   gap: 20px;
 }
 
 .gacha-orb {
-  font-size: 80px;
+  font-size: 100px;
   animation:
     float 2s ease-in-out infinite,
     glow 1.5s ease-in-out infinite alternate;
@@ -4643,18 +5263,51 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
-  padding: 20px;
+  gap: 8px;
+  padding: 10px 20px 15px;
   text-align: center;
+  width: 100%;
+  position: relative;
+}
+
+.result-waifu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  position: relative;
 }
 
 .result-waifu img {
-  width: 200px;
-  height: 200px;
-  border-radius: var(--border-radius);
+  width: 180px;
+  height: 250px;
+  border-radius: 16px;
   object-fit: cover;
   border: 4px solid;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
+  animation: resultBreathe 3s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+.result-waifu h3 {
+  font-size: 20px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  line-height: 1.2;
+}
+
+@keyframes resultBreathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
 }
 
 .rarity-common {
@@ -4682,12 +5335,26 @@ button {
   border-color: var(--rarity-mythic);
 }
 
+.rarity-label {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
 .waifu-stats-preview {
   display: flex;
   gap: 15px;
-  margin: 10px 0;
-  font-size: 14px;
+  margin: 5px 0;
+  font-size: 13px;
   color: var(--text-secondary);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.waifu-stats-preview span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .gacha-rates {
@@ -4727,7 +5394,7 @@ button {
 }
 
 .gacha-action {
-  margin-top: 20px;
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -4747,7 +5414,6 @@ button {
   color: var(--text-secondary);
 }
 
-/* Вкладки */
 .gacha-tabs {
   display: flex;
   gap: 0;
@@ -4771,46 +5437,65 @@ button {
   background: rgba(102, 126, 234, 0.1);
 }
 
-/* Дубликат баннер */
 .duplicate-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
   background: linear-gradient(135deg, #ffd43b 0%, #fab005 100%);
   color: #000;
-  padding: 8px 16px;
-  border-radius: 20px;
+  padding: 6px 12px;
+  border-radius: 12px 0 12px 0;
   font-weight: bold;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
+  align-items: flex-start;
   animation: slideDown 0.3s ease;
+  font-size: 12px;
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(255, 212, 59, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: none;
+  border-left: none;
 }
 
 .duplicate-banner span {
-  font-size: 16px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .duplicate-banner small {
-  font-size: 12px;
-  opacity: 0.8;
+  font-size: 10px;
+  opacity: 0.9;
+  font-weight: 600;
 }
 
 .gacha-result.duplicate .result-waifu img {
   box-shadow: 0 0 30px rgba(255, 212, 59, 0.5);
-  animation: glow 2s infinite alternate;
+  animation:
+    glow 2s infinite alternate,
+    resultBreathe 3s ease-in-out infinite;
 }
 
 .dup-count-badge {
   background: rgba(0, 0, 0, 0.7);
   color: #ffd43b;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
   font-weight: bold;
-  margin-top: 8px;
   border: 1px solid #ffd43b;
+  margin-top: 2px;
 }
 
-/* Доступно в пуле */
+.btn-primary {
+  padding: 12px 30px;
+  font-size: 16px;
+  min-height: 44px;
+  margin-top: 5px;
+}
+
 .available-count {
   font-size: 11px;
   color: var(--text-muted);
@@ -4832,7 +5517,6 @@ button {
   font-weight: 600;
 }
 
-/* Вкладка пула */
 .pool-preview-tab {
   display: flex;
   flex-direction: column;
@@ -4898,7 +5582,7 @@ button {
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
@@ -4915,11 +5599,101 @@ button {
   }
 }
 
-/* Disabled кнопка призыва */
 .btn-summon:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   filter: grayscale(1);
+}
+
+@media (max-width: 480px) {
+  .gacha-panel {
+    width: 98vw;
+    max-height: 98vh;
+  }
+
+  .duplicate-banner {
+    padding: 5px 10px;
+    font-size: 11px;
+    border-radius: 10px 0 10px 0;
+  }
+
+  .duplicate-banner span {
+    font-size: 11px;
+  }
+
+  .duplicate-banner small {
+    font-size: 9px;
+  }
+
+  .result-waifu img {
+    width: 150px;
+    height: 210px;
+  }
+
+  .result-waifu h3 {
+    font-size: 16px;
+  }
+
+  .gacha-result {
+    padding: 8px 15px 12px;
+    gap: 6px;
+  }
+
+  .waifu-stats-preview {
+    font-size: 11px;
+    gap: 12px;
+    margin: 3px 0;
+  }
+
+  .rarity-label {
+    font-size: 12px;
+  }
+
+  .dup-count-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .btn-primary {
+    padding: 10px 25px;
+    font-size: 14px;
+    min-height: 40px;
+    margin-top: 3px;
+  }
+
+  .gacha-animation {
+    padding: 30px 15px;
+  }
+
+  .gacha-orb {
+    font-size: 70px;
+  }
+}
+
+@media (max-width: 360px) {
+  .result-waifu img {
+    width: 130px;
+    height: 180px;
+  }
+
+  .result-waifu h3 {
+    font-size: 14px;
+  }
+
+  .waifu-stats-preview {
+    gap: 8px;
+    font-size: 10px;
+  }
+
+  .btn-primary {
+    padding: 8px 20px;
+    font-size: 13px;
+    min-height: 36px;
+  }
+
+  .gacha-result {
+    padding: 6px 12px 10px;
+  }
 }
  
  
@@ -5165,31 +5939,36 @@ button {
 
 .waifu-portrait-container {
   position: relative;
-  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.6));
+  animation: gentleSway 6s ease-in-out infinite;
+  transform-origin: bottom center;
 }
 
 .waifu-portrait {
-  width: 200px;
-  height: 280px;
+  width: 320px;
+  height: 450px;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: 20px;
   display: block;
+  animation: breathe 4s ease-in-out infinite;
+  transform-origin: center center;
 }
 
 .waifu-element-icon {
   position: absolute;
-  bottom: -10px;
-  right: -10px;
-  width: 40px;
-  height: 40px;
+  bottom: -12px;
+  right: -12px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: var(--bg-panel);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-size: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  animation: iconFloat 3s ease-in-out infinite;
 }
 
 .waifu-info-battle {
@@ -5197,6 +5976,12 @@ button {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 100%;
+  animation: infoPulse 5s ease-in-out infinite;
 }
 
 .waifu-name-battle {
@@ -5204,14 +5989,19 @@ button {
   font-weight: bold;
   margin: 0;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
 }
 
 .waifu-stats-battle {
   display: flex;
   gap: 15px;
   justify-content: center;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text-secondary);
+  flex-wrap: wrap;
 }
 
 .waifu-level {
@@ -5223,19 +6013,213 @@ button {
   color: #ffd43b;
 }
 
-@media (max-width: 768px) {
+/* Анимация дыхания - масштабирование */
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.015);
+  }
+}
+
+/* Анимация покачивания - легкое вращение */
+@keyframes gentleSway {
+  0%,
+  100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+
+/* Анимация иконки элемента - независимое движение */
+@keyframes iconFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Анимация информационной панели - легкое свечение */
+@keyframes infoPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(102, 126, 234, 0);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(102, 126, 234, 0.2);
+    border-color: rgba(102, 126, 234, 0.3);
+  }
+}
+
+/* Эффект при клике */
+.waifu-clickable:active .waifu-portrait-container {
+  animation: none;
+  transform: scale(0.98);
+}
+
+.waifu-clickable:active .waifu-portrait {
+  animation: none;
+}
+
+/* При наведении усиливаем анимации */
+.waifu-component:hover .waifu-portrait-container {
+  animation: gentleSway 3s ease-in-out infinite;
+}
+
+.waifu-component:hover .waifu-portrait {
+  animation: breathe 2s ease-in-out infinite;
+}
+
+@media (max-width: 1200px) {
   .waifu-portrait {
-    width: 150px;
-    height: 210px;
+    width: 280px;
+    height: 390px;
+  }
+
+  .waifu-name-battle {
+    font-size: 22px;
+    max-width: 240px;
+  }
+
+  .waifu-element-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .waifu-portrait {
+    width: 240px;
+    height: 335px;
   }
 
   .waifu-name-battle {
     font-size: 20px;
+    max-width: 200px;
+  }
+
+  .waifu-element-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
   }
 
   .waifu-stats-battle {
-    font-size: 14px;
+    font-size: 13px;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .waifu-portrait {
+    width: 180px;
+    height: 250px;
+  }
+
+  .waifu-element-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    bottom: -10px;
+    right: -10px;
+  }
+
+  .waifu-info-battle {
+    padding: 10px 15px;
+    gap: 6px;
+  }
+
+  .waifu-name-battle {
+    font-size: 16px;
+    max-width: 160px;
+  }
+
+  .waifu-stats-battle {
+    font-size: 12px;
     gap: 10px;
+  }
+
+  @keyframes breathe {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.01);
+    }
+  }
+
+  @keyframes gentleSway {
+    0%,
+    100% {
+      transform: rotate(-0.5deg);
+    }
+    50% {
+      transform: rotate(0.5deg);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .waifu-portrait {
+    width: 130px;
+    height: 180px;
+  }
+
+  .waifu-element-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    bottom: -8px;
+    right: -8px;
+  }
+
+  .waifu-info-battle {
+    padding: 8px 12px;
+    gap: 4px;
+  }
+
+  .waifu-name-battle {
+    font-size: 13px;
+    max-width: 120px;
+  }
+
+  .waifu-stats-battle {
+    font-size: 10px;
+    gap: 8px;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  @keyframes breathe {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.005);
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .waifu-portrait {
+    width: 110px;
+    height: 155px;
+  }
+
+  .waifu-name-battle {
+    font-size: 12px;
+    max-width: 100px;
   }
 }
  
@@ -5245,7 +6229,6 @@ button {
   width: 90vw;
   max-width: 450px;
   max-height: 85vh;
-  /* GPU ускорение */
   transform: translateZ(0);
   backface-visibility: hidden;
 }
@@ -5256,11 +6239,9 @@ button {
   gap: 15px;
   padding: 20px;
   overflow-y: auto;
-  /* Оптимизация скролла */
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-  /* GPU ускорение для скролла */
   will-change: scroll-position;
   transform: translateZ(0);
 }
@@ -5272,9 +6253,8 @@ button {
   align-items: center;
   gap: 10px;
   margin: 0 auto;
-  width: 200px;
-  height: 280px;
-  /* GPU ускорение */
+  width: 280px;
+  height: 390px;
   transform: translateZ(0);
   will-change: transform;
 }
@@ -5285,9 +6265,20 @@ button {
   object-fit: cover;
   border-radius: 16px;
   border: 4px solid;
-  /* Упрощенная тень */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   display: block;
+  animation: detailBreathe 4s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+@keyframes detailBreathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.01);
+  }
 }
 
 .waifu-detail-element {
@@ -5302,11 +6293,9 @@ button {
   align-items: center;
   justify-content: center;
   border: 3px solid rgba(255, 255, 255, 0.2);
-  /* Упрощенная тень */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   flex-shrink: 0;
-  /* GPU ускорение */
   transform: translateZ(0);
 }
 
@@ -5396,28 +6385,74 @@ button {
   font-size: 14px;
   color: var(--text-secondary);
 }
+
+@media (max-width: 480px) {
+  .waifu-detail-portrait {
+    width: 220px;
+    height: 310px;
+  }
+
+  .waifu-detail-element {
+    width: 40px;
+    height: 40px;
+    bottom: -8px;
+    right: -8px;
+  }
+
+  .waifu-detail-element .icon {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .waifu-detail-rarity {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+
+  .waifu-description {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .waifu-detail-portrait {
+    width: 180px;
+    height: 250px;
+  }
+
+  .waifu-detail-element {
+    width: 36px;
+    height: 36px;
+  }
+
+  .waifu-detail-element .icon {
+    width: 22px !important;
+    height: 22px !important;
+  }
+}
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuSelectPanel\WaifuSelectPanel.css ===== 
 .waifu-select-panel {
-  width: 90vw;
-  max-width: 600px;
+  width: 95vw;
+  max-width: 700px;
+  max-height: 90vh;
 }
 
 .waifu-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-height: 60vh;
+  gap: 12px;
+  max-height: 70vh;
   overflow-y: auto;
-  padding: 10px;
+  padding: 15px;
 }
 
 .waifu-card {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 10px;
+  gap: 20px;
+  padding: 15px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: var(--border-radius);
   border: 2px solid transparent;
@@ -5429,6 +6464,7 @@ button {
 .waifu-card:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateX(5px);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .waifu-card.active {
@@ -5438,28 +6474,40 @@ button {
 
 .waifu-card-portrait {
   position: relative;
+  width: 90px;
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .waifu-card-portrait img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border: 2px solid var(--rarity-common);
+  display: block;
+  border-radius: 12px;
+  border: 3px solid var(--rarity-common);
 }
 
 .waifu-element {
   position: absolute;
-  bottom: -5px;
-  right: -5px;
-  font-size: 16px;
-  background: var(--bg-secondary);
+  bottom: 6px;
+  right: 6px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  background: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.waifu-element .icon {
+  width: 20px !important;
+  height: 20px !important;
 }
 
 .waifu-card-info {
@@ -5467,26 +6515,159 @@ button {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-width: 0;
+  gap: 6px;
+}
+
+.waifu-name {
+  font-weight: 700;
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .waifu-lvl {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-muted);
+  font-weight: 500;
 }
 
 .waifu-stats-row {
   display: flex;
-  gap: 10px;
-  margin-top: 4px;
-  font-size: 12px;
+  gap: 20px;
+  margin-top: 8px;
+  font-size: 14px;
   color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .active-badge {
   position: absolute;
-  right: 10px;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #51cf66;
-  font-size: 24px;
+  font-size: 28px;
+  background: rgba(81, 207, 102, 0.15);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(81, 207, 102, 0.3);
+}
+
+@media (max-width: 600px) {
+  .waifu-card-portrait {
+    width: 75px;
+    height: 100px;
+  }
+
+  .waifu-element {
+    width: 28px;
+    height: 28px;
+    bottom: 4px;
+    right: 4px;
+  }
+
+  .waifu-element .icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .waifu-name {
+    font-size: 16px;
+  }
+
+  .waifu-stats-row {
+    font-size: 13px;
+    gap: 15px;
+  }
+
+  .active-badge {
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .waifu-select-panel {
+    width: 98vw;
+  }
+
+  .waifu-card {
+    padding: 12px;
+    gap: 15px;
+  }
+
+  .waifu-card-portrait {
+    width: 65px;
+    height: 85px;
+  }
+
+  .waifu-element {
+    width: 24px;
+    height: 24px;
+  }
+
+  .waifu-element .icon {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .waifu-name {
+    font-size: 14px;
+  }
+
+  .waifu-lvl {
+    font-size: 12px;
+  }
+
+  .waifu-stats-row {
+    font-size: 12px;
+    gap: 12px;
+    margin-top: 5px;
+  }
+
+  .active-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    right: 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  .waifu-card-portrait {
+    width: 55px;
+    height: 75px;
+  }
+
+  .waifu-element {
+    width: 22px;
+    height: 22px;
+    bottom: 3px;
+    right: 3px;
+  }
+
+  .waifu-element .icon {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .waifu-name {
+    font-size: 13px;
+  }
+
+  .waifu-stats-row {
+    font-size: 11px;
+    gap: 10px;
+  }
 }
  
  
