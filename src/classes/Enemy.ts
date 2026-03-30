@@ -1,5 +1,5 @@
 // src/classes/Enemy.ts
-import type { TElementType } from "../types";
+import type { TDropItem, TElementType } from "../types";
 import { t } from "../locales/i18n";
 import { MONSTER_TEMPLATES } from "../game/constant";
 
@@ -20,10 +20,7 @@ export interface EnemyConfig {
   resistances: Partial<Record<TElementType, number>>;
   sprite: string;
   isBoss?: boolean;
-  rewards: {
-    gems: number;
-    essence?: number;
-  };
+  drops: TDropItem[];
 }
 
 export class Enemy {
@@ -35,7 +32,8 @@ export class Enemy {
   resistances: Record<TElementType, number>;
   sprite: string;
   isBoss: boolean;
-  rewards: TEnemyRewards;
+  expReward: number;
+  drops: TDropItem[];
 
   constructor(config: EnemyConfig) {
     this.id = config.id;
@@ -45,10 +43,8 @@ export class Enemy {
     this.currentHp = config.maxHp;
     this.sprite = config.sprite;
     this.isBoss = config.isBoss || false;
-    this.rewards = {
-      ...config.rewards,
-      exp: this.level * 10 * (this.isBoss ? 2 : 1),
-    };
+    this.expReward = this.level * 10 * (this.isBoss ? 2 : 1);
+    this.drops = config.drops;
 
     this.resistances = {
       water: 0,
@@ -101,13 +97,27 @@ export class Enemy {
     return "normal";
   }
 
+  rollDrops(): Array<{ id: string; count: number }> {
+    const results: Array<{ id: string; count: number }> = [];
+
+    for (const drop of this.drops) {
+      const roll = Math.random();
+      if (roll <= drop.chance) {
+        const count = Math.floor(Math.random() * (drop.maxCount - drop.minCount + 1)) + drop.minCount;
+        results.push({ id: drop.id, count });
+      }
+    }
+
+    return results;
+  }
+
   static spawn(level: number): Enemy {
     const isBoss = level % 10 === 0;
 
     const templates = MONSTER_TEMPLATES.filter((m) => m.isBoss === isBoss);
     const template = templates[Math.floor(Math.random() * templates.length)] || MONSTER_TEMPLATES[0];
 
-    const baseHp = template.baseHp * Math.pow(template.hpMultiplier, level - 1);
+    const baseHp = template.baseHp * Math.pow(1.1, level - 1);
     const maxHp = isBoss ? baseHp * 5 : baseHp;
 
     const elements: TElementType[] = ["water", "fire", "earth", "ice", "light", "dark", "physical"];
@@ -129,6 +139,23 @@ export class Enemy {
       }
     }
 
+    const drops: TDropItem[] = [...template.drops];
+
+    if (isBoss) {
+      drops.push({ id: "gem", nameKey: "gem", chance: 1, minCount: 50, maxCount: 50, type: "currency" });
+      drops.push({ id: "essence", nameKey: "essence", chance: 1, minCount: 5, maxCount: 5, type: "currency" });
+    } else {
+      drops.push({
+        id: "gem",
+        nameKey: "gem",
+        chance: 1,
+        minCount: 10 + Math.floor(level / 5),
+        maxCount: 10 + Math.floor(level / 5),
+        type: "currency",
+      });
+      drops.push({ id: "essence", nameKey: "essence", chance: 1, minCount: 1, maxCount: 1, type: "currency" });
+    }
+
     return new Enemy({
       id: `${template.id}_${level}_${Date.now()}`,
       nameKey: template.nameKey,
@@ -137,10 +164,7 @@ export class Enemy {
       resistances,
       sprite: template.sprite,
       isBoss,
-      rewards: {
-        gems: isBoss ? 50 : 10 + Math.floor(level / 5),
-        essence: isBoss ? 5 : 1,
-      },
+      drops,
     });
   }
 }

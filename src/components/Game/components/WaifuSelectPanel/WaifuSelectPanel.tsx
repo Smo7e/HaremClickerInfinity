@@ -66,7 +66,7 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
                       <Icon name="click" size="sm" /> {waifu.getClickPower()}
                     </small>
                     <small>
-                      <Icon name="auto" size="sm" /> {waifu.getAutoClick()}
+                      <Icon name="auto" size="sm" /> {waifu.getClickPower()}
                     </small>
                   </div>
                 </div>

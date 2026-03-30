@@ -1,6 +1,7 @@
 import type { TElementType, TRarity, TWaifu } from "../types";
 import { t } from "../locales/i18n";
 import type { LocaleKeys } from "../locales/locales";
+import type { IGlobalUpgrades } from "../components/Game/Game";
 
 export interface WaifuConfig {
   id: string;
@@ -25,7 +26,6 @@ export interface WaifuStats {
   clicksGenerated: number;
   totalDamage: number;
 }
-
 export class Waifu {
   id: string;
   nameKey: string;
@@ -46,6 +46,19 @@ export class Waifu {
 
   unlockedOutfits: string[];
   currentOutfit: string;
+
+  globalUpgrades: IGlobalUpgrades = {
+    clickPowerBonus: 0,
+    elementDamage: {
+      water: 0,
+      fire: 0,
+      earth: 0,
+      ice: 0,
+      light: 0,
+      dark: 0,
+      physical: 0,
+    },
+  };
 
   constructor(config: WaifuConfig) {
     this.id = config.id;
@@ -74,6 +87,10 @@ export class Waifu {
     this.currentOutfit = "default";
   }
 
+  setGlobalUpgrades(upgrades: IGlobalUpgrades): void {
+    this.globalUpgrades = upgrades;
+  }
+
   get name(): string {
     return t(`waifus.${this.nameKey}.name`);
   }
@@ -87,22 +104,21 @@ export class Waifu {
   }
 
   getClickPower(): number {
-    const levelMultiplier = 1 + (this.stats.level - 1) * 0.1;
-    const affectionBonus = 1 + this.stats.affection * 0.01;
-    const dupMultiplier = this.getDuplicateMultiplier();
-    return Math.floor(this.baseClickPower * levelMultiplier * affectionBonus * dupMultiplier);
-  }
+    const baseWithBonus = this.baseClickPower + this.globalUpgrades.clickPowerBonus * 100;
 
-  getAutoClick(): number {
-    const levelMultiplier = 1 + (this.stats.level - 1) * 0.1;
-    const dupMultiplier = this.getDuplicateMultiplier();
-    return Math.floor(this.baseAutoClick * levelMultiplier * dupMultiplier);
+    const totalPercentBonus =
+      (this.stats.level - 1) * 10 +
+      this.stats.affection * 1 +
+      this.duplicateCount * 30 +
+      (this.globalUpgrades.elementDamage[this.element] || 0) * 10;
+
+    const totalMultiplier = 1 + totalPercentBonus / 100;
+
+    return Math.floor(baseWithBonus * totalMultiplier);
   }
 
   getCritChance(): number {
-    const affectionBonus = this.stats.affection * 0.001;
-    const dupBonus = this.duplicateCount * 0.01;
-    return Math.min(1, this.baseCritChance + affectionBonus + dupBonus);
+    return this.baseCritChance;
   }
 
   getCritMultiplier(): number {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Enemy, type DamageInfo, type TEnemyRewards } from "../../../../classes/Enemy";
+import { Enemy, type DamageInfo } from "../../../../classes/Enemy";
 import type { Waifu } from "../../../../classes/Waifu";
 import "./EnemyComponent.css";
 import { ELEMENT_COLORS, ELEMENT_KEYS } from "../../../../game/constant";
@@ -7,16 +7,24 @@ import type { TElementType } from "../../../../types";
 import { audioManager } from "../../../../audio/AudioManager";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
+import { INVENTORY_ITEMS } from "../../../../game/constant";
+
+interface DropEffect {
+  id: number;
+  x: number;
+  y: number;
+  itemId: string;
+  count: number;
+}
 
 interface EnemyComponentProps {
   enemy: Enemy;
   activeWaifu: Waifu;
-  onEnemyDefeated: (rewards: TEnemyRewards) => void;
-  onDamageDealt: (damage: number, isCrit: boolean, element: TElementType) => void;
+  onEnemyDefeated: (expReward: number, drops: Array<{ id: string; count: number }>) => void;
   isPaused: boolean;
 }
 
-export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, onDamageDealt, isPaused }: EnemyComponentProps) {
+export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, isPaused }: EnemyComponentProps) {
   const [clickEffects, setClickEffects] = useState<
     Array<{
       id: number;
@@ -28,11 +36,23 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, onDamageDe
       effectiveness: "weak" | "normal" | "resist";
     }>
   >([]);
+  const [dropEffects, setDropEffects] = useState<DropEffect[]>([]);
+  const dropIdRef = useRef(0);
 
   const clickIdRef = useRef(0);
 
+  const addDropEffect = (x: number, y: number, itemId: string, count: number) => {
+    const id = dropIdRef.current++;
+
+    setDropEffects((prev) => [...prev, { id, x, y, itemId, count }]);
+
+    setTimeout(() => {
+      setDropEffects((prev) => prev.filter((effect) => effect.id !== id));
+    }, 800);
+  };
+
   useEffect(() => {
-    if (isPaused || !activeWaifu.getAutoClick()) return;
+    if (isPaused) return;
 
     const interval = setInterval(() => {
       performAutoAttack();
@@ -42,7 +62,7 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, onDamageDe
   }, [isPaused, activeWaifu, enemy]);
 
   const performAutoAttack = () => {
-    const damage = activeWaifu.getAutoClick();
+    const damage = activeWaifu.getClickPower();
     const isCrit = Math.random() < activeWaifu.getCritChance();
 
     const damageInfo: DamageInfo = {
@@ -53,15 +73,12 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, onDamageDe
     };
 
     const actualDamage = enemy.takeDamage(damageInfo);
-    onDamageDealt(actualDamage, isCrit, activeWaifu.element);
 
     addClickEffect(window.innerWidth / 2, window.innerHeight / 2 - 100, actualDamage, isCrit, activeWaifu.element);
     audioManager.playClick();
 
     if (!enemy.isAlive()) {
-      audioManager.playEnemyDefeat();
-
-      onEnemyDefeated(enemy.rewards);
+      death();
     }
   };
 
@@ -91,15 +108,26 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, onDamageDe
     const actualDamage = enemy.takeDamage(damageInfo);
     const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
 
-    onDamageDealt(actualDamage, isCrit, activeWaifu.element);
     activeWaifu.recordClick(actualDamage);
 
     addClickEffect(clientX, clientY, actualDamage, isCrit, activeWaifu.element, effectiveness);
 
     if (!enemy.isAlive()) {
-      audioManager.playEnemyDefeat();
-      onEnemyDefeated(enemy.rewards);
+      death();
     }
+  };
+
+  const death = () => {
+    audioManager.playEnemyDefeat();
+    const drops = enemy.rollDrops();
+
+    drops.forEach((drop, index) => {
+      const offsetX = (index - drops.length / 2) * 40;
+      const offsetY = -50 - Math.random() * 30;
+      addDropEffect(window.innerWidth / 2 + offsetX, window.innerHeight / 2 + offsetY, drop.id, drop.count);
+    });
+
+    onEnemyDefeated(enemy.expReward, drops);
   };
 
   const addClickEffect = (
@@ -128,6 +156,14 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, onDamageDe
     setTimeout(() => {
       setClickEffects((prev) => prev.filter((effect) => effect.id !== id));
     }, 600);
+  };
+
+  const getResistanceTooltip = (value: number): string => {
+    if (value > 0) {
+      return `${t("ui.resist")}: ${Math.round(value * 100)}%`;
+    } else {
+      return `${t("ui.weak")}: ${Math.round(Math.abs(value) * 100)}%`;
+    }
   };
 
   return (
@@ -163,7 +199,11 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, onDamageDe
         {Object.entries(enemy.resistances)
           .filter(([_, value]) => value !== 0)
           .map(([element, value]) => (
-            <span key={element} className={`resist-badge ${value > 0 ? "resist" : "weak"}`}>
+            <span
+              key={element}
+              className={`resist-badge ${value > 0 ? "resist" : "weak"}`}
+              title={getResistanceTooltip(value)}
+            >
               <Icon name={element} size="md" />
               {t(`ui.${ELEMENT_KEYS[element as TElementType]}`)}
             </span>
@@ -186,6 +226,22 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, onDamageDe
             {effect.effectiveness === "resist" && <Icon name="shield" size="sm" />}
           </div>
           <span className="damage-value">{effect.value}</span>
+        </div>
+      ))}
+      {dropEffects.map((effect) => (
+        <div
+          key={effect.id}
+          className="drop-effect"
+          style={{
+            left: effect.x,
+            top: effect.y,
+          }}
+        >
+          <Icon name={INVENTORY_ITEMS[effect.itemId]?.icon || "unknown"} size="md" />
+          <span className="drop-count">+{effect.count}</span>
+          <span className="drop-name">
+            {t(`items.${INVENTORY_ITEMS[effect.itemId]?.nameKey || effect.itemId}.name`)}
+          </span>
         </div>
       ))}
     </div>

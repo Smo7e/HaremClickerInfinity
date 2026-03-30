@@ -1,0 +1,151 @@
+.backpack-panel {
+  width: 95vw;
+  max-width: 800px;
+  max-height: 90vh;
+}
+
+.currency-bar {
+  display: flex;
+  gap: 20px;
+  padding: 15px 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.currency-bar .currency-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.backpack-tabs {
+  display: flex;
+  gap: 10px;
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-x: auto;
+}
+
+.backpack-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.backpack-tab.active {
+  background: var(--rarity-epic);
+}
+
+.backpack-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+}
+
+.item-card {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.item-card.rarity-common {
+  border-color: var(--rarity-common);
+}
+.item-card.rarity-uncommon {
+  border-color: var(--rarity-uncommon);
+}
+.item-card.rarity-rare {
+  border-color: var(--rarity-rare);
+}
+.item-card.rarity-epic {
+  border-color: var(--rarity-epic);
+}
+.item-card.rarity-legendary {
+  border-color: var(--rarity-legendary);
+}
+.item-card.rarity-mythic {
+  border-color: var(--rarity-mythic);
+}
+
+.item-icon-container {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.item-count {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background: var(--rarity-epic);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 10px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.item-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.item-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+.btn-use-item {
+  margin-top: 5px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.btn-use-item:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.btn-use-item:not(:disabled):hover {
+  transform: scale(1.05);
+}

@@ -382,3 +382,54 @@
 .drop-item.collection .drop-chance {
   color: #a855f7;
 }
+
+.drop-effect {
+  position: fixed;
+  pointer-events: none;
+  animation: dropFloat 0.8s ease-out forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 2px solid var(--rarity-epic);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.drop-count {
+  color: #ffd43b;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.drop-name {
+  color: var(--text-primary);
+  font-size: 11px;
+  max-width: 100px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes dropFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(-30px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+}

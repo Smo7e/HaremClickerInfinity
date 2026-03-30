@@ -78,7 +78,7 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
               <span className="stat-label">
                 <Icon name="auto" size="sm" /> {t("ui.auto")}
               </span>
-              <span className="stat-value">{waifu.getAutoClick()}/s</span>
+              <span className="stat-value">{waifu.getClickPower()}/s</span>
             </div>
 
             <div className="stat-row-detail">

@@ -1,7 +1,6 @@
-// src/components/Game/Game.tsx
 import { useState, useEffect, useCallback } from "react";
 import { t } from "../../locales/i18n";
-import { Enemy, type TEnemyRewards } from "../../classes/Enemy";
+import { Enemy } from "../../classes/Enemy";
 import { Waifu } from "../../classes/Waifu";
 import { EnemyComponent } from "./components/EnemyComponent/EnemyComponent";
 import { WaifuComponent } from "./components/WaifuComponent/WaifuComponent";
@@ -16,6 +15,9 @@ import "./Game.css";
 import { testWaifus } from "../../game/constant";
 import { Icon } from "../Icon/Icon";
 import { Background } from "./components/Background/Background";
+import { Inventory } from "../../classes/Inventory";
+import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
+import type { TElementType } from "../../types";
 
 interface Props {
   onBack: () => void;
@@ -34,10 +36,13 @@ const INITIAL_COLLECTION: CollectionItem[] = [
     bonus: "+10% DMG",
   },
 ];
+export interface IGlobalUpgrades {
+  clickPowerBonus: number;
+  elementDamage: Record<TElementType, number>;
+}
 
 export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
-  const [gems, setGems] = useState(0);
-  const [essence, setEssence] = useState(10000);
+  const [inventory, setInventory] = useState(() => new Inventory());
 
   const [enemy, setEnemy] = useState<Enemy>(() => Enemy.spawn(1));
   const [enemyLevel, setEnemyLevel] = useState(1);
@@ -47,10 +52,17 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   );
   const [activeWaifu, setActiveWaifu] = useState<Waifu | null>(null);
 
-  const [globalUpgrades, setGlobalUpgrades] = useState({
+  const [globalUpgrades, setGlobalUpgrades] = useState<IGlobalUpgrades>({
     clickPowerBonus: 0,
-    autoClickBonus: 0,
-    critChanceBonus: 0,
+    elementDamage: {
+      water: 0,
+      fire: 0,
+      earth: 0,
+      ice: 0,
+      light: 0,
+      dark: 0,
+      physical: 0,
+    },
   });
 
   const [collection] = useState<CollectionItem[]>(INITIAL_COLLECTION);
@@ -62,6 +74,8 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   const [selectedWaifuDetail, setSelectedWaifuDetail] = useState<Waifu | null>(null);
   const [showPause, setShowPause] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+
+  const [showBackpack, setShowBackpack] = useState(false);
 
   useEffect(() => {
     setActiveWaifu(ownedWaifus[0]);
@@ -78,82 +92,93 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    setOwnedWaifus((prev) =>
+      prev.map((w) => {
+        w.setGlobalUpgrades(globalUpgrades);
+        return w;
+      }),
+    );
+    if (activeWaifu) {
+      activeWaifu.setGlobalUpgrades(globalUpgrades);
+    }
+  }, [globalUpgrades]);
+
+  const refreshInventory = useCallback(() => {
+    setInventory((prev) => {
+      const next = new Inventory();
+      next.deserialize(prev.serialize());
+      return next;
+    });
+  }, []);
+
   const handleEnemyDefeated = useCallback(
-    (rewards: TEnemyRewards) => {
-      activeWaifu?.addExp(rewards.exp);
-      setGems((prev) => prev + rewards.gems);
-      if (rewards.essence) {
-        setEssence((prev) => prev + (rewards.essence || 0));
+    (expReward: number, drops: Array<{ id: string; count: number }>) => {
+      activeWaifu?.addExp(expReward);
+
+      for (const drop of drops) {
+        inventory.addItem(drop.id, drop.count);
       }
+
+      refreshInventory();
 
       const newLevel = enemyLevel + 1;
       setEnemyLevel(newLevel);
       setEnemy(Enemy.spawn(newLevel));
     },
-    [enemyLevel, activeWaifu],
+    [enemyLevel, activeWaifu, inventory, refreshInventory],
   );
 
-  const handleDamageDealt = useCallback((damage: number, isCrit: boolean, element: string) => {
-    damage;
-    isCrit;
-    element;
-  }, []);
+  const handleUseItem = (itemId: string) => {
+    if (!activeWaifu) {
+      alert(t("ui.selectWaifuFirst"));
+      return;
+    }
 
-  const handleUpgrade = (type: string, cost: number) => {
-    if (gems < cost) return;
-
-    setGems((prev) => prev - cost);
-
-    setGlobalUpgrades((prev) => {
-      const next = { ...prev };
-      switch (type) {
-        case "click_power":
-          next.clickPowerBonus += 1;
-          break;
-        case "auto_click":
-          next.autoClickBonus += 0.5;
-          break;
-        case "crit_chance":
-          next.critChanceBonus += 0.05;
-          break;
+    const result = inventory.useItem(itemId, activeWaifu.id);
+    if (result.success && result.effect) {
+      if (result.effect.type === "exp") {
+        activeWaifu.addExp(result.effect.value);
+      } else if (result.effect.type === "affection") {
+        activeWaifu.addAffection(result.effect.value);
       }
-      return next;
-    });
-
-    setOwnedWaifus((prev) =>
-      prev.map((waifu) => {
-        const updated = new Waifu({
-          id: waifu.id,
-          nameKey: waifu.nameKey,
-          rarity: waifu.rarity,
-          element: waifu.element,
-          image: waifu.image,
-          description: waifu.descriptionKey,
-          baseStats: {
-            clickPower: waifu.baseClickPower + (type === "click_power" ? 1 : 0),
-            autoClick: waifu.baseAutoClick + (type === "auto_click" ? 0.5 : 0),
-            critChance: waifu.baseCritChance + (type === "crit_chance" ? 0.05 : 0),
-            critMultiplier: waifu.baseCritMultiplier,
-          },
-        });
-        updated.stats = { ...waifu.stats };
-        updated.unlockedOutfits = [...waifu.unlockedOutfits];
-        updated.currentOutfit = waifu.currentOutfit;
-        updated.duplicateCount = waifu.duplicateCount;
-        return updated;
-      }),
-    );
-
-    if (activeWaifu) {
-      setActiveWaifu((prev) => {
-        if (!prev) return null;
-        return ownedWaifus.find((w) => w.id === prev.id) || prev;
-      });
+      setOwnedWaifus([...ownedWaifus]);
+      refreshInventory();
     }
   };
 
+  const handleUpgrade = (type: string, cost: number, element?: TElementType) => {
+    if (!inventory.removeItem("gem", cost)) return;
+
+    refreshInventory();
+
+    setGlobalUpgrades((prev) => {
+      const next = { ...prev };
+      if (type === "click_power") {
+        next.clickPowerBonus += 1;
+      } else if (type === "element" && element) {
+        next.elementDamage[element] += 1;
+      }
+
+      setOwnedWaifus((waifus) =>
+        waifus.map((w) => {
+          w.setGlobalUpgrades(next);
+          return w;
+        }),
+      );
+
+      if (activeWaifu) {
+        activeWaifu.setGlobalUpgrades(next);
+      }
+
+      return next;
+    });
+  };
+
   const handleSummon = (waifu: Waifu, cost: number, isDuplicate: boolean) => {
-    setEssence((prev) => prev - cost);
+    inventory.removeItem("essence", cost);
+
+    waifu.setGlobalUpgrades(globalUpgrades);
 
     if (isDuplicate) {
       setOwnedWaifus((prev) => prev.map((w) => (w.id === waifu.id ? waifu : w)));
@@ -164,6 +189,7 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
     } else {
       setOwnedWaifus((prev) => [...prev, waifu]);
     }
+    refreshInventory();
   };
 
   const handleWaifuSelect = (waifu: Waifu) => {
@@ -189,6 +215,9 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   if (!activeWaifu) {
     return <div className="game-loading">{t("ui.loading")}</div>;
   }
+
+  const gems = inventory.getItemCount("gem");
+  const essence = inventory.getItemCount("essence");
 
   return (
     <div className="game">
@@ -232,6 +261,10 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
           <Icon name="upgrades" size="lg" />
           <span>{t("ui.upgrades")}</span>
         </button>
+        <button className="side-btn" onClick={() => setShowBackpack(true)}>
+          <Icon name="back" size="lg" />
+          <span>{t("ui.backpack")}</span>
+        </button>
       </nav>
 
       <main className="game-main">
@@ -243,7 +276,6 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
             enemy={enemy}
             activeWaifu={activeWaifu}
             onEnemyDefeated={handleEnemyDefeated}
-            onDamageDealt={handleDamageDealt}
             isPaused={isGlobalPaused || showPause}
           />
         </div>
@@ -274,9 +306,15 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
         onUpgrade={handleUpgrade}
         upgradeLevels={{
           clickPower: Math.floor(globalUpgrades.clickPowerBonus),
-          autoClick: Math.floor(globalUpgrades.autoClickBonus),
-          critChance: Math.floor(globalUpgrades.critChanceBonus / 0.05),
+          elementDamage: globalUpgrades.elementDamage,
         }}
+      />
+      <BackpackPanel
+        isOpen={showBackpack}
+        onClose={() => setShowBackpack(false)}
+        inventory={inventory}
+        onUseItem={handleUseItem}
+        selectedWaifuId={activeWaifu?.id}
       />
 
       <WaifuDetailPanel
