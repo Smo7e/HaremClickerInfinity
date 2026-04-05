@@ -183,10 +183,10 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                       <Icon name="click" size="sm" /> {result.waifu.getClickPower()}
                     </span>
                     <span>
-                      <Icon name="auto" size="sm" /> {result.waifu.getClickPower()}
+                      <Icon name="crit" size="sm" /> {(result.waifu.getCritChance() * 100).toFixed(1)}%
                     </span>
                     <span>
-                      <Icon name="crit" size="sm" /> {(result.waifu.getCritChance() * 100).toFixed(1)}%
+                      <Icon name="critPower" size="sm" /> {result.waifu.getCritMultiplier().toFixed(1)}x
                     </span>
                   </div>
 

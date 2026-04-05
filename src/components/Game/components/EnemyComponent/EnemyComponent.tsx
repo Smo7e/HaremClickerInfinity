@@ -84,6 +84,7 @@ export function EnemyComponent({
         type: currentWaifu.element,
         amount: damage,
         isCrit,
+        critMultiplier: currentWaifu.getCritMultiplier(),
         source: currentWaifu.id,
       };
       const actualDamage = currentEnemy.takeDamage(damageInfo);
@@ -139,6 +140,7 @@ export function EnemyComponent({
       type: activeWaifu.element,
       amount: clickPower,
       isCrit,
+      critMultiplier: activeWaifu.getCritMultiplier(),
       source: activeWaifu.id,
     };
     const actualDamage = enemy.takeDamage(damageInfo);

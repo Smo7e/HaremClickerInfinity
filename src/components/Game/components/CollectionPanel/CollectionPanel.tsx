@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { t } from "../../../../locales/i18n";
 import type { TCollectionCategory } from "../../../../types";
-import { INVENTORY_ITEMS } from "../../../../game/constant";
+import { COLLECTION_BUFFS, INVENTORY_ITEMS } from "../../../../game/constant";
 import "./CollectionPanel.css";
 import { Icon } from "../../../Icon/Icon";
 
@@ -28,6 +28,9 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
       };
     });
   }, [collection]);
+  const getItemBuff = (itemId: string) => {
+    return COLLECTION_BUFFS[itemId];
+  };
 
   const categories = [
     { id: "all", name: t("ui.all"), icon: "all" },
@@ -91,18 +94,27 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
               <small>{t("ui.killEnemiesForDrops")}</small>
             </div>
           ) : (
-            filteredItems.map((item) => (
-              <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
-                <div className="item-icon">
-                  <Icon name={item.icon} size="lg" />
+            filteredItems.map((item) => {
+              const buff = getItemBuff(item.id);
+              return (
+                <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
+                  <div className="item-icon">
+                    <Icon name={item.icon} size="lg" />
+                  </div>
+                  <div className="item-info">
+                    <span className="item-name">{t(`items.${item.nameKey}.name`)}</span>
+                    <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
+                    <span className="item-category">{t(`collection.${item.category}s`)}</span>
+                    {buff && (
+                      <span className="item-buff">
+                        <Icon name="upgrades" size="sm" />
+                        {t(buff.descriptionKey)}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <div className="item-info">
-                  <span className="item-name">{t(`items.${item.nameKey}.name`)}</span>
-                  <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
-                  <span className="item-category">{t(`collection.${item.category}s`)}</span>
-                </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
 

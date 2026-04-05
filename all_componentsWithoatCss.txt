@@ -267,7 +267,9 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CraftPanel
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\LocationSelector
@@ -280,8 +282,12 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\Background.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\BackpackPanel.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\BackpackPanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu\CheatMenu.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu\CheatMenu.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\CollectionPanel.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\CollectionPanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CraftPanel\CraftPanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CraftPanel\CraftPanel.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\EnemyComponent.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\EnemyComponent.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\DropPoolPanel.css
@@ -363,10 +369,22 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\index.tsx ===== 
  
  
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu\index.tsx ===== 
+ 
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\index.ts ===== 
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CraftPanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CraftPanel\index.tsx ===== 
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\index.ts ===== 
@@ -485,8 +503,8 @@ export type TWaifu = {
   image: string;
   description: LocaleKeys;
   clickPower: number;
-  autoClick: number;
-  multiplier: number;
+  critChance: number;
+  critMultiplier: number;
 };
 export type TCollectionCategory = "weapon" | "accessory" | "memoria" | "outfit";
 export type TInventoryItem = {
@@ -499,9 +517,17 @@ export type TInventoryItem = {
   count: number;
   maxStack?: number;
   effect?: {
-    type: "exp" | "affection" | "crit_chance" | "heal" | "damage_boost";
+    type:
+      | "exp"
+      | "affection"
+      | "crit_chance"
+      | "heal"
+      | "damage_boost"
+      | "level_down_10"
+      | "level_down_20"
+      | "level_down_50";
     value: number;
-    target: "selected_waifu" | "global";
+    target: "selected_waifu" | "global" | "current_location";
     duration?: number;
   };
   collectionCategory?: TCollectionCategory;
@@ -543,6 +569,33 @@ export type TLocationProgress = Record<
     unlocked: boolean;
   }
 >;
+export interface IGlobalUpgrades {
+  clickPowerBonus: number;
+  elementDamage: Record<TElementType, number>;
+  collectionBuffs: {
+    elementDamage: Record<TElementType, number>;
+    enemyTypeDamage: Record<string, number>;
+    critPowerBonus: number;
+    gemBonus: number;
+    expBonus: number;
+  };
+}
+export type TCraftItem = {
+  id: string;
+  nameKey: string;
+  descriptionKey: LocaleKeys;
+  icon: string;
+  rarity: TRarity;
+  ingredients: Array<{
+    itemId: string;
+    count: number;
+  }>;
+  effect?: {
+    type: "exp" | "affection" | "heal" | "level_down_10" | "level_down_20" | "level_down_50";
+    value: number;
+    target: "selected_waifu" | "global" | "current_location";
+  };
+};
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.tsx ===== 
@@ -896,6 +949,7 @@ export interface DamageInfo {
   type: TElementType;
   amount: number;
   isCrit?: boolean;
+  critMultiplier: number;
   source: string;
 }
 
@@ -953,13 +1007,13 @@ export class Enemy {
     return t(`monsters.${this.nameKey}.desc`);
   }
 
-  takeDamage(damage: DamageInfo): number {
+  takeDamage(damage: DamageInfo, enemyTypeDamageBonus: number = 0): number {
     const resistance = this.resistances[damage.type] || 0;
 
-    let actualDamage = damage.amount * (1 - resistance);
+    let actualDamage = damage.amount * (1 - resistance) * (1 + enemyTypeDamageBonus);
 
     if (damage.isCrit) {
-      actualDamage *= 2;
+      actualDamage *= damage.critMultiplier || 2;
     }
 
     actualDamage = Math.floor(actualDamage);
@@ -1083,7 +1137,6 @@ export class Inventory {
       return;
     }
 
-    // Коллекционные предметы сразу идут в коллекцию, не в рюкзак
     if (template.type === "collection") {
       const category = template.collectionCategory || "accessory";
       this.collection.set(itemId, category);
@@ -1188,10 +1241,10 @@ export class Inventory {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Waifu.ts ===== 
-import type { TElementType, TRarity, TWaifu } from "../types";
+import type { IGlobalUpgrades, TElementType, TRarity, TWaifu } from "../types";
 import { t } from "../locales/i18n";
 import type { LocaleKeys } from "../locales/locales";
-import type { IGlobalUpgrades } from "../components/Game/Game";
+import { INITIAL_GLOBAL_UPGRADES } from "../components/Game/Game";
 
 export interface WaifuConfig {
   id: string;
@@ -1202,7 +1255,6 @@ export interface WaifuConfig {
   description: LocaleKeys;
   baseStats: {
     clickPower: number;
-    autoClick: number;
     critChance: number;
     critMultiplier: number;
   };
@@ -1216,6 +1268,7 @@ export interface WaifuStats {
   clicksGenerated: number;
   totalDamage: number;
 }
+
 export class Waifu {
   id: string;
   nameKey: string;
@@ -1225,7 +1278,6 @@ export class Waifu {
   descriptionKey: LocaleKeys;
 
   baseClickPower: number;
-  baseAutoClick: number;
   baseCritChance: number;
   baseCritMultiplier: number;
 
@@ -1237,18 +1289,10 @@ export class Waifu {
   unlockedOutfits: string[];
   currentOutfit: string;
 
-  globalUpgrades: IGlobalUpgrades = {
-    clickPowerBonus: 0,
-    elementDamage: {
-      water: 0,
-      fire: 0,
-      earth: 0,
-      ice: 0,
-      light: 0,
-      dark: 0,
-      physical: 0,
-    },
-  };
+  globalUpgrades: IGlobalUpgrades = INITIAL_GLOBAL_UPGRADES;
+
+  critChanceBonus: number = 0;
+  critMultiplierBonus: number = 0;
 
   constructor(config: WaifuConfig) {
     this.id = config.id;
@@ -1259,7 +1303,6 @@ export class Waifu {
     this.descriptionKey = config.description;
 
     this.baseClickPower = config.baseStats.clickPower;
-    this.baseAutoClick = config.baseStats.autoClick;
     this.baseCritChance = config.baseStats.critChance;
     this.baseCritMultiplier = config.baseStats.critMultiplier;
 
@@ -1281,6 +1324,14 @@ export class Waifu {
     this.globalUpgrades = upgrades;
   }
 
+  addCritChanceBonus(bonus: number): void {
+    this.critChanceBonus += bonus;
+  }
+
+  addCritMultiplierBonus(bonus: number): void {
+    this.critMultiplierBonus += bonus;
+  }
+
   get name(): string {
     return t(`waifus.${this.nameKey}.name`);
   }
@@ -1300,7 +1351,8 @@ export class Waifu {
       (this.stats.level - 1) * 10 +
       this.stats.affection * 1 +
       this.duplicateCount * 30 +
-      (this.globalUpgrades.elementDamage[this.element] || 0) * 10;
+      (this.globalUpgrades.elementDamage[this.element] || 0) * 10 +
+      (this.globalUpgrades.collectionBuffs?.elementDamage?.[this.element] || 0) * 10;
 
     const totalMultiplier = 1 + totalPercentBonus / 100;
 
@@ -1308,12 +1360,15 @@ export class Waifu {
   }
 
   getCritChance(): number {
-    return this.baseCritChance;
+    const dupBonus = this.duplicateCount * 0.01;
+    const total = this.baseCritChance + this.critChanceBonus + dupBonus;
+    return Math.min(total, 1.0);
   }
 
   getCritMultiplier(): number {
     const dupBonus = this.duplicateCount * 0.05;
-    return this.baseCritMultiplier + dupBonus;
+    const collectionBonus = this.globalUpgrades.collectionBuffs?.critPowerBonus || 0;
+    return this.baseCritMultiplier + dupBonus + collectionBonus + this.critMultiplierBonus;
   }
 
   addExp(amount: number): boolean {
@@ -1384,9 +1439,8 @@ export class Waifu {
       description: "waifus.Sakura.desc",
       baseStats: {
         clickPower: 100,
-        autoClick: 50,
         critChance: 0.05,
-        critMultiplier: 2,
+        critMultiplier: 1.5,
       },
     });
   }
@@ -1401,9 +1455,8 @@ export class Waifu {
       description: template.description,
       baseStats: {
         clickPower: template.clickPower,
-        autoClick: template.autoClick,
-        critChance: 0.05,
-        critMultiplier: 2,
+        critChance: template.critChance,
+        critMultiplier: template.critMultiplier,
       },
     });
   }
@@ -1426,21 +1479,25 @@ import { Pause } from "./components/Pause/Pause";
 import { Settings } from "../Settings/Settings";
 import { LocationSelector } from "./components/LocationSelector/LocationSelector";
 import "./Game.css";
-import { testWaifus, LOCATIONS, LOCATION_UNLOCK_REQUIREMENTS } from "../../game/constant";
+import { testWaifus, LOCATIONS, LOCATION_UNLOCK_REQUIREMENTS, COLLECTION_BUFFS } from "../../game/constant";
 import { Icon } from "../Icon/Icon";
 import { Background } from "./components/Background/Background";
 import { Inventory } from "../../classes/Inventory";
 import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
-import type { TCollectionCategory, TElementType, TLocation, TLocationProgress } from "../../types";
+import type {
+  IGlobalUpgrades,
+  TCollectionCategory,
+  TCraftItem,
+  TElementType,
+  TLocation,
+  TLocationProgress,
+} from "../../types";
+import { CheatMenu } from "./components/CheatMenu/CheatMenu";
+import { CraftPanel } from "./components/CraftPanel/CraftPanel";
 
 interface Props {
   onBack: () => void;
   isPaused: boolean;
-}
-
-export interface IGlobalUpgrades {
-  clickPowerBonus: number;
-  elementDamage: Record<TElementType, number>;
 }
 
 const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
@@ -1451,7 +1508,33 @@ const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
   castle: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
   abyss: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
 };
-
+export const INITIAL_GLOBAL_UPGRADES: IGlobalUpgrades = {
+  clickPowerBonus: 0,
+  elementDamage: {
+    water: 0,
+    fire: 0,
+    earth: 0,
+    ice: 0,
+    light: 0,
+    dark: 0,
+    physical: 0,
+  },
+  collectionBuffs: {
+    elementDamage: {
+      water: 0,
+      fire: 0,
+      earth: 0,
+      ice: 0,
+      light: 0,
+      dark: 0,
+      physical: 0,
+    },
+    enemyTypeDamage: {},
+    critPowerBonus: 0,
+    gemBonus: 0,
+    expBonus: 0,
+  },
+};
 export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   const [inventory, setInventory] = useState(() => new Inventory());
 
@@ -1468,18 +1551,7 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   // testWaifus.map((template) => Waifu.fromTemplate(template)),
   const [activeWaifu, setActiveWaifu] = useState<Waifu | null>(null);
 
-  const [globalUpgrades, setGlobalUpgrades] = useState<IGlobalUpgrades>({
-    clickPowerBonus: 0,
-    elementDamage: {
-      water: 0,
-      fire: 0,
-      earth: 0,
-      ice: 0,
-      light: 0,
-      dark: 0,
-      physical: 0,
-    },
-  });
+  const [globalUpgrades, setGlobalUpgrades] = useState<IGlobalUpgrades>(INITIAL_GLOBAL_UPGRADES);
 
   const [collection, setCollection] = useState<Map<string, TCollectionCategory>>(new Map());
 
@@ -1491,11 +1563,60 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   const [showPause, setShowPause] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showLocationSelector, setShowLocationSelector] = useState(false);
-
+  const [showCraft, setShowCraft] = useState(false);
   const [showBackpack, setShowBackpack] = useState(false);
 
   const currentLocationConfig = LOCATIONS.find((l) => l.id === currentLocation)!;
 
+  const calculateCollectionBuffs = useCallback(
+    (collection: Map<string, TCollectionCategory>): IGlobalUpgrades["collectionBuffs"] => {
+      const buffs: IGlobalUpgrades["collectionBuffs"] = {
+        elementDamage: {
+          water: 0,
+          fire: 0,
+          earth: 0,
+          ice: 0,
+          light: 0,
+          dark: 0,
+          physical: 0,
+        },
+        enemyTypeDamage: {},
+        critPowerBonus: 0,
+        gemBonus: 0,
+        expBonus: 0,
+      };
+
+      for (const [itemId] of collection) {
+        const buff = COLLECTION_BUFFS[itemId];
+        if (!buff) continue;
+
+        switch (buff.buffType) {
+          case "element_damage":
+            if (buff.target && typeof buff.target === "string") {
+              buffs.elementDamage[buff.target as TElementType] += buff.value;
+            }
+            break;
+          case "enemy_type_damage":
+            if (buff.target) {
+              buffs.enemyTypeDamage[buff.target] = (buffs.enemyTypeDamage[buff.target] || 0) + buff.value;
+            }
+            break;
+          case "crit_power":
+            buffs.critPowerBonus += buff.value;
+            break;
+          case "gem_bonus":
+            buffs.gemBonus += buff.value;
+            break;
+          case "exp_bonus":
+            buffs.expBonus += buff.value;
+            break;
+        }
+      }
+
+      return buffs;
+    },
+    [],
+  );
   useEffect(() => {
     setActiveWaifu(ownedWaifus[0]);
   }, []);
@@ -1532,7 +1653,15 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
     setInventory((prev) => {
       const next = new Inventory();
       next.deserialize(prev.serialize());
-      setCollection(next.getCollection());
+      const newCollection = next.getCollection();
+      setCollection(newCollection);
+
+      const collectionBuffs = calculateCollectionBuffs(newCollection);
+      setGlobalUpgrades((prevUpgrades) => ({
+        ...prevUpgrades,
+        collectionBuffs,
+      }));
+
       return next;
     });
   }, []);
@@ -1557,12 +1686,26 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
     setCurrentLocation(location);
     setShowLocationSelector(false);
   }, []);
+  const handleCraft = useCallback(
+    (item: TCraftItem) => {
+      for (const ing of item.ingredients) {
+        if (!inventory.removeItem(ing.itemId, ing.count)) {
+          return;
+        }
+      }
+      inventory.addItem(item.id, 1);
+      refreshInventory();
+    },
+    [inventory, refreshInventory],
+  );
 
   const handleEnemyDefeated = useCallback(
     (baseExpReward: number, baseDrops: Array<{ id: string; count: number }>) => {
       const bonuses = currentLocationConfig.bonuses;
+      const gemBonus = globalUpgrades.collectionBuffs.gemBonus;
+      const expBonus = globalUpgrades.collectionBuffs.expBonus;
 
-      const expReward = Math.floor(baseExpReward * bonuses.expMultiplier);
+      const expReward = Math.floor(baseExpReward * bonuses.expMultiplier * (1 + expBonus));
       activeWaifu?.addExp(expReward);
 
       for (const drop of baseDrops) {
@@ -1572,7 +1715,7 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
 
       const currentLevel = getCurrentEnemyLevel();
       const baseGems = Math.floor(10 + currentLevel / 5);
-      const boostedGems = Math.floor(baseGems * bonuses.gemMultiplier);
+      const boostedGems = Math.floor(baseGems * bonuses.gemMultiplier * (1 + gemBonus));
       inventory.addItem("gem", boostedGems);
 
       const baseEssence = 1;
@@ -1601,10 +1744,36 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
       currentLocationConfig,
       getCurrentEnemyLevel,
       checkLocationUnlocks,
+      globalUpgrades.collectionBuffs.gemBonus,
+      globalUpgrades.collectionBuffs.expBonus,
     ],
   );
 
   const handleUseItem = (itemId: string) => {
+    const item = inventory.getItem(itemId);
+    if (!item || !item.effect) return;
+
+    if (
+      item.effect.type === "level_down_10" ||
+      item.effect.type === "level_down_20" ||
+      item.effect.type === "level_down_50"
+    ) {
+      const levelsToReduce = item.effect.value;
+      setLocationProgress((prev) => {
+        const currentLevel = prev[currentLocation].currentLevel;
+        const newLevel = Math.max(1, currentLevel - levelsToReduce);
+        return {
+          ...prev,
+          [currentLocation]: {
+            ...prev[currentLocation],
+            currentLevel: newLevel,
+          },
+        };
+      });
+      inventory.removeItem(itemId, 1);
+      refreshInventory();
+      return;
+    }
     if (!activeWaifu) {
       alert(t("ui.selectWaifuFirst"));
       return;
@@ -1753,6 +1922,10 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
           <Icon name="backpack" size="lg" />
           <span>{t("ui.backpack")}</span>
         </button>
+        <button className="side-btn" onClick={() => setShowCraft(true)}>
+          <Icon name="collection" size="lg" />
+          <span>{t("ui.craft")}</span>
+        </button>
       </nav>
 
       <main className="game-main">
@@ -1834,6 +2007,61 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
           isPaused={isGlobalPaused || showPause}
         />
       )}
+      <CraftPanel
+        isOpen={showCraft}
+        onClose={() => setShowCraft(false)}
+        inventory={inventory}
+        onCraft={handleCraft}
+        onUseItem={handleUseItem}
+        selectedWaifuId={activeWaifu?.id}
+      />
+
+      <CheatMenu
+        inventory={inventory}
+        ownedWaifus={ownedWaifus}
+        onInventoryUpdate={refreshInventory}
+        onWaifuAdd={(waifu) => {
+          if (!ownedWaifus.find((w) => w.id === waifu.id)) {
+            setOwnedWaifus((prev) => [...prev, waifu]);
+          }
+          refreshInventory();
+        }}
+        onSetGems={(amount) => {
+          const current = inventory.getItemCount("gem");
+          if (amount > current) {
+            inventory.addItem("gem", amount - current);
+          } else if (amount < current) {
+            inventory.removeItem("gem", current - amount);
+          }
+          refreshInventory();
+        }}
+        onSetEssence={(amount) => {
+          const current = inventory.getItemCount("essence");
+          if (amount > current) {
+            inventory.addItem("essence", amount - current);
+          } else if (amount < current) {
+            inventory.removeItem("essence", current - amount);
+          }
+          refreshInventory();
+        }}
+        onKillEnemy={() => {
+          setEnemy((prev) => {
+            prev.currentHp = 0;
+            return prev;
+          });
+        }}
+        onLevelUp={() => {
+          setLocationProgress((prev) => ({
+            ...prev,
+            [currentLocation]: {
+              ...prev[currentLocation],
+              currentLevel: prev[currentLocation].currentLevel + 10,
+            },
+          }));
+        }}
+        gems={inventory.getItemCount("gem")}
+        essence={inventory.getItemCount("essence")}
+      />
     </div>
   );
 }
@@ -1953,11 +2181,361 @@ export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedW
 }
  
  
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu\CheatMenu.tsx ===== 
+import { useState, useEffect } from "react";
+import { t } from "../../../../locales/i18n";
+import { Waifu } from "../../../../classes/Waifu";
+import { Inventory } from "../../../../classes/Inventory";
+import { testWaifus, INVENTORY_ITEMS, COLLECTION_BUFFS } from "../../../../game/constant";
+import type { TElementType, TCollectionCategory } from "../../../../types";
+import "./CheatMenu.css";
+
+interface CheatMenuProps {
+  inventory: Inventory;
+  ownedWaifus: Waifu[];
+  onInventoryUpdate: () => void;
+  onWaifuAdd: (waifu: Waifu) => void;
+  onSetGems: (amount: number) => void;
+  onSetEssence: (amount: number) => void;
+  onKillEnemy: () => void;
+  onLevelUp: () => void;
+  gems: number;
+  essence: number;
+}
+
+type CheatTab = "resources" | "waifus" | "items" | "buffs" | "battle";
+
+export function CheatMenu({
+  inventory,
+  ownedWaifus,
+  onInventoryUpdate,
+  onWaifuAdd,
+  onSetGems,
+  onSetEssence,
+  onKillEnemy,
+  onLevelUp,
+  gems,
+  essence,
+}: CheatMenuProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState<CheatTab>("resources");
+  const [resourceAmount, setResourceAmount] = useState<string>("1000");
+  const [selectedWaifuId, setSelectedWaifuId] = useState<string>(testWaifus[0]?.id || "");
+  const [selectedItemId, setSelectedItemId] = useState<string>("gem");
+  const [itemCount, setItemCount] = useState<string>("10");
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "`" || e.key === "~" || e.key === "F12") {
+        e.preventDefault();
+        setIsVisible((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  if (!isVisible) return null;
+
+  const handleAddGems = () => {
+    const amount = parseInt(resourceAmount) || 0;
+    for (let i = 0; i < amount; i++) {
+      inventory.addItem("gem", 1);
+    }
+    onInventoryUpdate();
+  };
+
+  const handleAddEssence = () => {
+    const amount = parseInt(resourceAmount) || 0;
+    for (let i = 0; i < amount; i++) {
+      inventory.addItem("essence", 1);
+    }
+    onInventoryUpdate();
+  };
+
+  const handleSetGems = () => {
+    const amount = parseInt(resourceAmount) || 0;
+    onSetGems(amount);
+  };
+
+  const handleSetEssence = () => {
+    const amount = parseInt(resourceAmount) || 0;
+    onSetEssence(amount);
+  };
+
+  const handleSpawnWaifu = () => {
+    const template = testWaifus.find((w) => w.id === selectedWaifuId);
+    if (!template) return;
+
+    const existing = ownedWaifus.find((w) => w.id === selectedWaifuId);
+    if (existing) {
+      existing.addDuplicate();
+      onWaifuAdd(existing);
+    } else {
+      const newWaifu = Waifu.fromTemplate(template);
+      onWaifuAdd(newWaifu);
+    }
+  };
+
+  const handleSpawnAllWaifus = () => {
+    testWaifus.forEach((template) => {
+      const existing = ownedWaifus.find((w) => w.id === template.id);
+      if (existing) {
+        existing.addDuplicate();
+        onWaifuAdd(existing);
+      } else {
+        const newWaifu = Waifu.fromTemplate(template);
+        onWaifuAdd(newWaifu);
+      }
+    });
+  };
+
+  const handleMaxAllWaifus = () => {
+    ownedWaifus.forEach((waifu) => {
+      while (!waifu.isMaxed()) {
+        waifu.addDuplicate();
+      }
+    });
+    onInventoryUpdate();
+  };
+
+  const handleAddItem = () => {
+    const count = parseInt(itemCount) || 1;
+    inventory.addItem(selectedItemId, count);
+    onInventoryUpdate();
+  };
+
+  const handleAddAllItems = () => {
+    Object.keys(INVENTORY_ITEMS).forEach((itemId) => {
+      const item = INVENTORY_ITEMS[itemId];
+      if (item.type !== "currency") {
+        inventory.addItem(itemId, 99);
+      }
+    });
+    onInventoryUpdate();
+  };
+
+  const handleAddAllCollection = () => {
+    Object.keys(INVENTORY_ITEMS).forEach((itemId) => {
+      const item = INVENTORY_ITEMS[itemId];
+      if (item.type === "collection") {
+        inventory.addItem(itemId, 1);
+      }
+    });
+    onInventoryUpdate();
+  };
+
+  const handleClearInventory = () => {
+    const items = inventory.getAllItems();
+    items.forEach((item) => {
+      inventory.removeItem(item.id, item.count);
+    });
+    onInventoryUpdate();
+  };
+
+  const tabs: { id: CheatTab; label: string }[] = [
+    { id: "resources", label: "Ресурсы" },
+    { id: "waifus", label: "Вайфу" },
+    { id: "items", label: "Предметы" },
+    { id: "buffs", label: "Баффы" },
+    { id: "battle", label: "Бой" },
+  ];
+
+  const itemOptions = Object.entries(INVENTORY_ITEMS).map(([id, item]) => ({
+    id,
+    name: t(`items.${item.nameKey}.name`),
+    type: item.type,
+  }));
+
+  return (
+    <div className="cheat-overlay" onClick={() => setIsVisible(false)}>
+      <div className="cheat-menu" onClick={(e) => e.stopPropagation()}>
+        <div className="cheat-header">
+          <h2>🛠️ DEBUG MENU</h2>
+          <button className="cheat-close" onClick={() => setIsVisible(false)}>
+            ✕
+          </button>
+        </div>
+
+        <div className="cheat-hint">Нажмите ` или F12 чтобы закрыть</div>
+
+        <div className="cheat-tabs">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              className={`cheat-tab ${activeTab === tab.id ? "active" : ""}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="cheat-content">
+          {activeTab === "resources" && (
+            <div className="cheat-section">
+              <h3>Ресурсы</h3>
+              <div className="cheat-current">
+                <span>💎 {gems}</span>
+                <span>✨ {essence}</span>
+              </div>
+              <div className="cheat-input-group">
+                <label>Количество:</label>
+                <input
+                  type="number"
+                  value={resourceAmount}
+                  onChange={(e) => setResourceAmount(e.target.value)}
+                  className="cheat-input"
+                />
+              </div>
+              <div className="cheat-buttons">
+                <button className="cheat-btn" onClick={handleAddGems}>
+                  +💎 Добавить кристаллы
+                </button>
+                <button className="cheat-btn" onClick={handleAddEssence}>
+                  +✨ Добавить эссенцию
+                </button>
+                <button className="cheat-btn cheat-btn-danger" onClick={handleSetGems}>
+                  =💎 Установить кристаллы
+                </button>
+                <button className="cheat-btn cheat-btn-danger" onClick={handleSetEssence}>
+                  =✨ Установить эссенцию
+                </button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "waifus" && (
+            <div className="cheat-section">
+              <h3>Вайфу</h3>
+              <div className="cheat-input-group">
+                <label>Выбрать вайфу:</label>
+                <select
+                  value={selectedWaifuId}
+                  onChange={(e) => setSelectedWaifuId(e.target.value)}
+                  className="cheat-select"
+                >
+                  {testWaifus.map((w) => (
+                    <option key={w.id} value={w.id}>
+                      {t(`waifus.${w.nameKey}.name`)} ({w.rarity})
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="cheat-buttons">
+                <button className="cheat-btn" onClick={handleSpawnWaifu}>
+                  Призвать вайфу
+                </button>
+                <button className="cheat-btn" onClick={handleSpawnAllWaifus}>
+                  Призвать всех вайфу
+                </button>
+                <button className="cheat-btn cheat-btn-warning" onClick={handleMaxAllWaifus}>
+                  Макс. дубликаты всем
+                </button>
+              </div>
+              <div className="cheat-owned">
+                <h4>Имеющиеся: {ownedWaifus.length}</h4>
+                <div className="cheat-waifu-list">
+                  {ownedWaifus.map((w) => (
+                    <span key={w.id} className={`cheat-waifu-tag rarity-${w.rarity}`}>
+                      {w.name} ({w.duplicateCount})
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "items" && (
+            <div className="cheat-section">
+              <h3>Предметы</h3>
+              <div className="cheat-input-group">
+                <label>Предмет:</label>
+                <select
+                  value={selectedItemId}
+                  onChange={(e) => setSelectedItemId(e.target.value)}
+                  className="cheat-select"
+                >
+                  {itemOptions.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name} [{item.type}]
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="cheat-input-group">
+                <label>Количество:</label>
+                <input
+                  type="number"
+                  value={itemCount}
+                  onChange={(e) => setItemCount(e.target.value)}
+                  className="cheat-input"
+                  min="1"
+                  max="999"
+                />
+              </div>
+              <div className="cheat-buttons">
+                <button className="cheat-btn" onClick={handleAddItem}>
+                  Добавить предмет
+                </button>
+                <button className="cheat-btn" onClick={handleAddAllItems}>
+                  Все предметы x99
+                </button>
+                <button className="cheat-btn cheat-btn-success" onClick={handleAddAllCollection}>
+                  Все коллекционные
+                </button>
+                <button className="cheat-btn cheat-btn-danger" onClick={handleClearInventory}>
+                  Очистить инвентарь
+                </button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "buffs" && (
+            <div className="cheat-section">
+              <h3>Коллекционные баффы</h3>
+              <div className="cheat-buffs-list">
+                {Object.entries(COLLECTION_BUFFS).map(([itemId, buff]) => {
+                  const item = INVENTORY_ITEMS[itemId];
+                  const hasItem = inventory.hasCollection(itemId);
+                  return (
+                    <div key={itemId} className={`cheat-buff-item ${hasItem ? "owned" : ""}`}>
+                      <span className="cheat-buff-name">{item ? t(`items.${item.nameKey}.name`) : itemId}</span>
+                      <span className="cheat-buff-desc">{t(buff.descriptionKey)}</span>
+                      <span className="cheat-buff-status">{hasItem ? "✅" : "❌"}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {activeTab === "battle" && (
+            <div className="cheat-section">
+              <h3>Бой</h3>
+              <div className="cheat-buttons">
+                <button className="cheat-btn cheat-btn-danger" onClick={onKillEnemy}>
+                  💀 Убить врага
+                </button>
+                <button className="cheat-btn" onClick={onLevelUp}>
+                  ⬆️ Увеличить уровень локации
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\CollectionPanel.tsx ===== 
 import { useState, useMemo } from "react";
 import { t } from "../../../../locales/i18n";
 import type { TCollectionCategory } from "../../../../types";
-import { INVENTORY_ITEMS } from "../../../../game/constant";
+import { COLLECTION_BUFFS, INVENTORY_ITEMS } from "../../../../game/constant";
 import "./CollectionPanel.css";
 import { Icon } from "../../../Icon/Icon";
 
@@ -1984,6 +2562,9 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
       };
     });
   }, [collection]);
+  const getItemBuff = (itemId: string) => {
+    return COLLECTION_BUFFS[itemId];
+  };
 
   const categories = [
     { id: "all", name: t("ui.all"), icon: "all" },
@@ -2047,18 +2628,27 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
               <small>{t("ui.killEnemiesForDrops")}</small>
             </div>
           ) : (
-            filteredItems.map((item) => (
-              <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
-                <div className="item-icon">
-                  <Icon name={item.icon} size="lg" />
+            filteredItems.map((item) => {
+              const buff = getItemBuff(item.id);
+              return (
+                <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
+                  <div className="item-icon">
+                    <Icon name={item.icon} size="lg" />
+                  </div>
+                  <div className="item-info">
+                    <span className="item-name">{t(`items.${item.nameKey}.name`)}</span>
+                    <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
+                    <span className="item-category">{t(`collection.${item.category}s`)}</span>
+                    {buff && (
+                      <span className="item-buff">
+                        <Icon name="upgrades" size="sm" />
+                        {t(buff.descriptionKey)}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <div className="item-info">
-                  <span className="item-name">{t(`items.${item.nameKey}.name`)}</span>
-                  <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
-                  <span className="item-category">{t(`collection.${item.category}s`)}</span>
-                </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
 
@@ -2076,6 +2666,235 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
             <Icon name="outfit" size="md" />
             <p>{t("ui.outfitHint")}</p>
             <small>{t("ui.buyInShop")}</small>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CraftPanel\CraftPanel.tsx ===== 
+import { useState, useMemo, useCallback } from "react";
+import { t } from "../../../../locales/i18n";
+import { Inventory } from "../../../../classes/Inventory";
+import { CRAFT_ITEMS, INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
+import type { TCraftItem } from "../../../../types";
+import { Icon } from "../../../Icon/Icon";
+import "./CraftPanel.css";
+
+interface CraftPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  inventory: Inventory;
+  onCraft: (item: TCraftItem) => void;
+  onUseItem: (itemId: string) => void;
+  selectedWaifuId?: string;
+}
+
+type CraftTab = "craft" | "use";
+
+export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, selectedWaifuId }: CraftPanelProps) {
+  // ВСЕ хуки должны быть вызваны ДО любого условного возврата!
+  const [activeTab, setActiveTab] = useState<CraftTab>("craft");
+  const [selectedCraftItem, setSelectedCraftItem] = useState<TCraftItem | null>(null);
+
+  // Мемоизируем функции
+  const canCraft = useCallback(
+    (item: TCraftItem): boolean => {
+      return item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
+    },
+    [inventory],
+  );
+
+  const getMissingIngredients = useCallback(
+    (item: TCraftItem): string[] => {
+      return item.ingredients
+        .filter((ing) => inventory.getItemCount(ing.itemId) < ing.count)
+        .map((ing) => t(`items.${INVENTORY_ITEMS[ing.itemId]?.nameKey || ing.itemId}.name`));
+    },
+    [inventory],
+  );
+
+  // Используем строковое представление inventory для стабильности
+  const inventoryKey = useMemo(() => {
+    return inventory.serialize();
+  }, [inventory]);
+
+  const craftableItems = useMemo(() => {
+    return CRAFT_ITEMS.map((item) => ({
+      ...item,
+      canCraft: canCraft(item),
+      missingIngredients: getMissingIngredients(item),
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inventoryKey]);
+
+  const consumableItems = useMemo(() => {
+    return inventory.getItemsByType("consumable");
+  }, [inventoryKey]);
+
+  const handleCraft = useCallback(
+    (item: TCraftItem) => {
+      if (canCraft(item)) {
+        onCraft(item);
+      }
+    },
+    [canCraft, onCraft],
+  );
+
+  // Условный возврат ДОЛЖЕН быть ПОСЛЕ всех хуков!
+  if (!isOpen) return null;
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel craft-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>
+            <Icon name="collection" size="md" /> {t("ui.craft")}
+          </h2>
+          <button className="btn-close" onClick={onClose}>
+            ✕
+          </button>
+        </div>
+
+        <div className="craft-tabs">
+          <button
+            className={`craft-tab ${activeTab === "craft" ? "active" : ""}`}
+            onClick={() => setActiveTab("craft")}
+          >
+            <Icon name="collection" size="sm" />
+            {t("ui.craftItems")}
+          </button>
+          <button className={`craft-tab ${activeTab === "use" ? "active" : ""}`} onClick={() => setActiveTab("use")}>
+            <Icon name="potion" size="sm" />
+            {t("ui.useItems")}
+          </button>
+        </div>
+
+        <div className="craft-content">
+          {activeTab === "craft" ? (
+            <div className="craft-list">
+              {craftableItems.map((item) => (
+                <div
+                  key={item.id}
+                  className={`craft-item-card ${item.canCraft ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
+                  onClick={() => setSelectedCraftItem(item)}
+                >
+                  <div className="craft-item-header">
+                    <Icon name={item.icon} size="md" />
+                    <span className="craft-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
+                      {t(`items.${item.nameKey}.name`)}
+                    </span>
+                    <span className={`craft-status ${item.canCraft ? "ready" : "locked"}`}>
+                      {item.canCraft ? "✓" : "✕"}
+                    </span>
+                  </div>
+
+                  <p className="craft-item-desc">{t(item.descriptionKey)}</p>
+
+                  <div className="craft-ingredients">
+                    {item.ingredients.map((ing) => {
+                      const has = inventory.getItemCount(ing.itemId);
+                      const needed = ing.count;
+                      const template = INVENTORY_ITEMS[ing.itemId];
+                      return (
+                        <div key={ing.itemId} className={`ingredient ${has >= needed ? "has" : "missing"}`}>
+                          <Icon name={template?.icon || "unknown"} size="sm" />
+                          <span>
+                            {has}/{needed} {t(`items.${template?.nameKey || ing.itemId}.name`)}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {item.effect && (
+                    <div className="craft-effect">
+                      <Icon name="upgrades" size="sm" />
+                      <span>
+                        {item.effect.type === "level_down_10" && "-10 " + t("ui.levels")}
+                        {item.effect.type === "level_down_20" && "-20 " + t("ui.levels")}
+                        {item.effect.type === "level_down_50" && "-50 " + t("ui.levels")}
+                        {item.effect.type === "exp" && `+${item.effect.value} EXP`}
+                        {item.effect.type === "affection" && `+${item.effect.value} ${t("ui.affection")}`}
+                        {item.effect.type === "heal" && `+${item.effect.value} HP`}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="use-items-list">
+              {consumableItems.length === 0 ? (
+                <p className="empty-message">{t("ui.noConsumables")}</p>
+              ) : (
+                consumableItems.map((item) => (
+                  <div key={item.id} className={`use-item-card rarity-${item.rarity}`}>
+                    <div className="use-item-info">
+                      <Icon name={item.icon} size="md" />
+                      <div>
+                        <span className="use-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
+                          {t(`items.${item.nameKey}.name`)}
+                        </span>
+                        <span className="use-item-count">x{item.count}</span>
+                        <p className="use-item-desc">{t(`items.${item.nameKey}.desc`)}</p>
+                      </div>
+                    </div>
+                    <button
+                      className="btn-use"
+                      onClick={() => onUseItem(item.id)}
+                      disabled={item.effect?.target === "selected_waifu" && !selectedWaifuId}
+                    >
+                      {t("ui.use")}
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
+
+        {selectedCraftItem && (
+          <div className="craft-modal-overlay" onClick={() => setSelectedCraftItem(null)}>
+            <div className="craft-modal" onClick={(e) => e.stopPropagation()}>
+              <h3 style={{ color: RARITY_COLORS[selectedCraftItem.rarity] }}>
+                {t(`items.${selectedCraftItem.nameKey}.name`)}
+              </h3>
+              <p>{t(selectedCraftItem.descriptionKey)}</p>
+
+              <div className="craft-modal-ingredients">
+                <h4>{t("ui.requiredMaterials")}</h4>
+                {selectedCraftItem.ingredients.map((ing) => {
+                  const has = inventory.getItemCount(ing.itemId);
+                  const needed = ing.count;
+                  const template = INVENTORY_ITEMS[ing.itemId];
+                  return (
+                    <div key={ing.itemId} className={`modal-ingredient ${has >= needed ? "has" : "missing"}`}>
+                      <Icon name={template?.icon || "unknown"} size="md" />
+                      <span>{t(`items.${template?.nameKey || ing.itemId}.name`)}</span>
+                      <span className="ingredient-count">
+                        {has}/{needed}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="craft-modal-actions">
+                <button className="btn-secondary" onClick={() => setSelectedCraftItem(null)}>
+                  {t("ui.cancel")}
+                </button>
+                <button
+                  className="btn-primary"
+                  onClick={() => handleCraft(selectedCraftItem)}
+                  disabled={!canCraft(selectedCraftItem)}
+                >
+                  {t("ui.craft")}
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -2132,6 +2951,21 @@ export function EnemyComponent({
   const [dropEffects, setDropEffects] = useState<DropEffect[]>([]);
   const dropIdRef = useRef(0);
   const clickIdRef = useRef(0);
+  const waifuRef = useRef(activeWaifu);
+  const enemyRef = useRef(enemy);
+  const pausedRef = useRef(isPaused);
+
+  useEffect(() => {
+    waifuRef.current = activeWaifu;
+  }, [activeWaifu]);
+
+  useEffect(() => {
+    enemyRef.current = enemy;
+  }, [enemy]);
+
+  useEffect(() => {
+    pausedRef.current = isPaused;
+  }, [isPaused]);
 
   const addDropEffect = (x: number, y: number, itemId: string, count: number) => {
     const id = dropIdRef.current++;
@@ -2142,29 +2976,58 @@ export function EnemyComponent({
   };
 
   useEffect(() => {
-    if (isPaused) return;
     const interval = setInterval(() => {
-      performAutoAttack();
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [isPaused]);
+      if (pausedRef.current) return;
 
-  const performAutoAttack = () => {
-    const damage = activeWaifu.getClickPower();
-    const isCrit = Math.random() < activeWaifu.getCritChance();
-    const damageInfo: DamageInfo = {
-      type: activeWaifu.element,
-      amount: damage,
-      isCrit,
-      source: activeWaifu.id,
-    };
-    const actualDamage = enemy.takeDamage(damageInfo);
-    addClickEffect(window.innerWidth / 2, window.innerHeight / 2 - 100, actualDamage, isCrit, activeWaifu.element);
-    audioManager.playClick();
-    if (!enemy.isAlive()) {
-      death();
-    }
-  };
+      const currentWaifu = waifuRef.current;
+      const currentEnemy = enemyRef.current;
+
+      if (!currentWaifu || !currentEnemy) return;
+
+      const damage = currentWaifu.getClickPower();
+      const isCrit = Math.random() < currentWaifu.getCritChance();
+      const damageInfo: DamageInfo = {
+        type: currentWaifu.element,
+        amount: damage,
+        isCrit,
+        critMultiplier: currentWaifu.getCritMultiplier(),
+        source: currentWaifu.id,
+      };
+      const actualDamage = currentEnemy.takeDamage(damageInfo);
+
+      setClickEffects((prev) => [
+        ...prev,
+        {
+          id: clickIdRef.current++,
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2 - 100,
+          value: actualDamage,
+          isCrit,
+          element: currentWaifu.element,
+          effectiveness: "normal",
+        },
+      ]);
+
+      setTimeout(() => {
+        setClickEffects((prev) => prev.filter((e) => e.id !== clickIdRef.current - 1));
+      }, 600);
+
+      audioManager.playClick();
+
+      if (!currentEnemy.isAlive()) {
+        audioManager.playEnemyDefeat();
+        const drops = currentEnemy.rollDrops(dropChanceMultiplier);
+        drops.forEach((drop, index) => {
+          const offsetX = (index - drops.length / 2) * 40;
+          const offsetY = -50 - Math.random() * 30;
+          addDropEffect(window.innerWidth / 2 + offsetX, window.innerHeight / 2 + offsetY, drop.id, drop.count);
+        });
+        onEnemyDefeated(currentEnemy.expReward, drops);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [dropChanceMultiplier, onEnemyDefeated]);
 
   const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
     if (isPaused) return;
@@ -2183,6 +3046,7 @@ export function EnemyComponent({
       type: activeWaifu.element,
       amount: clickPower,
       isCrit,
+      critMultiplier: activeWaifu.getCritMultiplier(),
       source: activeWaifu.id,
     };
     const actualDamage = enemy.takeDamage(damageInfo);
@@ -2452,7 +3316,8 @@ export const DropPoolPanel = memo(({ isOpen, onClose, ownedWaifus }: DropPoolPan
                               {Math.floor(template.clickPower * (1 + status.count * 0.3))}
                             </small>
                             <small>
-                              <Icon name="auto" size="sm" /> {Math.floor(template.autoClick * (1 + status.count * 0.3))}
+                              <Icon name="crit" size="sm" />{" "}
+                              {(template.critChance * 100 * (1 + status.count * 0.3)).toFixed(0)}%
                             </small>
                           </div>
                         )}
@@ -2666,10 +3531,10 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                       <Icon name="click" size="sm" /> {result.waifu.getClickPower()}
                     </span>
                     <span>
-                      <Icon name="auto" size="sm" /> {result.waifu.getClickPower()}
+                      <Icon name="crit" size="sm" /> {(result.waifu.getCritChance() * 100).toFixed(1)}%
                     </span>
                     <span>
-                      <Icon name="crit" size="sm" /> {(result.waifu.getCritChance() * 100).toFixed(1)}%
+                      <Icon name="critPower" size="sm" /> {result.waifu.getCritMultiplier().toFixed(1)}x
                     </span>
                   </div>
 
@@ -3246,13 +4111,6 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
 
             <div className="stat-row-detail">
               <span className="stat-label">
-                <Icon name="auto" size="sm" /> {t("ui.auto")}
-              </span>
-              <span className="stat-value">{waifu.getClickPower()}/s</span>
-            </div>
-
-            <div className="stat-row-detail">
-              <span className="stat-label">
                 <Icon name="crit" size="sm" /> {t("ui.critChance")}
               </span>
               <span className="stat-value">{(waifu.getCritChance() * 100).toFixed(1)}%</span>
@@ -3279,7 +4137,7 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
               <Icon name="click" size="sm" /> {waifu.stats.clicksGenerated} {t("ui.clicks")}
             </p>
             <p>
-              <Icon name="damage" size="sm" /> {waifu.stats.totalDamage} {t("ui.damage")}
+              <Icon name="crit" size="sm" /> {waifu.stats.totalDamage} {t("ui.damage")}
             </p>
           </div>
         </div>
@@ -3358,7 +4216,7 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
                       <Icon name="click" size="sm" /> {waifu.getClickPower()}
                     </small>
                     <small>
-                      <Icon name="auto" size="sm" /> {waifu.getClickPower()}
+                      <Icon name="crit" size="sm" /> {(waifu.getCritChance() * 100).toFixed(0)}%
                     </small>
                   </div>
                 </div>
@@ -3865,6 +4723,7 @@ import type {
   TConsumableItem,
   TLocation,
   ILocationConfig,
+  TCraftItem,
 } from "../types";
 
 export const BASE_DROP_RATES: Record<TRarity, number> = {
@@ -4160,6 +5019,72 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
       target: "selected_waifu",
     },
   },
+  ancient_coin: {
+    id: "ancient_coin",
+    nameKey: "ancientCoin",
+    descriptionKey: "items.ancientCoin.desc",
+    icon: "coin_old",
+    rarity: "uncommon",
+    type: "collection",
+    maxStack: 1,
+    collectionCategory: "accessory",
+  },
+  affection_potion_large: {
+    id: "affection_potion_large",
+    nameKey: "affectionPotionLarge",
+    descriptionKey: "items.affectionPotionLarge.desc",
+    icon: "potion",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "affection",
+      value: 50,
+      target: "selected_waifu",
+    },
+  },
+  level_down_scroll_10: {
+    id: "level_down_scroll_10",
+    nameKey: "levelDownScroll10",
+    descriptionKey: "items.levelDownScroll10.desc",
+    icon: "scroll",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "level_down_10",
+      value: 10,
+      target: "current_location",
+    },
+  },
+  level_down_scroll_20: {
+    id: "level_down_scroll_20",
+    nameKey: "levelDownScroll20",
+    descriptionKey: "items.levelDownScroll20.desc",
+    icon: "scroll",
+    rarity: "rare",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "level_down_20",
+      value: 20,
+      target: "current_location",
+    },
+  },
+  level_down_scroll_50: {
+    id: "level_down_scroll_50",
+    nameKey: "levelDownScroll50",
+    descriptionKey: "items.levelDownScroll50.desc",
+    icon: "scroll",
+    rarity: "epic",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "level_down_50",
+      value: 50,
+      target: "current_location",
+    },
+  },
 };
 
 export const testWaifus: TWaifu[] = [
@@ -4171,8 +5096,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Tiamat.png",
     description: "waifus.Tiamat.desc",
     clickPower: 1000,
-    autoClick: 500,
-    multiplier: 5.0,
+    critChance: 0.15,
+    critMultiplier: 3.0,
   },
   {
     id: "wf_cerberus_001",
@@ -4182,8 +5107,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Cerberus.png",
     description: "waifus.Cerberus.desc",
     clickPower: 800,
-    autoClick: 400,
-    multiplier: 4.0,
+    critChance: 0.12,
+    critMultiplier: 2.8,
   },
   {
     id: "wf_phoenix_001",
@@ -4193,8 +5118,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Phoenix.png",
     description: "waifus.Phoenix.desc",
     clickPower: 750,
-    autoClick: 380,
-    multiplier: 3.8,
+    critChance: 0.12,
+    critMultiplier: 2.5,
   },
   {
     id: "wf_leviathan_001",
@@ -4204,8 +5129,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Leviathan.png",
     description: "waifus.Leviathan.desc",
     clickPower: 500,
-    autoClick: 250,
-    multiplier: 3.0,
+    critChance: 0.1,
+    critMultiplier: 2.2,
   },
   {
     id: "wf_terra_001",
@@ -4215,8 +5140,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Terra.png",
     description: "waifus.Terra.desc",
     clickPower: 480,
-    autoClick: 240,
-    multiplier: 2.9,
+    critChance: 0.08,
+    critMultiplier: 2.5,
   },
   {
     id: "wf_yuki_001",
@@ -4226,8 +5151,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/YukiOnna.png",
     description: "waifus.YukiOnna.desc",
     clickPower: 490,
-    autoClick: 245,
-    multiplier: 2.95,
+    critChance: 0.1,
+    critMultiplier: 2.3,
   },
   {
     id: "wf_ignis_001",
@@ -4237,8 +5162,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Ignis.png",
     description: "waifus.Ignis.desc",
     clickPower: 300,
-    autoClick: 150,
-    multiplier: 2.2,
+    critChance: 0.08,
+    critMultiplier: 2.0,
   },
   {
     id: "wf_aqua_001",
@@ -4248,8 +5173,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Aqua.png",
     description: "waifus.Aqua.desc",
     clickPower: 290,
-    autoClick: 145,
-    multiplier: 2.1,
+    critChance: 0.08,
+    critMultiplier: 2.0,
   },
   {
     id: "wf_gaia_001",
@@ -4259,8 +5184,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Gaia.png",
     description: "waifus.Gaia.desc",
     clickPower: 310,
-    autoClick: 155,
-    multiplier: 2.3,
+    critChance: 0.06,
+    critMultiplier: 2.2,
   },
   {
     id: "wf_umbra_001",
@@ -4270,8 +5195,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Umbra.png",
     description: "waifus.Umbra.desc",
     clickPower: 320,
-    autoClick: 160,
-    multiplier: 2.4,
+    critChance: 0.1,
+    critMultiplier: 2.0,
   },
   {
     id: "wf_ruby_001",
@@ -4281,8 +5206,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Ruby.png",
     description: "waifus.Ruby.desc",
     clickPower: 160,
-    autoClick: 80,
-    multiplier: 1.6,
+    critChance: 0.06,
+    critMultiplier: 1.8,
   },
   {
     id: "wf_sapphire_001",
@@ -4292,8 +5217,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Sapphire.png",
     description: "waifus.Sapphire.desc",
     clickPower: 150,
-    autoClick: 75,
-    multiplier: 1.5,
+    critChance: 0.06,
+    critMultiplier: 1.8,
   },
   {
     id: "wf_emerald_001",
@@ -4303,8 +5228,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Emerald.png",
     description: "waifus.Emerald.desc",
     clickPower: 165,
-    autoClick: 82,
-    multiplier: 1.65,
+    critChance: 0.05,
+    critMultiplier: 2.0,
   },
   {
     id: "wf_frost_001",
@@ -4314,8 +5239,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Frost.png",
     description: "waifus.Frost.desc",
     clickPower: 155,
-    autoClick: 77,
-    multiplier: 1.55,
+    critChance: 0.07,
+    critMultiplier: 1.9,
   },
   {
     id: "wf_lux_001",
@@ -4325,8 +5250,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Lux.png",
     description: "waifus.Lux.desc",
     clickPower: 145,
-    autoClick: 72,
-    multiplier: 1.45,
+    critChance: 0.08,
+    critMultiplier: 1.7,
   },
   {
     id: "wf_sakura_001",
@@ -4336,8 +5261,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Sakura.png",
     description: "waifus.Sakura.desc",
     clickPower: 100,
-    autoClick: 50,
-    multiplier: 1.0,
+    critChance: 0.05,
+    critMultiplier: 1.5,
   },
   {
     id: "wf_yui_001",
@@ -4347,8 +5272,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Yui.png",
     description: "waifus.Yui.desc",
     clickPower: 90,
-    autoClick: 45,
-    multiplier: 0.9,
+    critChance: 0.04,
+    critMultiplier: 1.5,
   },
   {
     id: "wf_hana_001",
@@ -4358,8 +5283,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Hana.png",
     description: "waifus.Hana.desc",
     clickPower: 85,
-    autoClick: 42,
-    multiplier: 0.85,
+    critChance: 0.05,
+    critMultiplier: 1.4,
   },
   {
     id: "wf_momo_001",
@@ -4369,8 +5294,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Momo.png",
     description: "waifus.Momo.desc",
     clickPower: 88,
-    autoClick: 44,
-    multiplier: 0.88,
+    critChance: 0.05,
+    critMultiplier: 1.5,
   },
   {
     id: "wf_rin_001",
@@ -4380,8 +5305,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Rin.png",
     description: "waifus.Rin.desc",
     clickPower: 82,
-    autoClick: 41,
-    multiplier: 0.82,
+    critChance: 0.04,
+    critMultiplier: 1.6,
   },
   {
     id: "wf_sora_001",
@@ -4391,8 +5316,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Sora.png",
     description: "waifus.Sora.desc",
     clickPower: 86,
-    autoClick: 43,
-    multiplier: 0.86,
+    critChance: 0.06,
+    critMultiplier: 1.4,
   },
 ];
 
@@ -4954,6 +5879,218 @@ export const LOCATION_BOSSES: Record<TLocation, string[]> = {
   castle: ["dark_mage", "castle_lord"],
   abyss: ["lesser_demon", "dark_mage", "abyss_lord"],
 };
+
+export interface ICollectionBuff {
+  itemId: string;
+  buffType: "element_damage" | "enemy_type_damage" | "crit_power" | "click_power" | "gem_bonus" | "exp_bonus";
+  target?: TElementType | string;
+  value: number;
+  descriptionKey: string;
+}
+
+export const COLLECTION_BUFFS: Record<string, ICollectionBuff> = {
+  slime_core: {
+    itemId: "slime_core",
+    buffType: "enemy_type_damage",
+    target: "slime",
+    value: 0.5,
+    descriptionKey: "buffs.slimeCore",
+  },
+  goblin_dagger: {
+    itemId: "goblin_dagger",
+    buffType: "enemy_type_damage",
+    target: "goblin",
+    value: 0.5,
+    descriptionKey: "buffs.goblinDagger",
+  },
+  skull: {
+    itemId: "skull",
+    buffType: "enemy_type_damage",
+    target: "skeleton",
+    value: 0.5,
+    descriptionKey: "buffs.skull",
+  },
+  soul_shard: {
+    itemId: "soul_shard",
+    buffType: "enemy_type_damage",
+    target: "ghost",
+    value: 0.5,
+    descriptionKey: "buffs.soulShard",
+  },
+  dark_orb: {
+    itemId: "dark_orb",
+    buffType: "enemy_type_damage",
+    target: "dark_mage",
+    value: 0.5,
+    descriptionKey: "buffs.darkOrb",
+  },
+  mage_staff: {
+    itemId: "mage_staff",
+    buffType: "element_damage",
+    target: "dark",
+    value: 0.2,
+    descriptionKey: "buffs.mageStaff",
+  },
+
+  hellfire_essence: {
+    itemId: "hellfire_essence",
+    buffType: "element_damage",
+    target: "water",
+    value: 0.25,
+    descriptionKey: "buffs.hellfireEssence",
+  },
+  demon_wing: {
+    itemId: "demon_wing",
+    buffType: "crit_power",
+    value: 0.1,
+    descriptionKey: "buffs.demonWing",
+  },
+  ancient_coin: {
+    itemId: "ancient_coin",
+    buffType: "gem_bonus",
+    value: 0.1,
+    descriptionKey: "buffs.ancientCoin",
+  },
+};
+
+export const CRAFT_ITEMS: TCraftItem[] = [
+  {
+    id: "exp_scroll_500",
+    nameKey: "expScroll500",
+    descriptionKey: "items.expScroll500.desc",
+    icon: "scroll",
+    rarity: "uncommon",
+    ingredients: [
+      { itemId: "gel", count: 5 },
+      { itemId: "essence", count: 3 },
+    ],
+    effect: {
+      type: "exp",
+      value: 500,
+      target: "selected_waifu",
+    },
+  },
+  {
+    id: "exp_scroll_1000",
+    nameKey: "expScroll1000",
+    descriptionKey: "items.expScroll1000.desc",
+    icon: "scroll",
+    rarity: "rare",
+    ingredients: [
+      { itemId: "ectoplasm", count: 3 },
+      { itemId: "essence", count: 5 },
+      { itemId: "magic_scroll", count: 1 },
+    ],
+    effect: {
+      type: "exp",
+      value: 1000,
+      target: "selected_waifu",
+    },
+  },
+  {
+    id: "exp_scroll_5000",
+    nameKey: "expScroll5000",
+    descriptionKey: "items.expScroll5000.desc",
+    icon: "scroll",
+    rarity: "epic",
+    ingredients: [
+      { itemId: "ectoplasm", count: 5 },
+      { itemId: "essence", count: 10 },
+      { itemId: "magic_scroll", count: 3 },
+    ],
+    effect: {
+      type: "exp",
+      value: 5000,
+      target: "selected_waifu",
+    },
+  },
+  {
+    id: "affection_potion",
+    nameKey: "affectionPotion",
+    descriptionKey: "items.affectionPotion.desc",
+    icon: "potion",
+    rarity: "common",
+    ingredients: [
+      { itemId: "gel", count: 3 },
+      { itemId: "goblin_ear", count: 2 },
+    ],
+    effect: {
+      type: "affection",
+      value: 10,
+      target: "selected_waifu",
+    },
+  },
+  {
+    id: "affection_potion_large",
+    nameKey: "affectionPotionLarge",
+    descriptionKey: "items.affectionPotionLarge.desc",
+    icon: "potion",
+    rarity: "uncommon",
+    ingredients: [
+      { itemId: "ectoplasm", count: 2 },
+      { itemId: "essence", count: 3 },
+      { itemId: "bone", count: 3 },
+    ],
+    effect: {
+      type: "affection",
+      value: 50,
+      target: "selected_waifu",
+    },
+  },
+  {
+    id: "level_down_scroll_10",
+    nameKey: "levelDownScroll10",
+    descriptionKey: "items.levelDownScroll10.desc",
+    icon: "scroll",
+    rarity: "uncommon",
+    ingredients: [
+      { itemId: "magic_scroll", count: 2 },
+      { itemId: "essence", count: 5 },
+      { itemId: "bone", count: 5 },
+    ],
+    effect: {
+      type: "level_down_10",
+      value: 10,
+      target: "current_location",
+    },
+  },
+  {
+    id: "level_down_scroll_20",
+    nameKey: "levelDownScroll20",
+    descriptionKey: "items.levelDownScroll20.desc",
+    icon: "scroll",
+    rarity: "rare",
+    ingredients: [
+      { itemId: "magic_scroll", count: 3 },
+      { itemId: "ectoplasm", count: 3 },
+      { itemId: "essence", count: 10 },
+      { itemId: "demon_horn", count: 1 },
+    ],
+    effect: {
+      type: "level_down_20",
+      value: 20,
+      target: "current_location",
+    },
+  },
+  {
+    id: "level_down_scroll_50",
+    nameKey: "levelDownScroll50",
+    descriptionKey: "items.levelDownScroll50.desc",
+    icon: "scroll",
+    rarity: "epic",
+    ingredients: [
+      { itemId: "magic_scroll", count: 5 },
+      { itemId: "ectoplasm", count: 5 },
+      { itemId: "demon_horn", count: 3 },
+      { itemId: "essence", count: 25 },
+    ],
+    effect: {
+      type: "level_down_50",
+      value: 50,
+      target: "current_location",
+    },
+  },
+];
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\i18n.ts ===== 
@@ -5025,6 +6162,12 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 export const locales = {
   ru: {
     ui: {
+      craft: "Крафт",
+      craftItems: "Создать",
+      useItems: "Использовать",
+      requiredMaterials: "Необходимые материалы",
+      noConsumables: "Нет расходных предметов",
+      levels: "уровней",
       consumables: "Расходники",
       materials: "Материалы",
       exp: "Опыт",
@@ -5210,6 +6353,18 @@ export const locales = {
       accessorys: "Аксессуары",
       memoria: "Мемории",
       outfits: "Наряды",
+    },
+    buffs: {
+      slimeCore: "+50% урона по слаймам",
+      goblinDagger: "+50% урона по гоблинам",
+      skull: "+50% урона по скелетам",
+      soulShard: "+50% урона по призракам",
+      darkOrb: "+50% урона по тёмным магам",
+      mageStaff: "+20% урона тёмной стихии",
+      demonHorn: "+50% урона по демонам",
+      hellfireEssence: "+25% урона по водной стихии",
+      demonWing: "+10% силы крита",
+      ancientCoin: "+10% кристаллов с врагов",
     },
 
     monsters: {
@@ -5510,6 +6665,26 @@ export const locales = {
       ironSword: {
         name: "Железный меч",
         desc: "Базовое оружие начинающего искателя приключений.",
+      },
+      expScroll5000: {
+        name: "Свиток опыта +5000",
+        desc: "Дает +5000 опыта выбранной вайфу",
+      },
+      affectionPotionLarge: {
+        name: "Большое зелье привязанности",
+        desc: "Увеличивает привязанность на 50",
+      },
+      levelDownScroll10: {
+        name: "Свиток понижения I",
+        desc: "Понижает текущий уровень локации на 10",
+      },
+      levelDownScroll20: {
+        name: "Свиток понижения II",
+        desc: "Понижает текущий уровень локации на 20",
+      },
+      levelDownScroll50: {
+        name: "Свиток понижения III",
+        desc: "Понижает текущий уровень локации на 50",
       },
     },
   },

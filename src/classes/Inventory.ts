@@ -17,7 +17,6 @@ export class Inventory {
       return;
     }
 
-    // Коллекционные предметы сразу идут в коллекцию, не в рюкзак
     if (template.type === "collection") {
       const category = template.collectionCategory || "accessory";
       this.collection.set(itemId, category);

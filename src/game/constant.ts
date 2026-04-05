@@ -8,6 +8,7 @@ import type {
   TConsumableItem,
   TLocation,
   ILocationConfig,
+  TCraftItem,
 } from "../types";
 
 export const BASE_DROP_RATES: Record<TRarity, number> = {
@@ -303,6 +304,72 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
       target: "selected_waifu",
     },
   },
+  ancient_coin: {
+    id: "ancient_coin",
+    nameKey: "ancientCoin",
+    descriptionKey: "items.ancientCoin.desc",
+    icon: "coin_old",
+    rarity: "uncommon",
+    type: "collection",
+    maxStack: 1,
+    collectionCategory: "accessory",
+  },
+  affection_potion_large: {
+    id: "affection_potion_large",
+    nameKey: "affectionPotionLarge",
+    descriptionKey: "items.affectionPotionLarge.desc",
+    icon: "potion",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "affection",
+      value: 50,
+      target: "selected_waifu",
+    },
+  },
+  level_down_scroll_10: {
+    id: "level_down_scroll_10",
+    nameKey: "levelDownScroll10",
+    descriptionKey: "items.levelDownScroll10.desc",
+    icon: "scroll",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "level_down_10",
+      value: 10,
+      target: "current_location",
+    },
+  },
+  level_down_scroll_20: {
+    id: "level_down_scroll_20",
+    nameKey: "levelDownScroll20",
+    descriptionKey: "items.levelDownScroll20.desc",
+    icon: "scroll",
+    rarity: "rare",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "level_down_20",
+      value: 20,
+      target: "current_location",
+    },
+  },
+  level_down_scroll_50: {
+    id: "level_down_scroll_50",
+    nameKey: "levelDownScroll50",
+    descriptionKey: "items.levelDownScroll50.desc",
+    icon: "scroll",
+    rarity: "epic",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "level_down_50",
+      value: 50,
+      target: "current_location",
+    },
+  },
 };
 
 export const testWaifus: TWaifu[] = [
@@ -314,8 +381,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Tiamat.png",
     description: "waifus.Tiamat.desc",
     clickPower: 1000,
-    autoClick: 500,
-    multiplier: 5.0,
+    critChance: 0.15,
+    critMultiplier: 3.0,
   },
   {
     id: "wf_cerberus_001",
@@ -325,8 +392,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Cerberus.png",
     description: "waifus.Cerberus.desc",
     clickPower: 800,
-    autoClick: 400,
-    multiplier: 4.0,
+    critChance: 0.12,
+    critMultiplier: 2.8,
   },
   {
     id: "wf_phoenix_001",
@@ -336,8 +403,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Phoenix.png",
     description: "waifus.Phoenix.desc",
     clickPower: 750,
-    autoClick: 380,
-    multiplier: 3.8,
+    critChance: 0.12,
+    critMultiplier: 2.5,
   },
   {
     id: "wf_leviathan_001",
@@ -347,8 +414,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Leviathan.png",
     description: "waifus.Leviathan.desc",
     clickPower: 500,
-    autoClick: 250,
-    multiplier: 3.0,
+    critChance: 0.1,
+    critMultiplier: 2.2,
   },
   {
     id: "wf_terra_001",
@@ -358,8 +425,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Terra.png",
     description: "waifus.Terra.desc",
     clickPower: 480,
-    autoClick: 240,
-    multiplier: 2.9,
+    critChance: 0.08,
+    critMultiplier: 2.5,
   },
   {
     id: "wf_yuki_001",
@@ -369,8 +436,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/YukiOnna.png",
     description: "waifus.YukiOnna.desc",
     clickPower: 490,
-    autoClick: 245,
-    multiplier: 2.95,
+    critChance: 0.1,
+    critMultiplier: 2.3,
   },
   {
     id: "wf_ignis_001",
@@ -380,8 +447,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Ignis.png",
     description: "waifus.Ignis.desc",
     clickPower: 300,
-    autoClick: 150,
-    multiplier: 2.2,
+    critChance: 0.08,
+    critMultiplier: 2.0,
   },
   {
     id: "wf_aqua_001",
@@ -391,8 +458,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Aqua.png",
     description: "waifus.Aqua.desc",
     clickPower: 290,
-    autoClick: 145,
-    multiplier: 2.1,
+    critChance: 0.08,
+    critMultiplier: 2.0,
   },
   {
     id: "wf_gaia_001",
@@ -402,8 +469,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Gaia.png",
     description: "waifus.Gaia.desc",
     clickPower: 310,
-    autoClick: 155,
-    multiplier: 2.3,
+    critChance: 0.06,
+    critMultiplier: 2.2,
   },
   {
     id: "wf_umbra_001",
@@ -413,8 +480,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Umbra.png",
     description: "waifus.Umbra.desc",
     clickPower: 320,
-    autoClick: 160,
-    multiplier: 2.4,
+    critChance: 0.1,
+    critMultiplier: 2.0,
   },
   {
     id: "wf_ruby_001",
@@ -424,8 +491,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Ruby.png",
     description: "waifus.Ruby.desc",
     clickPower: 160,
-    autoClick: 80,
-    multiplier: 1.6,
+    critChance: 0.06,
+    critMultiplier: 1.8,
   },
   {
     id: "wf_sapphire_001",
@@ -435,8 +502,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Sapphire.png",
     description: "waifus.Sapphire.desc",
     clickPower: 150,
-    autoClick: 75,
-    multiplier: 1.5,
+    critChance: 0.06,
+    critMultiplier: 1.8,
   },
   {
     id: "wf_emerald_001",
@@ -446,8 +513,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Emerald.png",
     description: "waifus.Emerald.desc",
     clickPower: 165,
-    autoClick: 82,
-    multiplier: 1.65,
+    critChance: 0.05,
+    critMultiplier: 2.0,
   },
   {
     id: "wf_frost_001",
@@ -457,8 +524,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Frost.png",
     description: "waifus.Frost.desc",
     clickPower: 155,
-    autoClick: 77,
-    multiplier: 1.55,
+    critChance: 0.07,
+    critMultiplier: 1.9,
   },
   {
     id: "wf_lux_001",
@@ -468,8 +535,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Lux.png",
     description: "waifus.Lux.desc",
     clickPower: 145,
-    autoClick: 72,
-    multiplier: 1.45,
+    critChance: 0.08,
+    critMultiplier: 1.7,
   },
   {
     id: "wf_sakura_001",
@@ -479,8 +546,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Sakura.png",
     description: "waifus.Sakura.desc",
     clickPower: 100,
-    autoClick: 50,
-    multiplier: 1.0,
+    critChance: 0.05,
+    critMultiplier: 1.5,
   },
   {
     id: "wf_yui_001",
@@ -490,8 +557,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Yui.png",
     description: "waifus.Yui.desc",
     clickPower: 90,
-    autoClick: 45,
-    multiplier: 0.9,
+    critChance: 0.04,
+    critMultiplier: 1.5,
   },
   {
     id: "wf_hana_001",
@@ -501,8 +568,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Hana.png",
     description: "waifus.Hana.desc",
     clickPower: 85,
-    autoClick: 42,
-    multiplier: 0.85,
+    critChance: 0.05,
+    critMultiplier: 1.4,
   },
   {
     id: "wf_momo_001",
@@ -512,8 +579,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Momo.png",
     description: "waifus.Momo.desc",
     clickPower: 88,
-    autoClick: 44,
-    multiplier: 0.88,
+    critChance: 0.05,
+    critMultiplier: 1.5,
   },
   {
     id: "wf_rin_001",
@@ -523,8 +590,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Rin.png",
     description: "waifus.Rin.desc",
     clickPower: 82,
-    autoClick: 41,
-    multiplier: 0.82,
+    critChance: 0.04,
+    critMultiplier: 1.6,
   },
   {
     id: "wf_sora_001",
@@ -534,8 +601,8 @@ export const testWaifus: TWaifu[] = [
     image: "/assets/images/waifus/Sora.png",
     description: "waifus.Sora.desc",
     clickPower: 86,
-    autoClick: 43,
-    multiplier: 0.86,
+    critChance: 0.06,
+    critMultiplier: 1.4,
   },
 ];
 
@@ -1097,3 +1164,215 @@ export const LOCATION_BOSSES: Record<TLocation, string[]> = {
   castle: ["dark_mage", "castle_lord"],
   abyss: ["lesser_demon", "dark_mage", "abyss_lord"],
 };
+
+export interface ICollectionBuff {
+  itemId: string;
+  buffType: "element_damage" | "enemy_type_damage" | "crit_power" | "click_power" | "gem_bonus" | "exp_bonus";
+  target?: TElementType | string;
+  value: number;
+  descriptionKey: string;
+}
+
+export const COLLECTION_BUFFS: Record<string, ICollectionBuff> = {
+  slime_core: {
+    itemId: "slime_core",
+    buffType: "enemy_type_damage",
+    target: "slime",
+    value: 0.5,
+    descriptionKey: "buffs.slimeCore",
+  },
+  goblin_dagger: {
+    itemId: "goblin_dagger",
+    buffType: "enemy_type_damage",
+    target: "goblin",
+    value: 0.5,
+    descriptionKey: "buffs.goblinDagger",
+  },
+  skull: {
+    itemId: "skull",
+    buffType: "enemy_type_damage",
+    target: "skeleton",
+    value: 0.5,
+    descriptionKey: "buffs.skull",
+  },
+  soul_shard: {
+    itemId: "soul_shard",
+    buffType: "enemy_type_damage",
+    target: "ghost",
+    value: 0.5,
+    descriptionKey: "buffs.soulShard",
+  },
+  dark_orb: {
+    itemId: "dark_orb",
+    buffType: "enemy_type_damage",
+    target: "dark_mage",
+    value: 0.5,
+    descriptionKey: "buffs.darkOrb",
+  },
+  mage_staff: {
+    itemId: "mage_staff",
+    buffType: "element_damage",
+    target: "dark",
+    value: 0.2,
+    descriptionKey: "buffs.mageStaff",
+  },
+
+  hellfire_essence: {
+    itemId: "hellfire_essence",
+    buffType: "element_damage",
+    target: "water",
+    value: 0.25,
+    descriptionKey: "buffs.hellfireEssence",
+  },
+  demon_wing: {
+    itemId: "demon_wing",
+    buffType: "crit_power",
+    value: 0.1,
+    descriptionKey: "buffs.demonWing",
+  },
+  ancient_coin: {
+    itemId: "ancient_coin",
+    buffType: "gem_bonus",
+    value: 0.1,
+    descriptionKey: "buffs.ancientCoin",
+  },
+};
+
+export const CRAFT_ITEMS: TCraftItem[] = [
+  {
+    id: "exp_scroll_500",
+    nameKey: "expScroll500",
+    descriptionKey: "items.expScroll500.desc",
+    icon: "scroll",
+    rarity: "uncommon",
+    ingredients: [
+      { itemId: "gel", count: 5 },
+      { itemId: "essence", count: 3 },
+    ],
+    effect: {
+      type: "exp",
+      value: 500,
+      target: "selected_waifu",
+    },
+  },
+  {
+    id: "exp_scroll_1000",
+    nameKey: "expScroll1000",
+    descriptionKey: "items.expScroll1000.desc",
+    icon: "scroll",
+    rarity: "rare",
+    ingredients: [
+      { itemId: "ectoplasm", count: 3 },
+      { itemId: "essence", count: 5 },
+      { itemId: "magic_scroll", count: 1 },
+    ],
+    effect: {
+      type: "exp",
+      value: 1000,
+      target: "selected_waifu",
+    },
+  },
+  {
+    id: "exp_scroll_5000",
+    nameKey: "expScroll5000",
+    descriptionKey: "items.expScroll5000.desc",
+    icon: "scroll",
+    rarity: "epic",
+    ingredients: [
+      { itemId: "ectoplasm", count: 5 },
+      { itemId: "essence", count: 10 },
+      { itemId: "magic_scroll", count: 3 },
+    ],
+    effect: {
+      type: "exp",
+      value: 5000,
+      target: "selected_waifu",
+    },
+  },
+  {
+    id: "affection_potion",
+    nameKey: "affectionPotion",
+    descriptionKey: "items.affectionPotion.desc",
+    icon: "potion",
+    rarity: "common",
+    ingredients: [
+      { itemId: "gel", count: 3 },
+      { itemId: "goblin_ear", count: 2 },
+    ],
+    effect: {
+      type: "affection",
+      value: 10,
+      target: "selected_waifu",
+    },
+  },
+  {
+    id: "affection_potion_large",
+    nameKey: "affectionPotionLarge",
+    descriptionKey: "items.affectionPotionLarge.desc",
+    icon: "potion",
+    rarity: "uncommon",
+    ingredients: [
+      { itemId: "ectoplasm", count: 2 },
+      { itemId: "essence", count: 3 },
+      { itemId: "bone", count: 3 },
+    ],
+    effect: {
+      type: "affection",
+      value: 50,
+      target: "selected_waifu",
+    },
+  },
+  {
+    id: "level_down_scroll_10",
+    nameKey: "levelDownScroll10",
+    descriptionKey: "items.levelDownScroll10.desc",
+    icon: "scroll",
+    rarity: "uncommon",
+    ingredients: [
+      { itemId: "magic_scroll", count: 2 },
+      { itemId: "essence", count: 5 },
+      { itemId: "bone", count: 5 },
+    ],
+    effect: {
+      type: "level_down_10",
+      value: 10,
+      target: "current_location",
+    },
+  },
+  {
+    id: "level_down_scroll_20",
+    nameKey: "levelDownScroll20",
+    descriptionKey: "items.levelDownScroll20.desc",
+    icon: "scroll",
+    rarity: "rare",
+    ingredients: [
+      { itemId: "magic_scroll", count: 3 },
+      { itemId: "ectoplasm", count: 3 },
+      { itemId: "essence", count: 10 },
+      { itemId: "demon_horn", count: 1 },
+    ],
+    effect: {
+      type: "level_down_20",
+      value: 20,
+      target: "current_location",
+    },
+  },
+  {
+    id: "level_down_scroll_50",
+    nameKey: "levelDownScroll50",
+    descriptionKey: "items.levelDownScroll50.desc",
+    icon: "scroll",
+    rarity: "epic",
+    ingredients: [
+      { itemId: "magic_scroll", count: 5 },
+      { itemId: "ectoplasm", count: 5 },
+      { itemId: "demon_horn", count: 3 },
+      { itemId: "essence", count: 25 },
+    ],
+    effect: {
+      type: "level_down_50",
+      value: 50,
+      target: "current_location",
+    },
+  },
+];

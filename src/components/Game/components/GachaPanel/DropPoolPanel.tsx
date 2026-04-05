@@ -128,7 +128,8 @@ export const DropPoolPanel = memo(({ isOpen, onClose, ownedWaifus }: DropPoolPan
                               {Math.floor(template.clickPower * (1 + status.count * 0.3))}
                             </small>
                             <small>
-                              <Icon name="auto" size="sm" /> {Math.floor(template.autoClick * (1 + status.count * 0.3))}
+                              <Icon name="crit" size="sm" />{" "}
+                              {(template.critChance * 100 * (1 + status.count * 0.3)).toFixed(0)}%
                             </small>
                           </div>
                         )}

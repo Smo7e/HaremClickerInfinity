@@ -66,7 +66,7 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
                       <Icon name="click" size="sm" /> {waifu.getClickPower()}
                     </small>
                     <small>
-                      <Icon name="auto" size="sm" /> {waifu.getClickPower()}
+                      <Icon name="crit" size="sm" /> {(waifu.getCritChance() * 100).toFixed(0)}%
                     </small>
                   </div>
                 </div>

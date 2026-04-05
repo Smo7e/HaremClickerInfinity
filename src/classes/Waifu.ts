@@ -1,7 +1,7 @@
-import type { TElementType, TRarity, TWaifu } from "../types";
+import type { IGlobalUpgrades, TElementType, TRarity, TWaifu } from "../types";
 import { t } from "../locales/i18n";
 import type { LocaleKeys } from "../locales/locales";
-import type { IGlobalUpgrades } from "../components/Game/Game";
+import { INITIAL_GLOBAL_UPGRADES } from "../components/Game/Game";
 
 export interface WaifuConfig {
   id: string;
@@ -12,7 +12,6 @@ export interface WaifuConfig {
   description: LocaleKeys;
   baseStats: {
     clickPower: number;
-    autoClick: number;
     critChance: number;
     critMultiplier: number;
   };
@@ -26,6 +25,7 @@ export interface WaifuStats {
   clicksGenerated: number;
   totalDamage: number;
 }
+
 export class Waifu {
   id: string;
   nameKey: string;
@@ -35,7 +35,6 @@ export class Waifu {
   descriptionKey: LocaleKeys;
 
   baseClickPower: number;
-  baseAutoClick: number;
   baseCritChance: number;
   baseCritMultiplier: number;
 
@@ -47,18 +46,10 @@ export class Waifu {
   unlockedOutfits: string[];
   currentOutfit: string;
 
-  globalUpgrades: IGlobalUpgrades = {
-    clickPowerBonus: 0,
-    elementDamage: {
-      water: 0,
-      fire: 0,
-      earth: 0,
-      ice: 0,
-      light: 0,
-      dark: 0,
-      physical: 0,
-    },
-  };
+  globalUpgrades: IGlobalUpgrades = INITIAL_GLOBAL_UPGRADES;
+
+  critChanceBonus: number = 0;
+  critMultiplierBonus: number = 0;
 
   constructor(config: WaifuConfig) {
     this.id = config.id;
@@ -69,7 +60,6 @@ export class Waifu {
     this.descriptionKey = config.description;
 
     this.baseClickPower = config.baseStats.clickPower;
-    this.baseAutoClick = config.baseStats.autoClick;
     this.baseCritChance = config.baseStats.critChance;
     this.baseCritMultiplier = config.baseStats.critMultiplier;
 
@@ -91,6 +81,14 @@ export class Waifu {
     this.globalUpgrades = upgrades;
   }
 
+  addCritChanceBonus(bonus: number): void {
+    this.critChanceBonus += bonus;
+  }
+
+  addCritMultiplierBonus(bonus: number): void {
+    this.critMultiplierBonus += bonus;
+  }
+
   get name(): string {
     return t(`waifus.${this.nameKey}.name`);
   }
@@ -110,7 +108,8 @@ export class Waifu {
       (this.stats.level - 1) * 10 +
       this.stats.affection * 1 +
       this.duplicateCount * 30 +
-      (this.globalUpgrades.elementDamage[this.element] || 0) * 10;
+      (this.globalUpgrades.elementDamage[this.element] || 0) * 10 +
+      (this.globalUpgrades.collectionBuffs?.elementDamage?.[this.element] || 0) * 10;
 
     const totalMultiplier = 1 + totalPercentBonus / 100;
 
@@ -118,12 +117,15 @@ export class Waifu {
   }
 
   getCritChance(): number {
-    return this.baseCritChance;
+    const dupBonus = this.duplicateCount * 0.01;
+    const total = this.baseCritChance + this.critChanceBonus + dupBonus;
+    return Math.min(total, 1.0);
   }
 
   getCritMultiplier(): number {
     const dupBonus = this.duplicateCount * 0.05;
-    return this.baseCritMultiplier + dupBonus;
+    const collectionBonus = this.globalUpgrades.collectionBuffs?.critPowerBonus || 0;
+    return this.baseCritMultiplier + dupBonus + collectionBonus + this.critMultiplierBonus;
   }
 
   addExp(amount: number): boolean {
@@ -194,9 +196,8 @@ export class Waifu {
       description: "waifus.Sakura.desc",
       baseStats: {
         clickPower: 100,
-        autoClick: 50,
         critChance: 0.05,
-        critMultiplier: 2,
+        critMultiplier: 1.5,
       },
     });
   }
@@ -211,9 +212,8 @@ export class Waifu {
       description: template.description,
       baseStats: {
         clickPower: template.clickPower,
-        autoClick: template.autoClick,
-        critChance: 0.05,
-        critMultiplier: 2,
+        critChance: template.critChance,
+        critMultiplier: template.critMultiplier,
       },
     });
   }

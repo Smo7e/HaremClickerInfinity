@@ -29,8 +29,8 @@ export type TWaifu = {
   image: string;
   description: LocaleKeys;
   clickPower: number;
-  autoClick: number;
-  multiplier: number;
+  critChance: number;
+  critMultiplier: number;
 };
 export type TCollectionCategory = "weapon" | "accessory" | "memoria" | "outfit";
 export type TInventoryItem = {
@@ -43,9 +43,17 @@ export type TInventoryItem = {
   count: number;
   maxStack?: number;
   effect?: {
-    type: "exp" | "affection" | "crit_chance" | "heal" | "damage_boost";
+    type:
+      | "exp"
+      | "affection"
+      | "crit_chance"
+      | "heal"
+      | "damage_boost"
+      | "level_down_10"
+      | "level_down_20"
+      | "level_down_50";
     value: number;
-    target: "selected_waifu" | "global";
+    target: "selected_waifu" | "global" | "current_location";
     duration?: number;
   };
   collectionCategory?: TCollectionCategory;
@@ -87,3 +95,30 @@ export type TLocationProgress = Record<
     unlocked: boolean;
   }
 >;
+export interface IGlobalUpgrades {
+  clickPowerBonus: number;
+  elementDamage: Record<TElementType, number>;
+  collectionBuffs: {
+    elementDamage: Record<TElementType, number>;
+    enemyTypeDamage: Record<string, number>;
+    critPowerBonus: number;
+    gemBonus: number;
+    expBonus: number;
+  };
+}
+export type TCraftItem = {
+  id: string;
+  nameKey: string;
+  descriptionKey: LocaleKeys;
+  icon: string;
+  rarity: TRarity;
+  ingredients: Array<{
+    itemId: string;
+    count: number;
+  }>;
+  effect?: {
+    type: "exp" | "affection" | "heal" | "level_down_10" | "level_down_20" | "level_down_50";
+    value: number;
+    target: "selected_waifu" | "global" | "current_location";
+  };
+};

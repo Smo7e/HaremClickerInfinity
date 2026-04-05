@@ -1,0 +1,274 @@
+.craft-panel {
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+}
+
+.craft-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.craft-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.craft-tab.active {
+  background: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+.craft-content {
+  padding: 16px;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.craft-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.craft-item-card {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.craft-item-card.can-craft {
+  border-color: var(--success-color);
+}
+
+.craft-item-card.can-craft:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.2);
+}
+
+.craft-item-card.cannot-craft {
+  opacity: 0.7;
+}
+
+.craft-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.craft-item-name {
+  font-weight: bold;
+  flex: 1;
+}
+
+.craft-status {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.craft-status.ready {
+  background: var(--success-color);
+  color: white;
+}
+
+.craft-status.locked {
+  background: var(--error-color);
+  color: white;
+}
+
+.craft-item-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.craft-ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.ingredient.has {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+.ingredient.missing {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+}
+
+.craft-effect {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  font-size: 13px;
+  color: var(--accent-color);
+}
+
+.use-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.use-item-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border-left: 4px solid;
+}
+
+.use-item-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.use-item-name {
+  font-weight: bold;
+  display: block;
+}
+
+.use-item-count {
+  margin-left: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.use-item-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 4px 0 0 0;
+}
+
+.btn-use {
+  padding: 8px 16px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-use:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.craft-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.craft-modal {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+}
+
+.craft-modal-ingredients {
+  margin: 16px 0;
+}
+
+.craft-modal-ingredients h4 {
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+}
+
+.modal-ingredient {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.modal-ingredient.has {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.modal-ingredient.missing {
+  background: rgba(244, 67, 54, 0.1);
+}
+
+.ingredient-count {
+  margin-left: auto;
+  font-weight: bold;
+}
+
+.craft-modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.craft-modal-actions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.btn-primary {
+  background: var(--accent-color);
+  border: none;
+  color: white;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

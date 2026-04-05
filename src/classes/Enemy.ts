@@ -9,6 +9,7 @@ export interface DamageInfo {
   type: TElementType;
   amount: number;
   isCrit?: boolean;
+  critMultiplier: number;
   source: string;
 }
 
@@ -66,13 +67,13 @@ export class Enemy {
     return t(`monsters.${this.nameKey}.desc`);
   }
 
-  takeDamage(damage: DamageInfo): number {
+  takeDamage(damage: DamageInfo, enemyTypeDamageBonus: number = 0): number {
     const resistance = this.resistances[damage.type] || 0;
 
-    let actualDamage = damage.amount * (1 - resistance);
+    let actualDamage = damage.amount * (1 - resistance) * (1 + enemyTypeDamageBonus);
 
     if (damage.isCrit) {
-      actualDamage *= 2;
+      actualDamage *= damage.critMultiplier || 2;
     }
 
     actualDamage = Math.floor(actualDamage);

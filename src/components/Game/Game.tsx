@@ -13,21 +13,25 @@ import { Pause } from "./components/Pause/Pause";
 import { Settings } from "../Settings/Settings";
 import { LocationSelector } from "./components/LocationSelector/LocationSelector";
 import "./Game.css";
-import { testWaifus, LOCATIONS, LOCATION_UNLOCK_REQUIREMENTS } from "../../game/constant";
+import { testWaifus, LOCATIONS, LOCATION_UNLOCK_REQUIREMENTS, COLLECTION_BUFFS } from "../../game/constant";
 import { Icon } from "../Icon/Icon";
 import { Background } from "./components/Background/Background";
 import { Inventory } from "../../classes/Inventory";
 import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
-import type { TCollectionCategory, TElementType, TLocation, TLocationProgress } from "../../types";
+import type {
+  IGlobalUpgrades,
+  TCollectionCategory,
+  TCraftItem,
+  TElementType,
+  TLocation,
+  TLocationProgress,
+} from "../../types";
+import { CheatMenu } from "./components/CheatMenu/CheatMenu";
+import { CraftPanel } from "./components/CraftPanel/CraftPanel";
 
 interface Props {
   onBack: () => void;
   isPaused: boolean;
-}
-
-export interface IGlobalUpgrades {
-  clickPowerBonus: number;
-  elementDamage: Record<TElementType, number>;
 }
 
 const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
@@ -38,7 +42,33 @@ const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
   castle: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
   abyss: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
 };
-
+export const INITIAL_GLOBAL_UPGRADES: IGlobalUpgrades = {
+  clickPowerBonus: 0,
+  elementDamage: {
+    water: 0,
+    fire: 0,
+    earth: 0,
+    ice: 0,
+    light: 0,
+    dark: 0,
+    physical: 0,
+  },
+  collectionBuffs: {
+    elementDamage: {
+      water: 0,
+      fire: 0,
+      earth: 0,
+      ice: 0,
+      light: 0,
+      dark: 0,
+      physical: 0,
+    },
+    enemyTypeDamage: {},
+    critPowerBonus: 0,
+    gemBonus: 0,
+    expBonus: 0,
+  },
+};
 export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   const [inventory, setInventory] = useState(() => new Inventory());
 
@@ -55,18 +85,7 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   // testWaifus.map((template) => Waifu.fromTemplate(template)),
   const [activeWaifu, setActiveWaifu] = useState<Waifu | null>(null);
 
-  const [globalUpgrades, setGlobalUpgrades] = useState<IGlobalUpgrades>({
-    clickPowerBonus: 0,
-    elementDamage: {
-      water: 0,
-      fire: 0,
-      earth: 0,
-      ice: 0,
-      light: 0,
-      dark: 0,
-      physical: 0,
-    },
-  });
+  const [globalUpgrades, setGlobalUpgrades] = useState<IGlobalUpgrades>(INITIAL_GLOBAL_UPGRADES);
 
   const [collection, setCollection] = useState<Map<string, TCollectionCategory>>(new Map());
 
@@ -78,11 +97,60 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   const [showPause, setShowPause] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showLocationSelector, setShowLocationSelector] = useState(false);
-
+  const [showCraft, setShowCraft] = useState(false);
   const [showBackpack, setShowBackpack] = useState(false);
 
   const currentLocationConfig = LOCATIONS.find((l) => l.id === currentLocation)!;
 
+  const calculateCollectionBuffs = useCallback(
+    (collection: Map<string, TCollectionCategory>): IGlobalUpgrades["collectionBuffs"] => {
+      const buffs: IGlobalUpgrades["collectionBuffs"] = {
+        elementDamage: {
+          water: 0,
+          fire: 0,
+          earth: 0,
+          ice: 0,
+          light: 0,
+          dark: 0,
+          physical: 0,
+        },
+        enemyTypeDamage: {},
+        critPowerBonus: 0,
+        gemBonus: 0,
+        expBonus: 0,
+      };
+
+      for (const [itemId] of collection) {
+        const buff = COLLECTION_BUFFS[itemId];
+        if (!buff) continue;
+
+        switch (buff.buffType) {
+          case "element_damage":
+            if (buff.target && typeof buff.target === "string") {
+              buffs.elementDamage[buff.target as TElementType] += buff.value;
+            }
+            break;
+          case "enemy_type_damage":
+            if (buff.target) {
+              buffs.enemyTypeDamage[buff.target] = (buffs.enemyTypeDamage[buff.target] || 0) + buff.value;
+            }
+            break;
+          case "crit_power":
+            buffs.critPowerBonus += buff.value;
+            break;
+          case "gem_bonus":
+            buffs.gemBonus += buff.value;
+            break;
+          case "exp_bonus":
+            buffs.expBonus += buff.value;
+            break;
+        }
+      }
+
+      return buffs;
+    },
+    [],
+  );
   useEffect(() => {
     setActiveWaifu(ownedWaifus[0]);
   }, []);
@@ -119,7 +187,15 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
     setInventory((prev) => {
       const next = new Inventory();
       next.deserialize(prev.serialize());
-      setCollection(next.getCollection());
+      const newCollection = next.getCollection();
+      setCollection(newCollection);
+
+      const collectionBuffs = calculateCollectionBuffs(newCollection);
+      setGlobalUpgrades((prevUpgrades) => ({
+        ...prevUpgrades,
+        collectionBuffs,
+      }));
+
       return next;
     });
   }, []);
@@ -144,12 +220,26 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
     setCurrentLocation(location);
     setShowLocationSelector(false);
   }, []);
+  const handleCraft = useCallback(
+    (item: TCraftItem) => {
+      for (const ing of item.ingredients) {
+        if (!inventory.removeItem(ing.itemId, ing.count)) {
+          return;
+        }
+      }
+      inventory.addItem(item.id, 1);
+      refreshInventory();
+    },
+    [inventory, refreshInventory],
+  );
 
   const handleEnemyDefeated = useCallback(
     (baseExpReward: number, baseDrops: Array<{ id: string; count: number }>) => {
       const bonuses = currentLocationConfig.bonuses;
+      const gemBonus = globalUpgrades.collectionBuffs.gemBonus;
+      const expBonus = globalUpgrades.collectionBuffs.expBonus;
 
-      const expReward = Math.floor(baseExpReward * bonuses.expMultiplier);
+      const expReward = Math.floor(baseExpReward * bonuses.expMultiplier * (1 + expBonus));
       activeWaifu?.addExp(expReward);
 
       for (const drop of baseDrops) {
@@ -159,7 +249,7 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
 
       const currentLevel = getCurrentEnemyLevel();
       const baseGems = Math.floor(10 + currentLevel / 5);
-      const boostedGems = Math.floor(baseGems * bonuses.gemMultiplier);
+      const boostedGems = Math.floor(baseGems * bonuses.gemMultiplier * (1 + gemBonus));
       inventory.addItem("gem", boostedGems);
 
       const baseEssence = 1;
@@ -188,10 +278,36 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
       currentLocationConfig,
       getCurrentEnemyLevel,
       checkLocationUnlocks,
+      globalUpgrades.collectionBuffs.gemBonus,
+      globalUpgrades.collectionBuffs.expBonus,
     ],
   );
 
   const handleUseItem = (itemId: string) => {
+    const item = inventory.getItem(itemId);
+    if (!item || !item.effect) return;
+
+    if (
+      item.effect.type === "level_down_10" ||
+      item.effect.type === "level_down_20" ||
+      item.effect.type === "level_down_50"
+    ) {
+      const levelsToReduce = item.effect.value;
+      setLocationProgress((prev) => {
+        const currentLevel = prev[currentLocation].currentLevel;
+        const newLevel = Math.max(1, currentLevel - levelsToReduce);
+        return {
+          ...prev,
+          [currentLocation]: {
+            ...prev[currentLocation],
+            currentLevel: newLevel,
+          },
+        };
+      });
+      inventory.removeItem(itemId, 1);
+      refreshInventory();
+      return;
+    }
     if (!activeWaifu) {
       alert(t("ui.selectWaifuFirst"));
       return;
@@ -340,6 +456,10 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
           <Icon name="backpack" size="lg" />
           <span>{t("ui.backpack")}</span>
         </button>
+        <button className="side-btn" onClick={() => setShowCraft(true)}>
+          <Icon name="collection" size="lg" />
+          <span>{t("ui.craft")}</span>
+        </button>
       </nav>
 
       <main className="game-main">
@@ -421,6 +541,61 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
           isPaused={isGlobalPaused || showPause}
         />
       )}
+      <CraftPanel
+        isOpen={showCraft}
+        onClose={() => setShowCraft(false)}
+        inventory={inventory}
+        onCraft={handleCraft}
+        onUseItem={handleUseItem}
+        selectedWaifuId={activeWaifu?.id}
+      />
+
+      <CheatMenu
+        inventory={inventory}
+        ownedWaifus={ownedWaifus}
+        onInventoryUpdate={refreshInventory}
+        onWaifuAdd={(waifu) => {
+          if (!ownedWaifus.find((w) => w.id === waifu.id)) {
+            setOwnedWaifus((prev) => [...prev, waifu]);
+          }
+          refreshInventory();
+        }}
+        onSetGems={(amount) => {
+          const current = inventory.getItemCount("gem");
+          if (amount > current) {
+            inventory.addItem("gem", amount - current);
+          } else if (amount < current) {
+            inventory.removeItem("gem", current - amount);
+          }
+          refreshInventory();
+        }}
+        onSetEssence={(amount) => {
+          const current = inventory.getItemCount("essence");
+          if (amount > current) {
+            inventory.addItem("essence", amount - current);
+          } else if (amount < current) {
+            inventory.removeItem("essence", current - amount);
+          }
+          refreshInventory();
+        }}
+        onKillEnemy={() => {
+          setEnemy((prev) => {
+            prev.currentHp = 0;
+            return prev;
+          });
+        }}
+        onLevelUp={() => {
+          setLocationProgress((prev) => ({
+            ...prev,
+            [currentLocation]: {
+              ...prev[currentLocation],
+              currentLevel: prev[currentLocation].currentLevel + 10,
+            },
+          }));
+        }}
+        gems={inventory.getItemCount("gem")}
+        essence={inventory.getItemCount("essence")}
+      />
     </div>
   );
 }

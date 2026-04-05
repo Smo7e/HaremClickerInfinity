@@ -14,6 +14,12 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 export const locales = {
   ru: {
     ui: {
+      craft: "Крафт",
+      craftItems: "Создать",
+      useItems: "Использовать",
+      requiredMaterials: "Необходимые материалы",
+      noConsumables: "Нет расходных предметов",
+      levels: "уровней",
       consumables: "Расходники",
       materials: "Материалы",
       exp: "Опыт",
@@ -199,6 +205,18 @@ export const locales = {
       accessorys: "Аксессуары",
       memoria: "Мемории",
       outfits: "Наряды",
+    },
+    buffs: {
+      slimeCore: "+50% урона по слаймам",
+      goblinDagger: "+50% урона по гоблинам",
+      skull: "+50% урона по скелетам",
+      soulShard: "+50% урона по призракам",
+      darkOrb: "+50% урона по тёмным магам",
+      mageStaff: "+20% урона тёмной стихии",
+      demonHorn: "+50% урона по демонам",
+      hellfireEssence: "+25% урона по водной стихии",
+      demonWing: "+10% силы крита",
+      ancientCoin: "+10% кристаллов с врагов",
     },
 
     monsters: {
@@ -499,6 +517,26 @@ export const locales = {
       ironSword: {
         name: "Железный меч",
         desc: "Базовое оружие начинающего искателя приключений.",
+      },
+      expScroll5000: {
+        name: "Свиток опыта +5000",
+        desc: "Дает +5000 опыта выбранной вайфу",
+      },
+      affectionPotionLarge: {
+        name: "Большое зелье привязанности",
+        desc: "Увеличивает привязанность на 50",
+      },
+      levelDownScroll10: {
+        name: "Свиток понижения I",
+        desc: "Понижает текущий уровень локации на 10",
+      },
+      levelDownScroll20: {
+        name: "Свиток понижения II",
+        desc: "Понижает текущий уровень локации на 20",
+      },
+      levelDownScroll50: {
+        name: "Свиток понижения III",
+        desc: "Понижает текущий уровень локации на 50",
       },
     },
   },

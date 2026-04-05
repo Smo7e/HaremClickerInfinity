@@ -84,13 +84,6 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
 
             <div className="stat-row-detail">
               <span className="stat-label">
-                <Icon name="auto" size="sm" /> {t("ui.auto")}
-              </span>
-              <span className="stat-value">{waifu.getClickPower()}/s</span>
-            </div>
-
-            <div className="stat-row-detail">
-              <span className="stat-label">
                 <Icon name="crit" size="sm" /> {t("ui.critChance")}
               </span>
               <span className="stat-value">{(waifu.getCritChance() * 100).toFixed(1)}%</span>
@@ -117,7 +110,7 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
               <Icon name="click" size="sm" /> {waifu.stats.clicksGenerated} {t("ui.clicks")}
             </p>
             <p>
-              <Icon name="damage" size="sm" /> {waifu.stats.totalDamage} {t("ui.damage")}
+              <Icon name="crit" size="sm" /> {waifu.stats.totalDamage} {t("ui.damage")}
             </p>
           </div>
         </div>
