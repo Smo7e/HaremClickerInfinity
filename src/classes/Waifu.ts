@@ -128,12 +128,14 @@ export class Waifu {
 
   addExp(amount: number): boolean {
     this.stats.exp += amount;
+    let leveledUp = false;
 
-    if (this.stats.exp >= this.stats.expToNext) {
+    while (this.stats.exp >= this.stats.expToNext) {
       this.levelUp();
-      return true;
+      leveledUp = true;
     }
-    return false;
+
+    return leveledUp;
   }
 
   private levelUp(): void {

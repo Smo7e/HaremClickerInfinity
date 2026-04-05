@@ -101,7 +101,8 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
       setResult({ waifu, isDuplicate });
       setIsAnimating(false);
       onSummon(waifu, 10, isDuplicate);
-    }, 10);
+      timeoutRef.current = 0;
+    }, 1000);
   };
 
   const handleClose = () => {

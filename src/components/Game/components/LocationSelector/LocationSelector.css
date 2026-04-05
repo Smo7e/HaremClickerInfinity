@@ -1,0 +1,166 @@
+.location-selector-panel {
+  width: 95vw;
+  max-width: 550px;
+  max-height: 90vh;
+}
+
+.location-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+.location-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.location-card:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.location-card.active {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: #667eea;
+}
+
+.location-card.locked {
+  opacity: 0.5;
+  filter: grayscale(0.7);
+  cursor: not-allowed;
+}
+
+.location-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.location-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.location-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.location-enemies {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.location-bonuses {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.bonus-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.bonus-badge.gem {
+  background: rgba(102, 126, 234, 0.2);
+  color: #a78bfa;
+}
+
+.bonus-badge.essence {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+}
+
+.bonus-badge.exp {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fcd34d;
+}
+
+.location-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.current-badge {
+  background: #51cf66;
+  color: #000;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.progress-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.level-badge {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.max-badge {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.lock-badge {
+  color: #ff6b6b;
+  font-size: 10px;
+  font-weight: 600;
+  text-align: right;
+  max-width: 120px;
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .location-card {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .location-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .location-name {
+    font-size: 14px;
+  }
+
+  .lock-badge {
+    font-size: 9px;
+    max-width: 100px;
+  }
+}

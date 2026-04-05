@@ -1,5 +1,14 @@
 import type { LocaleKeys } from "../locales/locales";
-import type { TElementType, TRarity, TWaifu, TDropItem, TInventoryItem, TConsumableItem } from "../types";
+import type {
+  TElementType,
+  TRarity,
+  TWaifu,
+  TDropItem,
+  TInventoryItem,
+  TConsumableItem,
+  TLocation,
+  ILocationConfig,
+} from "../types";
 
 export const BASE_DROP_RATES: Record<TRarity, number> = {
   common: 0.6,
@@ -294,21 +303,6 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
       target: "selected_waifu",
     },
   },
-  crit_boost: {
-    id: "crit_boost",
-    nameKey: "critBoost",
-    descriptionKey: "items.critBoost.desc",
-    icon: "potion_red",
-    rarity: "rare",
-    type: "consumable",
-    maxStack: 20,
-    effect: {
-      type: "crit_chance",
-      value: 0.1,
-      target: "global",
-      duration: 300,
-    },
-  },
 };
 
 export const testWaifus: TWaifu[] = [
@@ -567,7 +561,26 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     description: "monsters.slime.desc",
     drops: [
       { id: "gel", nameKey: "gel", chance: 0.5, minCount: 1, maxCount: 3, type: "material" },
-      { id: "slime_core", nameKey: "slimeCore", chance: 0.1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "slime_core", nameKey: "slimeCore", chance: 0.01, minCount: 1, maxCount: 1, type: "collection" },
+
+      { id: "gel", nameKey: "gel", chance: 1, minCount: 1, maxCount: 5, type: "material" },
+      { id: "slime_core", nameKey: "slimeCore", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "goblin_dagger", nameKey: "goblinDagger", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "goblin_ear", nameKey: "goblinEar", chance: 1, minCount: 1, maxCount: 3, type: "material" },
+      { id: "bone", nameKey: "bone", chance: 1, minCount: 1, maxCount: 5, type: "material" },
+      { id: "skull", nameKey: "skull", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "ancient_coin", nameKey: "ancientCoin", chance: 1, minCount: 1, maxCount: 3, type: "collection" },
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 1, minCount: 1, maxCount: 3, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "magic_scroll", nameKey: "magicScroll", chance: 1, minCount: 1, maxCount: 2, type: "material" },
+      { id: "dark_orb", nameKey: "darkOrb", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "mage_staff", nameKey: "mageStaff", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "demon_horn", nameKey: "demonHorn", chance: 1, minCount: 1, maxCount: 2, type: "material" },
+      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "demon_wing", nameKey: "demonWing", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "exp_scroll_500", nameKey: "expScroll500", chance: 1, minCount: 1, maxCount: 3, type: "consumable" },
+      { id: "exp_scroll_1000", nameKey: "expScroll1000", chance: 1, minCount: 1, maxCount: 2, type: "consumable" },
+      { id: "affection_potion", nameKey: "affectionPotion", chance: 1, minCount: 1, maxCount: 5, type: "consumable" },
     ],
   },
   {
@@ -637,6 +650,313 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
       { id: "demon_wing", nameKey: "demonWing", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" },
     ],
   },
+  {
+    id: "mummy",
+    nameKey: "mummy",
+    baseHp: 140,
+    sprite: "/assets/images/enemies/Mummy.png",
+    resistances: { fire: -0.4, ice: 0.3 },
+    isBoss: false,
+    description: "monsters.mummy.desc",
+    drops: [{ id: "ancient_coin", nameKey: "ancientCoin", chance: 0.3, minCount: 1, maxCount: 2, type: "collection" }],
+  },
+  {
+    id: "mimic",
+    nameKey: "mimic",
+    baseHp: 160,
+    sprite: "/assets/images/enemies/Mimic.png",
+    resistances: { physical: -0.3, fire: 0.2 },
+    isBoss: false,
+    description: "monsters.mimic.desc",
+    drops: [
+      { id: "gem", nameKey: "gem", chance: 0.5, minCount: 5, maxCount: 15, type: "currency" },
+      { id: "coin", nameKey: "coin", chance: 0.8, minCount: 10, maxCount: 30, type: "currency" },
+    ],
+  },
+  {
+    id: "vampireThrall",
+    nameKey: "vampireThrall",
+    baseHp: 180,
+    sprite: "/assets/images/enemies/VampireThrall.png",
+    resistances: { light: -0.5, dark: 0.4 },
+    isBoss: false,
+    description: "monsters.vampireThrall.desc",
+    drops: [{ id: "soul_shard", nameKey: "soulShard", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" }],
+  },
+  {
+    id: "whelp",
+    nameKey: "whelp",
+    baseHp: 170,
+    sprite: "/assets/images/enemies/Whelp.png",
+    resistances: { ice: -0.3, fire: 0.5 },
+    isBoss: false,
+    description: "monsters.whelp.desc",
+    drops: [{ id: "demon_horn", nameKey: "demonHorn", chance: 0.15, minCount: 1, maxCount: 1, type: "material" }],
+  },
+  {
+    id: "direWolf",
+    nameKey: "direWolf",
+    baseHp: 130,
+    sprite: "/assets/images/enemies/DireWolf.png",
+    resistances: { fire: -0.2, ice: 0.2 },
+    isBoss: false,
+    description: "monsters.direWolf.desc",
+    drops: [{ id: "bone", nameKey: "bone", chance: 0.5, minCount: 2, maxCount: 4, type: "material" }],
+  },
+
+  // Добавьте эти шаблоны в MONSTER_TEMPLATES массив
+
+  // ========== FOREST (Лес) ==========
+  {
+    id: "forest_golem",
+    nameKey: "forestGolem",
+    baseHp: 200,
+    sprite: "/assets/images/enemies/ForestGolem.png",
+    resistances: { earth: -0.3, fire: 0.3, physical: 0.2 },
+    isBoss: false,
+    description: "monsters.forestGolem.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.4, minCount: 1, maxCount: 3, type: "material" },
+      { id: "essence", nameKey: "essence", chance: 0.15, minCount: 1, maxCount: 2, type: "currency" },
+    ],
+  },
+  {
+    id: "poison_spider",
+    nameKey: "poisonSpider",
+    baseHp: 110,
+    sprite: "/assets/images/enemies/PoisonSpider.png",
+    resistances: { earth: 0.2, ice: -0.3, physical: 0.1 },
+    isBoss: false,
+    description: "monsters.poisonSpider.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.3, minCount: 1, maxCount: 2, type: "material" },
+      { id: "gel", nameKey: "gel", chance: 0.5, minCount: 1, maxCount: 3, type: "material" },
+    ],
+  },
+  {
+    id: "forest_guardian",
+    nameKey: "forestGuardian",
+    baseHp: 500,
+    sprite: "/assets/images/enemies/ForestGuardian.png",
+    resistances: { earth: -0.5, fire: 0.4, light: 0.2, physical: 0.3 },
+    isBoss: true,
+    description: "monsters.forestGuardian.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 3, maxCount: 5, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 50, maxCount: 100, type: "currency" },
+      { id: "magic_scroll", nameKey: "magicScroll", chance: 0.5, minCount: 1, maxCount: 2, type: "material" },
+    ],
+  },
+
+  // ========== DESERT (Пустыня) ==========
+  {
+    id: "sand_worm",
+    nameKey: "sandWorm",
+    baseHp: 180,
+    sprite: "/assets/images/enemies/SandWorm.png",
+    resistances: { earth: 0.3, ice: -0.4, fire: 0.2 },
+    isBoss: false,
+    description: "monsters.sandWorm.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.5, minCount: 2, maxCount: 4, type: "material" },
+      { id: "ancient_coin", nameKey: "ancientCoin", chance: 0.2, minCount: 1, maxCount: 2, type: "collection" },
+    ],
+  },
+  {
+    id: "scarab_beetle",
+    nameKey: "scarabBeetle",
+    baseHp: 140,
+    sprite: "/assets/images/enemies/ScarabBeetle.png",
+    resistances: { earth: -0.2, light: 0.3, physical: 0.2 },
+    isBoss: false,
+    description: "monsters.scarabBeetle.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.25, minCount: 1, maxCount: 2, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 0.1, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "desert_colossus",
+    nameKey: "desertColossus",
+    baseHp: 550,
+    sprite: "/assets/images/enemies/DesertColossus.png",
+    resistances: { earth: -0.5, ice: 0.4, fire: 0.3, physical: 0.2 },
+    isBoss: true,
+    description: "monsters.desertColossus.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 3, maxCount: 5, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 50, maxCount: 100, type: "currency" },
+      { id: "dark_orb", nameKey: "darkOrb", chance: 0.4, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+
+  // ========== ICE (Ледяные пики) ==========
+  {
+    id: "ice_elemental",
+    nameKey: "iceElemental",
+    baseHp: 160,
+    sprite: "/assets/images/enemies/IceElemental.png",
+    resistances: { ice: -0.5, fire: 0.5, water: 0.2 },
+    isBoss: false,
+    description: "monsters.iceElemental.desc",
+    drops: [
+      { id: "gel", nameKey: "gel", chance: 0.4, minCount: 1, maxCount: 3, type: "material" },
+      { id: "essence", nameKey: "essence", chance: 0.2, minCount: 1, maxCount: 2, type: "currency" },
+    ],
+  },
+  {
+    id: "frost_wolf",
+    nameKey: "frostWolf",
+    baseHp: 175,
+    sprite: "/assets/images/enemies/FrostWolf.png",
+    resistances: { ice: -0.3, fire: 0.4, physical: 0.1 },
+    isBoss: false,
+    description: "monsters.frostWolf.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.6, minCount: 2, maxCount: 4, type: "material" },
+      { id: "demon_horn", nameKey: "demonHorn", chance: 0.15, minCount: 1, maxCount: 1, type: "material" },
+    ],
+  },
+  {
+    id: "ice_queen",
+    nameKey: "iceQueen",
+    baseHp: 600,
+    sprite: "/assets/images/enemies/IceQueen.png",
+    resistances: { ice: -0.6, fire: 0.5, water: 0.3, light: 0.2 },
+    isBoss: true,
+    description: "monsters.iceQueen.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 4, maxCount: 6, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 75, maxCount: 125, type: "currency" },
+      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 0.5, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+
+  // ========== VOLCANO (Вулкан) ==========
+  {
+    id: "lava_slime",
+    nameKey: "lavaSlime",
+    baseHp: 190,
+    sprite: "/assets/images/enemies/LavaSlime.png",
+    resistances: { fire: -0.5, ice: 0.5, water: 0.3 },
+    isBoss: false,
+    description: "monsters.lavaSlime.desc",
+    drops: [
+      { id: "gel", nameKey: "gel", chance: 0.5, minCount: 2, maxCount: 4, type: "material" },
+      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 0.1, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "fire_imp",
+    nameKey: "fireImp",
+    baseHp: 145,
+    sprite: "/assets/images/enemies/FireImp.png",
+    resistances: { fire: -0.3, ice: 0.4, light: 0.2 },
+    isBoss: false,
+    description: "monsters.fireImp.desc",
+    drops: [
+      { id: "demon_horn", nameKey: "demonHorn", chance: 0.3, minCount: 1, maxCount: 2, type: "material" },
+      { id: "essence", nameKey: "essence", chance: 0.25, minCount: 1, maxCount: 2, type: "currency" },
+    ],
+  },
+  {
+    id: "inferno_dragon",
+    nameKey: "infernoDragon",
+    baseHp: 650,
+    sprite: "/assets/images/enemies/InfernoDragon.png",
+    resistances: { fire: -0.6, ice: 0.5, water: 0.4, physical: 0.2 },
+    isBoss: true,
+    description: "monsters.infernoDragon.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 5, maxCount: 8, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 100, maxCount: 150, type: "currency" },
+      { id: "demon_wing", nameKey: "demonWing", chance: 0.6, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+
+  {
+    id: "armored_knight",
+    nameKey: "armoredKnight",
+    baseHp: 220,
+    sprite: "/assets/images/enemies/ArmoredKnight.png",
+    resistances: { physical: -0.3, light: 0.3, dark: 0.2 },
+    isBoss: false,
+    description: "monsters.armoredKnight.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.4, minCount: 1, maxCount: 3, type: "material" },
+      { id: "ancient_coin", nameKey: "ancientCoin", chance: 0.35, minCount: 1, maxCount: 3, type: "collection" },
+    ],
+  },
+  {
+    id: "cursed_banner",
+    nameKey: "cursedBanner",
+    baseHp: 135,
+    sprite: "/assets/images/enemies/CursedBanner.png",
+    resistances: { dark: -0.3, light: 0.4, physical: 0.5 },
+    isBoss: false,
+    description: "monsters.cursedBanner.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.4, minCount: 1, maxCount: 3, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 0.15, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "castle_lord",
+    nameKey: "castleLord",
+    baseHp: 700,
+    sprite: "/assets/images/enemies/CastleLord.png",
+    resistances: { dark: -0.4, light: 0.5, physical: 0.3, earth: 0.2 },
+    isBoss: true,
+    description: "monsters.castleLord.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 5, maxCount: 10, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 100, maxCount: 200, type: "currency" },
+      { id: "mage_staff", nameKey: "mageStaff", chance: 0.5, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+
+  // ========== ABYSS (Бездна) ==========
+  {
+    id: "void_walker",
+    nameKey: "voidWalker",
+    baseHp: 240,
+    sprite: "/assets/images/enemies/VoidWalker.png",
+    resistances: { dark: -0.4, light: 0.5, physical: 0.6 },
+    isBoss: false,
+    description: "monsters.voidWalker.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.5, minCount: 2, maxCount: 4, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 0.25, minCount: 1, maxCount: 2, type: "collection" },
+    ],
+  },
+  {
+    id: "shadow_tentacle",
+    nameKey: "shadowTentacle",
+    baseHp: 165,
+    sprite: "/assets/images/enemies/ShadowTentacle.png",
+    resistances: { dark: -0.3, light: 0.4, water: 0.2, physical: 0.4 },
+    isBoss: false,
+    description: "monsters.shadowTentacle.desc",
+    drops: [
+      { id: "dark_orb", nameKey: "darkOrb", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "essence", nameKey: "essence", chance: 0.3, minCount: 1, maxCount: 3, type: "currency" },
+    ],
+  },
+  {
+    id: "abyss_lord",
+    nameKey: "abyssLord",
+    baseHp: 800,
+    sprite: "/assets/images/enemies/AbyssLord.png",
+    resistances: { dark: -0.5, light: 0.6, physical: 0.5 },
+    isBoss: true,
+    description: "monsters.abyssLord.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 8, maxCount: 15, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 150, maxCount: 250, type: "currency" },
+      { id: "demon_wing", nameKey: "demonWing", chance: 0.7, minCount: 1, maxCount: 2, type: "collection" },
+      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 0.6, minCount: 1, maxCount: 2, type: "collection" },
+    ],
+  },
 ];
 
 export const CONSUMABLE_ITEMS: TConsumableItem[] = [
@@ -664,12 +984,116 @@ export const CONSUMABLE_ITEMS: TConsumableItem[] = [
     effect: { type: "affection", value: 10, target: "selected_waifu" },
     rarity: "common",
   },
+];
+export const LOCATION_UNLOCK_REQUIREMENTS: Partial<Record<TLocation, { prevLocation: TLocation; killLevel: number }>> =
   {
-    id: "crit_boost",
-    nameKey: "critBoost",
-    descriptionKey: "items.critBoost.desc",
-    icon: "potion_red",
-    effect: { type: "crit_chance", value: 0.1, duration: 300, target: "global" },
-    rarity: "rare",
+    desert: { prevLocation: "forest", killLevel: 50 },
+    ice: { prevLocation: "desert", killLevel: 60 },
+    volcano: { prevLocation: "ice", killLevel: 70 },
+    castle: { prevLocation: "volcano", killLevel: 80 },
+    abyss: { prevLocation: "castle", killLevel: 90 },
+  };
+
+export const LOCATIONS: ILocationConfig[] = [
+  {
+    id: "forest",
+    nameKey: "forest",
+    availableEnemies: ["slime", "goblin", "direWolf"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 1,
+    bonuses: {
+      gemMultiplier: 1,
+      essenceMultiplier: 1,
+      expMultiplier: 1,
+      dropChanceMultiplier: 1,
+    },
+  },
+  {
+    id: "desert",
+    nameKey: "desert",
+    availableEnemies: ["mummy", "mimic", "direWolf"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 1.3,
+    bonuses: {
+      gemMultiplier: 1.8,
+      essenceMultiplier: 1.4,
+      expMultiplier: 1.5,
+      dropChanceMultiplier: 1.2,
+    },
+  },
+  {
+    id: "ice",
+    nameKey: "ice",
+    availableEnemies: ["ghost", "direWolf", "vampireThrall"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 1.4,
+    bonuses: {
+      gemMultiplier: 2.5,
+      essenceMultiplier: 1.8,
+      expMultiplier: 1.8,
+      dropChanceMultiplier: 1.4,
+    },
+  },
+  {
+    id: "volcano",
+    nameKey: "volcano",
+    availableEnemies: ["lesserDemon", "whelp", "mimic"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 1.5,
+    bonuses: {
+      gemMultiplier: 3.5,
+      essenceMultiplier: 2.2,
+      expMultiplier: 2.2,
+      dropChanceMultiplier: 1.6,
+    },
+  },
+  {
+    id: "castle",
+    nameKey: "castle",
+    availableEnemies: ["skeleton", "ghost", "mummy"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 1.6,
+    bonuses: {
+      gemMultiplier: 4.5,
+      essenceMultiplier: 2.8,
+      expMultiplier: 2.8,
+      dropChanceMultiplier: 1.8,
+    },
+  },
+  {
+    id: "abyss",
+    nameKey: "abyss",
+    availableEnemies: ["dark_mage", "lesserDemon", "vampireThrall"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 2,
+    bonuses: {
+      gemMultiplier: 7,
+      essenceMultiplier: 4,
+      expMultiplier: 4,
+      dropChanceMultiplier: 2.5,
+    },
   },
 ];
+
+export const LOCATION_ENEMIES: Record<TLocation, string[]> = {
+  forest: ["slime", "goblin", "direWolf", "forest_golem", "poison_spider"],
+  desert: ["mummy", "mimic", "direWolf", "sand_worm", "scarab_beetle"],
+  ice: ["ghost", "direWolf", "vampireThrall", "ice_elemental", "frost_wolf"],
+  volcano: ["lesserDemon", "whelp", "mimic", "lava_slime", "fire_imp"],
+  castle: ["skeleton", "ghost", "mummy", "armored_knight", "cursed_banner"],
+  abyss: ["dark_mage", "lesserDemon", "vampireThrall", "void_walker", "shadow_tentacle"],
+};
+export const LOCATION_BOSSES: Record<TLocation, string[]> = {
+  forest: ["dark_mage", "forest_guardian"],
+  desert: ["lesser_demon", "desert_colossus"],
+  ice: ["dark_mage", "ice_queen"],
+  volcano: ["lesser_demon", "inferno_dragon"],
+  castle: ["dark_mage", "castle_lord"],
+  abyss: ["lesser_demon", "dark_mage", "abyss_lord"],
+};

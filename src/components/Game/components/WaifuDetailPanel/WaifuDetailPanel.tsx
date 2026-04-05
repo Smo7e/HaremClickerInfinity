@@ -1,6 +1,6 @@
 import { t } from "../../../../locales/i18n";
 import { Waifu } from "../../../../classes/Waifu";
-import { RARITY_COLORS, ELEMENT_KEYS, RARITY_KEYS } from "../../../../game/constant";
+import { RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
 import "./WaifuDetailPanel.css";
 import { Icon } from "../../../Icon/Icon";
 
@@ -14,6 +14,7 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
   if (!isOpen || !waifu) return null;
 
   const rarityColor = RARITY_COLORS[waifu.rarity];
+  const expPercent = (waifu.stats.exp / waifu.stats.expToNext) * 100;
 
   return (
     <div className="panel-overlay" onClick={onClose}>
@@ -26,7 +27,6 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
         </div>
 
         <div className="waifu-detail-content">
-          {/* ПОРТРЕТ ВАЙФУ - добавлен обратно */}
           <div className="waifu-detail-portrait">
             <img
               src={waifu.image}
@@ -36,28 +36,36 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
                 (e.target as HTMLImageElement).src = "/assets/images/waifus/default.png";
               }}
             />
-            {/* ИКОНКА ЭЛЕМЕНТА - теперь правильно позиционирована относительно портрета */}
             <div className="waifu-detail-element">
               <Icon name={waifu.element} size="lg" />
             </div>
           </div>
 
-          {/* РЕДКОСТЬ */}
           <div className="waifu-detail-rarity" style={{ color: rarityColor, borderColor: rarityColor }}>
             <Icon name={waifu.rarity} size="sm" />
             {t(`ui.${RARITY_KEYS[waifu.rarity]}`).toUpperCase()}
           </div>
 
-          {/* ОПИСАНИЕ - добавлено */}
           <p className="waifu-description">{t(waifu.description as any)}</p>
 
-          {/* СТАТИСТИКА */}
           <div className="waifu-stats-detail">
             <div className="stat-row-detail">
               <span className="stat-label">
                 <Icon name="level" size="sm" /> {t("ui.level")}
               </span>
               <span className="stat-value">{waifu.stats.level}</span>
+            </div>
+
+            <div className="stat-row-detail exp-row">
+              <span className="stat-label">
+                <Icon name="exp" size="sm" /> {t("ui.exp")}
+              </span>
+              <div className="exp-bar-container">
+                <div className="exp-bar-fill" style={{ width: `${expPercent}%` }} />
+                <span className="exp-text">
+                  {waifu.stats.exp} / {waifu.stats.expToNext}
+                </span>
+              </div>
             </div>
 
             <div className="stat-row-detail">
@@ -103,7 +111,6 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
             </div>
           </div>
 
-          {/* ОБЩАЯ СТАТИСТИКА */}
           <div className="waifu-stats-total">
             <h4>{t("ui.totalStats")}</h4>
             <p>

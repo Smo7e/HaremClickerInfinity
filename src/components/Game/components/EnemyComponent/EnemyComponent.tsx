@@ -2,12 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import { Enemy, type DamageInfo } from "../../../../classes/Enemy";
 import type { Waifu } from "../../../../classes/Waifu";
 import "./EnemyComponent.css";
-import { ELEMENT_COLORS, ELEMENT_KEYS } from "../../../../game/constant";
+import { ELEMENT_COLORS, ELEMENT_KEYS, INVENTORY_ITEMS } from "../../../../game/constant";
 import type { TElementType } from "../../../../types";
 import { audioManager } from "../../../../audio/AudioManager";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
-import { INVENTORY_ITEMS } from "../../../../game/constant";
 
 interface DropEffect {
   id: number;
@@ -22,9 +21,16 @@ interface EnemyComponentProps {
   activeWaifu: Waifu;
   onEnemyDefeated: (expReward: number, drops: Array<{ id: string; count: number }>) => void;
   isPaused: boolean;
+  dropChanceMultiplier?: number;
 }
 
-export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, isPaused }: EnemyComponentProps) {
+export function EnemyComponent({
+  enemy,
+  activeWaifu,
+  onEnemyDefeated,
+  isPaused,
+  dropChanceMultiplier = 1,
+}: EnemyComponentProps) {
   const [clickEffects, setClickEffects] = useState<
     Array<{
       id: number;
@@ -38,54 +44,87 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, isPaused }
   >([]);
   const [dropEffects, setDropEffects] = useState<DropEffect[]>([]);
   const dropIdRef = useRef(0);
-
   const clickIdRef = useRef(0);
+  const waifuRef = useRef(activeWaifu);
+  const enemyRef = useRef(enemy);
+  const pausedRef = useRef(isPaused);
+
+  useEffect(() => {
+    waifuRef.current = activeWaifu;
+  }, [activeWaifu]);
+
+  useEffect(() => {
+    enemyRef.current = enemy;
+  }, [enemy]);
+
+  useEffect(() => {
+    pausedRef.current = isPaused;
+  }, [isPaused]);
 
   const addDropEffect = (x: number, y: number, itemId: string, count: number) => {
     const id = dropIdRef.current++;
-
     setDropEffects((prev) => [...prev, { id, x, y, itemId, count }]);
-
     setTimeout(() => {
       setDropEffects((prev) => prev.filter((effect) => effect.id !== id));
     }, 800);
   };
 
   useEffect(() => {
-    if (isPaused) return;
-
     const interval = setInterval(() => {
-      performAutoAttack();
+      if (pausedRef.current) return;
+
+      const currentWaifu = waifuRef.current;
+      const currentEnemy = enemyRef.current;
+
+      if (!currentWaifu || !currentEnemy) return;
+
+      const damage = currentWaifu.getClickPower();
+      const isCrit = Math.random() < currentWaifu.getCritChance();
+      const damageInfo: DamageInfo = {
+        type: currentWaifu.element,
+        amount: damage,
+        isCrit,
+        source: currentWaifu.id,
+      };
+      const actualDamage = currentEnemy.takeDamage(damageInfo);
+
+      setClickEffects((prev) => [
+        ...prev,
+        {
+          id: clickIdRef.current++,
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2 - 100,
+          value: actualDamage,
+          isCrit,
+          element: currentWaifu.element,
+          effectiveness: "normal",
+        },
+      ]);
+
+      setTimeout(() => {
+        setClickEffects((prev) => prev.filter((e) => e.id !== clickIdRef.current - 1));
+      }, 600);
+
+      audioManager.playClick();
+
+      if (!currentEnemy.isAlive()) {
+        audioManager.playEnemyDefeat();
+        const drops = currentEnemy.rollDrops(dropChanceMultiplier);
+        drops.forEach((drop, index) => {
+          const offsetX = (index - drops.length / 2) * 40;
+          const offsetY = -50 - Math.random() * 30;
+          addDropEffect(window.innerWidth / 2 + offsetX, window.innerHeight / 2 + offsetY, drop.id, drop.count);
+        });
+        onEnemyDefeated(currentEnemy.expReward, drops);
+      }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isPaused, activeWaifu, enemy]);
-
-  const performAutoAttack = () => {
-    const damage = activeWaifu.getClickPower();
-    const isCrit = Math.random() < activeWaifu.getCritChance();
-
-    const damageInfo: DamageInfo = {
-      type: activeWaifu.element,
-      amount: damage,
-      isCrit,
-      source: activeWaifu.id,
-    };
-
-    const actualDamage = enemy.takeDamage(damageInfo);
-
-    addClickEffect(window.innerWidth / 2, window.innerHeight / 2 - 100, actualDamage, isCrit, activeWaifu.element);
-    audioManager.playClick();
-
-    if (!enemy.isAlive()) {
-      death();
-    }
-  };
+  }, [dropChanceMultiplier, onEnemyDefeated]);
 
   const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
     if (isPaused) return;
     audioManager.playClick();
-
     let clientX, clientY;
     if ("touches" in e) {
       clientX = e.touches[0].clientX;
@@ -94,24 +133,18 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, isPaused }
       clientX = (e as React.MouseEvent).clientX;
       clientY = (e as React.MouseEvent).clientY;
     }
-
     const clickPower = activeWaifu.getClickPower();
     const isCrit = Math.random() < activeWaifu.getCritChance();
-
     const damageInfo: DamageInfo = {
       type: activeWaifu.element,
       amount: clickPower,
       isCrit,
       source: activeWaifu.id,
     };
-
     const actualDamage = enemy.takeDamage(damageInfo);
     const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
-
     activeWaifu.recordClick(actualDamage);
-
     addClickEffect(clientX, clientY, actualDamage, isCrit, activeWaifu.element, effectiveness);
-
     if (!enemy.isAlive()) {
       death();
     }
@@ -119,14 +152,12 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, isPaused }
 
   const death = () => {
     audioManager.playEnemyDefeat();
-    const drops = enemy.rollDrops();
-
+    const drops = enemy.rollDrops(dropChanceMultiplier);
     drops.forEach((drop, index) => {
       const offsetX = (index - drops.length / 2) * 40;
       const offsetY = -50 - Math.random() * 30;
       addDropEffect(window.innerWidth / 2 + offsetX, window.innerHeight / 2 + offsetY, drop.id, drop.count);
     });
-
     onEnemyDefeated(enemy.expReward, drops);
   };
 
@@ -139,7 +170,6 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, isPaused }
     effectiveness?: "weak" | "normal" | "resist",
   ) => {
     const id = clickIdRef.current++;
-
     setClickEffects((prev) => [
       ...prev,
       {
@@ -152,7 +182,6 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, isPaused }
         effectiveness: effectiveness || "normal",
       },
     ]);
-
     setTimeout(() => {
       setClickEffects((prev) => prev.filter((effect) => effect.id !== id));
     }, 600);
@@ -182,7 +211,6 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, isPaused }
         onTouchStart={handleClick}
       >
         <img src={enemy.sprite} alt={enemy.name} draggable={false} />
-
         {enemy.isBoss && <div className="boss-aura" />}
       </div>
 
@@ -221,7 +249,7 @@ export function EnemyComponent({ enemy, activeWaifu, onEnemyDefeated, isPaused }
           }}
         >
           <div className="damage-icon">
-            <Icon name={effect.isCrit ? "crit" : "damage"} size="sm" />
+            <Icon name={effect.isCrit ? "crit" : "click"} size="sm" />
             {effect.effectiveness === "weak" && <Icon name="weak" size="sm" />}
             {effect.effectiveness === "resist" && <Icon name="shield" size="sm" />}
           </div>

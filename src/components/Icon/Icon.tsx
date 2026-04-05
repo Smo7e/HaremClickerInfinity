@@ -11,48 +11,7 @@ const sizeMap = {
 };
 
 // Эмодзи для отсутствующих иконок
-const EMOJI_FALLBACK: Record<string, string> = {
-  affection: "💕",
-  auto: "⚙️",
-  click: "👆",
-  crit: "⚡",
-  critPower: "💥",
-  damage: "⚔️",
-  duplicate: "📋",
-  level: "⭐",
-  max: "👑",
-  shield: "🛡️",
-  summoning: "✨",
-  weak: "💫",
-  gel: "💧",
-  slime_core: "🔵",
-  coin: "🪙",
-  goblin_dagger: "🗡️",
-  goblin_ear: "👂",
-  bone: "🦴",
-  skull: "💀",
-  ancient_coin: "🪙",
-  ectoplasm: "👻",
-  soul_shard: "💎",
-  magic_scroll: "📜",
-  dark_orb: "🔮",
-  mage_staff: "🪄",
-  demon_horn: "🦄",
-  hellfire_essence: "🔥",
-  demon_wing: "🦇",
-  scroll: "📜",
-  potion: "🧪",
-  potion_red: "🧪",
-  dagger: "🗡️",
-  ear: "👂",
-  coin_old: "🪙",
-  orb_dark: "🔮",
-  staff: "🪄",
-  horn: "🦄",
-  essence_fire: "🔥",
-  wing: "🦇",
-  back: "🎒",
-};
+const EMOJI_FALLBACK: Record<string, string> = {};
 export function Icon({ name, size = "md", className = "" }: IconProps) {
   const px = sizeMap[size];
 

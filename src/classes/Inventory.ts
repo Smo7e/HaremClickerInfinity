@@ -1,23 +1,26 @@
-import type { TInventoryItem, TItemType } from "../types";
+import type { TInventoryItem, TItemType, TCollectionCategory } from "../types";
 import { INVENTORY_ITEMS } from "../game/constant";
 
 export class Inventory {
   private items: Map<string, TInventoryItem>;
-  private collection: Set<string>;
+  private collection: Map<string, TCollectionCategory>; // id -> category
 
   constructor() {
     this.items = new Map();
-    this.collection = new Set();
-
-    this.addItem("gem", 1000009990);
-    this.addItem("essence", 10000);
-    this.addItem("coin", 0);
+    this.collection = new Map();
   }
 
   addItem(itemId: string, count: number = 1): void {
     const template = INVENTORY_ITEMS[itemId];
     if (!template) {
       console.warn(`Unknown item: ${itemId}`);
+      return;
+    }
+
+    // Коллекционные предметы сразу идут в коллекцию, не в рюкзак
+    if (template.type === "collection") {
+      const category = template.collectionCategory || "accessory";
+      this.collection.set(itemId, category);
       return;
     }
 
@@ -32,10 +35,6 @@ export class Inventory {
         ...template,
         count: Math.min(count, maxStack),
       });
-    }
-
-    if (template.type === "collection") {
-      this.collection.add(itemId);
     }
   }
 
@@ -59,7 +58,8 @@ export class Inventory {
   }
 
   getAllItems(): TInventoryItem[] {
-    return Array.from(this.items.values());
+    // Возвращает только НЕ коллекционные предметы
+    return Array.from(this.items.values()).filter((item) => item.type !== "collection");
   }
 
   getItemsByType(type: TItemType): TInventoryItem[] {
@@ -71,12 +71,19 @@ export class Inventory {
     return item ? item.count >= count : false;
   }
 
+  // Коллекция методы
   hasCollection(itemId: string): boolean {
     return this.collection.has(itemId);
   }
 
-  getCollection(): string[] {
-    return Array.from(this.collection);
+  getCollection(): Map<string, TCollectionCategory> {
+    return new Map(this.collection);
+  }
+
+  getCollectionByCategory(category: TCollectionCategory): string[] {
+    return Array.from(this.collection.entries())
+      .filter(([_, cat]) => cat === category)
+      .map(([id]) => id);
   }
 
   useItem(itemId: string, waifuId?: string): { success: boolean; effect?: TInventoryItem["effect"]; message?: string } {
@@ -98,7 +105,7 @@ export class Inventory {
   serialize(): string {
     return JSON.stringify({
       items: Array.from(this.items.entries()),
-      collection: Array.from(this.collection),
+      collection: Array.from(this.collection.entries()),
     });
   }
 
@@ -106,7 +113,7 @@ export class Inventory {
     try {
       const parsed = JSON.parse(data);
       this.items = new Map(parsed.items || []);
-      this.collection = new Set(parsed.collection || []);
+      this.collection = new Map(parsed.collection || []);
     } catch (e) {
       console.error("Failed to deserialize inventory:", e);
     }

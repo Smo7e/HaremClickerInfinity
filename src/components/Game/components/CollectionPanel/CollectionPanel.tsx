@@ -1,46 +1,56 @@
-// src/components/Game/components/CollectionPanel/CollectionPanel.tsx
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { t } from "../../../../locales/i18n";
-import type { TRarity } from "../../../../types";
-
+import type { TCollectionCategory } from "../../../../types";
+import { INVENTORY_ITEMS } from "../../../../game/constant";
 import "./CollectionPanel.css";
 import { Icon } from "../../../Icon/Icon";
-
-export interface CollectionItem {
-  id: string;
-  nameKey: string;
-  descriptionKey: string;
-  icon: string;
-  rarity: TRarity;
-  obtained: boolean;
-  category: "weapon" | "accessory" | "memoria" | "outfit";
-  bonus?: string;
-}
 
 interface CollectionPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  items: CollectionItem[];
+  collection: Map<string, TCollectionCategory>; // id -> category
 }
 
-export function CollectionPanel({ isOpen, onClose, items }: CollectionPanelProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanelProps) {
+  const [selectedCategory, setSelectedCategory] = useState<TCollectionCategory | "all">("all");
+
+  // Формируем список из полученных коллекционных предметов
+  const collectedItems = useMemo(() => {
+    return Array.from(collection.entries()).map(([id, category]) => {
+      const template = INVENTORY_ITEMS[id];
+      return {
+        id,
+        category,
+        nameKey: template?.nameKey || id,
+        descriptionKey: template?.descriptionKey || "",
+        icon: template?.icon || "unknown",
+        rarity: template?.rarity || "common",
+      };
+    });
+  }, [collection]);
 
   const categories = [
     { id: "all", name: t("ui.all"), icon: "all" },
     { id: "weapon", name: t("collection.weapons"), icon: "weapon" },
-    {
-      id: "accessory",
-      name: t("collection.accessories"),
-      icon: "accessory",
-    },
+    { id: "accessory", name: t("collection.accessories"), icon: "accessory" },
     { id: "memoria", name: t("collection.memoria"), icon: "memoria" },
     { id: "outfit", name: t("collection.outfits"), icon: "outfit" },
-  ];
+  ] as const;
 
-  const filteredItems = selectedCategory === "all" ? items : items.filter((item) => item.category === selectedCategory);
+  const filteredItems =
+    selectedCategory === "all" ? collectedItems : collectedItems.filter((item) => item.category === selectedCategory);
 
-  const obtainedCount = items.filter((item) => item.obtained).length;
+  // Подсчёт по категориям
+  const counts = useMemo(() => {
+    const total = collectedItems.length;
+    const byCategory = {
+      weapon: collectedItems.filter((i) => i.category === "weapon").length,
+      accessory: collectedItems.filter((i) => i.category === "accessory").length,
+      memoria: collectedItems.filter((i) => i.category === "memoria").length,
+      outfit: collectedItems.filter((i) => i.category === "outfit").length,
+    };
+    return { total, byCategory };
+  }, [collectedItems]);
 
   if (!isOpen) return null;
 
@@ -48,9 +58,9 @@ export function CollectionPanel({ isOpen, onClose, items }: CollectionPanelProps
     <div className="panel-overlay" onClick={onClose}>
       <div className="panel collection-panel" onClick={(e) => e.stopPropagation()}>
         <div className="panel-header">
-          <h2> {t("ui.collection")}</h2>
+          <h2>{t("ui.collection")}</h2>
           <div className="collection-progress">
-            {obtainedCount} / {items.length}
+            {counts.total} {t("ui.items")}
           </div>
           <button className="btn-close" onClick={onClose}>
             ✕
@@ -62,40 +72,56 @@ export function CollectionPanel({ isOpen, onClose, items }: CollectionPanelProps
             <button
               key={cat.id}
               className={`category-tab ${selectedCategory === cat.id ? "active" : ""}`}
-              onClick={() => setSelectedCategory(cat.id)}
+              onClick={() => setSelectedCategory(cat.id as TCollectionCategory | "all")}
             >
               <Icon name={cat.icon} size="md" />
-
               <span>{cat.name}</span>
+              {cat.id !== "all" && (
+                <span className="category-count">{counts.byCategory[cat.id as TCollectionCategory] || 0}</span>
+              )}
             </button>
           ))}
         </div>
 
         <div className="collection-grid">
           {filteredItems.length === 0 ? (
-            <p className="empty-message">{t("ui.noItems")}</p>
+            <div className="empty-collection">
+              <Icon name="collection" size="lg" />
+              <p>{t("ui.noCollectionItems")}</p>
+              <small>{t("ui.killEnemiesForDrops")}</small>
+            </div>
           ) : (
             filteredItems.map((item) => (
-              <div
-                key={item.id}
-                className={`collection-item ${item.obtained ? "obtained" : "locked"} rarity-${item.rarity}`}
-              >
+              <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
                 <div className="item-icon">
-                  {item.obtained ? <Icon name={item.icon} size="lg" /> : <Icon name="unknown" size="lg" />}
+                  <Icon name={item.icon} size="lg" />
                 </div>
                 <div className="item-info">
-                  <span className="item-name">{item.obtained ? t(`items.${item.nameKey}.name`) : "???"}</span>
-                  {item.obtained && (
-                    <>
-                      <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
-                      {item.bonus && <span className="item-bonus">+{item.bonus}</span>}
-                    </>
-                  )}
+                  <span className="item-name">{t(`items.${item.nameKey}.name`)}</span>
+                  <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
+                  <span className="item-category">{t(`collection.${item.category}s`)}</span>
                 </div>
               </div>
             ))
           )}
         </div>
+
+        {/* Плейсхолдеры для недоступных категорий */}
+        {selectedCategory === "memoria" && counts.byCategory.memoria === 0 && (
+          <div className="category-hint">
+            <Icon name="memoria" size="md" />
+            <p>{t("ui.memoriaHint")}</p>
+            <small>{t("ui.buyInShop")}</small>
+          </div>
+        )}
+
+        {selectedCategory === "outfit" && counts.byCategory.outfit === 0 && (
+          <div className="category-hint">
+            <Icon name="outfit" size="md" />
+            <p>{t("ui.outfitHint")}</p>
+            <small>{t("ui.buyInShop")}</small>
+          </div>
+        )}
       </div>
     </div>
   );

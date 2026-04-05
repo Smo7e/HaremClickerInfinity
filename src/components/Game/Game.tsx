@@ -6,50 +6,53 @@ import { EnemyComponent } from "./components/EnemyComponent/EnemyComponent";
 import { WaifuComponent } from "./components/WaifuComponent/WaifuComponent";
 import { UpgradePanel } from "./components/UpgradePanel/UpgradePanel";
 import { GachaPanel } from "./components/GachaPanel/GachaPanel";
-import { CollectionPanel, type CollectionItem } from "./components/CollectionPanel/CollectionPanel";
+import { CollectionPanel } from "./components/CollectionPanel/CollectionPanel";
 import { WaifuSelectPanel } from "./components/WaifuSelectPanel/WaifuSelectPanel";
 import { WaifuDetailPanel } from "./components/WaifuDetailPanel/WaifuDetailPanel";
 import { Pause } from "./components/Pause/Pause";
 import { Settings } from "../Settings/Settings";
+import { LocationSelector } from "./components/LocationSelector/LocationSelector";
 import "./Game.css";
-import { testWaifus } from "../../game/constant";
+import { testWaifus, LOCATIONS, LOCATION_UNLOCK_REQUIREMENTS } from "../../game/constant";
 import { Icon } from "../Icon/Icon";
 import { Background } from "./components/Background/Background";
 import { Inventory } from "../../classes/Inventory";
 import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
-import type { TElementType } from "../../types";
+import type { TCollectionCategory, TElementType, TLocation, TLocationProgress } from "../../types";
 
 interface Props {
   onBack: () => void;
   isPaused: boolean;
 }
 
-const INITIAL_COLLECTION: CollectionItem[] = [
-  {
-    id: "sword1",
-    nameKey: "ironSword",
-    descriptionKey: "items.ironSword.desc",
-    icon: "weapon",
-    rarity: "common",
-    obtained: false,
-    category: "weapon",
-    bonus: "+10% DMG",
-  },
-];
 export interface IGlobalUpgrades {
   clickPowerBonus: number;
   elementDamage: Record<TElementType, number>;
 }
 
+const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
+  forest: { currentLevel: 1, maxLevelReached: 1, unlocked: true },
+  desert: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  ice: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  volcano: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  castle: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  abyss: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+};
+
 export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   const [inventory, setInventory] = useState(() => new Inventory());
 
-  const [enemy, setEnemy] = useState<Enemy>(() => Enemy.spawn(1));
-  const [enemyLevel, setEnemyLevel] = useState(1);
+  const [currentLocation, setCurrentLocation] = useState<TLocation>("forest");
+  const [locationProgress, setLocationProgress] = useState<TLocationProgress>(INITIAL_LOCATION_PROGRESS);
 
-  const [ownedWaifus, setOwnedWaifus] = useState<Waifu[]>(() =>
-    testWaifus.map((template) => Waifu.fromTemplate(template)),
-  );
+  const getCurrentEnemyLevel = useCallback(() => {
+    return locationProgress[currentLocation].currentLevel;
+  }, [currentLocation, locationProgress]);
+
+  const [enemy, setEnemy] = useState<Enemy>(() => Enemy.spawn(1, currentLocation));
+
+  const [ownedWaifus, setOwnedWaifus] = useState<Waifu[]>([Waifu.fromTemplate(testWaifus[0])]);
+  // testWaifus.map((template) => Waifu.fromTemplate(template)),
   const [activeWaifu, setActiveWaifu] = useState<Waifu | null>(null);
 
   const [globalUpgrades, setGlobalUpgrades] = useState<IGlobalUpgrades>({
@@ -65,7 +68,7 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
     },
   });
 
-  const [collection] = useState<CollectionItem[]>(INITIAL_COLLECTION);
+  const [collection, setCollection] = useState<Map<string, TCollectionCategory>>(new Map());
 
   const [showGacha, setShowGacha] = useState(false);
   const [showCollection, setShowCollection] = useState(false);
@@ -74,8 +77,11 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
   const [selectedWaifuDetail, setSelectedWaifuDetail] = useState<Waifu | null>(null);
   const [showPause, setShowPause] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showLocationSelector, setShowLocationSelector] = useState(false);
 
   const [showBackpack, setShowBackpack] = useState(false);
+
+  const currentLocationConfig = LOCATIONS.find((l) => l.id === currentLocation)!;
 
   useEffect(() => {
     setActiveWaifu(ownedWaifus[0]);
@@ -104,29 +110,85 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
     }
   }, [globalUpgrades]);
 
+  useEffect(() => {
+    const level = getCurrentEnemyLevel();
+    setEnemy(Enemy.spawn(level, currentLocation));
+  }, [currentLocation, getCurrentEnemyLevel]);
+
   const refreshInventory = useCallback(() => {
     setInventory((prev) => {
       const next = new Inventory();
       next.deserialize(prev.serialize());
+      setCollection(next.getCollection());
       return next;
     });
   }, []);
 
+  const checkLocationUnlocks = useCallback((progress: TLocationProgress): TLocationProgress => {
+    const newProgress = { ...progress };
+
+    for (const [locationId, requirement] of Object.entries(LOCATION_UNLOCK_REQUIREMENTS)) {
+      const locId = locationId as TLocation;
+      if (!newProgress[locId].unlocked && requirement) {
+        const prevLocation = requirement.prevLocation;
+        if (newProgress[prevLocation].maxLevelReached >= requirement.killLevel) {
+          newProgress[locId].unlocked = true;
+        }
+      }
+    }
+
+    return newProgress;
+  }, []);
+
+  const handleLocationChange = useCallback((location: TLocation) => {
+    setCurrentLocation(location);
+    setShowLocationSelector(false);
+  }, []);
+
   const handleEnemyDefeated = useCallback(
-    (expReward: number, drops: Array<{ id: string; count: number }>) => {
+    (baseExpReward: number, baseDrops: Array<{ id: string; count: number }>) => {
+      const bonuses = currentLocationConfig.bonuses;
+
+      const expReward = Math.floor(baseExpReward * bonuses.expMultiplier);
       activeWaifu?.addExp(expReward);
 
-      for (const drop of drops) {
-        inventory.addItem(drop.id, drop.count);
+      for (const drop of baseDrops) {
+        const boostedCount = Math.floor(drop.count * bonuses.dropChanceMultiplier);
+        inventory.addItem(drop.id, Math.max(1, boostedCount));
       }
 
-      refreshInventory();
+      const currentLevel = getCurrentEnemyLevel();
+      const baseGems = Math.floor(10 + currentLevel / 5);
+      const boostedGems = Math.floor(baseGems * bonuses.gemMultiplier);
+      inventory.addItem("gem", boostedGems);
 
-      const newLevel = enemyLevel + 1;
-      setEnemyLevel(newLevel);
-      setEnemy(Enemy.spawn(newLevel));
+      const baseEssence = 1;
+      const boostedEssence = Math.floor(baseEssence * bonuses.essenceMultiplier);
+      inventory.addItem("essence", Math.max(1, boostedEssence));
+
+      setLocationProgress((prev) => {
+        const newProgress = {
+          ...prev,
+          [currentLocation]: {
+            ...prev[currentLocation],
+            currentLevel: prev[currentLocation].currentLevel + 1,
+            maxLevelReached: Math.max(prev[currentLocation].maxLevelReached, prev[currentLocation].currentLevel),
+          },
+        };
+        return checkLocationUnlocks(newProgress);
+      });
+
+      refreshInventory();
     },
-    [enemyLevel, activeWaifu, inventory, refreshInventory],
+    [
+      activeWaifu,
+      inventory,
+      refreshInventory,
+      currentLocation,
+      currentLocationConfig,
+      getCurrentEnemyLevel,
+      checkLocationUnlocks,
+    ],
   );
 
   const handleUseItem = (itemId: string) => {
@@ -218,19 +280,26 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
 
   const gems = inventory.getItemCount("gem");
   const essence = inventory.getItemCount("essence");
+  const currentLevel = getCurrentEnemyLevel();
 
   return (
     <div className="game">
-      <Background locationId="forest" />
+      <Background locationId={currentLocation} />
       <header className="game-header">
         <div className="currency-display">
           <div className="currency-item">
             <Icon name="gem" size="md" />
             <span className="currency-value">{Math.floor(gems)}</span>
+            {currentLocationConfig.bonuses.gemMultiplier > 1 && (
+              <span className="bonus-indicator">x{currentLocationConfig.bonuses.gemMultiplier.toFixed(1)}</span>
+            )}
           </div>
           <div className="currency-item essence">
             <Icon name="essence" size="md" />
             <span className="currency-value">{Math.floor(essence)}</span>
+            {currentLocationConfig.bonuses.essenceMultiplier > 1 && (
+              <span className="bonus-indicator">x{currentLocationConfig.bonuses.essenceMultiplier.toFixed(1)}</span>
+            )}
           </div>
         </div>
 
@@ -240,6 +309,12 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
       </header>
 
       <nav className="game-sidebar">
+        <button className="side-btn" onClick={() => setShowLocationSelector(true)}>
+          <Icon name={currentLocation} size="lg" />
+          <span>{t("ui.location")}</span>
+          <span className="side-badge">{currentLevel}</span>
+        </button>
+
         <button className="side-btn" onClick={() => setShowGacha(true)}>
           <Icon name="gacha" size="lg" />
           <span>{t("ui.gacha")}</span>
@@ -262,7 +337,7 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
           <span>{t("ui.upgrades")}</span>
         </button>
         <button className="side-btn" onClick={() => setShowBackpack(true)}>
-          <Icon name="back" size="lg" />
+          <Icon name="backpack" size="lg" />
           <span>{t("ui.backpack")}</span>
         </button>
       </nav>
@@ -277,9 +352,18 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
             activeWaifu={activeWaifu}
             onEnemyDefeated={handleEnemyDefeated}
             isPaused={isGlobalPaused || showPause}
+            dropChanceMultiplier={currentLocationConfig.bonuses.dropChanceMultiplier}
           />
         </div>
       </main>
+
+      <LocationSelector
+        isOpen={showLocationSelector}
+        onClose={() => setShowLocationSelector(false)}
+        currentLocation={currentLocation}
+        locationProgress={locationProgress}
+        onLocationChange={handleLocationChange}
+      />
 
       <GachaPanel
         isOpen={showGacha}
@@ -289,7 +373,7 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
         onSummon={handleSummon}
       />
 
-      <CollectionPanel isOpen={showCollection} onClose={() => setShowCollection(false)} items={collection} />
+      <CollectionPanel isOpen={showCollection} onClose={() => setShowCollection(false)} collection={collection} />
 
       <WaifuSelectPanel
         isOpen={showWaifuSelect}

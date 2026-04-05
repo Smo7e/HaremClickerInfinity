@@ -1,7 +1,7 @@
 // src/classes/Enemy.ts
-import type { TDropItem, TElementType } from "../types";
+import type { TDropItem, TElementType, TLocation } from "../types";
 import { t } from "../locales/i18n";
-import { MONSTER_TEMPLATES } from "../game/constant";
+import { LOCATION_BOSSES, LOCATION_ENEMIES, MONSTER_TEMPLATES } from "../game/constant";
 
 export type TEnemyRewards = { gems: number; essence?: number; exp: number };
 
@@ -97,12 +97,13 @@ export class Enemy {
     return "normal";
   }
 
-  rollDrops(): Array<{ id: string; count: number }> {
+  rollDrops(bonusMultiplier: number = 1): Array<{ id: string; count: number }> {
     const results: Array<{ id: string; count: number }> = [];
 
     for (const drop of this.drops) {
       const roll = Math.random();
-      if (roll <= drop.chance) {
+      const adjustedChance = Math.min(1, drop.chance * bonusMultiplier);
+      if (roll <= adjustedChance) {
         const count = Math.floor(Math.random() * (drop.maxCount - drop.minCount + 1)) + drop.minCount;
         results.push({ id: drop.id, count });
       }
@@ -111,11 +112,16 @@ export class Enemy {
     return results;
   }
 
-  static spawn(level: number): Enemy {
+  static spawn(level: number, locationId: TLocation): Enemy {
     const isBoss = level % 10 === 0;
+    const locationEnemyIds = isBoss ? LOCATION_BOSSES[locationId] : LOCATION_ENEMIES[locationId];
 
-    const templates = MONSTER_TEMPLATES.filter((m) => m.isBoss === isBoss);
-    const template = templates[Math.floor(Math.random() * templates.length)] || MONSTER_TEMPLATES[0];
+    const availableTemplates = MONSTER_TEMPLATES.filter((m) => locationEnemyIds.includes(m.id) && m.isBoss === isBoss);
+
+    const template =
+      availableTemplates.length > 0
+        ? availableTemplates[Math.floor(Math.random() * availableTemplates.length)]
+        : MONSTER_TEMPLATES.find((m) => m.isBoss === isBoss) || MONSTER_TEMPLATES[0];
 
     const baseHp = template.baseHp * Math.pow(1.1, level - 1);
     const maxHp = isBoss ? baseHp * 5 : baseHp;

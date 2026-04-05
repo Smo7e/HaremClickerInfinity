@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { t } from "../../../../locales/i18n";
-import type { TItemType } from "../../../../types";
 import type { Inventory } from "../../../../classes/Inventory";
 import { RARITY_COLORS } from "../../../../game/constant";
 import "./BackpackPanel.css";
@@ -14,7 +13,7 @@ interface BackpackPanelProps {
   selectedWaifuId?: string;
 }
 
-type TabType = "all" | TItemType;
+type TabType = "all" | "consumable" | "material" | "currency";
 
 export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedWaifuId }: BackpackPanelProps) {
   const [activeTab, setActiveTab] = useState<TabType>("all");
@@ -24,12 +23,10 @@ export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedW
   const items = inventory.getAllItems();
 
   const filteredItems = activeTab === "all" ? items : items.filter((item) => item.type === activeTab);
-
   const tabs: { id: TabType; label: string; icon: string }[] = [
     { id: "all", label: t("ui.all"), icon: "all" },
-    { id: "material", label: t("ui.items"), icon: "collection" },
-    { id: "collection", label: t("ui.collection"), icon: "memoria" },
-    { id: "consumable", label: t("ui.items"), icon: "potion" },
+    { id: "consumable", label: t("ui.consumables"), icon: "potion" },
+    { id: "material", label: t("ui.materials"), icon: "collection" },
     { id: "currency", label: t("ui.currency"), icon: "gem" },
   ];
 
@@ -38,7 +35,7 @@ export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedW
       <div className="panel backpack-panel" onClick={(e) => e.stopPropagation()}>
         <div className="panel-header">
           <h2>
-            <Icon name="back" size="md" /> {t("ui.backpack")}
+            <Icon name="backpack" size="md" /> {t("ui.backpack")}
           </h2>
           <button className="btn-close" onClick={onClose}>
             ✕

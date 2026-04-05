@@ -1,0 +1,5520 @@
+Сборка компонентов из src... 
+ 
+===== СТРУКТУРА ПРОЕКТА (ВСЕ ФАЙЛЫ) ===== 
+(Включая public, изображения, стили и др., кроме node_modules) 
+ 
+(Автоматическое дерево не доступно, список файлов:
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\all_components.txt
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\collect.bat
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\collectNonCSS.bat
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\eslint.config.js
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\index.html
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\package-lock.json
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\package.json
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\README.md
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.app.json
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.json
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.node.json
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\vite.config.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\favicon.svg
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\icons.svg
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\index.html
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-D98C2m7x.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-WdzPZM_E.js
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\background.ogg
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\click.mp3
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\enemy_defeat.mp3
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\panel_click.mp3
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\abyss.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\castle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\desert.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\forest.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\ice.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\volcano.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\DarkMage.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\DireWolf.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Ghost.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Goblin.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\LesserDemon.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Mimic.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Mummy.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Skeleton.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Slime.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\VampireThrall.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Whelp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\accessory.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\all.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\back.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\check.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\close.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\collection.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\common.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\dark.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\earth.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\epic.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\essence.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\fire.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\gacha.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\gem.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\home.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\ice.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\legendary.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\light.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\memoria.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\mythic.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\outfit.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\pause.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\physical.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\play.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\pool.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\rare.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\settings.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\uncommon.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\unknown.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\upgrades.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\waifus.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\water.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\weapon.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Aqua.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Cerberus.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Emerald.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Frost.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Gaia.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Hana.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Ignis.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Leviathan.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Lux.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Momo.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Phoenix.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Rin.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Ruby.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Sakura.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Sapphire.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Sora.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Terra.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Tiamat.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Umbra.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Yui.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\YukiOnna.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\favicon.svg
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\icons.svg
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio\background.ogg
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio\click.mp3
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio\enemy_defeat.mp3
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio\panel_click.mp3
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\backgrounds
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\backgrounds\abyss.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\backgrounds\castle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\backgrounds\desert.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\backgrounds\forest.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\backgrounds\ice.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\backgrounds\volcano.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\AbyssLord.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\ArmoredKnight.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\CastleLord.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\CursedBanner.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\DarkMage.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\DesertColossus.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\DireWolf.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\FireImp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\ForestGolem.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\ForestGuardian.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\FrostWolf.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\Ghost.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\Goblin.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\IceElemental.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\IceQueen.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\InfernoDragonNON.txt
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\LavaSlime.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\LesserDemon.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\Mimic.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\Mummy.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\PoisonSpider.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\SandWorm.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\ScarabBeetle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\ShadowTentacle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\Skeleton.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\Slime.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\VampireThrall.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\VoidWalker.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\Whelp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\abyss.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\accessory.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\affection.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\all.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\auto.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\back.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\backpack.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\bone.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\castle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\check.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\click.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\close.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\coin.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\coin_old.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\collection.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\common.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\crit.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\critPower.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\dagger.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\dark.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\desert.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\duplicate.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\ear.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\earth.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\ectoplasm.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\epic.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\essence.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\essence_fire.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\fire.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\forest.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\gacha.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\gel.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\gem.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\home.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\horn.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\ice.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\legendary.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\level.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\light.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\max.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\memoria.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\mythic.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\orb_dark.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\outfit.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\pause.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\physical.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\play.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\pool.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\potion.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\rare.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\settings.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\shield.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\skull.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\slime_core.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\soul_shard.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\staff.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\summoning.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\uncommon.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\unknown.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\upgrades.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\volcano.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\waifus.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\water.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\weak.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\weapon.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\wing.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Aqua.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Cerberus.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Emerald.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Frost.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Gaia.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Hana.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Ignis.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Leviathan.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Lux.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Momo.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Phoenix.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Rin.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Ruby.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Sakura.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Sapphire.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Sora.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Terra.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Tiamat.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Umbra.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\Yui.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\waifus\YukiOnna.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\App.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\App.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\index.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\main.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\AudioManager.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Enemy.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Inventory.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Waifu.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Icon
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\LanguageSelector
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\LocationSelector
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Pause
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\UpgradePanel
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuComponent
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuDetailPanel
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuSelectPanel
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\Background.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\Background.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\BackpackPanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\BackpackPanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\CollectionPanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\CollectionPanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\EnemyComponent.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\EnemyComponent.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\DropPoolPanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\DropPoolPanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\GachaPanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\GachaPanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\LocationSelector\LocationSelector.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\LocationSelector\LocationSelector.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Pause\Pause.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Pause\Pause.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\UpgradePanel\UpgradePanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\UpgradePanel\UpgradePanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuComponent\WaifuComponent.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuComponent\WaifuComponent.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuDetailPanel\WaifuDetailPanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuDetailPanel\WaifuDetailPanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuSelectPanel\WaifuSelectPanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuSelectPanel\WaifuSelectPanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Icon\Icon.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\LanguageSelector\LanguageSelector.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\LanguageSelector\LanguageSelector.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu\MainMenu.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu\MainMenu.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settings.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settings.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\constant.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\i18n.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\locales.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
+ 
+ 
+===== СОДЕРЖИМОЕ ФАЙЛОВ (.ts / .tsx) ===== 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\LocationSelector\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\LocationSelector\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Pause\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Pause\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\UpgradePanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\UpgradePanel\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuComponent\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuComponent\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuDetailPanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuDetailPanel\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuSelectPanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuSelectPanel\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Icon\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Icon\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\LanguageSelector\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\LanguageSelector\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts ===== 
+import type { LocaleKeys } from "../locales/locales";
+
+export type TRarity = "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
+export type TElementType = "water" | "fire" | "earth" | "ice" | "light" | "dark" | "physical";
+export type TLocation = "forest" | "castle" | "desert" | "volcano" | "ice" | "abyss";
+
+export type TItemType = "collection" | "consumable" | "material" | "currency";
+
+export interface ILocationConfig {
+  id: TLocation;
+  nameKey: string;
+  availableEnemies: string[];
+  minLevel: number;
+  maxLevel: number;
+  levelScaling: number;
+  bonuses: {
+    gemMultiplier: number;
+    essenceMultiplier: number;
+    expMultiplier: number;
+    dropChanceMultiplier: number;
+  };
+}
+
+export type TWaifu = {
+  id: string;
+  nameKey: string;
+  rarity: TRarity;
+  element: TElementType;
+  image: string;
+  description: LocaleKeys;
+  clickPower: number;
+  autoClick: number;
+  multiplier: number;
+};
+export type TCollectionCategory = "weapon" | "accessory" | "memoria" | "outfit";
+export type TInventoryItem = {
+  id: string;
+  nameKey: string;
+  descriptionKey: LocaleKeys;
+  icon: string;
+  rarity: TRarity;
+  type: TItemType;
+  count: number;
+  maxStack?: number;
+  effect?: {
+    type: "exp" | "affection" | "crit_chance" | "heal" | "damage_boost";
+    value: number;
+    target: "selected_waifu" | "global";
+    duration?: number;
+  };
+  collectionCategory?: TCollectionCategory;
+};
+
+export type TDropItem = {
+  id: string;
+  nameKey: string;
+  chance: number;
+  minCount: number;
+  maxCount: number;
+  type: TItemType;
+};
+
+export interface IInventory {
+  items: TInventoryItem[];
+  collection: string[];
+}
+
+export type TConsumableItem = {
+  id: string;
+  nameKey: string;
+  descriptionKey: LocaleKeys;
+  icon: string;
+  effect: {
+    type: string;
+    value: number;
+    target: string;
+    duration?: number;
+  };
+  rarity: TRarity;
+};
+
+export type TLocationProgress = Record<
+  TLocation,
+  {
+    currentLevel: number;
+    maxLevelReached: number;
+    unlocked: boolean;
+  }
+>;
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\App.tsx ===== 
+import { useState, useEffect, useCallback } from "react";
+import { MainMenu } from "./components/MainMenu/MainMenu";
+import { Settings } from "./components/Settings/Settings";
+import { Game } from "./components/Game/Game";
+import type { Lang } from "./locales/locales";
+import { getLang, setLang } from "./locales/i18n";
+import { audioManager } from "./audio/AudioManager";
+
+export type TScreen = "menu" | "game";
+
+function App() {
+  const [screen, setScreen] = useState<TScreen>("menu");
+  const [isSettings, setIsSettings] = useState<boolean>(false);
+  const [_, setCurrentLang] = useState<Lang>(getLang());
+
+  const [isPaused, setIsPaused] = useState(false);
+  const [audioInitialized, setAudioInitialized] = useState(false);
+
+  const initAudio = useCallback(async () => {
+    if (!audioInitialized) {
+      await audioManager.init();
+      audioManager.setMusicVolume(0);
+      audioManager.setSFXVolume(0);
+      setAudioInitialized(true);
+    }
+  }, [audioInitialized]);
+
+  const handleLanguageChange = useCallback((lang: Lang) => {
+    setLang(lang);
+    setCurrentLang(lang);
+  }, []);
+
+  const handlePauseToggle = useCallback(() => {
+    setIsPaused((prev) => !prev);
+  }, []);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setIsPaused(true);
+        audioManager.pauseMusic();
+      } else {
+        setIsPaused(false);
+        audioManager.playMusic();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+  useEffect(() => {
+    initAudio().catch(console.error);
+
+    // Проверяем, что мы реально внутри YaGames iframe
+    const isYaGamesAvailable = () => {
+      try {
+        // @ts-ignore
+        return window.YaGames && window.self !== window.top;
+      } catch (e) {
+        return false;
+      }
+    };
+
+    if (isYaGamesAvailable()) {
+      try {
+        // @ts-ignore
+        const ysdk = window.YaGames.ysdk;
+
+        const handlePause = () => {
+          setIsPaused(true);
+          audioManager.setMuted(true);
+        };
+
+        const handleResume = () => {
+          setIsPaused(false);
+          audioManager.setMuted(false);
+        };
+
+        ysdk.on("game_api_pause", handlePause);
+        ysdk.on("game_api_resume", handleResume);
+
+        return () => {
+          ysdk.off("game_api_pause", handlePause);
+          ysdk.off("game_api_resume", handleResume);
+        };
+      } catch (e) {
+        console.log("YaGames SDK error:", e);
+      }
+    } else {
+      console.log("YaGames not available (running locally)");
+    }
+  }, []);
+
+  return (
+    <div className="app">
+      {screen === "menu" ? (
+        <MainMenu
+          onPlay={() => {
+            setScreen("game");
+            audioManager.playMusic();
+          }}
+          onSettings={() => setIsSettings(true)}
+          onLanguageChange={handleLanguageChange}
+        />
+      ) : (
+        <Game onBack={() => setScreen("menu")} isPaused={isPaused} />
+      )}
+
+      {isSettings && (
+        <Settings
+          setCurrentLang={handleLanguageChange}
+          setIsSettings={() => setIsSettings(false)}
+          isPaused={isPaused}
+          onPauseToggle={screen === "game" ? handlePauseToggle : undefined}
+        />
+      )}
+    </div>
+  );
+}
+
+export default App;
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\main.tsx ===== 
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\AudioManager.ts ===== 
+import type { TRarity } from "../types";
+
+type SFXType = "click" | "enemy_defeat" | "gacha_summon" | "gacha_rare" | "gacha_mythic" | "panel_click";
+
+interface AudioConfig {
+  musicVolume: number;
+  sfxVolume: number;
+  isMuted: boolean;
+  isMusicEnabled: boolean;
+}
+
+class AudioManager {
+  private static instance: AudioManager;
+  private music: HTMLAudioElement | null = null;
+  private sfxCache: Map<SFXType, HTMLAudioElement> = new Map();
+  private config: AudioConfig = {
+    musicVolume: 1,
+    sfxVolume: 1,
+    isMuted: false,
+    isMusicEnabled: true,
+  };
+  private isInitialized = false;
+  audioContext: AudioContext | null = null;
+
+  private readonly MUSIC_PATH = "/assets/audio/background.ogg";
+  private readonly SFX_PATHS: Record<SFXType, string> = {
+    click: "/assets/audio/click.mp3",
+    enemy_defeat: "/assets/audio/enemy_defeat.mp3",
+    panel_click: "/assets/audio/panel_click.mp3",
+
+    gacha_summon: "/assets/audio/gacha_summon.wav",
+    gacha_rare: "/assets/audio/gacha_rare.wav",
+    gacha_mythic: "/assets/audio/gacha_mythic.wav",
+  };
+
+  private constructor() {}
+
+  static getInstance(): AudioManager {
+    if (!AudioManager.instance) {
+      AudioManager.instance = new AudioManager();
+    }
+    return AudioManager.instance;
+  }
+
+  async init(): Promise<void> {
+    if (this.isInitialized) return;
+    try {
+      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+
+      this.music = new Audio(this.MUSIC_PATH);
+      this.music.loop = true;
+      this.music.volume = this.config.musicVolume;
+      this.music.preload = "auto";
+
+      await this.preloadSFX();
+
+      this.isInitialized = true;
+      console.log("[AudioManager] Initialized successfully");
+    } catch (error) {
+      console.error("[AudioManager] Initialization failed:", error);
+    }
+  }
+
+  private async preloadSFX(): Promise<void> {
+    const loadPromises = Object.entries(this.SFX_PATHS).map(([key, path]) => {
+      return new Promise<void>((resolve) => {
+        const audio = new Audio(path);
+        audio.preload = "auto";
+        audio.volume = this.config.sfxVolume;
+
+        audio.addEventListener(
+          "canplaythrough",
+          () => {
+            this.sfxCache.set(key as SFXType, audio);
+            resolve();
+          },
+          { once: true },
+        );
+
+        audio.addEventListener("error", () => {
+          console.warn(`[AudioManager] Failed to load SFX: ${path}`);
+          resolve();
+        });
+      });
+    });
+
+    await Promise.all(loadPromises);
+  }
+
+  playMusic(): void {
+    if (!this.isInitialized || !this.music) return;
+    if (this.config.isMuted || !this.config.isMusicEnabled) return;
+
+    if (this.music.paused) {
+      const playPromise = this.music.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.warn("[AudioManager] Music play prevented:", err);
+        });
+      }
+    }
+  }
+
+  pauseMusic(): void {
+    if (this.music && !this.music.paused) {
+      this.music.pause();
+    }
+  }
+
+  stopMusic(): void {
+    if (this.music) {
+      this.music.pause();
+      this.music.currentTime = 0;
+    }
+  }
+
+  playSFX(type: SFXType): void {
+    if (!this.isInitialized || this.config.isMuted) return;
+
+    const originalAudio = this.sfxCache.get(type);
+    if (!originalAudio) {
+      console.warn(`[AudioManager] SFX not found: ${type}`);
+      return;
+    }
+
+    const sfx = originalAudio.cloneNode() as HTMLAudioElement;
+    sfx.volume = this.config.sfxVolume;
+
+    const playPromise = sfx.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => {
+        console.warn(`[AudioManager] SFX play prevented:`, err);
+      });
+    }
+
+    sfx.addEventListener(
+      "ended",
+      () => {
+        sfx.remove();
+      },
+      { once: true },
+    );
+  }
+
+  playClick(): void {
+    this.playSFX("click");
+  }
+
+  playEnemyDefeat(): void {
+    this.playSFX("enemy_defeat");
+  }
+
+  playGacha(rarity: TRarity): void {
+    if (rarity === "mythic") {
+      this.playSFX("gacha_mythic");
+    } else if (rarity === "legendary" || rarity === "epic") {
+      this.playSFX("gacha_rare");
+    } else {
+      this.playSFX("gacha_summon");
+    }
+  }
+
+  setMusicVolume(volume: number): void {
+    this.config.musicVolume = Math.max(0, Math.min(1, volume));
+    if (this.music) {
+      this.music.volume = this.config.musicVolume;
+    }
+  }
+
+  setSFXVolume(volume: number): void {
+    this.config.sfxVolume = Math.max(0, Math.min(1, volume));
+    this.sfxCache.forEach((audio) => {
+      audio.volume = this.config.sfxVolume;
+    });
+  }
+
+  setMuted(muted: boolean): void {
+    this.config.isMuted = muted;
+    if (muted) {
+      this.pauseMusic();
+    } else if (this.config.isMusicEnabled) {
+      this.playMusic();
+    }
+  }
+
+  getState(): AudioConfig {
+    return { ...this.config };
+  }
+
+  get isReady(): boolean {
+    return this.isInitialized;
+  }
+}
+
+export const audioManager = AudioManager.getInstance();
+export type { SFXType };
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Enemy.ts ===== 
+// src/classes/Enemy.ts
+import type { TDropItem, TElementType, TLocation } from "../types";
+import { t } from "../locales/i18n";
+import { LOCATION_BOSSES, LOCATION_ENEMIES, MONSTER_TEMPLATES } from "../game/constant";
+
+export type TEnemyRewards = { gems: number; essence?: number; exp: number };
+
+export interface DamageInfo {
+  type: TElementType;
+  amount: number;
+  isCrit?: boolean;
+  source: string;
+}
+
+export interface EnemyConfig {
+  id: string;
+  nameKey: string;
+  level: number;
+  maxHp: number;
+  resistances: Partial<Record<TElementType, number>>;
+  sprite: string;
+  isBoss?: boolean;
+  drops: TDropItem[];
+}
+
+export class Enemy {
+  id: string;
+  nameKey: string;
+  level: number;
+  maxHp: number;
+  currentHp: number;
+  resistances: Record<TElementType, number>;
+  sprite: string;
+  isBoss: boolean;
+  expReward: number;
+  drops: TDropItem[];
+
+  constructor(config: EnemyConfig) {
+    this.id = config.id;
+    this.nameKey = config.nameKey;
+    this.level = config.level;
+    this.maxHp = config.maxHp;
+    this.currentHp = config.maxHp;
+    this.sprite = config.sprite;
+    this.isBoss = config.isBoss || false;
+    this.expReward = this.level * 10 * (this.isBoss ? 2 : 1);
+    this.drops = config.drops;
+
+    this.resistances = {
+      water: 0,
+      fire: 0,
+      earth: 0,
+      ice: 0,
+      light: 0,
+      dark: 0,
+      physical: 0,
+      ...config.resistances,
+    };
+  }
+
+  get name(): string {
+    return t(`monsters.${this.nameKey}.name`);
+  }
+
+  get description(): string {
+    return t(`monsters.${this.nameKey}.desc`);
+  }
+
+  takeDamage(damage: DamageInfo): number {
+    const resistance = this.resistances[damage.type] || 0;
+
+    let actualDamage = damage.amount * (1 - resistance);
+
+    if (damage.isCrit) {
+      actualDamage *= 2;
+    }
+
+    actualDamage = Math.floor(actualDamage);
+
+    this.currentHp = Math.max(0, this.currentHp - actualDamage);
+
+    return actualDamage;
+  }
+
+  isAlive(): boolean {
+    return this.currentHp > 0;
+  }
+
+  getHpPercent(): number {
+    return (this.currentHp / this.maxHp) * 100;
+  }
+
+  getElementEffectiveness(element: TElementType): "weak" | "normal" | "resist" {
+    const res = this.resistances[element];
+    if (res < 0) return "weak";
+    if (res > 0.3) return "resist";
+    return "normal";
+  }
+
+  rollDrops(bonusMultiplier: number = 1): Array<{ id: string; count: number }> {
+    const results: Array<{ id: string; count: number }> = [];
+
+    for (const drop of this.drops) {
+      const roll = Math.random();
+      const adjustedChance = Math.min(1, drop.chance * bonusMultiplier);
+      if (roll <= adjustedChance) {
+        const count = Math.floor(Math.random() * (drop.maxCount - drop.minCount + 1)) + drop.minCount;
+        results.push({ id: drop.id, count });
+      }
+    }
+
+    return results;
+  }
+
+  static spawn(level: number, locationId: TLocation): Enemy {
+    const isBoss = level % 10 === 0;
+    const locationEnemyIds = isBoss ? LOCATION_BOSSES[locationId] : LOCATION_ENEMIES[locationId];
+
+    const availableTemplates = MONSTER_TEMPLATES.filter((m) => locationEnemyIds.includes(m.id) && m.isBoss === isBoss);
+
+    const template =
+      availableTemplates.length > 0
+        ? availableTemplates[Math.floor(Math.random() * availableTemplates.length)]
+        : MONSTER_TEMPLATES.find((m) => m.isBoss === isBoss) || MONSTER_TEMPLATES[0];
+
+    const baseHp = template.baseHp * Math.pow(1.1, level - 1);
+    const maxHp = isBoss ? baseHp * 5 : baseHp;
+
+    const elements: TElementType[] = ["water", "fire", "earth", "ice", "light", "dark", "physical"];
+    const resistances: Partial<Record<TElementType, number>> = { ...template.resistances };
+
+    const resistCount = isBoss ? 3 : 1;
+    const shuffled = [...elements].sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < resistCount; i++) {
+      if (resistances[shuffled[i]] === undefined) {
+        resistances[shuffled[i]] = 0.25 + Math.random() * 0.5;
+      }
+    }
+
+    const weakCount = isBoss ? 2 : 1;
+    for (let i = 0; i < weakCount; i++) {
+      if (resistances[shuffled[i]] === undefined) {
+        resistances[shuffled[i]] = -0.5;
+      }
+    }
+
+    const drops: TDropItem[] = [...template.drops];
+
+    if (isBoss) {
+      drops.push({ id: "gem", nameKey: "gem", chance: 1, minCount: 50, maxCount: 50, type: "currency" });
+      drops.push({ id: "essence", nameKey: "essence", chance: 1, minCount: 5, maxCount: 5, type: "currency" });
+    } else {
+      drops.push({
+        id: "gem",
+        nameKey: "gem",
+        chance: 1,
+        minCount: 10 + Math.floor(level / 5),
+        maxCount: 10 + Math.floor(level / 5),
+        type: "currency",
+      });
+      drops.push({ id: "essence", nameKey: "essence", chance: 1, minCount: 1, maxCount: 1, type: "currency" });
+    }
+
+    return new Enemy({
+      id: `${template.id}_${level}_${Date.now()}`,
+      nameKey: template.nameKey,
+      level,
+      maxHp,
+      resistances,
+      sprite: template.sprite,
+      isBoss,
+      drops,
+    });
+  }
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Inventory.ts ===== 
+import type { TInventoryItem, TItemType, TCollectionCategory } from "../types";
+import { INVENTORY_ITEMS } from "../game/constant";
+
+export class Inventory {
+  private items: Map<string, TInventoryItem>;
+  private collection: Map<string, TCollectionCategory>; // id -> category
+
+  constructor() {
+    this.items = new Map();
+    this.collection = new Map();
+  }
+
+  addItem(itemId: string, count: number = 1): void {
+    const template = INVENTORY_ITEMS[itemId];
+    if (!template) {
+      console.warn(`Unknown item: ${itemId}`);
+      return;
+    }
+
+    // Коллекционные предметы сразу идут в коллекцию, не в рюкзак
+    if (template.type === "collection") {
+      const category = template.collectionCategory || "accessory";
+      this.collection.set(itemId, category);
+      return;
+    }
+
+    const existing = this.items.get(itemId);
+    const maxStack = template.maxStack || 99;
+
+    if (existing) {
+      const newCount = Math.min(existing.count + count, maxStack);
+      existing.count = newCount;
+    } else {
+      this.items.set(itemId, {
+        ...template,
+        count: Math.min(count, maxStack),
+      });
+    }
+  }
+
+  removeItem(itemId: string, count: number = 1): boolean {
+    const existing = this.items.get(itemId);
+    if (!existing || existing.count < count) return false;
+
+    existing.count -= count;
+    if (existing.count <= 0) {
+      this.items.delete(itemId);
+    }
+    return true;
+  }
+
+  getItem(itemId: string): TInventoryItem | undefined {
+    return this.items.get(itemId);
+  }
+
+  getItemCount(itemId: string): number {
+    return this.items.get(itemId)?.count || 0;
+  }
+
+  getAllItems(): TInventoryItem[] {
+    // Возвращает только НЕ коллекционные предметы
+    return Array.from(this.items.values()).filter((item) => item.type !== "collection");
+  }
+
+  getItemsByType(type: TItemType): TInventoryItem[] {
+    return this.getAllItems().filter((item) => item.type === type);
+  }
+
+  hasItem(itemId: string, count: number = 1): boolean {
+    const item = this.items.get(itemId);
+    return item ? item.count >= count : false;
+  }
+
+  // Коллекция методы
+  hasCollection(itemId: string): boolean {
+    return this.collection.has(itemId);
+  }
+
+  getCollection(): Map<string, TCollectionCategory> {
+    return new Map(this.collection);
+  }
+
+  getCollectionByCategory(category: TCollectionCategory): string[] {
+    return Array.from(this.collection.entries())
+      .filter(([_, cat]) => cat === category)
+      .map(([id]) => id);
+  }
+
+  useItem(itemId: string, waifuId?: string): { success: boolean; effect?: TInventoryItem["effect"]; message?: string } {
+    const item = this.items.get(itemId);
+    if (!item) return { success: false, message: "Item not found" };
+
+    if (item.type !== "consumable" || !item.effect) {
+      return { success: false, message: "Item is not usable" };
+    }
+
+    if (item.effect.target === "selected_waifu" && !waifuId) {
+      return { success: false, message: "No waifu selected" };
+    }
+
+    this.removeItem(itemId, 1);
+    return { success: true, effect: item.effect };
+  }
+
+  serialize(): string {
+    return JSON.stringify({
+      items: Array.from(this.items.entries()),
+      collection: Array.from(this.collection.entries()),
+    });
+  }
+
+  deserialize(data: string): void {
+    try {
+      const parsed = JSON.parse(data);
+      this.items = new Map(parsed.items || []);
+      this.collection = new Map(parsed.collection || []);
+    } catch (e) {
+      console.error("Failed to deserialize inventory:", e);
+    }
+  }
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Waifu.ts ===== 
+import type { TElementType, TRarity, TWaifu } from "../types";
+import { t } from "../locales/i18n";
+import type { LocaleKeys } from "../locales/locales";
+import type { IGlobalUpgrades } from "../components/Game/Game";
+
+export interface WaifuConfig {
+  id: string;
+  nameKey: string;
+  rarity: TRarity;
+  element: TElementType;
+  image: string;
+  description: LocaleKeys;
+  baseStats: {
+    clickPower: number;
+    autoClick: number;
+    critChance: number;
+    critMultiplier: number;
+  };
+}
+
+export interface WaifuStats {
+  level: number;
+  affection: number;
+  exp: number;
+  expToNext: number;
+  clicksGenerated: number;
+  totalDamage: number;
+}
+export class Waifu {
+  id: string;
+  nameKey: string;
+  rarity: TRarity;
+  element: TElementType;
+  image: string;
+  descriptionKey: LocaleKeys;
+
+  baseClickPower: number;
+  baseAutoClick: number;
+  baseCritChance: number;
+  baseCritMultiplier: number;
+
+  stats: WaifuStats;
+
+  duplicateCount: number;
+  maxDuplicates: number = 20;
+
+  unlockedOutfits: string[];
+  currentOutfit: string;
+
+  globalUpgrades: IGlobalUpgrades = {
+    clickPowerBonus: 0,
+    elementDamage: {
+      water: 0,
+      fire: 0,
+      earth: 0,
+      ice: 0,
+      light: 0,
+      dark: 0,
+      physical: 0,
+    },
+  };
+
+  constructor(config: WaifuConfig) {
+    this.id = config.id;
+    this.nameKey = config.nameKey;
+    this.rarity = config.rarity;
+    this.element = config.element;
+    this.image = config.image;
+    this.descriptionKey = config.description;
+
+    this.baseClickPower = config.baseStats.clickPower;
+    this.baseAutoClick = config.baseStats.autoClick;
+    this.baseCritChance = config.baseStats.critChance;
+    this.baseCritMultiplier = config.baseStats.critMultiplier;
+
+    this.stats = {
+      level: 1,
+      affection: 0,
+      exp: 0,
+      expToNext: 100,
+      clicksGenerated: 0,
+      totalDamage: 0,
+    };
+
+    this.duplicateCount = 0;
+    this.unlockedOutfits = ["default"];
+    this.currentOutfit = "default";
+  }
+
+  setGlobalUpgrades(upgrades: IGlobalUpgrades): void {
+    this.globalUpgrades = upgrades;
+  }
+
+  get name(): string {
+    return t(`waifus.${this.nameKey}.name`);
+  }
+
+  get description(): string {
+    return t(`waifus.${this.nameKey}.desc`);
+  }
+
+  getDuplicateMultiplier(): number {
+    return 1 + this.duplicateCount * 0.3;
+  }
+
+  getClickPower(): number {
+    const baseWithBonus = this.baseClickPower + this.globalUpgrades.clickPowerBonus * 100;
+
+    const totalPercentBonus =
+      (this.stats.level - 1) * 10 +
+      this.stats.affection * 1 +
+      this.duplicateCount * 30 +
+      (this.globalUpgrades.elementDamage[this.element] || 0) * 10;
+
+    const totalMultiplier = 1 + totalPercentBonus / 100;
+
+    return Math.floor(baseWithBonus * totalMultiplier);
+  }
+
+  getCritChance(): number {
+    return this.baseCritChance;
+  }
+
+  getCritMultiplier(): number {
+    const dupBonus = this.duplicateCount * 0.05;
+    return this.baseCritMultiplier + dupBonus;
+  }
+
+  addExp(amount: number): boolean {
+    this.stats.exp += amount;
+    let leveledUp = false;
+
+    while (this.stats.exp >= this.stats.expToNext) {
+      this.levelUp();
+      leveledUp = true;
+    }
+
+    return leveledUp;
+  }
+
+  private levelUp(): void {
+    this.stats.level++;
+    this.stats.exp -= this.stats.expToNext;
+    this.stats.expToNext = Math.floor(this.stats.expToNext * 1.2);
+  }
+
+  addAffection(amount: number): void {
+    this.stats.affection += amount;
+  }
+
+  recordClick(damage: number): void {
+    this.stats.clicksGenerated++;
+    this.stats.totalDamage += damage;
+  }
+
+  addDuplicate(): boolean {
+    if (this.duplicateCount < this.maxDuplicates) {
+      this.duplicateCount++;
+      return true;
+    }
+    return false;
+  }
+
+  isMaxed(): boolean {
+    return this.duplicateCount >= this.maxDuplicates;
+  }
+
+  changeOutfit(outfitId: string): boolean {
+    if (this.unlockedOutfits.includes(outfitId)) {
+      this.currentOutfit = outfitId;
+      return true;
+    }
+    return false;
+  }
+
+  unlockOutfit(outfitId: string): void {
+    if (!this.unlockedOutfits.includes(outfitId)) {
+      this.unlockedOutfits.push(outfitId);
+    }
+  }
+
+  getElementMultiplier(enemyResistances: Record<TElementType, number>): number {
+    const resist = enemyResistances[this.element] || 0;
+    return 1 - resist;
+  }
+
+  static createDefault(): Waifu {
+    return new Waifu({
+      id: "wf_sakura_001",
+      nameKey: "Sakura",
+      rarity: "common",
+      element: "physical",
+      image: "/assets/images/waifus/Sakura.png",
+      description: "waifus.Sakura.desc",
+      baseStats: {
+        clickPower: 100,
+        autoClick: 50,
+        critChance: 0.05,
+        critMultiplier: 2,
+      },
+    });
+  }
+
+  static fromTemplate(template: TWaifu): Waifu {
+    return new Waifu({
+      id: template.id,
+      nameKey: template.nameKey,
+      rarity: template.rarity,
+      element: template.element,
+      image: template.image,
+      description: template.description,
+      baseStats: {
+        clickPower: template.clickPower,
+        autoClick: template.autoClick,
+        critChance: 0.05,
+        critMultiplier: 2,
+      },
+    });
+  }
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.tsx ===== 
+import { useState, useEffect, useCallback } from "react";
+import { t } from "../../locales/i18n";
+import { Enemy } from "../../classes/Enemy";
+import { Waifu } from "../../classes/Waifu";
+import { EnemyComponent } from "./components/EnemyComponent/EnemyComponent";
+import { WaifuComponent } from "./components/WaifuComponent/WaifuComponent";
+import { UpgradePanel } from "./components/UpgradePanel/UpgradePanel";
+import { GachaPanel } from "./components/GachaPanel/GachaPanel";
+import { CollectionPanel } from "./components/CollectionPanel/CollectionPanel";
+import { WaifuSelectPanel } from "./components/WaifuSelectPanel/WaifuSelectPanel";
+import { WaifuDetailPanel } from "./components/WaifuDetailPanel/WaifuDetailPanel";
+import { Pause } from "./components/Pause/Pause";
+import { Settings } from "../Settings/Settings";
+import { LocationSelector } from "./components/LocationSelector/LocationSelector";
+import "./Game.css";
+import { testWaifus, LOCATIONS, LOCATION_UNLOCK_REQUIREMENTS } from "../../game/constant";
+import { Icon } from "../Icon/Icon";
+import { Background } from "./components/Background/Background";
+import { Inventory } from "../../classes/Inventory";
+import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
+import type { TCollectionCategory, TElementType, TLocation, TLocationProgress } from "../../types";
+
+interface Props {
+  onBack: () => void;
+  isPaused: boolean;
+}
+
+export interface IGlobalUpgrades {
+  clickPowerBonus: number;
+  elementDamage: Record<TElementType, number>;
+}
+
+const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
+  forest: { currentLevel: 1, maxLevelReached: 1, unlocked: true },
+  desert: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  ice: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  volcano: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  castle: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  abyss: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+};
+
+export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
+  const [inventory, setInventory] = useState(() => new Inventory());
+
+  const [currentLocation, setCurrentLocation] = useState<TLocation>("forest");
+  const [locationProgress, setLocationProgress] = useState<TLocationProgress>(INITIAL_LOCATION_PROGRESS);
+
+  const getCurrentEnemyLevel = useCallback(() => {
+    return locationProgress[currentLocation].currentLevel;
+  }, [currentLocation, locationProgress]);
+
+  const [enemy, setEnemy] = useState<Enemy>(() => Enemy.spawn(1, currentLocation));
+
+  const [ownedWaifus, setOwnedWaifus] = useState<Waifu[]>([Waifu.fromTemplate(testWaifus[0])]);
+  // testWaifus.map((template) => Waifu.fromTemplate(template)),
+  const [activeWaifu, setActiveWaifu] = useState<Waifu | null>(null);
+
+  const [globalUpgrades, setGlobalUpgrades] = useState<IGlobalUpgrades>({
+    clickPowerBonus: 0,
+    elementDamage: {
+      water: 0,
+      fire: 0,
+      earth: 0,
+      ice: 0,
+      light: 0,
+      dark: 0,
+      physical: 0,
+    },
+  });
+
+  const [collection, setCollection] = useState<Map<string, TCollectionCategory>>(new Map());
+
+  const [showGacha, setShowGacha] = useState(false);
+  const [showCollection, setShowCollection] = useState(false);
+  const [showWaifuSelect, setShowWaifuSelect] = useState(false);
+  const [showUpgrades, setShowUpgrades] = useState(false);
+  const [selectedWaifuDetail, setSelectedWaifuDetail] = useState<Waifu | null>(null);
+  const [showPause, setShowPause] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showLocationSelector, setShowLocationSelector] = useState(false);
+
+  const [showBackpack, setShowBackpack] = useState(false);
+
+  const currentLocationConfig = LOCATIONS.find((l) => l.id === currentLocation)!;
+
+  useEffect(() => {
+    setActiveWaifu(ownedWaifus[0]);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowPause((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    setOwnedWaifus((prev) =>
+      prev.map((w) => {
+        w.setGlobalUpgrades(globalUpgrades);
+        return w;
+      }),
+    );
+    if (activeWaifu) {
+      activeWaifu.setGlobalUpgrades(globalUpgrades);
+    }
+  }, [globalUpgrades]);
+
+  useEffect(() => {
+    const level = getCurrentEnemyLevel();
+    setEnemy(Enemy.spawn(level, currentLocation));
+  }, [currentLocation, getCurrentEnemyLevel]);
+
+  const refreshInventory = useCallback(() => {
+    setInventory((prev) => {
+      const next = new Inventory();
+      next.deserialize(prev.serialize());
+      setCollection(next.getCollection());
+      return next;
+    });
+  }, []);
+
+  const checkLocationUnlocks = useCallback((progress: TLocationProgress): TLocationProgress => {
+    const newProgress = { ...progress };
+
+    for (const [locationId, requirement] of Object.entries(LOCATION_UNLOCK_REQUIREMENTS)) {
+      const locId = locationId as TLocation;
+      if (!newProgress[locId].unlocked && requirement) {
+        const prevLocation = requirement.prevLocation;
+        if (newProgress[prevLocation].maxLevelReached >= requirement.killLevel) {
+          newProgress[locId].unlocked = true;
+        }
+      }
+    }
+
+    return newProgress;
+  }, []);
+
+  const handleLocationChange = useCallback((location: TLocation) => {
+    setCurrentLocation(location);
+    setShowLocationSelector(false);
+  }, []);
+
+  const handleEnemyDefeated = useCallback(
+    (baseExpReward: number, baseDrops: Array<{ id: string; count: number }>) => {
+      const bonuses = currentLocationConfig.bonuses;
+
+      const expReward = Math.floor(baseExpReward * bonuses.expMultiplier);
+      activeWaifu?.addExp(expReward);
+
+      for (const drop of baseDrops) {
+        const boostedCount = Math.floor(drop.count * bonuses.dropChanceMultiplier);
+        inventory.addItem(drop.id, Math.max(1, boostedCount));
+      }
+
+      const currentLevel = getCurrentEnemyLevel();
+      const baseGems = Math.floor(10 + currentLevel / 5);
+      const boostedGems = Math.floor(baseGems * bonuses.gemMultiplier);
+      inventory.addItem("gem", boostedGems);
+
+      const baseEssence = 1;
+      const boostedEssence = Math.floor(baseEssence * bonuses.essenceMultiplier);
+      inventory.addItem("essence", Math.max(1, boostedEssence));
+
+      setLocationProgress((prev) => {
+        const newProgress = {
+          ...prev,
+          [currentLocation]: {
+            ...prev[currentLocation],
+            currentLevel: prev[currentLocation].currentLevel + 1,
+            maxLevelReached: Math.max(prev[currentLocation].maxLevelReached, prev[currentLocation].currentLevel),
+          },
+        };
+        return checkLocationUnlocks(newProgress);
+      });
+
+      refreshInventory();
+    },
+    [
+      activeWaifu,
+      inventory,
+      refreshInventory,
+      currentLocation,
+      currentLocationConfig,
+      getCurrentEnemyLevel,
+      checkLocationUnlocks,
+    ],
+  );
+
+  const handleUseItem = (itemId: string) => {
+    if (!activeWaifu) {
+      alert(t("ui.selectWaifuFirst"));
+      return;
+    }
+
+    const result = inventory.useItem(itemId, activeWaifu.id);
+    if (result.success && result.effect) {
+      if (result.effect.type === "exp") {
+        activeWaifu.addExp(result.effect.value);
+      } else if (result.effect.type === "affection") {
+        activeWaifu.addAffection(result.effect.value);
+      }
+      setOwnedWaifus([...ownedWaifus]);
+      refreshInventory();
+    }
+  };
+
+  const handleUpgrade = (type: string, cost: number, element?: TElementType) => {
+    if (!inventory.removeItem("gem", cost)) return;
+
+    refreshInventory();
+
+    setGlobalUpgrades((prev) => {
+      const next = { ...prev };
+      if (type === "click_power") {
+        next.clickPowerBonus += 1;
+      } else if (type === "element" && element) {
+        next.elementDamage[element] += 1;
+      }
+
+      setOwnedWaifus((waifus) =>
+        waifus.map((w) => {
+          w.setGlobalUpgrades(next);
+          return w;
+        }),
+      );
+
+      if (activeWaifu) {
+        activeWaifu.setGlobalUpgrades(next);
+      }
+
+      return next;
+    });
+  };
+
+  const handleSummon = (waifu: Waifu, cost: number, isDuplicate: boolean) => {
+    inventory.removeItem("essence", cost);
+
+    waifu.setGlobalUpgrades(globalUpgrades);
+
+    if (isDuplicate) {
+      setOwnedWaifus((prev) => prev.map((w) => (w.id === waifu.id ? waifu : w)));
+
+      if (activeWaifu?.id === waifu.id) {
+        setActiveWaifu(waifu);
+      }
+    } else {
+      setOwnedWaifus((prev) => [...prev, waifu]);
+    }
+    refreshInventory();
+  };
+
+  const handleWaifuSelect = (waifu: Waifu) => {
+    setActiveWaifu(waifu);
+  };
+
+  const handleWaifuClick = () => {
+    if (activeWaifu) {
+      setSelectedWaifuDetail(activeWaifu);
+    }
+  };
+
+  const handlePauseSettings = () => {
+    setShowPause(false);
+    setShowSettings(true);
+  };
+
+  const handlePauseMenu = () => {
+    setShowPause(false);
+    onBack();
+  };
+
+  if (!activeWaifu) {
+    return <div className="game-loading">{t("ui.loading")}</div>;
+  }
+
+  const gems = inventory.getItemCount("gem");
+  const essence = inventory.getItemCount("essence");
+  const currentLevel = getCurrentEnemyLevel();
+
+  return (
+    <div className="game">
+      <Background locationId={currentLocation} />
+      <header className="game-header">
+        <div className="currency-display">
+          <div className="currency-item">
+            <Icon name="gem" size="md" />
+            <span className="currency-value">{Math.floor(gems)}</span>
+            {currentLocationConfig.bonuses.gemMultiplier > 1 && (
+              <span className="bonus-indicator">x{currentLocationConfig.bonuses.gemMultiplier.toFixed(1)}</span>
+            )}
+          </div>
+          <div className="currency-item essence">
+            <Icon name="essence" size="md" />
+            <span className="currency-value">{Math.floor(essence)}</span>
+            {currentLocationConfig.bonuses.essenceMultiplier > 1 && (
+              <span className="bonus-indicator">x{currentLocationConfig.bonuses.essenceMultiplier.toFixed(1)}</span>
+            )}
+          </div>
+        </div>
+
+        <button className="btn-icon-only" onClick={() => setShowPause(true)}>
+          <Icon name="pause" size="md" />
+        </button>
+      </header>
+
+      <nav className="game-sidebar">
+        <button className="side-btn" onClick={() => setShowLocationSelector(true)}>
+          <Icon name={currentLocation} size="lg" />
+          <span>{t("ui.location")}</span>
+          <span className="side-badge">{currentLevel}</span>
+        </button>
+
+        <button className="side-btn" onClick={() => setShowGacha(true)}>
+          <Icon name="gacha" size="lg" />
+          <span>{t("ui.gacha")}</span>
+          <span className="side-btn-cost">10✨</span>
+        </button>
+
+        <button className="side-btn" onClick={() => setShowCollection(true)}>
+          <Icon name="collection" size="lg" />
+          <span>{t("ui.collection")}</span>
+        </button>
+
+        <button className="side-btn" onClick={() => setShowWaifuSelect(true)}>
+          <Icon name="waifus" size="lg" />
+          <span>{t("ui.waifus")}</span>
+          <span className="side-badge">{ownedWaifus.length}</span>
+        </button>
+
+        <button className="side-btn" onClick={() => setShowUpgrades(true)}>
+          <Icon name="upgrades" size="lg" />
+          <span>{t("ui.upgrades")}</span>
+        </button>
+        <button className="side-btn" onClick={() => setShowBackpack(true)}>
+          <Icon name="backpack" size="lg" />
+          <span>{t("ui.backpack")}</span>
+        </button>
+      </nav>
+
+      <main className="game-main">
+        <div className="battle-arena">
+          <div onClick={handleWaifuClick} className="waifu-clickable">
+            <WaifuComponent waifu={activeWaifu} />
+          </div>
+          <EnemyComponent
+            enemy={enemy}
+            activeWaifu={activeWaifu}
+            onEnemyDefeated={handleEnemyDefeated}
+            isPaused={isGlobalPaused || showPause}
+            dropChanceMultiplier={currentLocationConfig.bonuses.dropChanceMultiplier}
+          />
+        </div>
+      </main>
+
+      <LocationSelector
+        isOpen={showLocationSelector}
+        onClose={() => setShowLocationSelector(false)}
+        currentLocation={currentLocation}
+        locationProgress={locationProgress}
+        onLocationChange={handleLocationChange}
+      />
+
+      <GachaPanel
+        isOpen={showGacha}
+        onClose={() => setShowGacha(false)}
+        essence={essence}
+        ownedWaifus={ownedWaifus}
+        onSummon={handleSummon}
+      />
+
+      <CollectionPanel isOpen={showCollection} onClose={() => setShowCollection(false)} collection={collection} />
+
+      <WaifuSelectPanel
+        isOpen={showWaifuSelect}
+        onClose={() => setShowWaifuSelect(false)}
+        waifus={ownedWaifus}
+        activeWaifu={activeWaifu}
+        onSelect={handleWaifuSelect}
+      />
+
+      <UpgradePanel
+        isOpen={showUpgrades}
+        onClose={() => setShowUpgrades(false)}
+        gems={gems}
+        onUpgrade={handleUpgrade}
+        upgradeLevels={{
+          clickPower: Math.floor(globalUpgrades.clickPowerBonus),
+          elementDamage: globalUpgrades.elementDamage,
+        }}
+      />
+      <BackpackPanel
+        isOpen={showBackpack}
+        onClose={() => setShowBackpack(false)}
+        inventory={inventory}
+        onUseItem={handleUseItem}
+        selectedWaifuId={activeWaifu?.id}
+      />
+
+      <WaifuDetailPanel
+        isOpen={!!selectedWaifuDetail}
+        onClose={() => setSelectedWaifuDetail(null)}
+        waifu={selectedWaifuDetail}
+      />
+
+      <Pause
+        isOpen={showPause}
+        onClose={() => setShowPause(false)}
+        onSettings={handlePauseSettings}
+        onMenu={handlePauseMenu}
+      />
+
+      {showSettings && (
+        <Settings
+          setIsSettings={() => setShowSettings(false)}
+          setCurrentLang={() => {}}
+          isPaused={isGlobalPaused || showPause}
+        />
+      )}
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\Background.tsx ===== 
+import "./Background.css";
+
+interface BackgroundProps {
+    locationId?: string;
+}
+
+export function Background({ locationId = "forest" }: BackgroundProps) {
+    return (
+        <div
+            className="game-background"
+            style={{
+                backgroundImage: `url(/assets/images/backgrounds/${locationId}.png)`,
+            }}
+        />
+    );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\BackpackPanel.tsx ===== 
+import { useState } from "react";
+import { t } from "../../../../locales/i18n";
+import type { Inventory } from "../../../../classes/Inventory";
+import { RARITY_COLORS } from "../../../../game/constant";
+import "./BackpackPanel.css";
+import { Icon } from "../../../Icon/Icon";
+
+interface BackpackPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  inventory: Inventory;
+  onUseItem: (itemId: string) => void;
+  selectedWaifuId?: string;
+}
+
+type TabType = "all" | "consumable" | "material" | "currency";
+
+export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedWaifuId }: BackpackPanelProps) {
+  const [activeTab, setActiveTab] = useState<TabType>("all");
+
+  if (!isOpen) return null;
+
+  const items = inventory.getAllItems();
+
+  const filteredItems = activeTab === "all" ? items : items.filter((item) => item.type === activeTab);
+  const tabs: { id: TabType; label: string; icon: string }[] = [
+    { id: "all", label: t("ui.all"), icon: "all" },
+    { id: "consumable", label: t("ui.consumables"), icon: "potion" },
+    { id: "material", label: t("ui.materials"), icon: "collection" },
+    { id: "currency", label: t("ui.currency"), icon: "gem" },
+  ];
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel backpack-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>
+            <Icon name="backpack" size="md" /> {t("ui.backpack")}
+          </h2>
+          <button className="btn-close" onClick={onClose}>
+            ✕
+          </button>
+        </div>
+
+        <div className="backpack-tabs">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              className={`backpack-tab ${activeTab === tab.id ? "active" : ""}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              <Icon name={tab.icon} size="sm" />
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="backpack-content">
+          {filteredItems.length === 0 ? (
+            <p className="empty-message">{t("ui.noItems")}</p>
+          ) : (
+            <div className="item-grid">
+              {filteredItems.map((item) => (
+                <div key={item.id} className={`item-card rarity-${item.rarity}`}>
+                  <div className="item-icon-container">
+                    <Icon name={item.icon} size="lg" />
+                    {item.count > 1 && <span className="item-count">{item.count}</span>}
+                  </div>
+                  <div className="item-info">
+                    <span className="item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
+                      {t(`items.${item.nameKey}.name`)}
+                    </span>
+                    <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
+                  </div>
+                  {item.type === "consumable" && (
+                    <button
+                      className="btn-use-item"
+                      onClick={() => onUseItem(item.id)}
+                      disabled={item.effect?.target === "selected_waifu" && !selectedWaifuId}
+                    >
+                      {t("ui.use")}
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\CollectionPanel.tsx ===== 
+import { useState, useMemo } from "react";
+import { t } from "../../../../locales/i18n";
+import type { TCollectionCategory } from "../../../../types";
+import { INVENTORY_ITEMS } from "../../../../game/constant";
+import "./CollectionPanel.css";
+import { Icon } from "../../../Icon/Icon";
+
+interface CollectionPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  collection: Map<string, TCollectionCategory>; // id -> category
+}
+
+export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanelProps) {
+  const [selectedCategory, setSelectedCategory] = useState<TCollectionCategory | "all">("all");
+
+  // Формируем список из полученных коллекционных предметов
+  const collectedItems = useMemo(() => {
+    return Array.from(collection.entries()).map(([id, category]) => {
+      const template = INVENTORY_ITEMS[id];
+      return {
+        id,
+        category,
+        nameKey: template?.nameKey || id,
+        descriptionKey: template?.descriptionKey || "",
+        icon: template?.icon || "unknown",
+        rarity: template?.rarity || "common",
+      };
+    });
+  }, [collection]);
+
+  const categories = [
+    { id: "all", name: t("ui.all"), icon: "all" },
+    { id: "weapon", name: t("collection.weapons"), icon: "weapon" },
+    { id: "accessory", name: t("collection.accessories"), icon: "accessory" },
+    { id: "memoria", name: t("collection.memoria"), icon: "memoria" },
+    { id: "outfit", name: t("collection.outfits"), icon: "outfit" },
+  ] as const;
+
+  const filteredItems =
+    selectedCategory === "all" ? collectedItems : collectedItems.filter((item) => item.category === selectedCategory);
+
+  // Подсчёт по категориям
+  const counts = useMemo(() => {
+    const total = collectedItems.length;
+    const byCategory = {
+      weapon: collectedItems.filter((i) => i.category === "weapon").length,
+      accessory: collectedItems.filter((i) => i.category === "accessory").length,
+      memoria: collectedItems.filter((i) => i.category === "memoria").length,
+      outfit: collectedItems.filter((i) => i.category === "outfit").length,
+    };
+    return { total, byCategory };
+  }, [collectedItems]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel collection-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>{t("ui.collection")}</h2>
+          <div className="collection-progress">
+            {counts.total} {t("ui.items")}
+          </div>
+          <button className="btn-close" onClick={onClose}>
+            ✕
+          </button>
+        </div>
+
+        <div className="category-tabs">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`category-tab ${selectedCategory === cat.id ? "active" : ""}`}
+              onClick={() => setSelectedCategory(cat.id as TCollectionCategory | "all")}
+            >
+              <Icon name={cat.icon} size="md" />
+              <span>{cat.name}</span>
+              {cat.id !== "all" && (
+                <span className="category-count">{counts.byCategory[cat.id as TCollectionCategory] || 0}</span>
+              )}
+            </button>
+          ))}
+        </div>
+
+        <div className="collection-grid">
+          {filteredItems.length === 0 ? (
+            <div className="empty-collection">
+              <Icon name="collection" size="lg" />
+              <p>{t("ui.noCollectionItems")}</p>
+              <small>{t("ui.killEnemiesForDrops")}</small>
+            </div>
+          ) : (
+            filteredItems.map((item) => (
+              <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
+                <div className="item-icon">
+                  <Icon name={item.icon} size="lg" />
+                </div>
+                <div className="item-info">
+                  <span className="item-name">{t(`items.${item.nameKey}.name`)}</span>
+                  <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
+                  <span className="item-category">{t(`collection.${item.category}s`)}</span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Плейсхолдеры для недоступных категорий */}
+        {selectedCategory === "memoria" && counts.byCategory.memoria === 0 && (
+          <div className="category-hint">
+            <Icon name="memoria" size="md" />
+            <p>{t("ui.memoriaHint")}</p>
+            <small>{t("ui.buyInShop")}</small>
+          </div>
+        )}
+
+        {selectedCategory === "outfit" && counts.byCategory.outfit === 0 && (
+          <div className="category-hint">
+            <Icon name="outfit" size="md" />
+            <p>{t("ui.outfitHint")}</p>
+            <small>{t("ui.buyInShop")}</small>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\EnemyComponent.tsx ===== 
+import { useState, useEffect, useRef } from "react";
+import { Enemy, type DamageInfo } from "../../../../classes/Enemy";
+import type { Waifu } from "../../../../classes/Waifu";
+import "./EnemyComponent.css";
+import { ELEMENT_COLORS, ELEMENT_KEYS, INVENTORY_ITEMS } from "../../../../game/constant";
+import type { TElementType } from "../../../../types";
+import { audioManager } from "../../../../audio/AudioManager";
+import { t } from "../../../../locales/i18n";
+import { Icon } from "../../../Icon/Icon";
+
+interface DropEffect {
+  id: number;
+  x: number;
+  y: number;
+  itemId: string;
+  count: number;
+}
+
+interface EnemyComponentProps {
+  enemy: Enemy;
+  activeWaifu: Waifu;
+  onEnemyDefeated: (expReward: number, drops: Array<{ id: string; count: number }>) => void;
+  isPaused: boolean;
+  dropChanceMultiplier?: number;
+}
+
+export function EnemyComponent({
+  enemy,
+  activeWaifu,
+  onEnemyDefeated,
+  isPaused,
+  dropChanceMultiplier = 1,
+}: EnemyComponentProps) {
+  const [clickEffects, setClickEffects] = useState<
+    Array<{
+      id: number;
+      x: number;
+      y: number;
+      value: number;
+      isCrit: boolean;
+      element: TElementType;
+      effectiveness: "weak" | "normal" | "resist";
+    }>
+  >([]);
+  const [dropEffects, setDropEffects] = useState<DropEffect[]>([]);
+  const dropIdRef = useRef(0);
+  const clickIdRef = useRef(0);
+
+  const addDropEffect = (x: number, y: number, itemId: string, count: number) => {
+    const id = dropIdRef.current++;
+    setDropEffects((prev) => [...prev, { id, x, y, itemId, count }]);
+    setTimeout(() => {
+      setDropEffects((prev) => prev.filter((effect) => effect.id !== id));
+    }, 800);
+  };
+
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      performAutoAttack();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const performAutoAttack = () => {
+    const damage = activeWaifu.getClickPower();
+    const isCrit = Math.random() < activeWaifu.getCritChance();
+    const damageInfo: DamageInfo = {
+      type: activeWaifu.element,
+      amount: damage,
+      isCrit,
+      source: activeWaifu.id,
+    };
+    const actualDamage = enemy.takeDamage(damageInfo);
+    addClickEffect(window.innerWidth / 2, window.innerHeight / 2 - 100, actualDamage, isCrit, activeWaifu.element);
+    audioManager.playClick();
+    if (!enemy.isAlive()) {
+      death();
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+    if (isPaused) return;
+    audioManager.playClick();
+    let clientX, clientY;
+    if ("touches" in e) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = (e as React.MouseEvent).clientX;
+      clientY = (e as React.MouseEvent).clientY;
+    }
+    const clickPower = activeWaifu.getClickPower();
+    const isCrit = Math.random() < activeWaifu.getCritChance();
+    const damageInfo: DamageInfo = {
+      type: activeWaifu.element,
+      amount: clickPower,
+      isCrit,
+      source: activeWaifu.id,
+    };
+    const actualDamage = enemy.takeDamage(damageInfo);
+    const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
+    activeWaifu.recordClick(actualDamage);
+    addClickEffect(clientX, clientY, actualDamage, isCrit, activeWaifu.element, effectiveness);
+    if (!enemy.isAlive()) {
+      death();
+    }
+  };
+
+  const death = () => {
+    audioManager.playEnemyDefeat();
+    const drops = enemy.rollDrops(dropChanceMultiplier);
+    drops.forEach((drop, index) => {
+      const offsetX = (index - drops.length / 2) * 40;
+      const offsetY = -50 - Math.random() * 30;
+      addDropEffect(window.innerWidth / 2 + offsetX, window.innerHeight / 2 + offsetY, drop.id, drop.count);
+    });
+    onEnemyDefeated(enemy.expReward, drops);
+  };
+
+  const addClickEffect = (
+    x: number,
+    y: number,
+    value: number,
+    isCrit: boolean,
+    element: TElementType,
+    effectiveness?: "weak" | "normal" | "resist",
+  ) => {
+    const id = clickIdRef.current++;
+    setClickEffects((prev) => [
+      ...prev,
+      {
+        id,
+        x,
+        y,
+        value,
+        isCrit,
+        element,
+        effectiveness: effectiveness || "normal",
+      },
+    ]);
+    setTimeout(() => {
+      setClickEffects((prev) => prev.filter((effect) => effect.id !== id));
+    }, 600);
+  };
+
+  const getResistanceTooltip = (value: number): string => {
+    if (value > 0) {
+      return `${t("ui.resist")}: ${Math.round(value * 100)}%`;
+    } else {
+      return `${t("ui.weak")}: ${Math.round(Math.abs(value) * 100)}%`;
+    }
+  };
+
+  return (
+    <div className="enemy-component">
+      <div className="enemy-header">
+        <span className="enemy-name">{enemy.name}</span>
+        <span className="enemy-level">
+          {t("ui.level")} {enemy.level}
+        </span>
+        {enemy.isBoss && <span className="boss-badge">{t("ui.boss")}</span>}
+      </div>
+
+      <div
+        className={`enemy-sprite-container ${!enemy.isAlive() ? "defeated" : ""}`}
+        onClick={handleClick}
+        onTouchStart={handleClick}
+      >
+        <img src={enemy.sprite} alt={enemy.name} draggable={false} />
+        {enemy.isBoss && <div className="boss-aura" />}
+      </div>
+
+      <div className="enemy-hp-container">
+        <div className="enemy-hp-bar">
+          <div className="enemy-hp-fill" style={{ width: `${enemy.getHpPercent()}%` }} />
+        </div>
+        <span className="enemy-hp-text">
+          {Math.floor(enemy.currentHp)} / {Math.floor(enemy.maxHp)} {t("ui.hp")}
+        </span>
+      </div>
+
+      <div className="enemy-resists">
+        {Object.entries(enemy.resistances)
+          .filter(([_, value]) => value !== 0)
+          .map(([element, value]) => (
+            <span
+              key={element}
+              className={`resist-badge ${value > 0 ? "resist" : "weak"}`}
+              title={getResistanceTooltip(value)}
+            >
+              <Icon name={element} size="md" />
+              {t(`ui.${ELEMENT_KEYS[element as TElementType]}`)}
+            </span>
+          ))}
+      </div>
+
+      {clickEffects.map((effect) => (
+        <div
+          key={effect.id}
+          className={`damage-effect ${effect.isCrit ? "crit" : ""} ${effect.effectiveness}`}
+          style={{
+            left: effect.x,
+            top: effect.y,
+            color: ELEMENT_COLORS[effect.element],
+          }}
+        >
+          <div className="damage-icon">
+            <Icon name={effect.isCrit ? "crit" : "click"} size="sm" />
+            {effect.effectiveness === "weak" && <Icon name="weak" size="sm" />}
+            {effect.effectiveness === "resist" && <Icon name="shield" size="sm" />}
+          </div>
+          <span className="damage-value">{effect.value}</span>
+        </div>
+      ))}
+      {dropEffects.map((effect) => (
+        <div
+          key={effect.id}
+          className="drop-effect"
+          style={{
+            left: effect.x,
+            top: effect.y,
+          }}
+        >
+          <Icon name={INVENTORY_ITEMS[effect.itemId]?.icon || "unknown"} size="md" />
+          <span className="drop-count">+{effect.count}</span>
+          <span className="drop-name">
+            {t(`items.${INVENTORY_ITEMS[effect.itemId]?.nameKey || effect.itemId}.name`)}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\DropPoolPanel.tsx ===== 
+// src/components/Game/components/GachaPanel/DropPoolPanel.tsx
+import { memo, useState } from "react";
+import { t } from "../../../../locales/i18n";
+import { testWaifus, RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
+import type { Waifu } from "../../../../classes/Waifu";
+import type { TRarity, TWaifu } from "../../../../types";
+
+import "./DropPoolPanel.css";
+import { Icon } from "../../../Icon/Icon";
+
+interface DropPoolPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  ownedWaifus: Waifu[];
+}
+
+const rarities: TRarity[] = ["mythic", "legendary", "epic", "rare", "uncommon", "common"];
+
+const GROUPED_WAIFUS = rarities.reduce(
+  (acc, rarity) => {
+    acc[rarity] = testWaifus.filter((w) => w.rarity === rarity);
+    return acc;
+  },
+  {} as Record<TRarity, TWaifu[]>,
+);
+
+export const DropPoolPanel = memo(({ isOpen, onClose, ownedWaifus }: DropPoolPanelProps) => {
+  const [selectedRarity, setSelectedRarity] = useState<TRarity | "all">("all");
+
+  if (!isOpen) return null;
+
+  const getWaifuStatus = (waifuId: string) => {
+    const owned = ownedWaifus.find((w) => w.id === waifuId);
+    return {
+      isOwned: !!owned,
+      count: owned?.duplicateCount || 0,
+      max: 20,
+    };
+  };
+
+  const displayedRarities = selectedRarity === "all" ? rarities : [selectedRarity];
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel drop-pool-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>
+            <Icon name="pool" size="md" /> {t("ui.dropPool")}
+          </h2>
+          <button className="btn-close" onClick={onClose}>
+            ✕
+          </button>
+        </div>
+
+        <div className="rarity-filter-tabs">
+          <button
+            className={`rarity-tab ${selectedRarity === "all" ? "active" : ""}`}
+            onClick={() => setSelectedRarity("all")}
+          >
+            {t("ui.all")}
+          </button>
+          {rarities.map((rarity) => (
+            <button
+              key={rarity}
+              className={`rarity-tab ${selectedRarity === rarity ? "active" : ""} rarity-${rarity}`}
+              onClick={() => setSelectedRarity(rarity)}
+              style={{
+                borderColor: RARITY_COLORS[rarity],
+                color: selectedRarity === rarity ? RARITY_COLORS[rarity] : undefined,
+              }}
+            >
+              {t(`ui.${RARITY_KEYS[rarity]}`)}
+            </button>
+          ))}
+        </div>
+
+        <div className="drop-pool-content">
+          {displayedRarities.map((rarity) => (
+            <div key={rarity} className="rarity-section">
+              <h3 className="rarity-title" style={{ color: RARITY_COLORS[rarity] }}>
+                {t(`ui.${RARITY_KEYS[rarity]}`)} <Icon name={rarity} size="sm" />
+              </h3>
+
+              <div className="waifu-grid">
+                {GROUPED_WAIFUS[rarity].map((template) => {
+                  const status = getWaifuStatus(template.id);
+
+                  return (
+                    <div key={template.id} className={`pool-waifu-card ${status.isOwned ? "owned" : "locked"}`}>
+                      <div className="pool-waifu-image-container">
+                        {status.isOwned ? (
+                          <img
+                            src={template.image}
+                            alt={t(`waifus.${template.nameKey}.name`)}
+                            className="pool-waifu-image"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = "/assets/images/waifus/default.png";
+                            }}
+                          />
+                        ) : (
+                          <div className="pool-waifu-unknown">
+                            <span className="unknown-icon">❓</span>
+                          </div>
+                        )}
+
+                        <div className="pool-waifu-element">
+                          <Icon name={template.element} size="sm" />
+                        </div>
+
+                        {status.isOwned && (
+                          <div className="duplicate-counter">
+                            <span className="dup-count">{status.count}</span>
+                            <span className="dup-separator">/</span>
+                            <span className="dup-max">{status.max}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="pool-waifu-info">
+                        <span className="pool-waifu-name">
+                          {status.isOwned ? t(`waifus.${template.nameKey}.name`) : "???"}
+                        </span>
+
+                        {status.isOwned && (
+                          <div className="pool-waifu-stats">
+                            <small>
+                              <Icon name="click" size="sm" />{" "}
+                              {Math.floor(template.clickPower * (1 + status.count * 0.3))}
+                            </small>
+                            <small>
+                              <Icon name="auto" size="sm" /> {Math.floor(template.autoClick * (1 + status.count * 0.3))}
+                            </small>
+                          </div>
+                        )}
+
+                        {status.isOwned && status.count >= 20 && (
+                          <div className="maxed-badge">
+                            <Icon name="max" size="sm" /> {t("ui.max")}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="drop-pool-footer">
+          <p className="drop-hint">{t("ui.dropPoolHint")}</p>
+        </div>
+      </div>
+    </div>
+  );
+});
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\GachaPanel.tsx ===== 
+import { useEffect, useRef, useState } from "react";
+import { t } from "../../../../locales/i18n";
+import { Waifu } from "../../../../classes/Waifu";
+import { testWaifus, BASE_DROP_RATES, RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
+import type { TRarity } from "../../../../types";
+
+import "./GachaPanel.css";
+import { DropPoolPanel } from "./DropPoolPanel";
+import { Icon } from "../../../Icon/Icon";
+
+interface GachaPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  essence: number;
+  ownedWaifus: Waifu[];
+  onSummon: (waifu: Waifu, cost: number, isDuplicate: boolean) => void;
+}
+
+type Tab = "summon" | "pool";
+
+export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: GachaPanelProps) {
+  const timeoutRef = useRef<number>(0);
+  const [activeTab, setActiveTab] = useState<Tab>("summon");
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [result, setResult] = useState<{
+    waifu: Waifu;
+    isDuplicate: boolean;
+  } | null>(null);
+  const [showPool, setShowPool] = useState(false);
+
+  const getAvailablePool = () => {
+    const maxedIds = new Set(ownedWaifus.filter((w) => w.isMaxed()).map((w) => w.id));
+    return testWaifus.filter((w) => !maxedIds.has(w.id));
+  };
+
+  const calculateDropRates = () => {
+    const available = getAvailablePool();
+    const counts: Record<TRarity, number> = {
+      common: available.filter((w) => w.rarity === "common").length,
+      uncommon: available.filter((w) => w.rarity === "uncommon").length,
+      rare: available.filter((w) => w.rarity === "rare").length,
+      epic: available.filter((w) => w.rarity === "epic").length,
+      legendary: available.filter((w) => w.rarity === "legendary").length,
+      mythic: available.filter((w) => w.rarity === "mythic").length,
+    };
+
+    const total = Object.values(counts).reduce((a, b) => a + b, 0);
+    if (total === 0) return null;
+
+    return {
+      counts,
+      rates: BASE_DROP_RATES,
+    };
+  };
+
+  const performSummon = () => {
+    if (essence < 10) return;
+
+    const available = getAvailablePool();
+    if (available.length === 0) {
+      alert(t("ui.poolEmpty"));
+      return;
+    }
+
+    setIsAnimating(true);
+
+    timeoutRef.current = setTimeout(() => {
+      const roll = Math.random();
+      let rarity: TRarity;
+
+      if (roll < BASE_DROP_RATES.mythic) rarity = "mythic";
+      else if (roll < BASE_DROP_RATES.legendary) rarity = "legendary";
+      else if (roll < BASE_DROP_RATES.epic) rarity = "epic";
+      else if (roll < BASE_DROP_RATES.rare) rarity = "rare";
+      else if (roll < BASE_DROP_RATES.uncommon) rarity = "uncommon";
+      else rarity = "common";
+
+      const candidates = available.filter((w) => w.rarity === rarity);
+
+      let selected;
+      if (candidates.length === 0) {
+        const randomIdx = Math.floor(Math.random() * available.length);
+        selected = available[randomIdx];
+      } else {
+        const randomIdx = Math.floor(Math.random() * candidates.length);
+        selected = candidates[randomIdx];
+      }
+
+      const existingWaifu = ownedWaifus.find((w) => w.id === selected.id);
+      let waifu: Waifu;
+      let isDuplicate = false;
+
+      if (existingWaifu) {
+        existingWaifu.addDuplicate();
+        waifu = existingWaifu;
+        isDuplicate = true;
+      } else {
+        waifu = Waifu.fromTemplate(selected);
+      }
+
+      setResult({ waifu, isDuplicate });
+      setIsAnimating(false);
+      onSummon(waifu, 10, isDuplicate);
+      timeoutRef.current = 0;
+    }, 1000);
+  };
+
+  const handleClose = () => {
+    setResult(null);
+    setActiveTab("summon");
+    onClose();
+  };
+
+  const dropInfo = calculateDropRates();
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="panel-overlay" onClick={handleClose}>
+      <div className="panel gacha-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>
+            <Icon name="gacha" size="md" /> {t("ui.gacha")}
+          </h2>
+          <button className="btn-close" onClick={handleClose}>
+            ✕
+          </button>
+        </div>
+
+        <div className="gacha-tabs">
+          <button
+            className={`gacha-tab ${activeTab === "summon" ? "active" : ""}`}
+            onClick={() => setActiveTab("summon")}
+          >
+            {t("ui.summon")}
+          </button>
+          <button className={`gacha-tab ${activeTab === "pool" ? "active" : ""}`} onClick={() => setActiveTab("pool")}>
+            {t("ui.dropPool")}
+          </button>
+        </div>
+
+        <div className="panel-content">
+          {activeTab === "summon" ? (
+            <>
+              {isAnimating ? (
+                <div className="gacha-animation">
+                  <Icon name="summoning" size="lg" className="gacha-orb" />
+                  <p>{t("ui.summoning")}...</p>
+                </div>
+              ) : result ? (
+                <div className={`gacha-result rarity-${result.waifu.rarity} ${result.isDuplicate ? "duplicate" : ""}`}>
+                  {result.isDuplicate && (
+                    <div className="duplicate-banner">
+                      <span>
+                        <Icon name="duplicate" size="sm" /> {t("ui.duplicate")}
+                      </span>
+                      <small>+30% {t("ui.stats")}</small>
+                    </div>
+                  )}
+
+                  <div className="result-waifu">
+                    <img src={result.waifu.image} alt={result.waifu.name} />
+                    <h3>{result.waifu.name}</h3>
+                    <span
+                      className="rarity-label"
+                      style={{
+                        color: RARITY_COLORS[result.waifu.rarity],
+                      }}
+                    >
+                      {t(`ui.${RARITY_KEYS[result.waifu.rarity]}`).toUpperCase()}
+                    </span>
+                    {result.isDuplicate && <span className="dup-count-badge">{result.waifu.duplicateCount}/20</span>}
+                  </div>
+
+                  <div className="waifu-stats-preview">
+                    <span>
+                      <Icon name="click" size="sm" /> {result.waifu.getClickPower()}
+                    </span>
+                    <span>
+                      <Icon name="auto" size="sm" /> {result.waifu.getClickPower()}
+                    </span>
+                    <span>
+                      <Icon name="crit" size="sm" /> {(result.waifu.getCritChance() * 100).toFixed(1)}%
+                    </span>
+                  </div>
+
+                  <button className="btn-primary" onClick={() => setResult(null)}>
+                    {t("ui.continue")}
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <p className="gacha-description">{t("gacha.desc")}</p>
+
+                  <div className="gacha-rates">
+                    <h4>{t("ui.dropRates")}</h4>
+                    {dropInfo ? (
+                      <>
+                        {Object.entries(BASE_DROP_RATES).map(([rarity, rate]) => (
+                          <div key={rarity} className={`rate-row rarity-${rarity}`}>
+                            <span className="rarity-name">{t(`ui.${RARITY_KEYS[rarity as TRarity]}`)}</span>
+                            <span className="rate-value">{(rate * 100).toFixed(1)}%</span>
+                            <span className="available-count">
+                              ({dropInfo.counts[rarity as TRarity]} {t("ui.available")})
+                            </span>
+                          </div>
+                        ))}
+                      </>
+                    ) : (
+                      <p className="empty-pool-warning">⚠️ {t("ui.poolEmptyWarning")}</p>
+                    )}
+                  </div>
+
+                  <div className="gacha-action">
+                    <div className="cost-display">
+                      <span>
+                        <Icon name="essence" size="sm" /> 10 {t("ui.essence")}
+                      </span>
+                      <span className="player-essence">
+                        {t("ui.youHave")}: {essence} <Icon name="essence" size="sm" />
+                      </span>
+                    </div>
+                    <button
+                      className="btn-primary btn-summon"
+                      onClick={performSummon}
+                      disabled={essence < 10 || !dropInfo}
+                    >
+                      {t("ui.summon")}
+                    </button>
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <div className="pool-preview-tab">
+              <p className="pool-preview-hint">{t("ui.poolPreviewHint")}</p>
+              <button className="btn-secondary" onClick={() => setShowPool(true)}>
+                📚 {t("ui.viewFullPool")}
+              </button>
+
+              <div className="quick-pool-stats">
+                <h4>{t("ui.collectionProgress")}</h4>
+                <div className="collection-bar">
+                  <div
+                    className="collection-fill"
+                    style={{
+                      width: `${(ownedWaifus.length / testWaifus.length) * 100}%`,
+                    }}
+                  />
+                  <span>
+                    {ownedWaifus.length} / {testWaifus.length}
+                  </span>
+                </div>
+
+                <div className="maxed-stats">
+                  <span>
+                    {t("ui.maxedWaifus")}: {ownedWaifus.filter((w) => w.isMaxed()).length}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <DropPoolPanel isOpen={showPool} onClose={() => setShowPool(false)} ownedWaifus={ownedWaifus} />
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\LocationSelector\LocationSelector.tsx ===== 
+import { t } from "../../../../locales/i18n";
+import { LOCATIONS, LOCATION_ENEMIES, LOCATION_UNLOCK_REQUIREMENTS } from "../../../../game/constant";
+import type { TLocation, TLocationProgress } from "../../../../types";
+import { Icon } from "../../../Icon/Icon";
+import "./LocationSelector.css";
+
+interface LocationSelectorProps {
+  isOpen: boolean;
+  onClose: () => void;
+  currentLocation: TLocation;
+  locationProgress: TLocationProgress;
+  onLocationChange: (location: TLocation) => void;
+}
+
+export function LocationSelector({
+  isOpen,
+  onClose,
+  currentLocation,
+  locationProgress,
+  onLocationChange,
+}: LocationSelectorProps) {
+  if (!isOpen) return null;
+
+  const formatBonus = (value: number) => (value >= 1 ? value.toFixed(1) : value.toFixed(2));
+
+  const getUnlockRequirement = (locationId: TLocation) => {
+    const req = LOCATION_UNLOCK_REQUIREMENTS[locationId];
+    if (!req) return null;
+    return {
+      prevLocationName: t(`ui.locations.${req.prevLocation}`),
+      killLevel: req.killLevel,
+      currentMax: locationProgress[req.prevLocation].maxLevelReached,
+    };
+  };
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel location-selector-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>
+            <Icon name="pool" size="md" /> {t("ui.changeLocation")}
+          </h2>
+          <button className="btn-close" onClick={onClose}>
+            ✕
+          </button>
+        </div>
+
+        <div className="location-list">
+          {LOCATIONS.map((loc) => {
+            const progress = locationProgress[loc.id];
+            const isUnlocked = progress.unlocked;
+            const isCurrent = currentLocation === loc.id;
+            const unlockReq = getUnlockRequirement(loc.id);
+
+            return (
+              <button
+                key={loc.id}
+                className={`location-card ${isCurrent ? "active" : ""} ${!isUnlocked ? "locked" : ""}`}
+                onClick={() => {
+                  if (isUnlocked && !isCurrent) {
+                    onLocationChange(loc.id);
+                  }
+                }}
+                disabled={!isUnlocked || isCurrent}
+              >
+                <div className="location-icon">
+                  <Icon name={loc.id} size="lg" />
+                </div>
+
+                <div className="location-info">
+                  <span className="location-name">{t(`ui.locations.${loc.id}`)}</span>
+                  <span className="location-enemies">
+                    {LOCATION_ENEMIES[loc.id]
+                      .slice(0, 2)
+                      .map((e) => t(`monsters.${e}.name`))
+                      .join(", ")}
+                    ...
+                  </span>
+
+                  <div className="location-bonuses">
+                    <span className="bonus-badge gem">💎 x{formatBonus(loc.bonuses.gemMultiplier)}</span>
+                    <span className="bonus-badge essence">✨ x{formatBonus(loc.bonuses.essenceMultiplier)}</span>
+                    <span className="bonus-badge exp">⭐ x{formatBonus(loc.bonuses.expMultiplier)}</span>
+                  </div>
+                </div>
+
+                <div className="location-meta">
+                  {isCurrent ? (
+                    <span className="current-badge">{t("ui.active")}</span>
+                  ) : isUnlocked ? (
+                    <div className="progress-info">
+                      <span className="level-badge">Lvl {progress.currentLevel}</span>
+                      <span className="max-badge">Max {progress.maxLevelReached}</span>
+                    </div>
+                  ) : unlockReq ? (
+                    <span className="lock-badge">
+                      {t("ui.unlockRequirement")
+                        .replace("{{location}}", unlockReq.prevLocationName)
+                        .replace("{{level}}", unlockReq.killLevel.toString())}
+                      <br />({unlockReq.currentMax}/{unlockReq.killLevel})
+                    </span>
+                  ) : null}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Pause\Pause.tsx ===== 
+import { t } from "../../../../locales/i18n";
+import { Icon } from "../../../Icon/Icon";
+import "./Pause.css";
+
+interface PauseProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSettings: () => void;
+  onMenu: () => void;
+}
+
+export function Pause({ isOpen, onClose, onSettings, onMenu }: PauseProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="pause-overlay" onClick={onClose}>
+      <div className="pause-modal" onClick={(e) => e.stopPropagation()}>
+        <h2 className="pause-title">
+          <Icon name="pause" size="lg" /> {t("ui.pause")}
+        </h2>
+
+        <div className="pause-buttons">
+          <button className="btn-pause btn-resume" onClick={onClose}>
+            <Icon name="play" size="md" />
+            {t("ui.resume")}
+          </button>
+
+          <button className="btn-pause btn-pause-settings" onClick={onSettings}>
+            <Icon name="settings" size="md" />
+            {t("ui.settings")}
+          </button>
+
+          <button className="btn-pause btn-exit" onClick={onMenu}>
+            <Icon name="home" size="md" />
+            {t("ui.exitToMenu")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\UpgradePanel\UpgradePanel.tsx ===== 
+import { t } from "../../../../locales/i18n";
+import { Icon } from "../../../Icon/Icon";
+import "./UpgradePanel.css";
+import type { TElementType } from "../../../../types";
+import { ELEMENT_COLORS } from "../../../../game/constant";
+
+interface UpgradePanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  gems: number;
+  onUpgrade: (type: string, cost: number, element?: TElementType) => void;
+  upgradeLevels: {
+    clickPower: number;
+    elementDamage: Record<TElementType, number>;
+  };
+}
+
+interface UpgradeConfig {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  getCost: (level: number) => number;
+  getEffect: (level: number) => string;
+  level: number;
+  element?: TElementType;
+}
+
+export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }: UpgradePanelProps) {
+  const getCost = (baseCost: number, level: number) => {
+    const scaledLevel = Math.min(level, 100);
+    return Math.floor(baseCost * Math.pow(1.5, scaledLevel));
+  };
+
+  const upgrades: UpgradeConfig[] = [
+    {
+      id: "click_power",
+      name: t("upgrades.click.name"),
+      description: t("upgrades.click.desc"),
+      icon: "click",
+      getCost: (lvl) => getCost(10, lvl),
+      getEffect: (lvl) => `+${(lvl + 1) * 1000}`,
+      level: upgradeLevels.clickPower,
+    },
+    {
+      id: "element_water",
+      name: t("upgrades.elementWater.name"),
+      description: t("upgrades.elementWater.desc"),
+      icon: "water",
+      getCost: (lvl) => getCost(100, lvl),
+      getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
+      level: upgradeLevels.elementDamage.water,
+      element: "water",
+    },
+    {
+      id: "element_fire",
+      name: t("upgrades.elementFire.name"),
+      description: t("upgrades.elementFire.desc"),
+      icon: "fire",
+      getCost: (lvl) => getCost(100, lvl),
+      getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
+      level: upgradeLevels.elementDamage.fire,
+      element: "fire",
+    },
+    {
+      id: "element_earth",
+      name: t("upgrades.elementEarth.name"),
+      description: t("upgrades.elementEarth.desc"),
+      icon: "earth",
+      getCost: (lvl) => getCost(100, lvl),
+      getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
+      level: upgradeLevels.elementDamage.earth,
+      element: "earth",
+    },
+    {
+      id: "element_ice",
+      name: t("upgrades.elementIce.name"),
+      description: t("upgrades.elementIce.desc"),
+      icon: "ice",
+      getCost: (lvl) => getCost(100, lvl),
+      getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
+      level: upgradeLevels.elementDamage.ice,
+      element: "ice",
+    },
+    {
+      id: "element_light",
+      name: t("upgrades.elementLight.name"),
+      description: t("upgrades.elementLight.desc"),
+      icon: "light",
+      getCost: (lvl) => getCost(100, lvl),
+      getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
+      level: upgradeLevels.elementDamage.light,
+      element: "light",
+    },
+    {
+      id: "element_dark",
+      name: t("upgrades.elementDark.name"),
+      description: t("upgrades.elementDark.desc"),
+      icon: "dark",
+      getCost: (lvl) => getCost(100, lvl),
+      getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
+      level: upgradeLevels.elementDamage.dark,
+      element: "dark",
+    },
+    {
+      id: "element_physical",
+      name: t("upgrades.elementPhysical.name"),
+      description: t("upgrades.elementPhysical.desc"),
+      icon: "physical",
+      getCost: (lvl) => getCost(100, lvl),
+      getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
+      level: upgradeLevels.elementDamage.physical,
+      element: "physical",
+    },
+  ];
+
+  const handleUpgrade = (upgrade: UpgradeConfig) => {
+    const cost = upgrade.getCost(upgrade.level);
+    if (gems >= cost) {
+      onUpgrade(upgrade.element ? "element" : upgrade.id, cost, upgrade.element);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel upgrade-panel-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>
+            <Icon name="upgrades" size="md" /> {t("ui.upgrades")}
+          </h2>
+          <div className="gems-display">
+            <Icon name="gem" size="sm" />
+            <span>{Math.floor(gems)}</span>
+          </div>
+          <button className="btn-close" onClick={onClose}>
+            <Icon name="close" size="md" />
+          </button>
+        </div>
+
+        <div className="panel-content">
+          <p className="upgrades-global-hint">{t("upgrades.globalHint")}</p>
+
+          <div className="upgrade-list-modal">
+            {upgrades.map((upgrade) => {
+              const cost = upgrade.getCost(upgrade.level);
+              const effect = upgrade.getEffect(upgrade.level);
+              const canAfford = gems >= cost;
+
+              return (
+                <div
+                  key={upgrade.id}
+                  className="upgrade-item-modal"
+                  style={upgrade.element ? { borderLeft: `4px solid ${ELEMENT_COLORS[upgrade.element]}` } : undefined}
+                >
+                  <div className="upgrade-info-modal">
+                    <span
+                      className="upgrade-icon-modal"
+                      style={upgrade.element ? { background: `${ELEMENT_COLORS[upgrade.element]}20` } : undefined}
+                    >
+                      <Icon name={upgrade.icon} size="lg" />
+                    </span>
+                    <div className="upgrade-details-modal">
+                      <span className="upgrade-name-modal">{upgrade.name}</span>
+                      <span className="upgrade-desc-modal">{upgrade.description}</span>
+                      <span className="upgrade-level-modal">
+                        {t("ui.level")}: {upgrade.level}
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="btn-upgrade-modal"
+                    onClick={() => handleUpgrade(upgrade)}
+                    disabled={!canAfford}
+                    style={upgrade.element ? { background: ELEMENT_COLORS[upgrade.element] } : undefined}
+                  >
+                    <span className="upgrade-effect-modal">{effect}</span>
+                    <span className="upgrade-cost-modal">💎 {cost}</span>
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuComponent\WaifuComponent.tsx ===== 
+import { Waifu } from "../../../../classes/Waifu";
+import { RARITY_COLORS } from "../../../../game/constant";
+import "./WaifuComponent.css";
+import { t } from "../../../../locales/i18n";
+import { Icon } from "../../../Icon/Icon";
+
+interface WaifuComponentProps {
+  waifu: Waifu;
+}
+
+export function WaifuComponent({ waifu }: WaifuComponentProps) {
+  const rarityColor = RARITY_COLORS[waifu.rarity];
+
+  return (
+    <div className="waifu-component">
+      <div className="waifu-portrait-container">
+        <img
+          src={waifu.image}
+          alt={waifu.name}
+          className="waifu-portrait"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = "/waifus/placeholder.png";
+          }}
+        />
+        <div className="waifu-element-icon">
+          <Icon name={waifu.element} size="md" />
+        </div>
+      </div>
+
+      <div className="waifu-info-battle">
+        <h3 className="waifu-name-battle" style={{ color: rarityColor }}>
+          {waifu.name}
+        </h3>
+
+        <div className="waifu-stats-battle">
+          <span className="waifu-level">
+            <Icon name="level" size="sm" /> {t("ui.level")}.{waifu.stats.level}
+          </span>
+          <span className="waifu-click-power">
+            <Icon name="click" size="sm" /> {waifu.getClickPower()}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuDetailPanel\WaifuDetailPanel.tsx ===== 
+import { t } from "../../../../locales/i18n";
+import { Waifu } from "../../../../classes/Waifu";
+import { RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
+import "./WaifuDetailPanel.css";
+import { Icon } from "../../../Icon/Icon";
+
+interface WaifuDetailPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  waifu: Waifu | null;
+}
+
+export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelProps) {
+  if (!isOpen || !waifu) return null;
+
+  const rarityColor = RARITY_COLORS[waifu.rarity];
+  const expPercent = (waifu.stats.exp / waifu.stats.expToNext) * 100;
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel waifu-detail-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2 style={{ color: rarityColor }}>{waifu.name}</h2>
+          <button className="btn-close" onClick={onClose}>
+            <Icon name="close" size="md" />
+          </button>
+        </div>
+
+        <div className="waifu-detail-content">
+          <div className="waifu-detail-portrait">
+            <img
+              src={waifu.image}
+              alt={waifu.name}
+              style={{ borderColor: rarityColor }}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/assets/images/waifus/default.png";
+              }}
+            />
+            <div className="waifu-detail-element">
+              <Icon name={waifu.element} size="lg" />
+            </div>
+          </div>
+
+          <div className="waifu-detail-rarity" style={{ color: rarityColor, borderColor: rarityColor }}>
+            <Icon name={waifu.rarity} size="sm" />
+            {t(`ui.${RARITY_KEYS[waifu.rarity]}`).toUpperCase()}
+          </div>
+
+          <p className="waifu-description">{t(waifu.description as any)}</p>
+
+          <div className="waifu-stats-detail">
+            <div className="stat-row-detail">
+              <span className="stat-label">
+                <Icon name="level" size="sm" /> {t("ui.level")}
+              </span>
+              <span className="stat-value">{waifu.stats.level}</span>
+            </div>
+
+            <div className="stat-row-detail exp-row">
+              <span className="stat-label">
+                <Icon name="exp" size="sm" /> {t("ui.exp")}
+              </span>
+              <div className="exp-bar-container">
+                <div className="exp-bar-fill" style={{ width: `${expPercent}%` }} />
+                <span className="exp-text">
+                  {waifu.stats.exp} / {waifu.stats.expToNext}
+                </span>
+              </div>
+            </div>
+
+            <div className="stat-row-detail">
+              <span className="stat-label">
+                <Icon name="affection" size="sm" /> {t("ui.affection")}
+              </span>
+              <span className="stat-value">{waifu.stats.affection}</span>
+            </div>
+
+            <div className="stat-row-detail">
+              <span className="stat-label">
+                <Icon name="click" size="sm" /> {t("ui.click")}
+              </span>
+              <span className="stat-value">{waifu.getClickPower()}</span>
+            </div>
+
+            <div className="stat-row-detail">
+              <span className="stat-label">
+                <Icon name="auto" size="sm" /> {t("ui.auto")}
+              </span>
+              <span className="stat-value">{waifu.getClickPower()}/s</span>
+            </div>
+
+            <div className="stat-row-detail">
+              <span className="stat-label">
+                <Icon name="crit" size="sm" /> {t("ui.critChance")}
+              </span>
+              <span className="stat-value">{(waifu.getCritChance() * 100).toFixed(1)}%</span>
+            </div>
+
+            <div className="stat-row-detail">
+              <span className="stat-label">
+                <Icon name="critPower" size="sm" /> {t("ui.critPower")}
+              </span>
+              <span className="stat-value">{waifu.getCritMultiplier().toFixed(1)}x</span>
+            </div>
+
+            <div className="stat-row-detail">
+              <span className="stat-label">
+                <Icon name="outfit" size="sm" /> {t("ui.outfits")}
+              </span>
+              <span className="stat-value">{waifu.unlockedOutfits.length}</span>
+            </div>
+          </div>
+
+          <div className="waifu-stats-total">
+            <h4>{t("ui.totalStats")}</h4>
+            <p>
+              <Icon name="click" size="sm" /> {waifu.stats.clicksGenerated} {t("ui.clicks")}
+            </p>
+            <p>
+              <Icon name="damage" size="sm" /> {waifu.stats.totalDamage} {t("ui.damage")}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuSelectPanel\WaifuSelectPanel.tsx ===== 
+import { t } from "../../../../locales/i18n";
+import { Waifu } from "../../../../classes/Waifu";
+
+import "./WaifuSelectPanel.css";
+import { RARITY_COLORS } from "../../../../game/constant";
+import { Icon } from "../../../Icon/Icon";
+
+interface WaifuSelectPanelProps {
+  isOpen: boolean;
+  waifus: Waifu[];
+  activeWaifu: Waifu | null;
+
+  onClose: () => void;
+  onSelect: (waifu: Waifu) => void;
+}
+
+export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelect }: WaifuSelectPanelProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel waifu-select-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>{t("ui.selectWaifu")}</h2>
+          <button className="btn-close" onClick={onClose}>
+            <Icon name="close" size="md" />
+          </button>
+        </div>
+
+        <div className="waifu-list">
+          {waifus.length === 0 ? (
+            <p className="empty-message">{t("ui.noWaifus")}</p>
+          ) : (
+            waifus.map((waifu) => (
+              <button
+                key={waifu.id}
+                className={`waifu-card ${activeWaifu?.id === waifu.id ? "active" : ""}`}
+                style={{ borderColor: activeWaifu?.id === waifu.id ? undefined : RARITY_COLORS[waifu.rarity] }}
+                onClick={() => {
+                  onSelect(waifu);
+                  onClose();
+                }}
+              >
+                <div className="waifu-card-portrait">
+                  <img
+                    src={waifu.image}
+                    alt={waifu.name}
+                    style={{
+                      borderColor: RARITY_COLORS[waifu.rarity],
+                    }}
+                  />
+                  <span className="waifu-element">
+                    <Icon name={waifu.element} size="sm" />
+                  </span>
+                </div>
+
+                <div className="waifu-card-info">
+                  <span className="waifu-name" style={{ color: RARITY_COLORS[waifu.rarity] }}>
+                    {waifu.name}
+                  </span>
+                  <span className="waifu-lvl">
+                    {t("ui.level")}.{waifu.stats.level}
+                  </span>
+                  <div className="waifu-stats-row">
+                    <small>
+                      <Icon name="click" size="sm" /> {waifu.getClickPower()}
+                    </small>
+                    <small>
+                      <Icon name="auto" size="sm" /> {waifu.getClickPower()}
+                    </small>
+                  </div>
+                </div>
+
+                {activeWaifu?.id === waifu.id && <span className="active-badge">✓</span>}
+              </button>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Icon\Icon.tsx ===== 
+interface IconProps {
+  name: string;
+  size?: "sm" | "md" | "lg";
+  className?: string;
+}
+
+const sizeMap = {
+  sm: 24,
+  md: 32,
+  lg: 48,
+};
+
+// Эмодзи для отсутствующих иконок
+const EMOJI_FALLBACK: Record<string, string> = {};
+export function Icon({ name, size = "md", className = "" }: IconProps) {
+  const px = sizeMap[size];
+
+  if (EMOJI_FALLBACK[name]) {
+    return (
+      <span
+        className={`icon icon-emoji ${className}`}
+        style={{
+          fontSize: px,
+          width: px,
+          height: px,
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          lineHeight: 1,
+        }}
+        title={`Missing icon: ${name}`}
+      >
+        {EMOJI_FALLBACK[name]}
+      </span>
+    );
+  }
+  return (
+    <img
+      src={`/assets/images/icons/${name}.png`}
+      alt=""
+      width={px}
+      height={px}
+      className={`icon ${className}`}
+      draggable={false}
+      style={{
+        width: px,
+        height: px,
+        objectFit: "contain",
+        flexShrink: 0,
+        border: 0,
+      }}
+      onError={(e) => {
+        const target = e.target as HTMLImageElement;
+        target.style.display = "none";
+        const parent = target.parentElement;
+        if (parent) {
+          parent.innerHTML = "❓";
+          parent.style.fontSize = `${px}px`;
+          parent.style.display = "inline-flex";
+          parent.style.alignItems = "center";
+          parent.style.justifyContent = "center";
+        }
+      }}
+    />
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\LanguageSelector\LanguageSelector.tsx ===== 
+import { useState, useEffect, useRef } from "react";
+import { t, setLang, getLang } from "../../locales/i18n";
+import type { Lang } from "../../locales/locales";
+
+import "./LanguageSelector.css";
+
+interface LanguageSelectorProps {
+    variant?: "icon" | "dropdown" | "buttons";
+    showLabel?: boolean;
+    onLanguageChange?: (lang: Lang) => void;
+    className?: string;
+}
+
+const languages: {
+    code: Lang;
+    flag: string;
+    name: string;
+    nativeName: string;
+}[] = [{ code: "ru", flag: "🇷🇺", name: "Russian", nativeName: "Русский" }];
+
+export function LanguageSelector({
+    variant = "icon",
+    showLabel = false,
+    onLanguageChange,
+    className = "",
+}: LanguageSelectorProps) {
+    const [isOpen, setIsOpen] = useState(false);
+    const [currentLang, setCurrentLang] = useState<Lang>(getLang());
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: Event) => {
+            if (
+                containerRef.current &&
+                !containerRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("touchstart", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("touchstart", handleClickOutside);
+        };
+    }, [isOpen]);
+
+    const handleLanguageSelect = (lang: Lang) => {
+        setLang(lang);
+        setCurrentLang(lang);
+        setIsOpen(false);
+        onLanguageChange?.(lang);
+    };
+
+    const currentLanguage =
+        languages.find((l) => l.code === currentLang) || languages[0];
+
+    if (variant === "icon") {
+        return (
+            <div
+                ref={containerRef}
+                className={`language-selector-icon ${className}`}
+            >
+                <button
+                    className="lang-icon-btn"
+                    onClick={() => setIsOpen(!isOpen)}
+                    title={t("ui.changeLanguage")}
+                    aria-label={t("ui.changeLanguage")}
+                >
+                    <span className="lang-globe">🌐</span>
+                    <span className="lang-current-flag">
+                        {currentLanguage.flag}
+                    </span>
+                </button>
+
+                {isOpen && (
+                    <div className="lang-dropdown">
+                        {languages.map((lang) => (
+                            <button
+                                key={lang.code}
+                                className={`lang-option ${currentLang === lang.code ? "active" : ""}`}
+                                onClick={() => handleLanguageSelect(lang.code)}
+                            >
+                                <span className="lang-flag">{lang.flag}</span>
+                                <span className="lang-native-name">
+                                    {lang.nativeName}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    if (variant === "dropdown") {
+        return (
+            <div
+                ref={containerRef}
+                className={`language-selector-dropdown ${className}`}
+            >
+                {showLabel && (
+                    <span className="setting-label">{t("ui.language")}</span>
+                )}
+                <button
+                    className="lang-dropdown-toggle"
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    <span>{currentLanguage.flag}</span>
+                    <span>{currentLanguage.nativeName}</span>
+                    <span className="dropdown-arrow">{isOpen ? "▲" : "▼"}</span>
+                </button>
+
+                {isOpen && (
+                    <div className="lang-dropdown-menu">
+                        {languages.map((lang) => (
+                            <button
+                                key={lang.code}
+                                className={`lang-dropdown-option ${currentLang === lang.code ? "active" : ""}`}
+                                onClick={() => handleLanguageSelect(lang.code)}
+                            >
+                                <span>{lang.flag}</span>
+                                <span>{lang.nativeName}</span>
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    return (
+        <div className={`language-selector-buttons ${className}`}>
+            {showLabel && (
+                <span className="setting-label">{t("ui.language")}</span>
+            )}
+            <div className="lang-buttons-row">
+                {languages.map((lang) => (
+                    <button
+                        key={lang.code}
+                        className={`lang-btn ${currentLang === lang.code ? "active" : ""}`}
+                        onClick={() => handleLanguageSelect(lang.code)}
+                        title={lang.nativeName}
+                    >
+                        <span className="lang-btn-flag">{lang.flag}</span>
+                        <span className="lang-btn-name">{lang.nativeName}</span>
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu\MainMenu.tsx ===== 
+import { t } from "../../locales/i18n";
+import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
+import type { Lang } from "../../locales/locales";
+import "./MainMenu.css";
+
+interface Props {
+    onPlay: () => void;
+    onSettings: () => void;
+    onLanguageChange?: (lang: Lang) => void;
+}
+
+export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
+    return (
+        <div className="main-menu">
+            <div className="main-menu-header">
+                <LanguageSelector
+                    variant="icon"
+                    onLanguageChange={onLanguageChange}
+                    className="main-menu-lang"
+                />
+            </div>
+
+            <div className="main-menu-content">
+                <h1 className="game-title">
+                    <span className="title-accent">{t("title.accent")}</span>
+                    <span className="title-main">{t("title.main")}</span>
+                    <span className="title-sub">{t("title.sub")}</span>
+                </h1>
+
+                <div className="menu-buttons">
+                    <button className="btn-primary btn-play" onClick={onPlay}>
+                        <span className="btn-icon">▶</span>
+                        {t("ui.play")}
+                    </button>
+
+                    <button
+                        className="btn-secondary btn-settings"
+                        onClick={onSettings}
+                    >
+                        <span className="btn-icon">⚙</span>
+                        {t("ui.settings")}
+                    </button>
+                </div>
+            </div>
+
+            <div className="main-menu-footer">
+                <span className="version">v1.0.0</span>
+            </div>
+        </div>
+    );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settings.tsx ===== 
+import { useState } from "react";
+import { t } from "../../locales/i18n";
+import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
+import type { Lang } from "../../locales/locales";
+
+import "./Settings.css";
+import { audioManager } from "../../audio/AudioManager";
+
+interface Props {
+  setIsSettings: () => void;
+  setCurrentLang: (el: Lang) => void;
+  isPaused?: boolean;
+  onPauseToggle?: () => void;
+}
+
+export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPauseToggle }: Props) {
+  const audioConfig = audioManager.getState();
+  const [globalMusicVol, setGlobalMusicVol] = useState(audioConfig.musicVolume);
+  const [globalSfxVol, setGlobalSfxVol] = useState(audioConfig.sfxVolume);
+  const [showCredits, setShowCredits] = useState(false);
+
+  const handleMusicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setGlobalMusicVol(value);
+    audioManager.setMusicVolume(value);
+  };
+
+  const handleSfxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setGlobalSfxVol(value);
+    audioManager.setSFXVolume(value);
+  };
+
+  const handleMuteAll = () => {
+    setGlobalMusicVol(0);
+    setGlobalSfxVol(0);
+    audioManager.setMusicVolume(0);
+    audioManager.setSFXVolume(0);
+  };
+
+  const handleResetVolume = () => {
+    setGlobalMusicVol(0.5);
+    setGlobalSfxVol(0.5);
+    audioManager.setMusicVolume(0.5);
+    audioManager.setSFXVolume(0.5);
+  };
+
+  return (
+    <div className="settings-overlay">
+      <div className="settings-modal">
+        <div className="settings-header">
+          <h1>{t("ui.settings")}</h1>
+          <button className="btn-close" onClick={setIsSettings}>
+            ✕
+          </button>
+        </div>
+
+        <div className="settings-content">
+          <section className="settings-section">
+            <div className="section-icon">🌐</div>
+            <div className="section-content">
+              <LanguageSelector variant="buttons" showLabel={true} onLanguageChange={setCurrentLang} />
+            </div>
+          </section>
+
+          <section className="settings-section">
+            <div className="section-icon">🔊</div>
+            <div className="section-content">
+              <h3>{t("ui.audio")}</h3>
+
+              <div className="volume-control">
+                <div className="volume-header">
+                  <label>{t("ui.music")}</label>
+                  <span className="volume-value">{Math.round(globalMusicVol * 100)}%</span>
+                </div>
+                <div className="slider-container">
+                  <span className="slider-icon">🎵</span>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={globalMusicVol}
+                    onChange={handleMusicChange}
+                    className="volume-slider"
+                  />
+                  <button
+                    className="mute-btn"
+                    onClick={() => {
+                      const newVal = globalMusicVol > 0 ? 0 : 0.2;
+                      setGlobalMusicVol(newVal);
+                      audioManager.setMusicVolume(newVal);
+                    }}
+                  >
+                    {globalMusicVol === 0 ? "🔇" : globalMusicVol < 0.5 ? "🔉" : "🔊"}
+                  </button>
+                </div>
+              </div>
+
+              <div className="volume-control">
+                <div className="volume-header">
+                  <label>{t("ui.sfx")}</label>
+                  <span className="volume-value">{Math.round(globalSfxVol * 100)}%</span>
+                </div>
+                <div className="slider-container">
+                  <span className="slider-icon">🎮</span>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={globalSfxVol}
+                    onChange={handleSfxChange}
+                    className="volume-slider"
+                  />
+                  <button
+                    className="mute-btn"
+                    onClick={() => {
+                      const newVal = globalSfxVol > 0 ? 0 : 0.2;
+                      setGlobalSfxVol(newVal);
+                      audioManager.setSFXVolume(newVal);
+                    }}
+                  >
+                    {globalSfxVol === 0 ? "🔇" : globalSfxVol < 0.5 ? "🔉" : "🔊"}
+                  </button>
+                </div>
+              </div>
+
+              <div className="volume-quick-actions">
+                <button className="btn-text" onClick={handleMuteAll}>
+                  {t("ui.muteAll")}
+                </button>
+                <button className="btn-text" onClick={handleResetVolume}>
+                  {t("ui.resetVolume")}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {onPauseToggle && (
+            <section className="settings-section">
+              <div className="section-icon">⏸</div>
+              <div className="section-content">
+                <h3>{t("ui.gameplay")}</h3>
+                <button className={`btn-toggle ${isPaused ? "active" : ""}`} onClick={onPauseToggle}>
+                  <span className="toggle-icon">{isPaused ? "▶" : "⏸"}</span>
+                  {isPaused ? t("ui.resumeGame") : t("ui.pauseGame")}
+                </button>
+              </div>
+            </section>
+          )}
+
+          <section className="settings-section">
+            <div className="section-icon">✉</div>
+            <div className="section-content">
+              <h3>{t("ui.support")}</h3>
+              <a
+                href="mailto:support@haremclicker.com"
+                className="support-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                support@haremclicker.com
+              </a>
+            </div>
+          </section>
+
+          <section className="settings-section">
+            <div className="section-icon">ℹ</div>
+            <div className="section-content">
+              <h3>{t("ui.about")}</h3>
+              <button className="btn-text" onClick={() => setShowCredits(!showCredits)}>
+                {showCredits ? t("ui.hideCredits") : t("ui.showCredits")}
+              </button>
+
+              {showCredits && (
+                <div className="credits">
+                  <p>Harem Clicker Infinity v1.0.0</p>
+                  <p>© 2024 Your Studio</p>
+                  <p>{t("ui.thanksForPlaying")}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        </div>
+
+        <div className="settings-footer">
+          <button className="btn-primary btn-back" onClick={setIsSettings}>
+            {t("ui.back")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\constant.ts ===== 
+import type { LocaleKeys } from "../locales/locales";
+import type {
+  TElementType,
+  TRarity,
+  TWaifu,
+  TDropItem,
+  TInventoryItem,
+  TConsumableItem,
+  TLocation,
+  ILocationConfig,
+} from "../types";
+
+export const BASE_DROP_RATES: Record<TRarity, number> = {
+  common: 0.6,
+  uncommon: 0.25,
+  rare: 0.1,
+  epic: 0.04,
+  legendary: 0.01,
+  mythic: 0.001,
+};
+
+export const ELEMENT_COLORS: Record<TElementType, string> = {
+  water: "#2196f3",
+  fire: "#f44336",
+  earth: "#4caf50",
+  ice: "#00bcd4",
+  light: "#ffeb3b",
+  dark: "#9c27b0",
+  physical: "#9e9e9e",
+};
+
+export const RARITY_COLORS: Record<TRarity, string> = {
+  common: "#9e9e9e",
+  uncommon: "#4caf50",
+  rare: "#2196f3",
+  epic: "#9c27b0",
+  legendary: "#ff9800",
+  mythic: "#f44336",
+};
+
+export const RARITY_KEYS: Record<TRarity, string> = {
+  common: "common",
+  uncommon: "uncommon",
+  rare: "rare",
+  epic: "epic",
+  legendary: "legendary",
+  mythic: "mythic",
+};
+
+export const ELEMENT_KEYS: Record<TElementType, string> = {
+  water: "water",
+  fire: "fire",
+  earth: "earth",
+  ice: "ice",
+  light: "light",
+  dark: "dark",
+  physical: "physical",
+};
+
+export const ITEM_ICONS: Record<string, string> = {
+  gel: "gel",
+  slime_core: "slime_core",
+  gem: "gem",
+  coin: "coin",
+  goblin_dagger: "dagger",
+  goblin_ear: "ear",
+  bone: "bone",
+  skull: "skull",
+  ancient_coin: "coin_old",
+  ectoplasm: "ectoplasm",
+  soul_shard: "soul_shard",
+  essence: "essence",
+  magic_scroll: "scroll",
+  dark_orb: "orb_dark",
+  mage_staff: "staff",
+  demon_horn: "horn",
+  hellfire_essence: "essence_fire",
+  demon_wing: "wing",
+  exp_scroll_500: "scroll",
+  exp_scroll_1000: "scroll",
+  affection_potion: "potion",
+  crit_boost: "potion_red",
+};
+
+export const ITEM_RARITY: Record<string, TRarity> = {
+  gel: "common",
+  slime_core: "rare",
+  gem: "common",
+  coin: "common",
+  goblin_dagger: "uncommon",
+  goblin_ear: "common",
+  bone: "common",
+  skull: "uncommon",
+  ancient_coin: "uncommon",
+  ectoplasm: "uncommon",
+  soul_shard: "rare",
+  essence: "uncommon",
+  magic_scroll: "rare",
+  dark_orb: "epic",
+  mage_staff: "legendary",
+  demon_horn: "rare",
+  hellfire_essence: "epic",
+  demon_wing: "legendary",
+  exp_scroll_500: "uncommon",
+  exp_scroll_1000: "rare",
+  affection_potion: "common",
+  crit_boost: "rare",
+};
+
+export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
+  gem: {
+    id: "gem",
+    nameKey: "gem",
+    descriptionKey: "items.gem.desc",
+    icon: "gem",
+    rarity: "common",
+    type: "currency",
+    maxStack: 999999999,
+  },
+  essence: {
+    id: "essence",
+    nameKey: "essence",
+    descriptionKey: "items.essence.desc",
+    icon: "essence",
+    rarity: "uncommon",
+    type: "currency",
+    maxStack: 999999999,
+  },
+  coin: {
+    id: "coin",
+    nameKey: "coin",
+    descriptionKey: "items.coin.desc",
+    icon: "coin",
+    rarity: "common",
+    type: "currency",
+    maxStack: 999999999,
+  },
+  gel: {
+    id: "gel",
+    nameKey: "gel",
+    descriptionKey: "items.gel.desc",
+    icon: "gel",
+    rarity: "common",
+    type: "material",
+    maxStack: 99,
+  },
+  slime_core: {
+    id: "slime_core",
+    nameKey: "slimeCore",
+    descriptionKey: "items.slimeCore.desc",
+    icon: "slime_core",
+    rarity: "rare",
+    type: "collection",
+    maxStack: 1,
+  },
+  goblin_dagger: {
+    id: "goblin_dagger",
+    nameKey: "goblinDagger",
+    descriptionKey: "items.goblinDagger.desc",
+    icon: "dagger",
+    rarity: "uncommon",
+    type: "collection",
+    maxStack: 1,
+  },
+  goblin_ear: {
+    id: "goblin_ear",
+    nameKey: "goblinEar",
+    descriptionKey: "items.goblinEar.desc",
+    icon: "ear",
+    rarity: "common",
+    type: "material",
+    maxStack: 99,
+  },
+  bone: {
+    id: "bone",
+    nameKey: "bone",
+    descriptionKey: "items.bone.desc",
+    icon: "bone",
+    rarity: "common",
+    type: "material",
+    maxStack: 99,
+  },
+  skull: {
+    id: "skull",
+    nameKey: "skull",
+    descriptionKey: "items.skull.desc",
+    icon: "skull",
+    rarity: "uncommon",
+    type: "collection",
+    maxStack: 1,
+  },
+  ectoplasm: {
+    id: "ectoplasm",
+    nameKey: "ectoplasm",
+    descriptionKey: "items.ectoplasm.desc",
+    icon: "ectoplasm",
+    rarity: "uncommon",
+    type: "material",
+    maxStack: 99,
+  },
+  soul_shard: {
+    id: "soul_shard",
+    nameKey: "soulShard",
+    descriptionKey: "items.soulShard.desc",
+    icon: "soul_shard",
+    rarity: "rare",
+    type: "collection",
+    maxStack: 1,
+  },
+  magic_scroll: {
+    id: "magic_scroll",
+    nameKey: "magicScroll",
+    descriptionKey: "items.magicScroll.desc",
+    icon: "scroll",
+    rarity: "rare",
+    type: "material",
+    maxStack: 99,
+  },
+  dark_orb: {
+    id: "dark_orb",
+    nameKey: "darkOrb",
+    descriptionKey: "items.darkOrb.desc",
+    icon: "orb_dark",
+    rarity: "epic",
+    type: "collection",
+    maxStack: 1,
+  },
+  mage_staff: {
+    id: "mage_staff",
+    nameKey: "mageStaff",
+    descriptionKey: "items.mageStaff.desc",
+    icon: "staff",
+    rarity: "legendary",
+    type: "collection",
+    maxStack: 1,
+  },
+  demon_horn: {
+    id: "demon_horn",
+    nameKey: "demonHorn",
+    descriptionKey: "items.demonHorn.desc",
+    icon: "horn",
+    rarity: "rare",
+    type: "material",
+    maxStack: 99,
+  },
+  hellfire_essence: {
+    id: "hellfire_essence",
+    nameKey: "hellfireEssence",
+    descriptionKey: "items.hellfireEssence.desc",
+    icon: "essence_fire",
+    rarity: "epic",
+    type: "collection",
+    maxStack: 1,
+  },
+  demon_wing: {
+    id: "demon_wing",
+    nameKey: "demonWing",
+    descriptionKey: "items.demonWing.desc",
+    icon: "wing",
+    rarity: "legendary",
+    type: "collection",
+    maxStack: 1,
+  },
+  exp_scroll_500: {
+    id: "exp_scroll_500",
+    nameKey: "expScroll500",
+    descriptionKey: "items.expScroll500.desc",
+    icon: "scroll",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "exp",
+      value: 500,
+      target: "selected_waifu",
+    },
+  },
+  exp_scroll_1000: {
+    id: "exp_scroll_1000",
+    nameKey: "expScroll1000",
+    descriptionKey: "items.expScroll1000.desc",
+    icon: "scroll",
+    rarity: "rare",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "exp",
+      value: 1000,
+      target: "selected_waifu",
+    },
+  },
+  affection_potion: {
+    id: "affection_potion",
+    nameKey: "affectionPotion",
+    descriptionKey: "items.affectionPotion.desc",
+    icon: "potion",
+    rarity: "common",
+    type: "consumable",
+    maxStack: 99,
+    effect: {
+      type: "affection",
+      value: 10,
+      target: "selected_waifu",
+    },
+  },
+};
+
+export const testWaifus: TWaifu[] = [
+  {
+    id: "wf_tiamat_001",
+    nameKey: "Tiamat",
+    rarity: "mythic",
+    element: "water",
+    image: "/assets/images/waifus/Tiamat.png",
+    description: "waifus.Tiamat.desc",
+    clickPower: 1000,
+    autoClick: 500,
+    multiplier: 5.0,
+  },
+  {
+    id: "wf_cerberus_001",
+    nameKey: "Cerberus",
+    rarity: "legendary",
+    element: "dark",
+    image: "/assets/images/waifus/Cerberus.png",
+    description: "waifus.Cerberus.desc",
+    clickPower: 800,
+    autoClick: 400,
+    multiplier: 4.0,
+  },
+  {
+    id: "wf_phoenix_001",
+    nameKey: "Phoenix",
+    rarity: "legendary",
+    element: "fire",
+    image: "/assets/images/waifus/Phoenix.png",
+    description: "waifus.Phoenix.desc",
+    clickPower: 750,
+    autoClick: 380,
+    multiplier: 3.8,
+  },
+  {
+    id: "wf_leviathan_001",
+    nameKey: "Leviathan",
+    rarity: "epic",
+    element: "water",
+    image: "/assets/images/waifus/Leviathan.png",
+    description: "waifus.Leviathan.desc",
+    clickPower: 500,
+    autoClick: 250,
+    multiplier: 3.0,
+  },
+  {
+    id: "wf_terra_001",
+    nameKey: "Terra",
+    rarity: "epic",
+    element: "earth",
+    image: "/assets/images/waifus/Terra.png",
+    description: "waifus.Terra.desc",
+    clickPower: 480,
+    autoClick: 240,
+    multiplier: 2.9,
+  },
+  {
+    id: "wf_yuki_001",
+    nameKey: "YukiOnna",
+    rarity: "epic",
+    element: "ice",
+    image: "/assets/images/waifus/YukiOnna.png",
+    description: "waifus.YukiOnna.desc",
+    clickPower: 490,
+    autoClick: 245,
+    multiplier: 2.95,
+  },
+  {
+    id: "wf_ignis_001",
+    nameKey: "Ignis",
+    rarity: "rare",
+    element: "fire",
+    image: "/assets/images/waifus/Ignis.png",
+    description: "waifus.Ignis.desc",
+    clickPower: 300,
+    autoClick: 150,
+    multiplier: 2.2,
+  },
+  {
+    id: "wf_aqua_001",
+    nameKey: "Aqua",
+    rarity: "rare",
+    element: "water",
+    image: "/assets/images/waifus/Aqua.png",
+    description: "waifus.Aqua.desc",
+    clickPower: 290,
+    autoClick: 145,
+    multiplier: 2.1,
+  },
+  {
+    id: "wf_gaia_001",
+    nameKey: "Gaia",
+    rarity: "rare",
+    element: "earth",
+    image: "/assets/images/waifus/Gaia.png",
+    description: "waifus.Gaia.desc",
+    clickPower: 310,
+    autoClick: 155,
+    multiplier: 2.3,
+  },
+  {
+    id: "wf_umbra_001",
+    nameKey: "Umbra",
+    rarity: "rare",
+    element: "dark",
+    image: "/assets/images/waifus/Umbra.png",
+    description: "waifus.Umbra.desc",
+    clickPower: 320,
+    autoClick: 160,
+    multiplier: 2.4,
+  },
+  {
+    id: "wf_ruby_001",
+    nameKey: "Ruby",
+    rarity: "uncommon",
+    element: "fire",
+    image: "/assets/images/waifus/Ruby.png",
+    description: "waifus.Ruby.desc",
+    clickPower: 160,
+    autoClick: 80,
+    multiplier: 1.6,
+  },
+  {
+    id: "wf_sapphire_001",
+    nameKey: "Sapphire",
+    rarity: "uncommon",
+    element: "water",
+    image: "/assets/images/waifus/Sapphire.png",
+    description: "waifus.Sapphire.desc",
+    clickPower: 150,
+    autoClick: 75,
+    multiplier: 1.5,
+  },
+  {
+    id: "wf_emerald_001",
+    nameKey: "Emerald",
+    rarity: "uncommon",
+    element: "earth",
+    image: "/assets/images/waifus/Emerald.png",
+    description: "waifus.Emerald.desc",
+    clickPower: 165,
+    autoClick: 82,
+    multiplier: 1.65,
+  },
+  {
+    id: "wf_frost_001",
+    nameKey: "Frost",
+    rarity: "uncommon",
+    element: "ice",
+    image: "/assets/images/waifus/Frost.png",
+    description: "waifus.Frost.desc",
+    clickPower: 155,
+    autoClick: 77,
+    multiplier: 1.55,
+  },
+  {
+    id: "wf_lux_001",
+    nameKey: "Lux",
+    rarity: "uncommon",
+    element: "light",
+    image: "/assets/images/waifus/Lux.png",
+    description: "waifus.Lux.desc",
+    clickPower: 145,
+    autoClick: 72,
+    multiplier: 1.45,
+  },
+  {
+    id: "wf_sakura_001",
+    nameKey: "Sakura",
+    rarity: "common",
+    element: "physical",
+    image: "/assets/images/waifus/Sakura.png",
+    description: "waifus.Sakura.desc",
+    clickPower: 100,
+    autoClick: 50,
+    multiplier: 1.0,
+  },
+  {
+    id: "wf_yui_001",
+    nameKey: "Yui",
+    rarity: "common",
+    element: "physical",
+    image: "/assets/images/waifus/Yui.png",
+    description: "waifus.Yui.desc",
+    clickPower: 90,
+    autoClick: 45,
+    multiplier: 0.9,
+  },
+  {
+    id: "wf_hana_001",
+    nameKey: "Hana",
+    rarity: "common",
+    element: "water",
+    image: "/assets/images/waifus/Hana.png",
+    description: "waifus.Hana.desc",
+    clickPower: 85,
+    autoClick: 42,
+    multiplier: 0.85,
+  },
+  {
+    id: "wf_momo_001",
+    nameKey: "Momo",
+    rarity: "common",
+    element: "fire",
+    image: "/assets/images/waifus/Momo.png",
+    description: "waifus.Momo.desc",
+    clickPower: 88,
+    autoClick: 44,
+    multiplier: 0.88,
+  },
+  {
+    id: "wf_rin_001",
+    nameKey: "Rin",
+    rarity: "common",
+    element: "earth",
+    image: "/assets/images/waifus/Rin.png",
+    description: "waifus.Rin.desc",
+    clickPower: 82,
+    autoClick: 41,
+    multiplier: 0.82,
+  },
+  {
+    id: "wf_sora_001",
+    nameKey: "Sora",
+    rarity: "common",
+    element: "physical",
+    image: "/assets/images/waifus/Sora.png",
+    description: "waifus.Sora.desc",
+    clickPower: 86,
+    autoClick: 43,
+    multiplier: 0.86,
+  },
+];
+
+export interface MonsterTemplate {
+  id: string;
+  nameKey: string;
+  baseHp: number;
+  sprite: string;
+  resistances: Partial<Record<TElementType, number>>;
+  isBoss: boolean;
+  description: LocaleKeys;
+  drops: TDropItem[];
+}
+
+export const MONSTER_TEMPLATES: MonsterTemplate[] = [
+  {
+    id: "slime",
+    nameKey: "slime",
+    baseHp: 100,
+    sprite: "/assets/images/enemies/Slime.png",
+    resistances: { water: -0.3, fire: 0.2 },
+    isBoss: false,
+    description: "monsters.slime.desc",
+    drops: [
+      { id: "gel", nameKey: "gel", chance: 0.5, minCount: 1, maxCount: 3, type: "material" },
+      { id: "slime_core", nameKey: "slimeCore", chance: 0.01, minCount: 1, maxCount: 1, type: "collection" },
+
+      { id: "gel", nameKey: "gel", chance: 1, minCount: 1, maxCount: 5, type: "material" },
+      { id: "slime_core", nameKey: "slimeCore", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "goblin_dagger", nameKey: "goblinDagger", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "goblin_ear", nameKey: "goblinEar", chance: 1, minCount: 1, maxCount: 3, type: "material" },
+      { id: "bone", nameKey: "bone", chance: 1, minCount: 1, maxCount: 5, type: "material" },
+      { id: "skull", nameKey: "skull", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "ancient_coin", nameKey: "ancientCoin", chance: 1, minCount: 1, maxCount: 3, type: "collection" },
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 1, minCount: 1, maxCount: 3, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "magic_scroll", nameKey: "magicScroll", chance: 1, minCount: 1, maxCount: 2, type: "material" },
+      { id: "dark_orb", nameKey: "darkOrb", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "mage_staff", nameKey: "mageStaff", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "demon_horn", nameKey: "demonHorn", chance: 1, minCount: 1, maxCount: 2, type: "material" },
+      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "demon_wing", nameKey: "demonWing", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "exp_scroll_500", nameKey: "expScroll500", chance: 1, minCount: 1, maxCount: 3, type: "consumable" },
+      { id: "exp_scroll_1000", nameKey: "expScroll1000", chance: 1, minCount: 1, maxCount: 2, type: "consumable" },
+      { id: "affection_potion", nameKey: "affectionPotion", chance: 1, minCount: 1, maxCount: 5, type: "consumable" },
+    ],
+  },
+  {
+    id: "goblin",
+    nameKey: "goblin",
+    baseHp: 120,
+    sprite: "/assets/images/enemies/Goblin.png",
+    resistances: { physical: -0.2, fire: 0.1 },
+    isBoss: false,
+    description: "monsters.goblin.desc",
+    drops: [
+      { id: "goblin_dagger", nameKey: "goblinDagger", chance: 0.15, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "goblin_ear", nameKey: "goblinEar", chance: 0.4, minCount: 1, maxCount: 2, type: "material" },
+    ],
+  },
+  {
+    id: "skeleton",
+    nameKey: "skeleton",
+    baseHp: 150,
+    sprite: "/assets/images/enemies/Skeleton.png",
+    resistances: { light: -0.5, dark: 0.3, physical: 0.1 },
+    isBoss: false,
+    description: "monsters.skeleton.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.7, minCount: 1, maxCount: 3, type: "material" },
+      { id: "skull", nameKey: "skull", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "ghost",
+    nameKey: "ghost",
+    baseHp: 130,
+    sprite: "/assets/images/enemies/Ghost.png",
+    resistances: { physical: 0.8, light: -0.4, dark: -0.2 },
+    isBoss: false,
+    description: "monsters.ghost.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.45, minCount: 1, maxCount: 2, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 0.12, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "dark_mage",
+    nameKey: "darkMage",
+    baseHp: 300,
+    sprite: "/assets/images/enemies/DarkMage.png",
+    resistances: { dark: -0.3, light: 0.4, fire: 0.2 },
+    isBoss: true,
+    description: "monsters.darkMage.desc",
+    drops: [
+      { id: "magic_scroll", nameKey: "magicScroll", chance: 0.4, minCount: 1, maxCount: 2, type: "material" },
+      { id: "dark_orb", nameKey: "darkOrb", chance: 0.25, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "mage_staff", nameKey: "mageStaff", chance: 0.15, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "lesser_demon",
+    nameKey: "lesserDemon",
+    baseHp: 315,
+    sprite: "/assets/images/enemies/LesserDemon.png",
+    resistances: { fire: -0.4, ice: 0.3, light: 0.2 },
+    isBoss: true,
+    description: "monsters.lesserDemon.desc",
+    drops: [
+      { id: "demon_horn", nameKey: "demonHorn", chance: 0.5, minCount: 1, maxCount: 2, type: "material" },
+      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 0.3, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "demon_wing", nameKey: "demonWing", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "mummy",
+    nameKey: "mummy",
+    baseHp: 140,
+    sprite: "/assets/images/enemies/Mummy.png",
+    resistances: { fire: -0.4, ice: 0.3 },
+    isBoss: false,
+    description: "monsters.mummy.desc",
+    drops: [{ id: "ancient_coin", nameKey: "ancientCoin", chance: 0.3, minCount: 1, maxCount: 2, type: "collection" }],
+  },
+  {
+    id: "mimic",
+    nameKey: "mimic",
+    baseHp: 160,
+    sprite: "/assets/images/enemies/Mimic.png",
+    resistances: { physical: -0.3, fire: 0.2 },
+    isBoss: false,
+    description: "monsters.mimic.desc",
+    drops: [
+      { id: "gem", nameKey: "gem", chance: 0.5, minCount: 5, maxCount: 15, type: "currency" },
+      { id: "coin", nameKey: "coin", chance: 0.8, minCount: 10, maxCount: 30, type: "currency" },
+    ],
+  },
+  {
+    id: "vampireThrall",
+    nameKey: "vampireThrall",
+    baseHp: 180,
+    sprite: "/assets/images/enemies/VampireThrall.png",
+    resistances: { light: -0.5, dark: 0.4 },
+    isBoss: false,
+    description: "monsters.vampireThrall.desc",
+    drops: [{ id: "soul_shard", nameKey: "soulShard", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" }],
+  },
+  {
+    id: "whelp",
+    nameKey: "whelp",
+    baseHp: 170,
+    sprite: "/assets/images/enemies/Whelp.png",
+    resistances: { ice: -0.3, fire: 0.5 },
+    isBoss: false,
+    description: "monsters.whelp.desc",
+    drops: [{ id: "demon_horn", nameKey: "demonHorn", chance: 0.15, minCount: 1, maxCount: 1, type: "material" }],
+  },
+  {
+    id: "direWolf",
+    nameKey: "direWolf",
+    baseHp: 130,
+    sprite: "/assets/images/enemies/DireWolf.png",
+    resistances: { fire: -0.2, ice: 0.2 },
+    isBoss: false,
+    description: "monsters.direWolf.desc",
+    drops: [{ id: "bone", nameKey: "bone", chance: 0.5, minCount: 2, maxCount: 4, type: "material" }],
+  },
+
+  // Добавьте эти шаблоны в MONSTER_TEMPLATES массив
+
+  // ========== FOREST (Лес) ==========
+  {
+    id: "forest_golem",
+    nameKey: "forestGolem",
+    baseHp: 200,
+    sprite: "/assets/images/enemies/ForestGolem.png",
+    resistances: { earth: -0.3, fire: 0.3, physical: 0.2 },
+    isBoss: false,
+    description: "monsters.forestGolem.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.4, minCount: 1, maxCount: 3, type: "material" },
+      { id: "essence", nameKey: "essence", chance: 0.15, minCount: 1, maxCount: 2, type: "currency" },
+    ],
+  },
+  {
+    id: "poison_spider",
+    nameKey: "poisonSpider",
+    baseHp: 110,
+    sprite: "/assets/images/enemies/PoisonSpider.png",
+    resistances: { earth: 0.2, ice: -0.3, physical: 0.1 },
+    isBoss: false,
+    description: "monsters.poisonSpider.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.3, minCount: 1, maxCount: 2, type: "material" },
+      { id: "gel", nameKey: "gel", chance: 0.5, minCount: 1, maxCount: 3, type: "material" },
+    ],
+  },
+  {
+    id: "forest_guardian",
+    nameKey: "forestGuardian",
+    baseHp: 500,
+    sprite: "/assets/images/enemies/ForestGuardian.png",
+    resistances: { earth: -0.5, fire: 0.4, light: 0.2, physical: 0.3 },
+    isBoss: true,
+    description: "monsters.forestGuardian.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 3, maxCount: 5, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 50, maxCount: 100, type: "currency" },
+      { id: "magic_scroll", nameKey: "magicScroll", chance: 0.5, minCount: 1, maxCount: 2, type: "material" },
+    ],
+  },
+
+  // ========== DESERT (Пустыня) ==========
+  {
+    id: "sand_worm",
+    nameKey: "sandWorm",
+    baseHp: 180,
+    sprite: "/assets/images/enemies/SandWorm.png",
+    resistances: { earth: 0.3, ice: -0.4, fire: 0.2 },
+    isBoss: false,
+    description: "monsters.sandWorm.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.5, minCount: 2, maxCount: 4, type: "material" },
+      { id: "ancient_coin", nameKey: "ancientCoin", chance: 0.2, minCount: 1, maxCount: 2, type: "collection" },
+    ],
+  },
+  {
+    id: "scarab_beetle",
+    nameKey: "scarabBeetle",
+    baseHp: 140,
+    sprite: "/assets/images/enemies/ScarabBeetle.png",
+    resistances: { earth: -0.2, light: 0.3, physical: 0.2 },
+    isBoss: false,
+    description: "monsters.scarabBeetle.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.25, minCount: 1, maxCount: 2, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 0.1, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "desert_colossus",
+    nameKey: "desertColossus",
+    baseHp: 550,
+    sprite: "/assets/images/enemies/DesertColossus.png",
+    resistances: { earth: -0.5, ice: 0.4, fire: 0.3, physical: 0.2 },
+    isBoss: true,
+    description: "monsters.desertColossus.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 3, maxCount: 5, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 50, maxCount: 100, type: "currency" },
+      { id: "dark_orb", nameKey: "darkOrb", chance: 0.4, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+
+  // ========== ICE (Ледяные пики) ==========
+  {
+    id: "ice_elemental",
+    nameKey: "iceElemental",
+    baseHp: 160,
+    sprite: "/assets/images/enemies/IceElemental.png",
+    resistances: { ice: -0.5, fire: 0.5, water: 0.2 },
+    isBoss: false,
+    description: "monsters.iceElemental.desc",
+    drops: [
+      { id: "gel", nameKey: "gel", chance: 0.4, minCount: 1, maxCount: 3, type: "material" },
+      { id: "essence", nameKey: "essence", chance: 0.2, minCount: 1, maxCount: 2, type: "currency" },
+    ],
+  },
+  {
+    id: "frost_wolf",
+    nameKey: "frostWolf",
+    baseHp: 175,
+    sprite: "/assets/images/enemies/FrostWolf.png",
+    resistances: { ice: -0.3, fire: 0.4, physical: 0.1 },
+    isBoss: false,
+    description: "monsters.frostWolf.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.6, minCount: 2, maxCount: 4, type: "material" },
+      { id: "demon_horn", nameKey: "demonHorn", chance: 0.15, minCount: 1, maxCount: 1, type: "material" },
+    ],
+  },
+  {
+    id: "ice_queen",
+    nameKey: "iceQueen",
+    baseHp: 600,
+    sprite: "/assets/images/enemies/IceQueen.png",
+    resistances: { ice: -0.6, fire: 0.5, water: 0.3, light: 0.2 },
+    isBoss: true,
+    description: "monsters.iceQueen.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 4, maxCount: 6, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 75, maxCount: 125, type: "currency" },
+      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 0.5, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+
+  // ========== VOLCANO (Вулкан) ==========
+  {
+    id: "lava_slime",
+    nameKey: "lavaSlime",
+    baseHp: 190,
+    sprite: "/assets/images/enemies/LavaSlime.png",
+    resistances: { fire: -0.5, ice: 0.5, water: 0.3 },
+    isBoss: false,
+    description: "monsters.lavaSlime.desc",
+    drops: [
+      { id: "gel", nameKey: "gel", chance: 0.5, minCount: 2, maxCount: 4, type: "material" },
+      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 0.1, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "fire_imp",
+    nameKey: "fireImp",
+    baseHp: 145,
+    sprite: "/assets/images/enemies/FireImp.png",
+    resistances: { fire: -0.3, ice: 0.4, light: 0.2 },
+    isBoss: false,
+    description: "monsters.fireImp.desc",
+    drops: [
+      { id: "demon_horn", nameKey: "demonHorn", chance: 0.3, minCount: 1, maxCount: 2, type: "material" },
+      { id: "essence", nameKey: "essence", chance: 0.25, minCount: 1, maxCount: 2, type: "currency" },
+    ],
+  },
+  {
+    id: "inferno_dragon",
+    nameKey: "infernoDragon",
+    baseHp: 650,
+    sprite: "/assets/images/enemies/InfernoDragon.png",
+    resistances: { fire: -0.6, ice: 0.5, water: 0.4, physical: 0.2 },
+    isBoss: true,
+    description: "monsters.infernoDragon.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 5, maxCount: 8, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 100, maxCount: 150, type: "currency" },
+      { id: "demon_wing", nameKey: "demonWing", chance: 0.6, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+
+  {
+    id: "armored_knight",
+    nameKey: "armoredKnight",
+    baseHp: 220,
+    sprite: "/assets/images/enemies/ArmoredKnight.png",
+    resistances: { physical: -0.3, light: 0.3, dark: 0.2 },
+    isBoss: false,
+    description: "monsters.armoredKnight.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.4, minCount: 1, maxCount: 3, type: "material" },
+      { id: "ancient_coin", nameKey: "ancientCoin", chance: 0.35, minCount: 1, maxCount: 3, type: "collection" },
+    ],
+  },
+  {
+    id: "cursed_banner",
+    nameKey: "cursedBanner",
+    baseHp: 135,
+    sprite: "/assets/images/enemies/CursedBanner.png",
+    resistances: { dark: -0.3, light: 0.4, physical: 0.5 },
+    isBoss: false,
+    description: "monsters.cursedBanner.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.4, minCount: 1, maxCount: 3, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 0.15, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "castle_lord",
+    nameKey: "castleLord",
+    baseHp: 700,
+    sprite: "/assets/images/enemies/CastleLord.png",
+    resistances: { dark: -0.4, light: 0.5, physical: 0.3, earth: 0.2 },
+    isBoss: true,
+    description: "monsters.castleLord.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 5, maxCount: 10, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 100, maxCount: 200, type: "currency" },
+      { id: "mage_staff", nameKey: "mageStaff", chance: 0.5, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+
+  // ========== ABYSS (Бездна) ==========
+  {
+    id: "void_walker",
+    nameKey: "voidWalker",
+    baseHp: 240,
+    sprite: "/assets/images/enemies/VoidWalker.png",
+    resistances: { dark: -0.4, light: 0.5, physical: 0.6 },
+    isBoss: false,
+    description: "monsters.voidWalker.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.5, minCount: 2, maxCount: 4, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 0.25, minCount: 1, maxCount: 2, type: "collection" },
+    ],
+  },
+  {
+    id: "shadow_tentacle",
+    nameKey: "shadowTentacle",
+    baseHp: 165,
+    sprite: "/assets/images/enemies/ShadowTentacle.png",
+    resistances: { dark: -0.3, light: 0.4, water: 0.2, physical: 0.4 },
+    isBoss: false,
+    description: "monsters.shadowTentacle.desc",
+    drops: [
+      { id: "dark_orb", nameKey: "darkOrb", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" },
+      { id: "essence", nameKey: "essence", chance: 0.3, minCount: 1, maxCount: 3, type: "currency" },
+    ],
+  },
+  {
+    id: "abyss_lord",
+    nameKey: "abyssLord",
+    baseHp: 800,
+    sprite: "/assets/images/enemies/AbyssLord.png",
+    resistances: { dark: -0.5, light: 0.6, physical: 0.5 },
+    isBoss: true,
+    description: "monsters.abyssLord.desc",
+    drops: [
+      { id: "essence", nameKey: "essence", chance: 1, minCount: 8, maxCount: 15, type: "currency" },
+      { id: "gem", nameKey: "gem", chance: 1, minCount: 150, maxCount: 250, type: "currency" },
+      { id: "demon_wing", nameKey: "demonWing", chance: 0.7, minCount: 1, maxCount: 2, type: "collection" },
+      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 0.6, minCount: 1, maxCount: 2, type: "collection" },
+    ],
+  },
+];
+
+export const CONSUMABLE_ITEMS: TConsumableItem[] = [
+  {
+    id: "exp_scroll_500",
+    nameKey: "expScroll500",
+    descriptionKey: "items.expScroll500.desc",
+    icon: "scroll",
+    effect: { type: "exp", value: 500, target: "selected_waifu" },
+    rarity: "uncommon",
+  },
+  {
+    id: "exp_scroll_1000",
+    nameKey: "expScroll1000",
+    descriptionKey: "items.expScroll1000.desc",
+    icon: "scroll",
+    effect: { type: "exp", value: 1000, target: "selected_waifu" },
+    rarity: "rare",
+  },
+  {
+    id: "affection_potion",
+    nameKey: "affectionPotion",
+    descriptionKey: "items.affectionPotion.desc",
+    icon: "potion",
+    effect: { type: "affection", value: 10, target: "selected_waifu" },
+    rarity: "common",
+  },
+];
+export const LOCATION_UNLOCK_REQUIREMENTS: Partial<Record<TLocation, { prevLocation: TLocation; killLevel: number }>> =
+  {
+    desert: { prevLocation: "forest", killLevel: 50 },
+    ice: { prevLocation: "desert", killLevel: 60 },
+    volcano: { prevLocation: "ice", killLevel: 70 },
+    castle: { prevLocation: "volcano", killLevel: 80 },
+    abyss: { prevLocation: "castle", killLevel: 90 },
+  };
+
+export const LOCATIONS: ILocationConfig[] = [
+  {
+    id: "forest",
+    nameKey: "forest",
+    availableEnemies: ["slime", "goblin", "direWolf"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 1,
+    bonuses: {
+      gemMultiplier: 1,
+      essenceMultiplier: 1,
+      expMultiplier: 1,
+      dropChanceMultiplier: 1,
+    },
+  },
+  {
+    id: "desert",
+    nameKey: "desert",
+    availableEnemies: ["mummy", "mimic", "direWolf"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 1.3,
+    bonuses: {
+      gemMultiplier: 1.8,
+      essenceMultiplier: 1.4,
+      expMultiplier: 1.5,
+      dropChanceMultiplier: 1.2,
+    },
+  },
+  {
+    id: "ice",
+    nameKey: "ice",
+    availableEnemies: ["ghost", "direWolf", "vampireThrall"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 1.4,
+    bonuses: {
+      gemMultiplier: 2.5,
+      essenceMultiplier: 1.8,
+      expMultiplier: 1.8,
+      dropChanceMultiplier: 1.4,
+    },
+  },
+  {
+    id: "volcano",
+    nameKey: "volcano",
+    availableEnemies: ["lesserDemon", "whelp", "mimic"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 1.5,
+    bonuses: {
+      gemMultiplier: 3.5,
+      essenceMultiplier: 2.2,
+      expMultiplier: 2.2,
+      dropChanceMultiplier: 1.6,
+    },
+  },
+  {
+    id: "castle",
+    nameKey: "castle",
+    availableEnemies: ["skeleton", "ghost", "mummy"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 1.6,
+    bonuses: {
+      gemMultiplier: 4.5,
+      essenceMultiplier: 2.8,
+      expMultiplier: 2.8,
+      dropChanceMultiplier: 1.8,
+    },
+  },
+  {
+    id: "abyss",
+    nameKey: "abyss",
+    availableEnemies: ["dark_mage", "lesserDemon", "vampireThrall"],
+    minLevel: 1,
+    maxLevel: 999,
+    levelScaling: 2,
+    bonuses: {
+      gemMultiplier: 7,
+      essenceMultiplier: 4,
+      expMultiplier: 4,
+      dropChanceMultiplier: 2.5,
+    },
+  },
+];
+
+export const LOCATION_ENEMIES: Record<TLocation, string[]> = {
+  forest: ["slime", "goblin", "direWolf", "forest_golem", "poison_spider"],
+  desert: ["mummy", "mimic", "direWolf", "sand_worm", "scarab_beetle"],
+  ice: ["ghost", "direWolf", "vampireThrall", "ice_elemental", "frost_wolf"],
+  volcano: ["lesserDemon", "whelp", "mimic", "lava_slime", "fire_imp"],
+  castle: ["skeleton", "ghost", "mummy", "armored_knight", "cursed_banner"],
+  abyss: ["dark_mage", "lesserDemon", "vampireThrall", "void_walker", "shadow_tentacle"],
+};
+export const LOCATION_BOSSES: Record<TLocation, string[]> = {
+  forest: ["dark_mage", "forest_guardian"],
+  desert: ["lesser_demon", "desert_colossus"],
+  ice: ["dark_mage", "ice_queen"],
+  volcano: ["lesser_demon", "inferno_dragon"],
+  castle: ["dark_mage", "castle_lord"],
+  abyss: ["lesser_demon", "dark_mage", "abyss_lord"],
+};
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\i18n.ts ===== 
+import { locales, type Lang } from "./locales";
+
+declare global {
+    interface Window {
+        YaGames?: {
+            init(): Promise<{
+                environment: { i18n: { lang: string } };
+            }>;
+        };
+    }
+}
+
+let currentLang: Lang = "ru";
+
+export async function initI18n() {
+    if (window.YaGames) {
+        const ysdk = await window.YaGames.init();
+        const lang = ysdk.environment.i18n.lang as Lang;
+        if (locales[lang]) currentLang = lang;
+    }
+}
+
+export function t(key: string): string {
+    const keys = key.split(".");
+    let value: any = locales[currentLang];
+
+    for (const k of keys) {
+        if (value === undefined) break;
+        value = value[k];
+    }
+
+    if (value === undefined) {
+        value = locales.ru;
+        for (const k of keys) {
+            if (value === undefined) return key;
+            value = value[k];
+        }
+    }
+
+    return value ?? key;
+}
+
+export function setLang(lang: Lang) {
+    currentLang = lang;
+}
+
+export function getLang(): Lang {
+    return currentLang;
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\locales.ts ===== 
+// src/locales/locales.ts
+type DeepKeys<T, Prefix extends string = ""> = T extends string
+  ? Prefix extends ""
+    ? never
+    : Prefix
+  : T extends object
+    ? {
+        [K in keyof T]: K extends string ? DeepKeys<T[K], Prefix extends "" ? K : `${Prefix}.${K}`> : never;
+      }[keyof T]
+    : never;
+
+export type LocaleKeys = DeepKeys<typeof locales.ru>;
+
+export const locales = {
+  ru: {
+    ui: {
+      consumables: "Расходники",
+      materials: "Материалы",
+      exp: "Опыт",
+      locations: {
+        forest: "Лес",
+        castle: "Замок",
+        desert: "Пустыня",
+        volcano: "Вулкан",
+        ice: "Ледяные пики",
+        abyss: "Бездна",
+      },
+      location: "Локация",
+      changeLocation: "Сменить локацию",
+      locationLevelRequired: "Требуется уровень врага {{level}}",
+      gemBonus: "💎 x{{multiplier}}",
+      essenceBonus: "✨ x{{multiplier}}",
+      expBonus: "⭐ x{{multiplier}}",
+      dropBonus: "📦 x{{multiplier}}",
+      play: "Играть",
+      settings: "Настройки",
+      back: "Назад",
+      cancel: "Отмена",
+      continue: "Продолжить",
+      level: "Уровень",
+      language: "Язык",
+      changeLanguage: "Сменить язык",
+      audio: "Звук",
+      music: "Музыка",
+      sfx: "Эффекты",
+      muteAll: "Выключить все",
+      resetVolume: "Сбросить",
+      gameplay: "Игровой процесс",
+      pauseGame: "Поставить на паузу",
+      resumeGame: "Продолжить",
+      support: "Поддержка",
+      about: "О игре",
+      showCredits: "Показать авторов",
+      hideCredits: "Скрыть авторов",
+      thanksForPlaying: "Спасибо за игру!",
+      gems: "Кристаллы",
+      tokens: "Токены",
+      essence: "Эссенция",
+      click: "Клик",
+      auto: "Авто",
+      upgrades: "Улучшения",
+      waifus: "Вайфу",
+      gacha: "Призыв",
+      prestige: "Престиж",
+      collection: "Коллекция",
+      selectWaifu: "Выбрать вайфу",
+      all: "Все",
+      noCollection: "Коллекция пуста",
+      noWaifus: "Нет вайфу",
+      summonFirst: "Сначала призовите вайфу",
+      summon: "Призвать",
+      summoning: "Призыв",
+      dropRates: "Шансы выпадения",
+      youHave: "У вас",
+      dropPool: "Пул призыва",
+      dropPoolHint: "При повторном выпадении вайфу: +30% к базовым статам",
+      duplicate: "Дубликат!",
+      stats: "статов",
+      viewFullPool: "Открыть полный пул",
+      poolPreviewHint: "Нажмите кнопку ниже чтобы увидеть всех доступных вайфу",
+      collectionProgress: "Прогресс коллекции",
+      maxedWaifus: "Максимум",
+      poolEmpty: "Все вайфу достигли максимума!",
+      poolEmptyWarning: "Все вайфу достигли лимита!",
+      available: "дост.",
+      affection: "Привязанность",
+      critChance: "Шанс крита",
+      critPower: "Сила крита",
+      outfits: "Наряды",
+      totalStats: "Всего нанесено урона",
+      clicks: "кликов",
+      damage: "урона",
+      pause: "Пауза",
+      resume: "Продолжить",
+      exitToMenu: "Выйти в меню",
+      rarity: "Редкость",
+      common: "Обычная",
+      uncommon: "Необычная",
+      rare: "Редкая",
+      epic: "Эпическая",
+      legendary: "Легендарная",
+      mythic: "Мифическая",
+      water: "Вода",
+      fire: "Огонь",
+      earth: "Земля",
+      ice: "Лед",
+      light: "Свет",
+      dark: "Тьма",
+      physical: "Физический",
+      boss: "БОСС",
+      enemy: "Враг",
+      hp: "ХП",
+      weak: "Уязвим",
+      resist: "Сопротивление",
+      normal: "Нормально",
+      obtained: "Получено",
+      locked: "Заблокировано",
+      weapon: "Оружие",
+      accessory: "Аксессуар",
+      memoria: "Мемория",
+      outfit: "Наряд",
+      close: "Закрыть",
+      select: "Выбрать",
+      active: "Активна",
+      max: "МАКС",
+      availableCount: "доступно",
+      backpack: "Рюкзак",
+      currency: "Валюта",
+      items: "Предметы",
+      coins: "Монеты",
+      possibleDrops: "Возможный дроп",
+      selectTarget: "Выберите цель",
+      use: "Использовать",
+      expAdded: "{{name}} получила {{amount}} опыта!",
+      selectWaifuFirst: "Сначала выберите вайфу",
+      noCollectionItems: "Нет предметов коллекции",
+      noItems: "Нет предметов",
+    },
+
+    title: {
+      accent: "Гарем",
+      main: "Кликер",
+      sub: "Бесконечность",
+    },
+
+    languages: {
+      ru: "Русский",
+      en: "English",
+      tr: "Türkçe",
+    },
+
+    upgrades: {
+      globalHint: "Улучшения применяются ко всем вайфу",
+      click: {
+        name: "Сила клика",
+        desc: "Увеличивает базовый урон от клика",
+      },
+      auto: {
+        name: "Автоклик",
+        desc: "Автоматический урон в секунду",
+      },
+      elementWater: {
+        name: "Водный урон",
+        desc: "Увеличивает урон вайфу стихии воды",
+      },
+      elementFire: {
+        name: "Огненный урон",
+        desc: "Увеличивает урон вайфу стихии огня",
+      },
+      elementEarth: {
+        name: "Земляной урон",
+        desc: "Увеличивает урон вайфу стихии земли",
+      },
+      elementIce: {
+        name: "Ледяной урон",
+        desc: "Увеличивает урон вайфу стихии льда",
+      },
+      elementLight: {
+        name: "Светлый урон",
+        desc: "Увеличивает урон вайфу стихии света",
+      },
+      elementDark: {
+        name: "Тёмный урон",
+        desc: "Увеличивает урон вайфу стихии тьмы",
+      },
+      elementPhysical: {
+        name: "Физический урон",
+        desc: "Увеличивает урон вайфу физической стихии",
+      },
+    },
+
+    gacha: {
+      desc: "Призовите новую вайфу за эссенцию",
+      luckBonus: "Бонус удачи",
+    },
+    collection: {
+      weapons: "Оружие",
+      accessories: "Аксессуары",
+      accessorys: "Аксессуары",
+      memoria: "Мемории",
+      outfits: "Наряды",
+    },
+
+    monsters: {
+      slime: {
+        name: "Слайм",
+        desc: "Желеобразное существо, питающееся магической энергией. Слабо к огню.",
+      },
+      goblin: {
+        name: "Гоблин",
+        desc: "Хитрый мелкий грабитель. Слаб к физическому урону.",
+      },
+      skeleton: {
+        name: "Скелет",
+        desc: "Оживлённые останки воина. Слаб к свету, сопротивляется тьме.",
+      },
+      ghost: {
+        name: "Призрак",
+        desc: "Бесплотный дух. Почти невосприимчив к физическому урону.",
+      },
+      darkMage: {
+        name: "Тёмный маг",
+        desc: "Падший волшебник, искусивший запретные искусства. Босс.",
+      },
+      lesserDemon: {
+        name: "Малый демон",
+        desc: "Демон из преисподней. Слаб к льду, сопротивляется огню.",
+      },
+      direWolf: {
+        name: "Лютый волк",
+        desc: "Гигантский волк-оборотень. Жаждет крови.",
+      },
+      mummy: {
+        name: "Мумия",
+        desc: "Древнее проклятое существо. Горит как факел.",
+      },
+      mimic: {
+        name: "Мимик",
+        desc: "Монстр, притворяющийся сундуком с сокровищами.",
+      },
+      vampireThrall: {
+        name: "Вампир-прислужник",
+        desc: "Молодой вампир, служащий своему господину.",
+      },
+      whelp: {
+        name: "Дракончик",
+        desc: "Молодой дракон. Ещё не научился летать, но уже дышит огнём.",
+      },
+      forestGolem: {
+        name: "Лесной голем",
+        desc: "Древний страж леса, созданный из живой древесины и мха. Сопротивляется земле.",
+      },
+      poisonSpider: {
+        name: "Ядовитый паук",
+        desc: "Огромный паук с токсичными железами. Слаб к льду.",
+      },
+      forestGuardian: {
+        name: "Страж леса",
+        desc: "Древнее дерево-хранитель, защищающее лес веками. Босс леса.",
+      },
+      sandWorm: {
+        name: "Песчаный червь",
+        desc: "Гигантский червь, обитающий в песках пустыни. Слаб к льду.",
+      },
+      scarabBeetle: {
+        name: "Жук-скарабей",
+        desc: "Магический жук с древними иероглифами на панцире. Слаб к земле.",
+      },
+      desertColossus: {
+        name: "Пустынный колосс",
+        desc: "Огромный голем из песчаника, оживлённый древней магией. Босс пустыни.",
+      },
+      iceElemental: {
+        name: "Ледяной элементаль",
+        desc: "Дух льда, созданный из чистого мороза. Слаб к огню.",
+      },
+      frostWolf: {
+        name: "Ледяной волк",
+        desc: "Волк, чья шерсть покрыта инеем. Дыхание замораживает жертвы. Слаб к огню.",
+      },
+      iceQueen: {
+        name: "Ледяная королева",
+        desc: "Владычица ледяных вершин, чьё сердце вечной мерзлоты. Босс льда.",
+      },
+      lavaSlime: {
+        name: "Лавовый слайм",
+        desc: "Слайм из расплавленной лавы. Обжигает прикосновением. Слаб к воде.",
+      },
+      fireImp: {
+        name: "Огненный имп",
+        desc: "Маленький демон огня, любящий поджоги. Слаб к льду.",
+      },
+      infernoDragon: {
+        name: "Дракон преисподней",
+        desc: "Древний дракон, рождённый в вулканическом огне. Босс вулкана.",
+      },
+      armoredKnight: {
+        name: "Закованный рыцарь",
+        desc: "Нежить в древних доспехах, охраняющая замок. Слаб к свету.",
+      },
+      cursedBanner: {
+        name: "Проклятое знамя",
+        desc: "Знамя павшего легиона, несущее проклятие. Слабо к свету.",
+      },
+      castleLord: {
+        name: "Лорд замка",
+        desc: "Падший благородный рыцарь, ставший нежитью. Босс замка.",
+      },
+      voidWalker: {
+        name: "Ходок пустоты",
+        desc: "Существо из измерений между мирами. Слаб к свету.",
+      },
+      shadowTentacle: {
+        name: "Теневое щупальце",
+        desc: "Щупальце из чистой тьмы, вытягивающее души. Слабо к свету.",
+      },
+      abyssLord: {
+        name: "Лорд Бездны",
+        desc: "Древнее божество пустоты, пробудившееся из глубин. Босс бездны.",
+      },
+    },
+
+    waifus: {
+      Tiamat: {
+        name: "Тиамат",
+        desc: "Мать первозданного хаоса, из чьих вод родились боги. Когда её дети предали её, она породила чудовищ, чтобы уничтожить мир.",
+      },
+      Cerberus: {
+        name: "Цербер",
+        desc: "Страж врат преисподней с тремя головами. Ни один дух не проходит мимо незамеченным.",
+      },
+      Phoenix: {
+        name: "Феникс",
+        desc: "Бессмертная птица, возрождающаяся из пепла. Её крик разносится по всем мирам.",
+      },
+      Leviathan: {
+        name: "Левиафан",
+        desc: "Древний змей бездонных глубин. Корабли дрожат при её появлении.",
+      },
+      Terra: {
+        name: "Терра",
+        desc: "Мать-земля, дарующая жизнь и защищающая природу.",
+      },
+      YukiOnna: {
+        name: "Юки-онна",
+        desc: "Дух зимних метелей и снежных вершин. Холодна как лёд, прекрасна как иней.",
+      },
+      Ignis: {
+        name: "Игнис",
+        desc: "Рыцарь пламени, чей меч горит вечным огнём.",
+      },
+      Aqua: {
+        name: "Аква",
+        desc: "Маг приливов, управляющая водой как продолжение своего тела.",
+      },
+      Gaia: {
+        name: "Гайя",
+        desc: "Охотница за сокровищами древних руин, защищённая силой земли.",
+      },
+      Umbra: {
+        name: "Умбра",
+        desc: "Теневой клинок, убивающий молча и исчезающий во тьме.",
+      },
+      Ruby: {
+        name: "Руби",
+        desc: "Наёмница с горячим темпераментом и ещё более горячими клинками.",
+      },
+      Sapphire: {
+        name: "Сапфир",
+        desc: "Мудрая учёная, хранящая знания тысячелетий.",
+      },
+      Emerald: {
+        name: "Изумруд",
+        desc: "Лесная следопытка, чьи стрелы не промахиваются.",
+      },
+      Frost: {
+        name: "Фрост",
+        desc: "Маг льда, способный заморозить само время.",
+      },
+      Lux: {
+        name: "Люкс",
+        desc: "Жрица света, исцеляющая раны и души.",
+      },
+      Sakura: {
+        name: "Сакура",
+        desc: "Начинающая воительница, мечтающая о великих подвигах.",
+      },
+      Yui: {
+        name: "Юи",
+        desc: "Простая деревенская девушка с добрым сердцем.",
+      },
+      Hana: {
+        name: "Хана",
+        desc: "Рыбачка, знающая все секреты моря.",
+      },
+      Momo: {
+        name: "Момо",
+        desc: "Повариха, способная накормить целую армию.",
+      },
+      Rin: {
+        name: "Рин",
+        desc: "Фермерша, выращивающая золотистый рис.",
+      },
+      Sora: {
+        name: "Сора",
+        desc: "Быстрая посыльная, доставляющая письма в любую точку мира.",
+      },
+    },
+
+    items: {
+      gel: {
+        name: "Слаймовая слизь",
+        desc: "Липкая субстанция из останков слайма. Используется в алхимии.",
+      },
+      slimeCore: {
+        name: "Ядро слайма",
+        desc: "Сердце слайма, хранящее магическую энергию. Редкий коллекционный предмет.",
+      },
+      gem: {
+        name: "Кристалл",
+        desc: "Сверкающий кристалл, используемый как валюта.",
+      },
+      coin: {
+        name: "Монета",
+        desc: "Обычная монета, найденная у поверженного врага.",
+      },
+      goblinDagger: {
+        name: "Кинжал гоблина",
+        desc: "Ржавый, но острый кинжал гоблина. Трофей.",
+      },
+      goblinEar: {
+        name: "Ухо гоблина",
+        desc: "Трофей с гоблина. Торговцы покупают за монеты.",
+      },
+      bone: {
+        name: "Кость",
+        desc: "Кость скелета. Материал для некромантии или крафта.",
+      },
+      skull: {
+        name: "Череп",
+        desc: "Череп нежити. Коллекционный предмет.",
+      },
+      ancientCoin: {
+        name: "Древняя монета",
+        desc: "Монета из давно исчезнувшей цивилизации.",
+      },
+      ectoplasm: {
+        name: "Эктоплазма",
+        desc: "Призрачная субстанция. Ценный алхимический ингредиент.",
+      },
+      soulShard: {
+        name: "Осколок души",
+        desc: "Осколок души призрака. Мощный магический компонент.",
+      },
+      essence: {
+        name: "Эссенция",
+        desc: "Чистая магическая эссенция. Основная валюта призыва.",
+      },
+      magicScroll: {
+        name: "Магический свиток",
+        desc: "Свиток с заклинанием. Материал для зачарования.",
+      },
+      darkOrb: {
+        name: "Тёмная сфера",
+        desc: "Сфера тёмной энергии. Артефакт тёмного мага.",
+      },
+      mageStaff: {
+        name: "Посох мага",
+        desc: "Посох падшего мага. Легендарный трофей.",
+      },
+      demonHorn: {
+        name: "Рог демона",
+        desc: "Рог демона. Символ силы и опасности.",
+      },
+      hellfireEssence: {
+        name: "Сущность адского пламени",
+        desc: "Сущность пламени преисподней. Эпический коллекционный предмет.",
+      },
+      demonWing: {
+        name: "Крыло демона",
+        desc: "Крыло демона. Редчайший трофей охотника.",
+      },
+      expScroll500: {
+        name: "Свиток опыта +500",
+        desc: "Дает +500 опыта выбранной вайфу",
+      },
+      expScroll1000: {
+        name: "Свиток опыта +1000",
+        desc: "Дает +1000 опыта выбранной вайфу",
+      },
+      affectionPotion: {
+        name: "Зелье привязанности",
+        desc: "Увеличивает привязанность на 10",
+      },
+      critBoost: {
+        name: "Зелье крита",
+        desc: "+10% шанс крита на 5 минут",
+      },
+      ironSword: {
+        name: "Железный меч",
+        desc: "Базовое оружие начинающего искателя приключений.",
+      },
+    },
+  },
+} as const;
+
+export type Lang = keyof typeof locales;
+ 
+ 
