@@ -5,7 +5,7 @@ import { resolve } from "path";
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === "production" ? "/HaremClickerInfinity/" : "./",
+  base: "/HaremClickerInfinity/",
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),
