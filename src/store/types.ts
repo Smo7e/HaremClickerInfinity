@@ -1,7 +1,7 @@
 import type { Inventory } from "../classes/Inventory";
 import type { Waifu } from "../classes/Waifu";
 import type { Enemy } from "../classes/Enemy";
-import type { TLocation, TLocationProgress, IGlobalUpgrades, TElementType } from "../types";
+import type { TLocation, TLocationProgress, IGlobalUpgrades, TElementType, TBestiaryProgress } from "../types";
 
 export interface GameState {
   inventory: Inventory;
@@ -23,7 +23,9 @@ export interface GameState {
     settings: boolean;
     locationSelector: boolean;
     waifuDetail: string | null;
+    bestiary: boolean;
   };
+  bestiary: TBestiaryProgress;
 }
 
 export interface GameActions {
@@ -48,6 +50,9 @@ export interface GameActions {
   upgradeElement: (element: TElementType) => boolean;
   resetGame: () => void;
   loadGame: (savedState: Partial<GameState>) => void;
+  // Бестиарий
+  recordEnemyKill: (enemyNameKey: string) => void;
+  getBestiaryEntry: (enemyId: string) => { killCount: number; unlocked: boolean } | undefined;
 }
 
 export interface UseItemResult {
@@ -67,6 +72,7 @@ export interface PersistedGameState {
   currentLocation: TLocation;
   locationProgress: TLocationProgress;
   globalUpgrades: IGlobalUpgrades;
+  bestiary: TBestiaryProgress;
 }
 
 export interface SerializedWaifu {

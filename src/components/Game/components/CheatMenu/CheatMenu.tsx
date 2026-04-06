@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
-import { testWaifus, INVENTORY_ITEMS, COLLECTION_BUFFS } from "../../../../game/constant";
+import { testWaifus, INVENTORY_ITEMS, COLLECTION_BUFFS, MONSTER_TEMPLATES } from "../../../../game/constant";
 import type { TWaifu } from "../../../../types";
 import { Waifu } from "../../../../classes/Waifu";
 import "./CheatMenu.css";
-import { useShallow } from "zustand/shallow";
 
 interface CheatMenuProps {
   onSetGems: (amount: number) => void;
@@ -13,7 +12,7 @@ interface CheatMenuProps {
   onKillEnemy: () => void;
 }
 
-type CheatTab = "resources" | "waifus" | "items" | "buffs" | "battle" | "system";
+type CheatTab = "resources" | "waifus" | "items" | "buffs" | "battle" | "system" | "bestiary";
 
 export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -137,12 +136,32 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
     window.location.reload();
   };
 
+  // Открыть весь бестиарий
+  const handleUnlockAllBestiary = () => {
+    const newBestiary = { ...store.bestiary };
+    MONSTER_TEMPLATES.forEach((template) => {
+      newBestiary[template.nameKey] = {
+        enemyId: template.nameKey,
+        killCount: 9999,
+        unlocked: true,
+        firstSeenAt: Date.now(),
+      };
+    });
+    useGameStore.setState({ bestiary: newBestiary });
+  };
+
+  // Сбросить бестиарий
+  const handleResetBestiary = () => {
+    useGameStore.setState({ bestiary: {} });
+  };
+
   const tabs: { id: CheatTab; label: string }[] = [
     { id: "resources", label: "Ресурсы" },
     { id: "waifus", label: "Вайфу" },
     { id: "items", label: "Предметы" },
     { id: "buffs", label: "Баффы" },
     { id: "battle", label: "Бой" },
+    { id: "bestiary", label: "Бестиарий" },
     { id: "system", label: "Система" },
   ];
 
@@ -320,6 +339,42 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
                 <button className="cheat-btn cheat-btn-danger" onClick={onKillEnemy}>
                   💀 Убить врага
                 </button>
+              </div>
+            </div>
+          )}
+          {activeTab === "bestiary" && (
+            <div className="cheat-section">
+              <h3>Бестиарий</h3>
+              <div className="cheat-current">
+                <span>
+                  📚 Открыто: {Object.keys(store.bestiary).length} / {MONSTER_TEMPLATES.length}
+                </span>
+              </div>
+              <div className="cheat-buttons">
+                <button className="cheat-btn cheat-btn-primary" onClick={handleUnlockAllBestiary}>
+                  📖 Открыть весь бестиарий
+                </button>
+                <button className="cheat-btn cheat-btn-danger" onClick={handleResetBestiary}>
+                  🗑️ Сбросить бестиарий
+                </button>
+              </div>
+              <div className="cheat-owned" style={{ marginTop: "20px" }}>
+                <h4>Текущий прогресс:</h4>
+                <div className="cheat-waifu-list">
+                  {MONSTER_TEMPLATES.map((template) => {
+                    const entry = store.bestiary[template.nameKey];
+                    const killCount = entry?.killCount || 0;
+                    return (
+                      <span
+                        key={template.id}
+                        className={`cheat-waifu-tag ${killCount > 0 ? "rarity-epic" : "rarity-common"}`}
+                        style={{ opacity: killCount > 0 ? 1 : 0.5 }}
+                      >
+                        {t(`monsters.${template.nameKey}.name`)}: {killCount}
+                      </span>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           )}

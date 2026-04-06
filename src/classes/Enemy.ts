@@ -22,7 +22,7 @@ export interface EnemyConfig {
   isBoss?: boolean;
   drops: TDropItem[];
 }
-
+const MAX_SAFE_HP = 9e15;
 export class Enemy {
   id: string;
   nameKey: string;
@@ -131,31 +131,43 @@ export class Enemy {
     const locationConfig = LOCATIONS.find((l) => l.id === locationId);
     const locationScaling = locationConfig?.levelScaling ?? 1;
 
-    // Увеличенное масштабирование HP с учетом локации
-    const baseHp = Math.max(
-      50,
-      template.baseHp * Math.pow(1.15, Math.min(level - 1, 200)) * Math.pow(locationScaling, 2),
+    const baseHp = Math.min(
+      MAX_SAFE_HP,
+      Math.max(50, template.baseHp * Math.pow(1.15, Math.min(level - 1, 200)) * Math.pow(locationScaling, 2)),
     );
     const maxHp = Math.floor(isBoss ? baseHp * 5 : baseHp);
+
+    const resistances: Partial<Record<TElementType, number>> = {};
+
+    // Рандомизируем базовые резисты из шаблона
+    for (const [element, value] of Object.entries(template.resistances)) {
+      if (value > 0) {
+        resistances[element as TElementType] = Math.random() * value;
+      } else if (value < 0) {
+        resistances[element as TElementType] = -(Math.random() * Math.abs(value));
+      }
+    }
+
     const elements: TElementType[] = ["water", "fire", "earth", "ice", "light", "dark", "physical"];
-    const resistances: Partial<Record<TElementType, number>> = {
-      ...template.resistances,
-    };
-    const resistCount = isBoss ? 3 : 1;
     const shuffled = [...elements].sort(() => Math.random() - 0.5);
+
+    const resistCount = isBoss ? 3 : 1;
     for (let i = 0; i < resistCount; i++) {
       const element = shuffled[i]!;
       if (resistances[element] === undefined) {
         resistances[element] = 0.25 + Math.random() * 0.5;
       }
     }
+
+    // Добавляем уязвимости
     const weakCount = isBoss ? 2 : 1;
     for (let i = 0; i < weakCount; i++) {
-      const element = shuffled[i]!;
+      const element = shuffled[shuffled.length - 1 - i]!;
       if (resistances[element] === undefined) {
-        resistances[element] = -0.5;
+        resistances[element] = -(0.3 + Math.random() * 0.3);
       }
     }
+
     const drops: TDropItem[] = [...template.drops];
 
     if (isBoss) {

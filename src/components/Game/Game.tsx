@@ -19,6 +19,7 @@ import { Background } from "./components/Background/Background";
 import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
 import { CheatMenu } from "./components/CheatMenu/CheatMenu";
 import { CraftPanel } from "./components/CraftPanel/CraftPanel";
+import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
 
 interface Props {
   onBack: () => void;
@@ -221,6 +222,10 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
           <Icon name="collection" size="lg" />
           <span>{t("ui.craft")}</span>
         </button>
+        <button className="side-btn" onClick={() => openPanel("bestiary")}>
+          <Icon name="collection" size="lg" />
+          <span>{t("ui.bestiary")}</span>
+        </button>
       </nav>
 
       <main className="game-main">
@@ -293,6 +298,8 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         onUseItem={handleUseItem}
         selectedWaifuId={activeWaifu?.id}
       />
+
+      <BestiaryPanel isOpen={panels.bestiary} onClose={() => closePanel("bestiary")} />
 
       <CheatMenu
         onSetGems={(amount) => {

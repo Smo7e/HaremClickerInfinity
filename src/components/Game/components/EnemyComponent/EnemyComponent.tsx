@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import type { DamageInfo } from "../../../../classes/Enemy";
+
 import type { Waifu } from "../../../../classes/Waifu";
 import type { Enemy } from "../../../../classes/Enemy";
 import "./EnemyComponent.css";

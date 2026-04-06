@@ -122,3 +122,12 @@ export type TCraftItem = {
     target: "selected_waifu" | "global" | "current_location";
   };
 };
+
+export type TBestiaryEntry = {
+  enemyId: string;
+  killCount: number;
+  unlocked: boolean;
+  firstSeenAt: number | null;
+};
+
+export type TBestiaryProgress = Record<string, TBestiaryEntry>;

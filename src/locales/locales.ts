@@ -14,6 +14,20 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 export const locales = {
   ru: {
     ui: {
+      killsToUnlock: "{{current}} / {{required}} убийств",
+      locationLocked: "Локация ещё не открыта",
+      unknownLocations: "Неизвестно",
+      unlockAtKills: "Разблокируется при {{count}} убийствах",
+      lock: "🔒",
+      bestiary: "Бестиарий",
+      kills: "Убито",
+      totalKills: "Всего убито",
+      foundIn: "Обитает в",
+      resistances: "Сопротивления",
+      noSpecialResists: "Нет особых сопротивлений",
+      possibleDrops: "Возможный дроп",
+      noBestiaryEntries: "Бестиарий пуст",
+      killEnemiesToUnlock: "Убивайте врагов, чтобы разблокировать записи",
       craft: "Крафт",
       craftItems: "Создать",
       useItems: "Использовать",
@@ -134,7 +148,6 @@ export const locales = {
       currency: "Валюта",
       items: "Предметы",
       coins: "Монеты",
-      possibleDrops: "Возможный дроп",
       selectTarget: "Выберите цель",
       use: "Использовать",
       expAdded: "{{name}} получила {{amount}} опыта!",

@@ -272,6 +272,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BestiaryPanel
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CraftPanel
@@ -287,6 +288,8 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\Background.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\BackpackPanel.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\BackpackPanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BestiaryPanel\BestiaryPanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BestiaryPanel\BestiaryPanel.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu\CheatMenu.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu\CheatMenu.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\CollectionPanel.css
@@ -328,10 +331,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\BattleService.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\index.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\gameStore.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\index.ts
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\types.ts
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware\index.ts
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware\saveMiddleware.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
  
  
@@ -389,6 +389,12 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BestiaryPanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BestiaryPanel\index.tsx ===== 
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu\index.ts ===== 
@@ -513,16 +519,6 @@ export type { GameState, GameActions, UseItemResult, PersistedGameState, Seriali
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\index.tsx ===== 
- 
- 
-===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware\index.ts ===== 
-// src/store/middleware/index.ts
-// Экспорт middleware (будет заполняться на Этапе 8)
-
-// export { saveMiddleware } from './saveMiddleware';
- 
- 
-===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware\index.tsx ===== 
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts ===== 
@@ -650,6 +646,15 @@ export type TCraftItem = {
     target: "selected_waifu" | "global" | "current_location";
   };
 };
+
+export type TBestiaryEntry = {
+  enemyId: string;
+  killCount: number;
+  unlocked: boolean;
+  firstSeenAt: number | null;
+};
+
+export type TBestiaryProgress = Record<string, TBestiaryEntry>;
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.tsx ===== 
@@ -665,6 +670,7 @@ import type { Lang } from "./locales/locales";
 import { getLang, setLang } from "./locales/i18n";
 import { audioManager } from "./audio/AudioManager";
 import { useAutoSave } from "./hooks/useSave";
+import { useGameStore } from "./store/gameStore";
 
 export type TScreen = "menu" | "game";
 
@@ -676,7 +682,8 @@ function AppContent() {
   const [audioInitialized, setAudioInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { loadGame, saveGame } = useAutoSave();
+  const { loadGame } = useAutoSave();
+  const hasRehydrated = useGameStore.persist.hasHydrated();
 
   const initAudio = useCallback(async () => {
     if (!audioInitialized) {
@@ -697,8 +704,9 @@ function AppContent() {
   }, []);
 
   useEffect(() => {
-    const loadSavedGame = async () => {
+    const init = async () => {
       try {
+        await useGameStore.persist.rehydrate();
         const hasSave = loadGame();
         if (hasSave) {
           console.log("[App] Save loaded successfully");
@@ -710,7 +718,7 @@ function AppContent() {
       }
     };
 
-    loadSavedGame();
+    init();
     initAudio().catch(console.error);
   }, [loadGame, initAudio]);
 
@@ -719,7 +727,6 @@ function AppContent() {
       if (document.hidden) {
         setIsPaused(true);
         audioManager.pauseMusic();
-        saveGame();
       } else {
         setIsPaused(false);
         audioManager.playMusic();
@@ -728,7 +735,7 @@ function AppContent() {
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [saveGame]);
+  }, []);
 
   useEffect(() => {
     const isYaGamesAvailable = () => {
@@ -742,13 +749,12 @@ function AppContent() {
     if (!isYaGamesAvailable()) return;
 
     try {
-      // @ts-ignore
+      //@ts-ignore
       const ysdk = window.YaGames.ysdk;
 
       const handlePause = () => {
         setIsPaused(true);
         audioManager.setMuted(true);
-        saveGame();
       };
 
       const handleResume = () => {
@@ -756,7 +762,6 @@ function AppContent() {
         audioManager.setMuted(false);
       };
 
-      // Добавьте проверку перед подпиской
       if (ysdk?.on) {
         ysdk.on("game_api_pause", handlePause);
         ysdk.on("game_api_resume", handleResume);
@@ -771,9 +776,9 @@ function AppContent() {
     } catch (e) {
       console.log("YaGames SDK not available in this environment:", e);
     }
-  }, [saveGame]);
+  }, []);
 
-  if (isLoading) {
+  if (isLoading || !hasRehydrated) {
     return (
       <div className="app-loading">
         <div className="loading-spinner" />
@@ -1032,10 +1037,9 @@ export type { SFXType };
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Enemy.ts ===== 
-// src/classes/Enemy.ts
 import type { TDropItem, TElementType, TLocation } from "../types";
 import { t } from "../locales/i18n";
-import { LOCATION_BOSSES, LOCATION_ENEMIES, MONSTER_TEMPLATES } from "../game/constant";
+import { LOCATION_BOSSES, LOCATION_ENEMIES, LOCATIONS, MONSTER_TEMPLATES } from "../game/constant";
 
 export type TEnemyRewards = { gems: number; essence?: number; exp: number };
 
@@ -1057,7 +1061,7 @@ export interface EnemyConfig {
   isBoss?: boolean;
   drops: TDropItem[];
 }
-
+const MAX_SAFE_HP = 9e15;
 export class Enemy {
   id: string;
   nameKey: string;
@@ -1152,12 +1156,10 @@ export class Enemy {
     const locationEnemyIds = isBoss ? LOCATION_BOSSES[locationId] : LOCATION_ENEMIES[locationId];
     const availableTemplates = MONSTER_TEMPLATES.filter((m) => locationEnemyIds.includes(m.id) && m.isBoss === isBoss);
 
-    // Если нет доступных врагов для локации, используем дефолтных
     let template;
     if (availableTemplates.length > 0) {
       template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)]!;
     } else {
-      // Фallback на первого подходящего врага
       const fallbackTemplates = MONSTER_TEMPLATES.filter((m) => m.isBoss === isBoss);
       template =
         fallbackTemplates.length > 0
@@ -1165,28 +1167,46 @@ export class Enemy {
           : MONSTER_TEMPLATES[0]!;
     }
 
-    // Корректный расчёт HP с проверкой минимума
-    const baseHp = Math.max(50, template.baseHp * Math.pow(1.1, Math.min(level - 1, 100)));
+    const locationConfig = LOCATIONS.find((l) => l.id === locationId);
+    const locationScaling = locationConfig?.levelScaling ?? 1;
+
+    const baseHp = Math.min(
+      MAX_SAFE_HP,
+      Math.max(50, template.baseHp * Math.pow(1.15, Math.min(level - 1, 200)) * Math.pow(locationScaling, 2)),
+    );
     const maxHp = Math.floor(isBoss ? baseHp * 5 : baseHp);
+
+    const resistances: Partial<Record<TElementType, number>> = {};
+
+    // Рандомизируем базовые резисты из шаблона
+    for (const [element, value] of Object.entries(template.resistances)) {
+      if (value > 0) {
+        resistances[element as TElementType] = Math.random() * value;
+      } else if (value < 0) {
+        resistances[element as TElementType] = -(Math.random() * Math.abs(value));
+      }
+    }
+
     const elements: TElementType[] = ["water", "fire", "earth", "ice", "light", "dark", "physical"];
-    const resistances: Partial<Record<TElementType, number>> = {
-      ...template.resistances,
-    };
-    const resistCount = isBoss ? 3 : 1;
     const shuffled = [...elements].sort(() => Math.random() - 0.5);
+
+    const resistCount = isBoss ? 3 : 1;
     for (let i = 0; i < resistCount; i++) {
       const element = shuffled[i]!;
       if (resistances[element] === undefined) {
         resistances[element] = 0.25 + Math.random() * 0.5;
       }
     }
+
+    // Добавляем уязвимости
     const weakCount = isBoss ? 2 : 1;
     for (let i = 0; i < weakCount; i++) {
-      const element = shuffled[i]!;
+      const element = shuffled[shuffled.length - 1 - i]!;
       if (resistances[element] === undefined) {
-        resistances[element] = -0.5;
+        resistances[element] = -(0.3 + Math.random() * 0.3);
       }
     }
+
     const drops: TDropItem[] = [...template.drops];
 
     if (isBoss) {
@@ -1238,8 +1258,8 @@ import type { TInventoryItem, TItemType, TCollectionCategory } from "../types";
 import { INVENTORY_ITEMS } from "../game/constant";
 
 export class Inventory {
-  private items: Map<string, TInventoryItem>;
-  private collection: Map<string, TCollectionCategory>;
+  items: Map<string, TInventoryItem>;
+  collection: Map<string, TCollectionCategory>;
   private _collectionCache: Map<string, TCollectionCategory> | null = null;
 
   constructor() {
@@ -1350,8 +1370,12 @@ export class Inventory {
     try {
       const parsed = JSON.parse(data);
       const newInventory = new Inventory();
-      newInventory.items = new Map(parsed.items || []);
-      newInventory.collection = new Map(parsed.collection || []);
+      if (parsed.items && Array.isArray(parsed.items)) {
+        newInventory.items = new Map(parsed.items);
+      }
+      if (parsed.collection && Array.isArray(parsed.collection)) {
+        newInventory.collection = new Map(parsed.collection);
+      }
       return newInventory;
     } catch (e) {
       console.error("Failed to deserialize inventory:", e);
@@ -1758,6 +1782,7 @@ import { Background } from "./components/Background/Background";
 import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
 import { CheatMenu } from "./components/CheatMenu/CheatMenu";
 import { CraftPanel } from "./components/CraftPanel/CraftPanel";
+import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
 
 interface Props {
   onBack: () => void;
@@ -1898,10 +1923,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     [activeWaifuId],
   );
 
-  const handleCloseWaifuDetail = useCallback(() => {
-    closePanel("waifuDetail");
-  }, [closePanel]);
-
   if (!activeWaifu || !enemy) {
     return <div className="game-loading">{t("ui.loading")}</div>;
   }
@@ -1963,6 +1984,10 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         <button className="side-btn" onClick={() => openPanel("craft")}>
           <Icon name="collection" size="lg" />
           <span>{t("ui.craft")}</span>
+        </button>
+        <button className="side-btn" onClick={() => openPanel("bestiary")}>
+          <Icon name="collection" size="lg" />
+          <span>{t("ui.bestiary")}</span>
         </button>
       </nav>
 
@@ -2037,6 +2062,8 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         selectedWaifuId={activeWaifu?.id}
       />
 
+      <BestiaryPanel isOpen={panels.bestiary} onClose={() => closePanel("bestiary")} />
+
       <CheatMenu
         onSetGems={(amount) => {
           const current = inventory.getItemCount("gem");
@@ -2059,9 +2086,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
             enemy.currentHp = 0;
             dealDamage(0, false);
           }
-        }}
-        onLevelUp={() => {
-          changeLocation(currentLocation);
         }}
       />
     </div>
@@ -2182,46 +2206,439 @@ export function BackpackPanel({ isOpen, onClose, onUseItem, selectedWaifuId }: B
 }
  
  
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BestiaryPanel\BestiaryPanel.tsx ===== 
+import { useState, useMemo } from "react";
+import { t } from "../../../../locales/i18n";
+import { useGameStore } from "../../../../store/gameStore";
+import {
+  MONSTER_TEMPLATES,
+  LOCATION_ENEMIES,
+  LOCATION_BOSSES,
+  INVENTORY_ITEMS,
+  ELEMENT_COLORS,
+} from "../../../../game/constant";
+import type { TLocation, TElementType } from "../../../../types";
+import { Icon } from "../../../Icon/Icon";
+import "./BestiaryPanel.css";
+
+interface BestiaryPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+type TabType = "all" | TLocation;
+
+const UNLOCK_THRESHOLDS = {
+  locations: 5,
+  resistances: 100,
+  drops: 500,
+};
+
+export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
+  const [activeTab, setActiveTab] = useState<TabType>("all");
+  const [selectedEnemy, setSelectedEnemy] = useState<string | null>(null);
+
+  const bestiary = useGameStore((state) => state.bestiary);
+  const locationProgress = useGameStore((state) => state.locationProgress);
+
+  const locationOrder: TLocation[] = ["forest", "desert", "ice", "volcano", "castle", "abyss"];
+
+  // Карта враг->локации (только разблокированные для игрока)
+  // Учитываем и обычных врагов из LOCATION_ENEMIES, и боссов из LOCATION_BOSSES
+  const enemyLocations = useMemo(() => {
+    const map: Record<string, TLocation[]> = {};
+
+    // Обычные враги
+    for (const [location, enemies] of Object.entries(LOCATION_ENEMIES)) {
+      const loc = location as TLocation;
+      if (locationProgress[loc].unlocked) {
+        for (const enemyId of enemies) {
+          if (!map[enemyId]) map[enemyId] = [];
+          if (!map[enemyId].includes(loc)) {
+            map[enemyId].push(loc);
+          }
+        }
+      }
+    }
+
+    // Боссы
+    for (const [location, bosses] of Object.entries(LOCATION_BOSSES)) {
+      const loc = location as TLocation;
+      if (locationProgress[loc].unlocked) {
+        for (const bossId of bosses) {
+          if (!map[bossId]) map[bossId] = [];
+          if (!map[bossId].includes(loc)) {
+            map[bossId].push(loc);
+          }
+        }
+      }
+    }
+
+    return map;
+  }, [locationProgress]);
+
+  // Фильтруем только разблокированных врагов (хотя бы 1 убийство)
+  const unlockedEnemies = useMemo(() => {
+    return MONSTER_TEMPLATES.filter((template) => {
+      const entry = bestiary[template.nameKey];
+      return entry && entry.killCount > 0;
+    }).map((template) => ({
+      ...template,
+      killCount: bestiary[template.nameKey]?.killCount || 0,
+      locations: enemyLocations[template.id] || [],
+    }));
+  }, [bestiary, enemyLocations]);
+
+  // Фильтрация по вкладке
+  const filteredEnemies = useMemo(() => {
+    if (activeTab === "all") return unlockedEnemies;
+    return unlockedEnemies.filter((enemy) => enemy.locations.includes(activeTab));
+  }, [unlockedEnemies, activeTab]);
+
+  // Статистика открытых монстров
+  const stats = useMemo(() => {
+    const totalMonsters = MONSTER_TEMPLATES.length;
+    const unlockedCount = unlockedEnemies.length;
+    return { totalMonsters, unlockedCount };
+  }, [unlockedEnemies]);
+
+  // Данные выбранного врага с учетом разблокировок
+  const selectedEnemyData = useMemo(() => {
+    if (!selectedEnemy) return null;
+    const template = MONSTER_TEMPLATES.find((t) => t.id === selectedEnemy);
+    if (!template) return null;
+    const entry = bestiary[template.nameKey];
+    const killCount = entry?.killCount || 0;
+    const allLocations = enemyLocations[template.id] || [];
+
+    return {
+      ...template,
+      killCount,
+      locations: allLocations,
+      hasLocationsUnlocked: killCount >= UNLOCK_THRESHOLDS.locations,
+      hasResistancesUnlocked: killCount >= UNLOCK_THRESHOLDS.resistances,
+      hasDropsUnlocked: killCount >= UNLOCK_THRESHOLDS.drops,
+    };
+  }, [selectedEnemy, bestiary, enemyLocations]);
+
+  const getResistanceLabel = (value: number): string => {
+    if (value > 0.3) return t("ui.resist");
+    if (value < -0.2) return t("ui.weak");
+    return t("ui.normal");
+  };
+
+  const getResistanceColor = (value: number): string => {
+    if (value > 0.3) return "#ff6b6b";
+    if (value < -0.2) return "#51cf66";
+    return "#9e9e9e";
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel bestiary-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>
+            <Icon name="collection" size="md" /> {t("ui.bestiary")}
+          </h2>
+          <div className="bestiary-stats">
+            <span className="stats-counter">
+              {stats.unlockedCount} / {stats.totalMonsters}
+            </span>
+          </div>
+          <button className="btn-close" onClick={onClose}>
+            <Icon name="close" size="md" />
+          </button>
+        </div>
+
+        <div className="bestiary-tabs">
+          <button className={`bestiary-tab ${activeTab === "all" ? "active" : ""}`} onClick={() => setActiveTab("all")}>
+            <Icon name="all" size="sm" />
+            <span>{t("ui.all")}</span>
+          </button>
+          {locationOrder.map((loc) => (
+            <button
+              key={loc}
+              className={`bestiary-tab ${activeTab === loc ? "active" : ""}`}
+              onClick={() => setActiveTab(loc)}
+              disabled={locationProgress[loc].maxLevelReached === 0}
+              title={locationProgress[loc].maxLevelReached === 0 ? t("ui.locationLocked") : ""}
+            >
+              <Icon name={loc} size="sm" />
+              <span>{t(`ui.locations.${loc}`)}</span>
+              {locationProgress[loc].maxLevelReached === 0 && <span className="location-locked-icon">🔒</span>}
+            </button>
+          ))}
+        </div>
+
+        <div className="bestiary-content">
+          {filteredEnemies.length === 0 ? (
+            <div className="bestiary-empty">
+              <Icon name="unknown" size="lg" />
+              <p>{t("ui.noBestiaryEntries")}</p>
+              <small>{t("ui.killEnemiesToUnlock")}</small>
+            </div>
+          ) : (
+            <div className="bestiary-grid">
+              {filteredEnemies.map((enemy) => (
+                <div
+                  key={enemy.id}
+                  className={`bestiary-card ${enemy.isBoss ? "boss" : ""}`}
+                  onClick={() => setSelectedEnemy(enemy.id)}
+                >
+                  <div className="bestiary-image-container">
+                    <img
+                      src={enemy.sprite}
+                      alt={t(`monsters.${enemy.nameKey}.name`)}
+                      className="bestiary-image"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = "none";
+                      }}
+                    />
+                    {enemy.isBoss && <span className="boss-indicator">{t("ui.boss")}</span>}
+                  </div>
+                  <div className="bestiary-info">
+                    <span className="bestiary-name">{t(`monsters.${enemy.nameKey}.name`)}</span>
+                    <span className="bestiary-kills">
+                      {t("ui.kills")}: {enemy.killCount}
+                    </span>
+                    {enemy.locations.length > 0 && (
+                      <div className="bestiary-locations">
+                        {enemy.locations.slice(0, 3).map((loc) => (
+                          <span key={loc} className="location-tag">
+                            <Icon name={loc} size="sm" />
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {selectedEnemyData && (
+          <div className="bestiary-detail-overlay" onClick={() => setSelectedEnemy(null)}>
+            <div className="bestiary-detail" onClick={(e) => e.stopPropagation()}>
+              <button className="btn-close detail-close" onClick={() => setSelectedEnemy(null)}>
+                <Icon name="close" size="md" />
+              </button>
+
+              <div className="detail-header">
+                <img
+                  src={selectedEnemyData.sprite}
+                  alt={t(`monsters.${selectedEnemyData.nameKey}.name`)}
+                  className="detail-image"
+                />
+                <div className="detail-title">
+                  <h3>{t(`monsters.${selectedEnemyData.nameKey}.name`)}</h3>
+                  {selectedEnemyData.isBoss && <span className="detail-boss-badge">{t("ui.boss")}</span>}
+                  <span className="detail-kills">
+                    {t("ui.totalKills")}: {selectedEnemyData.killCount}
+                  </span>
+                </div>
+              </div>
+
+              <p className="detail-description">{t(selectedEnemyData.description)}</p>
+
+              {/* Локации - разблокируются при 5 убийствах */}
+              {selectedEnemyData.hasLocationsUnlocked ? (
+                <div className="detail-section">
+                  <h4>
+                    <Icon name="pool" size="sm" /> {t("ui.foundIn")}
+                  </h4>
+                  <div className="detail-locations">
+                    {selectedEnemyData.locations.length > 0 ? (
+                      selectedEnemyData.locations.map((loc) => (
+                        <span key={loc} className="detail-location-tag">
+                          <Icon name={loc} size="sm" />
+                          {t(`ui.locations.${loc}`)}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="no-data">{t("ui.unknownLocations")}</span>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="detail-section locked">
+                  <h4>
+                    <Icon name="pool" size="sm" /> {t("ui.foundIn")}
+                  </h4>
+                  <div className="locked-hint">
+                    <Icon name="lock" size="sm" />
+                    <span>
+                      {t("ui.killsToUnlock")
+                        .replace("{{current}}", selectedEnemyData.killCount.toString())
+                        .replace("{{required}}", UNLOCK_THRESHOLDS.locations.toString())}
+                    </span>
+                  </div>
+                  <div className="progress-bar">
+                    <div
+                      className="progress-fill"
+                      style={{
+                        width: `${Math.min(100, (selectedEnemyData.killCount / UNLOCK_THRESHOLDS.locations) * 100)}%`,
+                      }}
+                    />
+                    <span className="progress-text">
+                      {selectedEnemyData.killCount} / {UNLOCK_THRESHOLDS.locations}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Сопротивления - разблокируются при 100 убийствах */}
+              {selectedEnemyData.hasResistancesUnlocked ? (
+                <div className="detail-section">
+                  <h4>
+                    <Icon name="shield" size="sm" /> {t("ui.resistances")}
+                  </h4>
+                  <div className="detail-resistances">
+                    {Object.entries(selectedEnemyData.resistances).length > 0 ? (
+                      Object.entries(selectedEnemyData.resistances).map(([element, value]) => {
+                        const numValue = value as number;
+                        return (
+                          <div
+                            key={element}
+                            className="resistance-item"
+                            style={{ borderColor: ELEMENT_COLORS[element as TElementType] }}
+                          >
+                            <Icon name={element} size="sm" />
+                            <span className="resistance-name">{t(`ui.${element}`)}</span>
+                            <span className="resistance-value" style={{ color: getResistanceColor(numValue) }}>
+                              {numValue > 0 ? "+" : ""}
+                              {Math.round(numValue * 100)}%
+                            </span>
+                            <span className="resistance-label" style={{ color: getResistanceColor(numValue) }}>
+                              {getResistanceLabel(numValue)}
+                            </span>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <span className="no-resists">{t("ui.noSpecialResists")}</span>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="detail-section locked">
+                  <h4>
+                    <Icon name="shield" size="sm" /> {t("ui.resistances")}
+                  </h4>
+                  <div className="locked-hint">
+                    <Icon name="lock" size="sm" />
+                    <span>
+                      {t("ui.killsToUnlock")
+                        .replace("{{current}}", selectedEnemyData.killCount.toString())
+                        .replace("{{required}}", UNLOCK_THRESHOLDS.resistances.toString())}
+                    </span>
+                  </div>
+                  <div className="progress-bar">
+                    <div
+                      className="progress-fill"
+                      style={{
+                        width: `${Math.min(100, (selectedEnemyData.killCount / UNLOCK_THRESHOLDS.resistances) * 100)}%`,
+                      }}
+                    />
+                    <span className="progress-text">
+                      {selectedEnemyData.killCount} / {UNLOCK_THRESHOLDS.resistances}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Дропы - разблокируются при 500 убийствах */}
+              {selectedEnemyData.hasDropsUnlocked ? (
+                <div className="detail-section">
+                  <h4>
+                    <Icon name="backpack" size="sm" /> {t("ui.possibleDrops")}
+                  </h4>
+                  <div className="detail-drops">
+                    {selectedEnemyData.drops.map((drop) => {
+                      const item = INVENTORY_ITEMS[drop.id];
+                      return (
+                        <div key={drop.id} className="drop-item-detail">
+                          <Icon name={item?.icon || "unknown"} size="sm" />
+                          <span className="drop-name">{item ? t(`items.${item.nameKey}.name`) : drop.id}</span>
+                          <span className="drop-chance">{Math.round(drop.chance * 100)}%</span>
+                          <span className="drop-range">
+                            {drop.minCount}-{drop.maxCount}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <div className="detail-section locked">
+                  <h4>
+                    <Icon name="backpack" size="sm" /> {t("ui.possibleDrops")}
+                  </h4>
+                  <div className="locked-hint">
+                    <Icon name="lock" size="sm" />
+                    <span>
+                      {t("ui.killsToUnlock")
+                        .replace("{{current}}", selectedEnemyData.killCount.toString())
+                        .replace("{{required}}", UNLOCK_THRESHOLDS.drops.toString())}
+                    </span>
+                  </div>
+                  <div className="progress-bar">
+                    <div
+                      className="progress-fill"
+                      style={{
+                        width: `${Math.min(100, (selectedEnemyData.killCount / UNLOCK_THRESHOLDS.drops) * 100)}%`,
+                      }}
+                    />
+                    <span className="progress-text">
+                      {selectedEnemyData.killCount} / {UNLOCK_THRESHOLDS.drops}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+ 
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu\CheatMenu.tsx ===== 
 import { useState, useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
-import { testWaifus, INVENTORY_ITEMS, COLLECTION_BUFFS } from "../../../../game/constant";
+import { testWaifus, INVENTORY_ITEMS, COLLECTION_BUFFS, MONSTER_TEMPLATES } from "../../../../game/constant";
+import type { TWaifu } from "../../../../types";
+import { Waifu } from "../../../../classes/Waifu";
 import "./CheatMenu.css";
-import { useShallow } from "zustand/shallow";
 
 interface CheatMenuProps {
   onSetGems: (amount: number) => void;
   onSetEssence: (amount: number) => void;
   onKillEnemy: () => void;
-  onLevelUp: () => void;
 }
 
-type CheatTab = "resources" | "waifus" | "items" | "buffs" | "battle";
+type CheatTab = "resources" | "waifus" | "items" | "buffs" | "battle" | "system" | "bestiary";
 
-export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: CheatMenuProps) {
+export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<CheatTab>("resources");
   const [resourceAmount, setResourceAmount] = useState<string>("1000");
-  const [selectedWaifuId, setSelectedWaifuId] = useState<string>(testWaifus[0]?.id || "");
-  const [selectedItemId, setSelectedItemId] = useState<string>("gem");
-  const [itemCount, setItemCount] = useState<string>("10");
+  const [selectedWaifuId, setSelectedWaifuId] = useState<string>("");
+  const [selectedItemId, setSelectedItemId] = useState<string>("");
+  const [itemCount, setItemCount] = useState<string>("1");
 
-  const { inventory, ownedWaifus, addItem, addWaifu } = useGameStore(
-    useShallow((state) => ({
-      inventory: state.inventory,
-      ownedWaifus: state.ownedWaifus,
-      addItem: state.addItem,
-      addWaifu: state.addWaifu,
-    })),
-  );
+  const store = useGameStore();
 
-  const gems = inventory.getItemCount("gem");
-  const essence = inventory.getItemCount("essence");
+  const gems = store.inventory.getItemCount("gem");
+  const essence = store.inventory.getItemCount("essence");
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "`" || e.key === "~") {
+      if (e.code === "Backquote") {
         e.preventDefault();
         setIsVisible((prev) => !prev);
       }
@@ -2234,25 +2651,117 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: C
 
   const handleAddGems = () => {
     const amount = parseInt(resourceAmount) || 0;
-    addItem("gem", amount);
+    store.addItem("gem", amount);
   };
 
   const handleAddEssence = () => {
     const amount = parseInt(resourceAmount) || 0;
-    addItem("essence", amount);
+    store.addItem("essence", amount);
   };
 
-  const handleSpawnWaifu = () => {
+  const handleGetAllItems = () => {
+    Object.keys(INVENTORY_ITEMS).forEach((itemId) => {
+      const item = INVENTORY_ITEMS[itemId];
+      if (item) {
+        if (item.type === "collection") {
+          store.addItem(itemId, 1);
+        } else {
+          store.addItem(itemId, item.maxStack || 99);
+        }
+      }
+    });
+  };
+
+  const handleGetSelectedItem = () => {
+    if (!selectedItemId) return;
+    const count = parseInt(itemCount) || 1;
+    const item = INVENTORY_ITEMS[selectedItemId];
+    if (item?.type === "collection") {
+      store.addItem(selectedItemId, 1);
+    } else {
+      store.addItem(selectedItemId, count);
+    }
+  };
+
+  const handleClearInventory = () => {
+    const newInventory = store.inventory.clone();
+    newInventory.items.clear();
+    newInventory.collection.clear();
+    newInventory["invalidateCollectionCache"]();
+    useGameStore.setState({ inventory: newInventory });
+  };
+
+  const handleGetAllWaifus = () => {
+    testWaifus.forEach((template: TWaifu) => {
+      const owned = store.ownedWaifus.find((w) => w.id === template.id);
+      if (!owned) {
+        const newWaifu = Waifu.fromTemplate(template);
+        store.addWaifu(newWaifu);
+      }
+    });
+  };
+
+  const handleGetSelectedWaifu = () => {
+    if (!selectedWaifuId) return;
     const template = testWaifus.find((w) => w.id === selectedWaifuId);
     if (!template) return;
-    const { Waifu } = require("../../../../classes/Waifu");
-    const newWaifu = Waifu.fromTemplate(template);
-    addWaifu(newWaifu);
+    const owned = store.ownedWaifus.find((w) => w.id === selectedWaifuId);
+    if (!owned) {
+      const newWaifu = Waifu.fromTemplate(template);
+      store.addWaifu(newWaifu);
+    }
   };
 
-  const handleAddItem = () => {
-    const count = parseInt(itemCount) || 1;
-    addItem(selectedItemId, count);
+  const handleMaxAllDuplicates = () => {
+    const updatedWaifus = store.ownedWaifus.map((w) => {
+      const newWaifu = w.clone();
+      newWaifu.duplicateCount = 20;
+      newWaifu.setGlobalUpgrades(store.globalUpgrades);
+      return newWaifu;
+    });
+    useGameStore.setState({ ownedWaifus: updatedWaifus });
+    store.refreshWaifus();
+  };
+
+  const handleMaxSelectedDuplicate = () => {
+    if (!selectedWaifuId) return;
+    const updatedWaifus = store.ownedWaifus.map((w) => {
+      if (w.id === selectedWaifuId) {
+        const newWaifu = w.clone();
+        newWaifu.duplicateCount = 20;
+        newWaifu.setGlobalUpgrades(store.globalUpgrades);
+        return newWaifu;
+      }
+      return w;
+    });
+    useGameStore.setState({ ownedWaifus: updatedWaifus });
+    store.refreshWaifus();
+  };
+
+  const handleDeleteSave = () => {
+    localStorage.removeItem("harem-clicker-save-v2");
+    localStorage.removeItem("harem-clicker-backup-v2");
+    localStorage.removeItem("harem-clicker-last-save");
+    window.location.reload();
+  };
+
+  // Открыть весь бестиарий
+  const handleUnlockAllBestiary = () => {
+    const newBestiary = { ...store.bestiary };
+    MONSTER_TEMPLATES.forEach((template) => {
+      newBestiary[template.nameKey] = {
+        enemyId: template.nameKey,
+        killCount: 9999,
+        unlocked: true,
+        firstSeenAt: Date.now(),
+      };
+    });
+    useGameStore.setState({ bestiary: newBestiary });
+  };
+
+  // Сбросить бестиарий
+  const handleResetBestiary = () => {
+    useGameStore.setState({ bestiary: {} });
   };
 
   const tabs: { id: CheatTab; label: string }[] = [
@@ -2261,6 +2770,8 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: C
     { id: "items", label: "Предметы" },
     { id: "buffs", label: "Баффы" },
     { id: "battle", label: "Бой" },
+    { id: "bestiary", label: "Бестиарий" },
+    { id: "system", label: "Система" },
   ];
 
   const itemOptions = Object.entries(INVENTORY_ITEMS).map(([id, item]) => ({
@@ -2278,7 +2789,7 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: C
             ✕
           </button>
         </div>
-        <div className="cheat-hint">Нажмите ` или F12 чтобы закрыть</div>
+        <div className="cheat-hint">Нажмите ` чтобы закрыть</div>
         <div className="cheat-tabs">
           {tabs.map((tab) => (
             <button
@@ -2336,6 +2847,7 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: C
                   onChange={(e) => setSelectedWaifuId(e.target.value)}
                   className="cheat-select"
                 >
+                  <option value="">-- Выберите --</option>
                   {testWaifus.map((w) => (
                     <option key={w.id} value={w.id}>
                       {t(`waifus.${w.nameKey}.name`)} ({w.rarity})
@@ -2344,16 +2856,25 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: C
                 </select>
               </div>
               <div className="cheat-buttons">
-                <button className="cheat-btn" onClick={handleSpawnWaifu}>
-                  Призвать вайфу
+                <button className="cheat-btn" onClick={handleGetSelectedWaifu} disabled={!selectedWaifuId}>
+                  👤 Получить выбранную
+                </button>
+                <button className="cheat-btn cheat-btn-primary" onClick={handleGetAllWaifus}>
+                  👯 Получить всех
+                </button>
+                <button className="cheat-btn" onClick={handleMaxSelectedDuplicate} disabled={!selectedWaifuId}>
+                  ⭐ Макс дубликат (выбранная)
+                </button>
+                <button className="cheat-btn cheat-btn-primary" onClick={handleMaxAllDuplicates}>
+                  ⭐⭐ Макс дубликаты (все)
                 </button>
               </div>
               <div className="cheat-owned">
-                <h4>Имеющиеся: {ownedWaifus.length}</h4>
+                <h4>Имеющиеся: {store.ownedWaifus.length}</h4>
                 <div className="cheat-waifu-list">
-                  {ownedWaifus.map((w) => (
+                  {store.ownedWaifus.map((w) => (
                     <span key={w.id} className={`cheat-waifu-tag rarity-${w.rarity}`}>
-                      {w.name} ({w.duplicateCount})
+                      {w.name} ({w.duplicateCount}/20)
                     </span>
                   ))}
                 </div>
@@ -2364,12 +2885,13 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: C
             <div className="cheat-section">
               <h3>Предметы</h3>
               <div className="cheat-input-group">
-                <label>Предмет:</label>
+                <label>Выбрать предмет:</label>
                 <select
                   value={selectedItemId}
                   onChange={(e) => setSelectedItemId(e.target.value)}
                   className="cheat-select"
                 >
+                  <option value="">-- Выберите --</option>
                   {itemOptions.map((item) => (
                     <option key={item.id} value={item.id}>
                       {item.name} [{item.type}]
@@ -2389,8 +2911,14 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: C
                 />
               </div>
               <div className="cheat-buttons">
-                <button className="cheat-btn" onClick={handleAddItem}>
-                  Добавить предмет
+                <button className="cheat-btn" onClick={handleGetSelectedItem} disabled={!selectedItemId}>
+                  📦 Получить выбранный
+                </button>
+                <button className="cheat-btn cheat-btn-primary" onClick={handleGetAllItems}>
+                  🎒 Получить все
+                </button>
+                <button className="cheat-btn cheat-btn-danger" onClick={handleClearInventory}>
+                  🗑️ Очистить инвентарь
                 </button>
               </div>
             </div>
@@ -2401,7 +2929,7 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: C
               <div className="cheat-buffs-list">
                 {Object.entries(COLLECTION_BUFFS).map(([itemId, buff]) => {
                   const item = INVENTORY_ITEMS[itemId];
-                  const hasItem = inventory.hasCollection(itemId);
+                  const hasItem = store.inventory.hasCollection(itemId);
                   return (
                     <div key={itemId} className={`cheat-buff-item ${hasItem ? "owned" : ""}`}>
                       <span className="cheat-buff-name">{item ? t(`items.${item.nameKey}.name`) : itemId}</span>
@@ -2420,8 +2948,51 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: C
                 <button className="cheat-btn cheat-btn-danger" onClick={onKillEnemy}>
                   💀 Убить врага
                 </button>
-                <button className="cheat-btn" onClick={onLevelUp}>
-                  ⬆️ Увеличить уровень локации
+              </div>
+            </div>
+          )}
+          {activeTab === "bestiary" && (
+            <div className="cheat-section">
+              <h3>Бестиарий</h3>
+              <div className="cheat-current">
+                <span>
+                  📚 Открыто: {Object.keys(store.bestiary).length} / {MONSTER_TEMPLATES.length}
+                </span>
+              </div>
+              <div className="cheat-buttons">
+                <button className="cheat-btn cheat-btn-primary" onClick={handleUnlockAllBestiary}>
+                  📖 Открыть весь бестиарий
+                </button>
+                <button className="cheat-btn cheat-btn-danger" onClick={handleResetBestiary}>
+                  🗑️ Сбросить бестиарий
+                </button>
+              </div>
+              <div className="cheat-owned" style={{ marginTop: "20px" }}>
+                <h4>Текущий прогресс:</h4>
+                <div className="cheat-waifu-list">
+                  {MONSTER_TEMPLATES.map((template) => {
+                    const entry = store.bestiary[template.nameKey];
+                    const killCount = entry?.killCount || 0;
+                    return (
+                      <span
+                        key={template.id}
+                        className={`cheat-waifu-tag ${killCount > 0 ? "rarity-epic" : "rarity-common"}`}
+                        style={{ opacity: killCount > 0 ? 1 : 0.5 }}
+                      >
+                        {t(`monsters.${template.nameKey}.name`)}: {killCount}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+          {activeTab === "system" && (
+            <div className="cheat-section">
+              <h3>Система</h3>
+              <div className="cheat-buttons">
+                <button className="cheat-btn cheat-btn-danger" onClick={handleDeleteSave}>
+                  🗑️ Удалить сохранение и перезагрузить
                 </button>
               </div>
             </div>
@@ -2783,7 +3354,7 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\EnemyComponent.tsx ===== 
 import { useState, useRef, useEffect, useCallback } from "react";
-import type { DamageInfo } from "../../../../classes/Enemy";
+
 import type { Waifu } from "../../../../classes/Waifu";
 import type { Enemy } from "../../../../classes/Enemy";
 import "./EnemyComponent.css";
@@ -3602,8 +4173,7 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
     })),
   );
   const getCost = (baseCost: number, level: number) => {
-    const scaledLevel = Math.min(level, 100);
-    return Math.floor(baseCost * Math.pow(1.5, scaledLevel));
+    return Math.floor(baseCost + Math.pow(level, 1.5)); // 10, 11, 13, 16, 20...
   };
 
   const upgrades: UpgradeConfig[] = [
@@ -3613,7 +4183,7 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
       description: t("upgrades.click.desc"),
       icon: "click",
       getCost: (lvl) => getCost(10, lvl),
-      getEffect: (lvl) => `+${(lvl + 1) * 1000}`,
+      getEffect: (lvl) => `+${(lvl + 1) * 100}`,
       level: globalUpgrades.clickPowerBonus,
     },
     {
@@ -5547,7 +6117,7 @@ export const LOCATIONS: ILocationConfig[] = [
     availableEnemies: ["mummy", "mimic", "direWolf"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 1.3,
+    levelScaling: 2.5, // Увеличено с 1.3
     bonuses: {
       gemMultiplier: 1.8,
       essenceMultiplier: 1.4,
@@ -5561,7 +6131,7 @@ export const LOCATIONS: ILocationConfig[] = [
     availableEnemies: ["ghost", "direWolf", "vampireThrall"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 1.4,
+    levelScaling: 4, // Увеличено с 1.4
     bonuses: {
       gemMultiplier: 2.5,
       essenceMultiplier: 1.8,
@@ -5575,7 +6145,7 @@ export const LOCATIONS: ILocationConfig[] = [
     availableEnemies: ["lesserDemon", "whelp", "mimic"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 1.5,
+    levelScaling: 6, // Увеличено с 1.5
     bonuses: {
       gemMultiplier: 3.5,
       essenceMultiplier: 2.2,
@@ -5589,7 +6159,7 @@ export const LOCATIONS: ILocationConfig[] = [
     availableEnemies: ["skeleton", "ghost", "mummy"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 1.6,
+    levelScaling: 9, // Увеличено с 1.6
     bonuses: {
       gemMultiplier: 4.5,
       essenceMultiplier: 2.8,
@@ -5603,7 +6173,7 @@ export const LOCATIONS: ILocationConfig[] = [
     availableEnemies: ["dark_mage", "lesserDemon", "vampireThrall"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 2,
+    levelScaling: 15, // Увеличено с 2
     bonuses: {
       gemMultiplier: 7,
       essenceMultiplier: 4,
@@ -5612,14 +6182,13 @@ export const LOCATIONS: ILocationConfig[] = [
     },
   },
 ];
-
 export const LOCATION_ENEMIES: Record<TLocation, string[]> = {
   forest: ["slime", "goblin", "direWolf", "forest_golem", "poison_spider"],
   desert: ["mummy", "mimic", "direWolf", "sand_worm", "scarab_beetle"],
   ice: ["ghost", "direWolf", "vampireThrall", "ice_elemental", "frost_wolf"],
   volcano: ["lesserDemon", "whelp", "mimic", "lava_slime", "fire_imp"],
   castle: ["skeleton", "ghost", "mummy", "armored_knight", "cursed_banner"],
-  abyss: ["dark_mage", "lesserDemon", "vampireThrall", "void_walker", "shadow_tentacle"],
+  abyss: ["lesserDemon", "vampireThrall", "void_walker", "shadow_tentacle"],
 };
 export const LOCATION_BOSSES: Record<TLocation, string[]> = {
   forest: ["dark_mage", "forest_guardian"],
@@ -5993,20 +6562,8 @@ export function useAutoSave() {
 
   const saveGame = useCallback(() => {
     try {
-      const state = useGameStore.getState();
-      const serialized = useGameStore.persist.getOptions().partialize?.(state);
-
-      if (serialized) {
-        localStorage.setItem(SAVE_KEY, JSON.stringify(serialized));
-        localStorage.setItem(
-          "harem-clicker-last-save",
-          JSON.stringify({
-            timestamp: Date.now(),
-            version: "2.0.0",
-          }),
-        );
-        console.log("[useSave] Game saved");
-      }
+      useGameStore.persist.rehydrate();
+      console.log("[useSave] Game saved via persist");
     } catch (error) {
       console.error("[useSave] Save failed:", error);
     }
@@ -6064,8 +6621,6 @@ export function useAutoSave() {
   }, []);
 
   useEffect(() => {
-    saveGame();
-
     saveTimeoutRef.current = window.setInterval(() => {
       saveGame();
     }, AUTO_SAVE_INTERVAL);
@@ -6203,6 +6758,20 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 export const locales = {
   ru: {
     ui: {
+      killsToUnlock: "{{current}} / {{required}} убийств",
+      locationLocked: "Локация ещё не открыта",
+      unknownLocations: "Неизвестно",
+      unlockAtKills: "Разблокируется при {{count}} убийствах",
+      lock: "🔒",
+      bestiary: "Бестиарий",
+      kills: "Убито",
+      totalKills: "Всего убито",
+      foundIn: "Обитает в",
+      resistances: "Сопротивления",
+      noSpecialResists: "Нет особых сопротивлений",
+      possibleDrops: "Возможный дроп",
+      noBestiaryEntries: "Бестиарий пуст",
+      killEnemiesToUnlock: "Убивайте врагов, чтобы разблокировать записи",
       craft: "Крафт",
       craftItems: "Создать",
       useItems: "Использовать",
@@ -6323,7 +6892,6 @@ export const locales = {
       currency: "Валюта",
       items: "Предметы",
       coins: "Монеты",
-      possibleDrops: "Возможный дроп",
       selectTarget: "Выберите цель",
       use: "Использовать",
       expAdded: "{{name}} получила {{amount}} опыта!",
@@ -6814,7 +7382,7 @@ export const BattleService = {
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\gameStore.ts ===== 
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { GameState, PersistedGameState, SerializedWaifu, GameActions } from "./types";
+import type { GameState, SerializedWaifu, GameActions } from "./types";
 import { Inventory } from "../classes/Inventory";
 import { Waifu } from "../classes/Waifu";
 import { Enemy } from "../classes/Enemy";
@@ -6825,7 +7393,7 @@ import {
   INITIAL_LOCATION_PROGRESS,
   INITIAL_GLOBAL_UPGRADES,
 } from "../game/constant";
-import type { TLocation, TElementType } from "../types";
+import type { TLocation, TElementType, TLocationProgress, IGlobalUpgrades, TBestiaryProgress } from "../types";
 
 const createInitialState = (): GameState => ({
   inventory: new Inventory(),
@@ -6847,7 +7415,9 @@ const createInitialState = (): GameState => ({
     settings: false,
     locationSelector: false,
     waifuDetail: null,
+    bestiary: false,
   },
+  bestiary: {},
 });
 
 export const useGameStore = create<GameState & GameActions>()(
@@ -6949,7 +7519,6 @@ export const useGameStore = create<GameState & GameActions>()(
           enemyTypeDamageBonus,
         );
 
-        // Создаем новый объект Enemy с обновленным HP
         const newEnemy = Enemy.fromExisting(enemy, enemy.currentHp);
         set({ enemy: newEnemy });
 
@@ -6968,6 +7537,10 @@ export const useGameStore = create<GameState & GameActions>()(
         const state = get();
         const enemy = state.enemy;
         if (!enemy) return;
+
+        // Записываем убийство в бестиарий
+        get().recordEnemyKill(enemy.nameKey);
+
         const locationConfig = LOCATIONS.find((l) => l.id === state.currentLocation);
         if (!locationConfig) return;
         const bonuses = locationConfig.bonuses;
@@ -7061,7 +7634,8 @@ export const useGameStore = create<GameState & GameActions>()(
       upgradeClickPower: (): boolean => {
         const state = get();
         const currentLevel = state.globalUpgrades.clickPowerBonus;
-        const cost = Math.floor(10 * Math.pow(1.5, currentLevel));
+        const cost = Math.floor(10 + Math.pow(currentLevel, 1.5));
+
         const inventory = state.inventory.clone();
         if (!inventory.removeItem("gem", cost)) {
           return false;
@@ -7104,40 +7678,77 @@ export const useGameStore = create<GameState & GameActions>()(
       loadGame: (_savedState: Partial<GameState>) => {
         console.log("[Store] Load game");
       },
+      // Бестиарий
+      recordEnemyKill: (enemyNameKey: string) => {
+        set((state) => {
+          const currentEntry = state.bestiary[enemyNameKey];
+          const newBestiary = {
+            ...state.bestiary,
+            [enemyNameKey]: {
+              enemyId: enemyNameKey,
+              killCount: (currentEntry?.killCount || 0) + 1,
+              unlocked: true,
+              firstSeenAt: currentEntry?.firstSeenAt || Date.now(),
+            },
+          };
+          return { bestiary: newBestiary };
+        });
+      },
+      getBestiaryEntry: (enemyId: string) => {
+        const state = get();
+        return state.bestiary[enemyId];
+      },
     }),
     {
       name: "harem-clicker-save-v2",
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        inventory: state.inventory.serialize(),
-        ownedWaifus: state.ownedWaifus.map((w) => ({
-          id: w.id,
-          stats: { ...w.stats },
-          duplicateCount: w.duplicateCount,
-          unlockedOutfits: [...w.unlockedOutfits],
-          currentOutfit: w.currentOutfit,
-        })),
-        activeWaifuId: state.activeWaifuId,
-        currentLocation: state.currentLocation,
-        locationProgress: state.locationProgress,
-        globalUpgrades: state.globalUpgrades,
-        // НЕ сохраняем: enemy, panels, isPaused
-      }),
+      partialize: (state) => {
+        const partial = {
+          inventory: state.inventory.serialize(),
+          ownedWaifus: state.ownedWaifus.map((w) => ({
+            id: w.id,
+            stats: { ...w.stats },
+            duplicateCount: w.duplicateCount,
+            unlockedOutfits: [...w.unlockedOutfits],
+            currentOutfit: w.currentOutfit,
+          })),
+          activeWaifuId: state.activeWaifuId,
+          currentLocation: state.currentLocation,
+          locationProgress: state.locationProgress,
+          globalUpgrades: state.globalUpgrades,
+          bestiary: state.bestiary,
+        };
+        console.log("[Store] partialize globalUpgrades:", partial.globalUpgrades);
+        return partial;
+      },
       merge: (persistedState, currentState) => {
         if (!persistedState || typeof persistedState !== "object") {
           return currentState;
         }
-        const saved = persistedState as Partial<PersistedGameState>;
+
+        const saved = persistedState as Record<string, unknown>;
+
         const inventory = new Inventory();
-        if (saved.inventory && typeof saved.inventory === "string") {
+        const inventoryData = saved.inventory;
+        if (typeof inventoryData === "string") {
           try {
-            inventory.deserialize(saved.inventory);
+            const parsed = JSON.parse(inventoryData);
+            if (parsed && typeof parsed === "object") {
+              inventory.items = new Map(parsed.items || []);
+              inventory.collection = new Map(parsed.collection || []);
+            }
           } catch (e) {
             console.warn("[Store] Failed to deserialize inventory:", e);
           }
         }
-        const ownedWaifus =
-          (saved.ownedWaifus as SerializedWaifu[] | undefined)?.map((data) => {
+
+        const mergedGlobalUpgrades = (saved.globalUpgrades as IGlobalUpgrades) ?? currentState.globalUpgrades;
+        const mergedBestiary = (saved.bestiary as TBestiaryProgress) ?? currentState.bestiary;
+
+        const ownedWaifusRaw = saved.ownedWaifus;
+        let ownedWaifus = currentState.ownedWaifus;
+        if (Array.isArray(ownedWaifusRaw)) {
+          ownedWaifus = ownedWaifusRaw.map((data: SerializedWaifu) => {
             try {
               const template = testWaifus.find((t) => t.id === data.id);
               const waifu = template ? Waifu.fromTemplate(template) : Waifu.createDefault();
@@ -7145,27 +7756,31 @@ export const useGameStore = create<GameState & GameActions>()(
               waifu.duplicateCount = data.duplicateCount;
               waifu.unlockedOutfits = data.unlockedOutfits || [];
               waifu.currentOutfit = data.currentOutfit || "default";
+              waifu.setGlobalUpgrades(mergedGlobalUpgrades);
               return waifu;
             } catch (e) {
               console.warn(`[Store] Failed to deserialize waifu ${data?.id}:`, e);
               return Waifu.createDefault();
             }
-          }) ?? currentState.ownedWaifus;
+          });
+        }
 
-        const mergedState = {
+        return {
           ...currentState,
           inventory,
           ownedWaifus,
-          activeWaifuId: saved.activeWaifuId ?? currentState.activeWaifuId,
-          currentLocation: saved.currentLocation ?? currentState.currentLocation,
-          locationProgress: saved.locationProgress ?? currentState.locationProgress,
-          globalUpgrades: saved.globalUpgrades ?? currentState.globalUpgrades,
+          activeWaifuId: (saved.activeWaifuId as string | null) ?? currentState.activeWaifuId,
+          currentLocation: (saved.currentLocation as TLocation) ?? currentState.currentLocation,
+          locationProgress: (saved.locationProgress as TLocationProgress) ?? currentState.locationProgress,
+          globalUpgrades: mergedGlobalUpgrades,
+          bestiary: mergedBestiary,
+          enemy: Enemy.spawn(
+            (saved.locationProgress as TLocationProgress)?.[
+              (saved.currentLocation as TLocation) ?? currentState.currentLocation
+            ]?.currentLevel ?? currentState.locationProgress[currentState.currentLocation].currentLevel,
+            (saved.currentLocation as TLocation) ?? currentState.currentLocation,
+          ),
         };
-
-        const level = mergedState.locationProgress[mergedState.currentLocation].currentLevel;
-        mergedState.enemy = Enemy.spawn(level, mergedState.currentLocation);
-
-        return mergedState;
       },
       onRehydrateStorage: () => (_state, _error) => {
         if (_error) {
@@ -7183,7 +7798,7 @@ export const useGameStore = create<GameState & GameActions>()(
 import type { Inventory } from "../classes/Inventory";
 import type { Waifu } from "../classes/Waifu";
 import type { Enemy } from "../classes/Enemy";
-import type { TLocation, TLocationProgress, IGlobalUpgrades, TElementType } from "../types";
+import type { TLocation, TLocationProgress, IGlobalUpgrades, TElementType, TBestiaryProgress } from "../types";
 
 export interface GameState {
   inventory: Inventory;
@@ -7205,7 +7820,9 @@ export interface GameState {
     settings: boolean;
     locationSelector: boolean;
     waifuDetail: string | null;
+    bestiary: boolean;
   };
+  bestiary: TBestiaryProgress;
 }
 
 export interface GameActions {
@@ -7230,6 +7847,9 @@ export interface GameActions {
   upgradeElement: (element: TElementType) => boolean;
   resetGame: () => void;
   loadGame: (savedState: Partial<GameState>) => void;
+  // Бестиарий
+  recordEnemyKill: (enemyNameKey: string) => void;
+  getBestiaryEntry: (enemyId: string) => { killCount: number; unlocked: boolean } | undefined;
 }
 
 export interface UseItemResult {
@@ -7249,6 +7869,7 @@ export interface PersistedGameState {
   currentLocation: TLocation;
   locationProgress: TLocationProgress;
   globalUpgrades: IGlobalUpgrades;
+  bestiary: TBestiaryProgress;
 }
 
 export interface SerializedWaifu {
@@ -7264,80 +7885,6 @@ export interface SerializedWaifu {
   duplicateCount: number;
   unlockedOutfits: string[];
   currentOutfit: string;
-}
- 
- 
-===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware\saveMiddleware.ts ===== 
-import { StateCreator } from "zustand";
-import type { GameState } from "../types";
-
-const AUTO_SAVE_INTERVAL = 30000;
-
-export function createSaveMiddleware<T extends GameState>(config: StateCreator<T>): StateCreator<T> {
-  return (set, get, api) => {
-    const store = config(set, get, api);
-
-    let saveInterval: number | null = null;
-
-    const save = () => {
-      try {
-        localStorage.setItem(
-          "harem-clicker-last-save",
-          JSON.stringify({
-            timestamp: Date.now(),
-            version: "2.0.0",
-          }),
-        );
-        console.log("[SaveMiddleware] Game saved successfully");
-      } catch (error) {
-        console.error("[SaveMiddleware] Save failed:", error);
-      }
-    };
-
-    const startAutoSave = () => {
-      if (saveInterval) return;
-      saveInterval = window.setInterval(save, AUTO_SAVE_INTERVAL);
-    };
-
-    const stopAutoSave = () => {
-      if (saveInterval) {
-        clearInterval(saveInterval);
-        saveInterval = null;
-      }
-    };
-
-    const manualSave = () => {
-      save();
-    };
-
-    const getLastSaveTime = (): number | null => {
-      try {
-        const data = localStorage.getItem("harem-clicker-last-save");
-        if (data) {
-          const parsed = JSON.parse(data);
-          return parsed.timestamp;
-        }
-      } catch {
-        return null;
-      }
-      return null;
-    };
-
-    const clearSave = () => {
-      localStorage.removeItem("harem-clicker-save-v2");
-      localStorage.removeItem("harem-clicker-last-save");
-    };
-
-    (store as any).saveUtils = {
-      startAutoSave,
-      stopAutoSave,
-      manualSave,
-      getLastSaveTime,
-      clearSave,
-    };
-
-    return store;
-  };
 }
  
  

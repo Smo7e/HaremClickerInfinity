@@ -1136,7 +1136,7 @@ export const LOCATION_ENEMIES: Record<TLocation, string[]> = {
   ice: ["ghost", "direWolf", "vampireThrall", "ice_elemental", "frost_wolf"],
   volcano: ["lesserDemon", "whelp", "mimic", "lava_slime", "fire_imp"],
   castle: ["skeleton", "ghost", "mummy", "armored_knight", "cursed_banner"],
-  abyss: ["dark_mage", "lesserDemon", "vampireThrall", "void_walker", "shadow_tentacle"],
+  abyss: ["lesserDemon", "vampireThrall", "void_walker", "shadow_tentacle"],
 };
 export const LOCATION_BOSSES: Record<TLocation, string[]> = {
   forest: ["dark_mage", "forest_guardian"],

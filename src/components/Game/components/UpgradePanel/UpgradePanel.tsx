@@ -31,9 +31,15 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
       upgradeElement: state.upgradeElement,
     })),
   );
-  const getCost = (baseCost: number, level: number) => {
-    const scaledLevel = Math.min(level, 100);
-    return Math.floor(baseCost * Math.pow(1.5, scaledLevel));
+
+  // Единая формула стоимости для кликов (совпадает с gameStore)
+  const getClickCost = (level: number) => {
+    return Math.floor(10 + Math.pow(level, 2.3));
+  };
+
+  // Единая формула стоимости для элементов (совпадает с gameStore)
+  const getElementCost = (level: number) => {
+    return Math.floor(100 * Math.pow(1.5, level));
   };
 
   const upgrades: UpgradeConfig[] = [
@@ -42,8 +48,8 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
       name: t("upgrades.click.name"),
       description: t("upgrades.click.desc"),
       icon: "click",
-      getCost: (lvl) => getCost(10, lvl),
-      getEffect: (lvl) => `+${(lvl + 1) * 1000}`,
+      getCost: (lvl) => getClickCost(lvl),
+      getEffect: (lvl) => `+${(lvl + 1) * 100}`,
       level: globalUpgrades.clickPowerBonus,
     },
     {
@@ -51,7 +57,7 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
       name: t("upgrades.elementWater.name"),
       description: t("upgrades.elementWater.desc"),
       icon: "water",
-      getCost: (lvl) => getCost(100, lvl),
+      getCost: (lvl) => getElementCost(lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
       level: globalUpgrades.elementDamage.water,
       element: "water",
@@ -61,7 +67,7 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
       name: t("upgrades.elementFire.name"),
       description: t("upgrades.elementFire.desc"),
       icon: "fire",
-      getCost: (lvl) => getCost(100, lvl),
+      getCost: (lvl) => getElementCost(lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
       level: globalUpgrades.elementDamage.fire,
       element: "fire",
@@ -71,7 +77,7 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
       name: t("upgrades.elementEarth.name"),
       description: t("upgrades.elementEarth.desc"),
       icon: "earth",
-      getCost: (lvl) => getCost(100, lvl),
+      getCost: (lvl) => getElementCost(lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
       level: globalUpgrades.elementDamage.earth,
       element: "earth",
@@ -81,7 +87,7 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
       name: t("upgrades.elementIce.name"),
       description: t("upgrades.elementIce.desc"),
       icon: "ice",
-      getCost: (lvl) => getCost(100, lvl),
+      getCost: (lvl) => getElementCost(lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
       level: globalUpgrades.elementDamage.ice,
       element: "ice",
@@ -91,7 +97,7 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
       name: t("upgrades.elementLight.name"),
       description: t("upgrades.elementLight.desc"),
       icon: "light",
-      getCost: (lvl) => getCost(100, lvl),
+      getCost: (lvl) => getElementCost(lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
       level: globalUpgrades.elementDamage.light,
       element: "light",
@@ -101,7 +107,7 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
       name: t("upgrades.elementDark.name"),
       description: t("upgrades.elementDark.desc"),
       icon: "dark",
-      getCost: (lvl) => getCost(100, lvl),
+      getCost: (lvl) => getElementCost(lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
       level: globalUpgrades.elementDamage.dark,
       element: "dark",
@@ -111,7 +117,7 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
       name: t("upgrades.elementPhysical.name"),
       description: t("upgrades.elementPhysical.desc"),
       icon: "physical",
-      getCost: (lvl) => getCost(100, lvl),
+      getCost: (lvl) => getElementCost(lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
       level: globalUpgrades.elementDamage.physical,
       element: "physical",
@@ -120,12 +126,18 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
 
   const handleUpgrade = (upgrade: UpgradeConfig) => {
     const cost = upgrade.getCost(upgrade.level);
-    if (gems >= cost) {
-      if (upgrade.element) {
-        upgradeElement(upgrade.element);
-      } else {
-        upgradeClickPower();
-      }
+    if (gems < cost) return; // Дополнительная проверка перед покупкой
+
+    let success = false;
+    if (upgrade.element) {
+      success = upgradeElement(upgrade.element);
+    } else {
+      success = upgradeClickPower();
+    }
+
+    // Если не удалось — возможно состояние изменилось, обновим UI
+    if (!success) {
+      console.log("[UpgradePanel] Upgrade failed, insufficient gems or other error");
     }
   };
 
@@ -153,10 +165,11 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
               const cost = upgrade.getCost(upgrade.level);
               const effect = upgrade.getEffect(upgrade.level);
               const canAfford = gems >= cost;
+
               return (
                 <div
                   key={upgrade.id}
-                  className="upgrade-item-modal"
+                  className={`upgrade-item-modal ${!canAfford ? "cannot-afford" : ""}`}
                   style={upgrade.element ? { borderLeft: `4px solid ${ELEMENT_COLORS[upgrade.element]}` } : undefined}
                 >
                   <div className="upgrade-info-modal">
@@ -176,10 +189,10 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
                   </div>
                   <button
                     type="button"
-                    className="btn-upgrade-modal"
+                    className={`btn-upgrade-modal ${!canAfford ? "disabled" : ""}`}
                     onClick={() => handleUpgrade(upgrade)}
                     disabled={!canAfford}
-                    style={upgrade.element ? { background: ELEMENT_COLORS[upgrade.element] } : undefined}
+                    style={canAfford && upgrade.element ? { background: ELEMENT_COLORS[upgrade.element] } : undefined}
                   >
                     <span className="upgrade-effect-modal">{effect}</span>
                     <span className="upgrade-cost-modal">💎 {cost}</span>

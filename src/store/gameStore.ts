@@ -11,7 +11,7 @@ import {
   INITIAL_LOCATION_PROGRESS,
   INITIAL_GLOBAL_UPGRADES,
 } from "../game/constant";
-import type { TLocation, TElementType, TLocationProgress, IGlobalUpgrades } from "../types";
+import type { TLocation, TElementType, TLocationProgress, IGlobalUpgrades, TBestiaryProgress } from "../types";
 
 const createInitialState = (): GameState => ({
   inventory: new Inventory(),
@@ -33,7 +33,9 @@ const createInitialState = (): GameState => ({
     settings: false,
     locationSelector: false,
     waifuDetail: null,
+    bestiary: false,
   },
+  bestiary: {},
 });
 
 export const useGameStore = create<GameState & GameActions>()(
@@ -153,6 +155,10 @@ export const useGameStore = create<GameState & GameActions>()(
         const state = get();
         const enemy = state.enemy;
         if (!enemy) return;
+
+        // Записываем убийство в бестиарий
+        get().recordEnemyKill(enemy.nameKey);
+
         const locationConfig = LOCATIONS.find((l) => l.id === state.currentLocation);
         if (!locationConfig) return;
         const bonuses = locationConfig.bonuses;
@@ -246,7 +252,8 @@ export const useGameStore = create<GameState & GameActions>()(
       upgradeClickPower: (): boolean => {
         const state = get();
         const currentLevel = state.globalUpgrades.clickPowerBonus;
-        const cost = Math.floor(10 * Math.pow(1.5, currentLevel));
+        const cost = Math.floor(10 + Math.pow(currentLevel, 2.3));
+
         const inventory = state.inventory.clone();
         if (!inventory.removeItem("gem", cost)) {
           return false;
@@ -289,6 +296,26 @@ export const useGameStore = create<GameState & GameActions>()(
       loadGame: (_savedState: Partial<GameState>) => {
         console.log("[Store] Load game");
       },
+      // Бестиарий
+      recordEnemyKill: (enemyNameKey: string) => {
+        set((state) => {
+          const currentEntry = state.bestiary[enemyNameKey];
+          const newBestiary = {
+            ...state.bestiary,
+            [enemyNameKey]: {
+              enemyId: enemyNameKey,
+              killCount: (currentEntry?.killCount || 0) + 1,
+              unlocked: true,
+              firstSeenAt: currentEntry?.firstSeenAt || Date.now(),
+            },
+          };
+          return { bestiary: newBestiary };
+        });
+      },
+      getBestiaryEntry: (enemyId: string) => {
+        const state = get();
+        return state.bestiary[enemyId];
+      },
     }),
     {
       name: "harem-clicker-save-v2",
@@ -307,6 +334,7 @@ export const useGameStore = create<GameState & GameActions>()(
           currentLocation: state.currentLocation,
           locationProgress: state.locationProgress,
           globalUpgrades: state.globalUpgrades,
+          bestiary: state.bestiary,
         };
         console.log("[Store] partialize globalUpgrades:", partial.globalUpgrades);
         return partial;
@@ -333,6 +361,7 @@ export const useGameStore = create<GameState & GameActions>()(
         }
 
         const mergedGlobalUpgrades = (saved.globalUpgrades as IGlobalUpgrades) ?? currentState.globalUpgrades;
+        const mergedBestiary = (saved.bestiary as TBestiaryProgress) ?? currentState.bestiary;
 
         const ownedWaifusRaw = saved.ownedWaifus;
         let ownedWaifus = currentState.ownedWaifus;
@@ -362,6 +391,7 @@ export const useGameStore = create<GameState & GameActions>()(
           currentLocation: (saved.currentLocation as TLocation) ?? currentState.currentLocation,
           locationProgress: (saved.locationProgress as TLocationProgress) ?? currentState.locationProgress,
           globalUpgrades: mergedGlobalUpgrades,
+          bestiary: mergedBestiary,
           enemy: Enemy.spawn(
             (saved.locationProgress as TLocationProgress)?.[
               (saved.currentLocation as TLocation) ?? currentState.currentLocation
