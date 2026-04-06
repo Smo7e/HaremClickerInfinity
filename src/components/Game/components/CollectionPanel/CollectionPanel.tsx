@@ -4,19 +4,22 @@ import type { TCollectionCategory } from "../../../../types";
 import { COLLECTION_BUFFS, INVENTORY_ITEMS } from "../../../../game/constant";
 import "./CollectionPanel.css";
 import { Icon } from "../../../Icon/Icon";
+import { useGameStore } from "../../../../store/gameStore";
 
 interface CollectionPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  collection: Map<string, TCollectionCategory>; // id -> category
 }
 
-export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanelProps) {
+export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
   const [selectedCategory, setSelectedCategory] = useState<TCollectionCategory | "all">("all");
 
-  // Формируем список из полученных коллекционных предметов
+  // Получаем inventory напрямую, а не через useShallow
+  const inventory = useGameStore((state) => state.inventory);
+
   const collectedItems = useMemo(() => {
-    return Array.from(collection.entries()).map(([id, category]) => {
+    const entries = Array.from(inventory.getCollection().entries());
+    return entries.map(([id, category]) => {
       const template = INVENTORY_ITEMS[id];
       return {
         id,
@@ -27,7 +30,8 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
         rarity: template?.rarity || "common",
       };
     });
-  }, [collection]);
+  }, [inventory]);
+
   const getItemBuff = (itemId: string) => {
     return COLLECTION_BUFFS[itemId];
   };
@@ -43,7 +47,6 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
   const filteredItems =
     selectedCategory === "all" ? collectedItems : collectedItems.filter((item) => item.category === selectedCategory);
 
-  // Подсчёт по категориям
   const counts = useMemo(() => {
     const total = collectedItems.length;
     const byCategory = {
@@ -69,7 +72,6 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
             ✕
           </button>
         </div>
-
         <div className="category-tabs">
           {categories.map((cat) => (
             <button
@@ -85,7 +87,6 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
             </button>
           ))}
         </div>
-
         <div className="collection-grid">
           {filteredItems.length === 0 ? (
             <div className="empty-collection">
@@ -117,8 +118,6 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
             })
           )}
         </div>
-
-        {/* Плейсхолдеры для недоступных категорий */}
         {selectedCategory === "memoria" && counts.byCategory.memoria === 0 && (
           <div className="category-hint">
             <Icon name="memoria" size="md" />
@@ -126,7 +125,6 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
             <small>{t("ui.buyInShop")}</small>
           </div>
         )}
-
         {selectedCategory === "outfit" && counts.byCategory.outfit === 0 && (
           <div className="category-hint">
             <Icon name="outfit" size="md" />

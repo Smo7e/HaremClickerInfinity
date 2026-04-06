@@ -1,25 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { t } from "../../../../locales/i18n";
 import { Waifu } from "../../../../classes/Waifu";
 import { testWaifus, BASE_DROP_RATES, RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
 import type { TRarity } from "../../../../types";
-
 import "./GachaPanel.css";
 import { DropPoolPanel } from "./DropPoolPanel";
 import { Icon } from "../../../Icon/Icon";
+import { useGameStore } from "../../../../store/gameStore";
 
 interface GachaPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  essence: number;
-  ownedWaifus: Waifu[];
-  onSummon: (waifu: Waifu, cost: number, isDuplicate: boolean) => void;
 }
 
 type Tab = "summon" | "pool";
 
-export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: GachaPanelProps) {
-  const timeoutRef = useRef<number>(0);
+export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
+  const timeoutRef = useRef<number | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("summon");
   const [isAnimating, setIsAnimating] = useState(false);
   const [result, setResult] = useState<{
@@ -28,12 +25,17 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
   } | null>(null);
   const [showPool, setShowPool] = useState(false);
 
-  const getAvailablePool = () => {
+  const essence = useGameStore((state) => state.inventory.getItemCount("essence"));
+  const ownedWaifus = useGameStore((state) => state.ownedWaifus);
+  const addWaifu = useGameStore((state) => state.addWaifu);
+  const removeItem = useGameStore((state) => state.removeItem);
+
+  const getAvailablePool = useCallback(() => {
     const maxedIds = new Set(ownedWaifus.filter((w) => w.isMaxed()).map((w) => w.id));
     return testWaifus.filter((w) => !maxedIds.has(w.id));
-  };
+  }, [ownedWaifus]);
 
-  const calculateDropRates = () => {
+  const dropInfo = useMemo(() => {
     const available = getAvailablePool();
     const counts: Record<TRarity, number> = {
       common: available.filter((w) => w.rarity === "common").length,
@@ -43,75 +45,51 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
       legendary: available.filter((w) => w.rarity === "legendary").length,
       mythic: available.filter((w) => w.rarity === "mythic").length,
     };
-
     const total = Object.values(counts).reduce((a, b) => a + b, 0);
     if (total === 0) return null;
-
     return {
       counts,
       rates: BASE_DROP_RATES,
     };
-  };
+  }, [getAvailablePool]);
 
-  const performSummon = () => {
+  const performSummon = useCallback(() => {
     if (essence < 10) return;
-
     const available = getAvailablePool();
     if (available.length === 0) {
       alert(t("ui.poolEmpty"));
       return;
     }
-
     setIsAnimating(true);
-
-    timeoutRef.current = setTimeout(() => {
+    timeoutRef.current = window.setTimeout(() => {
       const roll = Math.random();
       let rarity: TRarity;
-
       if (roll < BASE_DROP_RATES.mythic) rarity = "mythic";
       else if (roll < BASE_DROP_RATES.legendary) rarity = "legendary";
       else if (roll < BASE_DROP_RATES.epic) rarity = "epic";
       else if (roll < BASE_DROP_RATES.rare) rarity = "rare";
       else if (roll < BASE_DROP_RATES.uncommon) rarity = "uncommon";
       else rarity = "common";
-
       const candidates = available.filter((w) => w.rarity === rarity);
-
-      let selected;
-      if (candidates.length === 0) {
-        const randomIdx = Math.floor(Math.random() * available.length);
-        selected = available[randomIdx];
-      } else {
-        const randomIdx = Math.floor(Math.random() * candidates.length);
-        selected = candidates[randomIdx];
-      }
-
-      const existingWaifu = ownedWaifus.find((w) => w.id === selected.id);
-      let waifu: Waifu;
-      let isDuplicate = false;
-
-      if (existingWaifu) {
-        existingWaifu.addDuplicate();
-        waifu = existingWaifu;
-        isDuplicate = true;
-      } else {
-        waifu = Waifu.fromTemplate(selected);
-      }
-
+      const selected =
+        candidates.length > 0
+          ? candidates[Math.floor(Math.random() * candidates.length)]!
+          : available[Math.floor(Math.random() * available.length)]!;
+      const waifu = Waifu.fromTemplate(selected);
+      const isDuplicate = ownedWaifus.some((w) => w.id === waifu.id);
       setResult({ waifu, isDuplicate });
       setIsAnimating(false);
-      onSummon(waifu, 10, isDuplicate);
-      timeoutRef.current = 0;
+      removeItem("essence", 10);
+      addWaifu(waifu);
+      timeoutRef.current = null;
     }, 1000);
-  };
+  }, [essence, getAvailablePool, ownedWaifus, removeItem, addWaifu]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setResult(null);
     setActiveTab("summon");
     onClose();
-  };
-
-  const dropInfo = calculateDropRates();
+  }, [onClose]);
 
   useEffect(() => {
     return () => {
@@ -132,7 +110,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
             ✕
           </button>
         </div>
-
         <div className="gacha-tabs">
           <button
             className={`gacha-tab ${activeTab === "summon" ? "active" : ""}`}
@@ -144,7 +121,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
             {t("ui.dropPool")}
           </button>
         </div>
-
         <div className="panel-content">
           {activeTab === "summon" ? (
             <>
@@ -163,7 +139,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                       <small>+30% {t("ui.stats")}</small>
                     </div>
                   )}
-
                   <div className="result-waifu">
                     <img src={result.waifu.image} alt={result.waifu.name} />
                     <h3>{result.waifu.name}</h3>
@@ -177,7 +152,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                     </span>
                     {result.isDuplicate && <span className="dup-count-badge">{result.waifu.duplicateCount}/20</span>}
                   </div>
-
                   <div className="waifu-stats-preview">
                     <span>
                       <Icon name="click" size="sm" /> {result.waifu.getClickPower()}
@@ -189,7 +163,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                       <Icon name="critPower" size="sm" /> {result.waifu.getCritMultiplier().toFixed(1)}x
                     </span>
                   </div>
-
                   <button className="btn-primary" onClick={() => setResult(null)}>
                     {t("ui.continue")}
                   </button>
@@ -197,7 +170,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
               ) : (
                 <>
                   <p className="gacha-description">{t("gacha.desc")}</p>
-
                   <div className="gacha-rates">
                     <h4>{t("ui.dropRates")}</h4>
                     {dropInfo ? (
@@ -216,7 +188,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                       <p className="empty-pool-warning">⚠️ {t("ui.poolEmptyWarning")}</p>
                     )}
                   </div>
-
                   <div className="gacha-action">
                     <div className="cost-display">
                       <span>
@@ -243,7 +214,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
               <button className="btn-secondary" onClick={() => setShowPool(true)}>
                 📚 {t("ui.viewFullPool")}
               </button>
-
               <div className="quick-pool-stats">
                 <h4>{t("ui.collectionProgress")}</h4>
                 <div className="collection-bar">
@@ -257,7 +227,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                     {ownedWaifus.length} / {testWaifus.length}
                   </span>
                 </div>
-
                 <div className="maxed-stats">
                   <span>
                     {t("ui.maxedWaifus")}: {ownedWaifus.filter((w) => w.isMaxed()).length}
@@ -268,7 +237,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
           )}
         </div>
       </div>
-
       <DropPoolPanel isOpen={showPool} onClose={() => setShowPool(false)} ownedWaifus={ownedWaifus} />
     </div>
   );

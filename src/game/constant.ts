@@ -9,6 +9,8 @@ import type {
   TLocation,
   ILocationConfig,
   TCraftItem,
+  IGlobalUpgrades,
+  TLocationProgress,
 } from "../types";
 
 export const BASE_DROP_RATES: Record<TRarity, number> = {
@@ -629,25 +631,6 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     drops: [
       { id: "gel", nameKey: "gel", chance: 0.5, minCount: 1, maxCount: 3, type: "material" },
       { id: "slime_core", nameKey: "slimeCore", chance: 0.01, minCount: 1, maxCount: 1, type: "collection" },
-
-      { id: "gel", nameKey: "gel", chance: 1, minCount: 1, maxCount: 5, type: "material" },
-      { id: "slime_core", nameKey: "slimeCore", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "goblin_dagger", nameKey: "goblinDagger", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "goblin_ear", nameKey: "goblinEar", chance: 1, minCount: 1, maxCount: 3, type: "material" },
-      { id: "bone", nameKey: "bone", chance: 1, minCount: 1, maxCount: 5, type: "material" },
-      { id: "skull", nameKey: "skull", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "ancient_coin", nameKey: "ancientCoin", chance: 1, minCount: 1, maxCount: 3, type: "collection" },
-      { id: "ectoplasm", nameKey: "ectoplasm", chance: 1, minCount: 1, maxCount: 3, type: "material" },
-      { id: "soul_shard", nameKey: "soulShard", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "magic_scroll", nameKey: "magicScroll", chance: 1, minCount: 1, maxCount: 2, type: "material" },
-      { id: "dark_orb", nameKey: "darkOrb", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "mage_staff", nameKey: "mageStaff", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "demon_horn", nameKey: "demonHorn", chance: 1, minCount: 1, maxCount: 2, type: "material" },
-      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "demon_wing", nameKey: "demonWing", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "exp_scroll_500", nameKey: "expScroll500", chance: 1, minCount: 1, maxCount: 3, type: "consumable" },
-      { id: "exp_scroll_1000", nameKey: "expScroll1000", chance: 1, minCount: 1, maxCount: 2, type: "consumable" },
-      { id: "affection_potion", nameKey: "affectionPotion", chance: 1, minCount: 1, maxCount: 5, type: "consumable" },
     ],
   },
   {
@@ -1082,7 +1065,7 @@ export const LOCATIONS: ILocationConfig[] = [
     availableEnemies: ["mummy", "mimic", "direWolf"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 1.3,
+    levelScaling: 2.5, // Увеличено с 1.3
     bonuses: {
       gemMultiplier: 1.8,
       essenceMultiplier: 1.4,
@@ -1096,7 +1079,7 @@ export const LOCATIONS: ILocationConfig[] = [
     availableEnemies: ["ghost", "direWolf", "vampireThrall"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 1.4,
+    levelScaling: 4, // Увеличено с 1.4
     bonuses: {
       gemMultiplier: 2.5,
       essenceMultiplier: 1.8,
@@ -1110,7 +1093,7 @@ export const LOCATIONS: ILocationConfig[] = [
     availableEnemies: ["lesserDemon", "whelp", "mimic"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 1.5,
+    levelScaling: 6, // Увеличено с 1.5
     bonuses: {
       gemMultiplier: 3.5,
       essenceMultiplier: 2.2,
@@ -1124,7 +1107,7 @@ export const LOCATIONS: ILocationConfig[] = [
     availableEnemies: ["skeleton", "ghost", "mummy"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 1.6,
+    levelScaling: 9, // Увеличено с 1.6
     bonuses: {
       gemMultiplier: 4.5,
       essenceMultiplier: 2.8,
@@ -1138,7 +1121,7 @@ export const LOCATIONS: ILocationConfig[] = [
     availableEnemies: ["dark_mage", "lesserDemon", "vampireThrall"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 2,
+    levelScaling: 15, // Увеличено с 2
     bonuses: {
       gemMultiplier: 7,
       essenceMultiplier: 4,
@@ -1147,7 +1130,6 @@ export const LOCATIONS: ILocationConfig[] = [
     },
   },
 ];
-
 export const LOCATION_ENEMIES: Record<TLocation, string[]> = {
   forest: ["slime", "goblin", "direWolf", "forest_golem", "poison_spider"],
   desert: ["mummy", "mimic", "direWolf", "sand_worm", "scarab_beetle"],
@@ -1376,3 +1358,39 @@ export const CRAFT_ITEMS: TCraftItem[] = [
     },
   },
 ];
+export const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
+  forest: { currentLevel: 1, maxLevelReached: 1, unlocked: true },
+  desert: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  ice: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  volcano: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  castle: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  abyss: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+};
+
+export const INITIAL_GLOBAL_UPGRADES: IGlobalUpgrades = {
+  clickPowerBonus: 0,
+  elementDamage: {
+    water: 0,
+    fire: 0,
+    earth: 0,
+    ice: 0,
+    light: 0,
+    dark: 0,
+    physical: 0,
+  },
+  collectionBuffs: {
+    elementDamage: {
+      water: 0,
+      fire: 0,
+      earth: 0,
+      ice: 0,
+      light: 0,
+      dark: 0,
+      physical: 0,
+    },
+    enemyTypeDamage: {},
+    critPowerBonus: 0,
+    gemBonus: 0,
+    expBonus: 0,
+  },
+};

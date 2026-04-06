@@ -1,21 +1,29 @@
 import { t } from "../../../../locales/i18n";
-import { Waifu } from "../../../../classes/Waifu";
-
+import { useGameStore } from "../../../../store/gameStore";
 import "./WaifuSelectPanel.css";
 import { RARITY_COLORS } from "../../../../game/constant";
 import { Icon } from "../../../Icon/Icon";
+import { useShallow } from "zustand/shallow";
 
 interface WaifuSelectPanelProps {
   isOpen: boolean;
-  waifus: Waifu[];
-  activeWaifu: Waifu | null;
-
   onClose: () => void;
-  onSelect: (waifu: Waifu) => void;
+  onSelect: (waifuId: string) => void;
 }
 
-export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelect }: WaifuSelectPanelProps) {
+export function WaifuSelectPanel({ isOpen, onClose, onSelect }: WaifuSelectPanelProps) {
+  const { ownedWaifus, activeWaifuId } = useGameStore(
+    useShallow((state) => ({
+      ownedWaifus: state.ownedWaifus,
+      activeWaifuId: state.activeWaifuId,
+    })),
+  );
+
   if (!isOpen) return null;
+
+  const handleSelect = (waifuId: string) => {
+    onSelect(waifuId);
+  };
 
   return (
     <div className="panel-overlay" onClick={onClose}>
@@ -26,20 +34,16 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
             <Icon name="close" size="md" />
           </button>
         </div>
-
         <div className="waifu-list">
-          {waifus.length === 0 ? (
+          {ownedWaifus.length === 0 ? (
             <p className="empty-message">{t("ui.noWaifus")}</p>
           ) : (
-            waifus.map((waifu) => (
+            ownedWaifus.map((waifu) => (
               <button
                 key={waifu.id}
-                className={`waifu-card ${activeWaifu?.id === waifu.id ? "active" : ""}`}
-                style={{ borderColor: activeWaifu?.id === waifu.id ? undefined : RARITY_COLORS[waifu.rarity] }}
-                onClick={() => {
-                  onSelect(waifu);
-                  onClose();
-                }}
+                className={`waifu-card ${activeWaifuId === waifu.id ? "active" : ""}`}
+                style={{ borderColor: activeWaifuId === waifu.id ? undefined : RARITY_COLORS[waifu.rarity] }}
+                onClick={() => handleSelect(waifu.id)}
               >
                 <div className="waifu-card-portrait">
                   <img
@@ -53,7 +57,6 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
                     <Icon name={waifu.element} size="sm" />
                   </span>
                 </div>
-
                 <div className="waifu-card-info">
                   <span className="waifu-name" style={{ color: RARITY_COLORS[waifu.rarity] }}>
                     {waifu.name}
@@ -70,8 +73,7 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
                     </small>
                   </div>
                 </div>
-
-                {activeWaifu?.id === waifu.id && <span className="active-badge">✓</span>}
+                {activeWaifuId === waifu.id && <span className="active-badge">✓</span>}
               </button>
             ))
           )}

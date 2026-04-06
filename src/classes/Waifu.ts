@@ -1,7 +1,7 @@
 import type { IGlobalUpgrades, TElementType, TRarity, TWaifu } from "../types";
 import { t } from "../locales/i18n";
 import type { LocaleKeys } from "../locales/locales";
-import { INITIAL_GLOBAL_UPGRADES } from "../components/Game/Game";
+import { INITIAL_GLOBAL_UPGRADES } from "../game/constant";
 
 export interface WaifuConfig {
   id: string;
@@ -33,21 +33,15 @@ export class Waifu {
   element: TElementType;
   image: string;
   descriptionKey: LocaleKeys;
-
   baseClickPower: number;
   baseCritChance: number;
   baseCritMultiplier: number;
-
   stats: WaifuStats;
-
   duplicateCount: number;
   maxDuplicates: number = 20;
-
   unlockedOutfits: string[];
   currentOutfit: string;
-
   globalUpgrades: IGlobalUpgrades = INITIAL_GLOBAL_UPGRADES;
-
   critChanceBonus: number = 0;
   critMultiplierBonus: number = 0;
 
@@ -58,11 +52,9 @@ export class Waifu {
     this.element = config.element;
     this.image = config.image;
     this.descriptionKey = config.description;
-
     this.baseClickPower = config.baseStats.clickPower;
     this.baseCritChance = config.baseStats.critChance;
     this.baseCritMultiplier = config.baseStats.critMultiplier;
-
     this.stats = {
       level: 1,
       affection: 0,
@@ -71,10 +63,35 @@ export class Waifu {
       clicksGenerated: 0,
       totalDamage: 0,
     };
-
     this.duplicateCount = 0;
     this.unlockedOutfits = ["default"];
     this.currentOutfit = "default";
+  }
+
+  clone(): Waifu {
+    const newWaifu = new Waifu({
+      id: this.id,
+      nameKey: this.nameKey,
+      rarity: this.rarity,
+      element: this.element,
+      image: this.image,
+      description: this.descriptionKey,
+      baseStats: {
+        clickPower: this.baseClickPower,
+        critChance: this.baseCritChance,
+        critMultiplier: this.baseCritMultiplier,
+      },
+    });
+
+    newWaifu.stats = { ...this.stats };
+    newWaifu.duplicateCount = this.duplicateCount;
+    newWaifu.unlockedOutfits = [...this.unlockedOutfits];
+    newWaifu.currentOutfit = this.currentOutfit;
+    newWaifu.globalUpgrades = { ...this.globalUpgrades };
+    newWaifu.critChanceBonus = this.critChanceBonus;
+    newWaifu.critMultiplierBonus = this.critMultiplierBonus;
+
+    return newWaifu;
   }
 
   setGlobalUpgrades(upgrades: IGlobalUpgrades): void {
@@ -103,16 +120,13 @@ export class Waifu {
 
   getClickPower(): number {
     const baseWithBonus = this.baseClickPower + this.globalUpgrades.clickPowerBonus * 100;
-
     const totalPercentBonus =
       (this.stats.level - 1) * 10 +
       this.stats.affection * 1 +
       this.duplicateCount * 30 +
       (this.globalUpgrades.elementDamage[this.element] || 0) * 10 +
-      (this.globalUpgrades.collectionBuffs?.elementDamage?.[this.element] || 0) * 10;
-
+      (this.globalUpgrades.collectionBuffs.elementDamage[this.element] || 0) * 10;
     const totalMultiplier = 1 + totalPercentBonus / 100;
-
     return Math.floor(baseWithBonus * totalMultiplier);
   }
 
@@ -124,19 +138,17 @@ export class Waifu {
 
   getCritMultiplier(): number {
     const dupBonus = this.duplicateCount * 0.05;
-    const collectionBonus = this.globalUpgrades.collectionBuffs?.critPowerBonus || 0;
+    const collectionBonus = this.globalUpgrades.collectionBuffs.critPowerBonus || 0;
     return this.baseCritMultiplier + dupBonus + collectionBonus + this.critMultiplierBonus;
   }
 
   addExp(amount: number): boolean {
     this.stats.exp += amount;
     let leveledUp = false;
-
     while (this.stats.exp >= this.stats.expToNext) {
       this.levelUp();
       leveledUp = true;
     }
-
     return leveledUp;
   }
 

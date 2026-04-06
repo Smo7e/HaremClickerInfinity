@@ -1,7 +1,6 @@
-// src/classes/Enemy.ts
 import type { TDropItem, TElementType, TLocation } from "../types";
 import { t } from "../locales/i18n";
-import { LOCATION_BOSSES, LOCATION_ENEMIES, MONSTER_TEMPLATES } from "../game/constant";
+import { LOCATION_BOSSES, LOCATION_ENEMIES, LOCATIONS, MONSTER_TEMPLATES } from "../game/constant";
 
 export type TEnemyRewards = { gems: number; essence?: number; exp: number };
 
@@ -116,36 +115,47 @@ export class Enemy {
   static spawn(level: number, locationId: TLocation): Enemy {
     const isBoss = level % 10 === 0;
     const locationEnemyIds = isBoss ? LOCATION_BOSSES[locationId] : LOCATION_ENEMIES[locationId];
-
     const availableTemplates = MONSTER_TEMPLATES.filter((m) => locationEnemyIds.includes(m.id) && m.isBoss === isBoss);
 
-    const template =
-      availableTemplates.length > 0
-        ? availableTemplates[Math.floor(Math.random() * availableTemplates.length)]
-        : MONSTER_TEMPLATES.find((m) => m.isBoss === isBoss) || MONSTER_TEMPLATES[0];
+    let template;
+    if (availableTemplates.length > 0) {
+      template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)]!;
+    } else {
+      const fallbackTemplates = MONSTER_TEMPLATES.filter((m) => m.isBoss === isBoss);
+      template =
+        fallbackTemplates.length > 0
+          ? fallbackTemplates[Math.floor(Math.random() * fallbackTemplates.length)]!
+          : MONSTER_TEMPLATES[0]!;
+    }
 
-    const baseHp = template.baseHp * Math.pow(1.1, level - 1);
-    const maxHp = isBoss ? baseHp * 5 : baseHp;
+    const locationConfig = LOCATIONS.find((l) => l.id === locationId);
+    const locationScaling = locationConfig?.levelScaling ?? 1;
 
+    // Увеличенное масштабирование HP с учетом локации
+    const baseHp = Math.max(
+      50,
+      template.baseHp * Math.pow(1.15, Math.min(level - 1, 200)) * Math.pow(locationScaling, 2),
+    );
+    const maxHp = Math.floor(isBoss ? baseHp * 5 : baseHp);
     const elements: TElementType[] = ["water", "fire", "earth", "ice", "light", "dark", "physical"];
-    const resistances: Partial<Record<TElementType, number>> = { ...template.resistances };
-
+    const resistances: Partial<Record<TElementType, number>> = {
+      ...template.resistances,
+    };
     const resistCount = isBoss ? 3 : 1;
     const shuffled = [...elements].sort(() => Math.random() - 0.5);
-
     for (let i = 0; i < resistCount; i++) {
-      if (resistances[shuffled[i]] === undefined) {
-        resistances[shuffled[i]] = 0.25 + Math.random() * 0.5;
+      const element = shuffled[i]!;
+      if (resistances[element] === undefined) {
+        resistances[element] = 0.25 + Math.random() * 0.5;
       }
     }
-
     const weakCount = isBoss ? 2 : 1;
     for (let i = 0; i < weakCount; i++) {
-      if (resistances[shuffled[i]] === undefined) {
-        resistances[shuffled[i]] = -0.5;
+      const element = shuffled[i]!;
+      if (resistances[element] === undefined) {
+        resistances[element] = -0.5;
       }
     }
-
     const drops: TDropItem[] = [...template.drops];
 
     if (isBoss) {
@@ -173,5 +183,20 @@ export class Enemy {
       isBoss,
       drops,
     });
+  }
+
+  static fromExisting(existing: Enemy, newHp: number): Enemy {
+    const enemy = new Enemy({
+      id: existing.id,
+      nameKey: existing.nameKey,
+      level: existing.level,
+      maxHp: existing.maxHp,
+      resistances: { ...existing.resistances },
+      sprite: existing.sprite,
+      isBoss: existing.isBoss,
+      drops: [...existing.drops],
+    });
+    enemy.currentHp = newHp;
+    return enemy;
   }
 }

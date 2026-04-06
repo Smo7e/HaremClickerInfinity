@@ -249,19 +249,24 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\index.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\main.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\AudioManager.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Enemy.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Inventory.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Waifu.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\ErrorBoundary
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Icon
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\LanguageSelector
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\ErrorBoundary\ErrorBoundary.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.tsx
@@ -314,8 +319,19 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu\MainMe
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settings.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settings.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\constant.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\index.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useBattle.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useSave.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\i18n.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\locales.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\BattleService.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\index.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\gameStore.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\index.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\types.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware\index.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware\saveMiddleware.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
  
  
@@ -343,6 +359,12 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\ErrorBoundary\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\ErrorBoundary\index.tsx ===== 
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\index.ts ===== 
@@ -465,10 +487,42 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\index.tsx ===== 
  
  
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\index.ts ===== 
+export { useAutoSave, useSaveStatus } from "./useSave";
+export { useBattle } from "./useBattle";
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\index.tsx ===== 
+ 
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\index.ts ===== 
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\index.ts ===== 
+export { useGameStore } from "./gameStore";
+export type { GameState, GameActions, UseItemResult, PersistedGameState, SerializedWaifu } from "./types";
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware\index.ts ===== 
+// src/store/middleware/index.ts
+// Экспорт middleware (будет заполняться на Этапе 8)
+
+// export { saveMiddleware } from './saveMiddleware';
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware\index.tsx ===== 
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts ===== 
@@ -606,19 +660,23 @@ import { useState, useEffect, useCallback } from "react";
 import { MainMenu } from "./components/MainMenu/MainMenu";
 import { Settings } from "./components/Settings/Settings";
 import { Game } from "./components/Game/Game";
+import { ErrorBoundary } from "./components/ErrorBoundary/ErrorBoundary";
 import type { Lang } from "./locales/locales";
 import { getLang, setLang } from "./locales/i18n";
 import { audioManager } from "./audio/AudioManager";
+import { useAutoSave } from "./hooks/useSave";
 
 export type TScreen = "menu" | "game";
 
-function App() {
+function AppContent() {
   const [screen, setScreen] = useState<TScreen>("menu");
   const [isSettings, setIsSettings] = useState<boolean>(false);
   const [_, setCurrentLang] = useState<Lang>(getLang());
-
   const [isPaused, setIsPaused] = useState(false);
   const [audioInitialized, setAudioInitialized] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { loadGame, saveGame } = useAutoSave();
 
   const initAudio = useCallback(async () => {
     if (!audioInitialized) {
@@ -639,10 +697,29 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const loadSavedGame = async () => {
+      try {
+        const hasSave = loadGame();
+        if (hasSave) {
+          console.log("[App] Save loaded successfully");
+        }
+      } catch (error) {
+        console.error("[App] Failed to load save:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadSavedGame();
+    initAudio().catch(console.error);
+  }, [loadGame, initAudio]);
+
+  useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
         setIsPaused(true);
         audioManager.pauseMusic();
+        saveGame();
       } else {
         setIsPaused(false);
         audioManager.playMusic();
@@ -651,49 +728,59 @@ function App() {
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, []);
-  useEffect(() => {
-    initAudio().catch(console.error);
+  }, [saveGame]);
 
-    // Проверяем, что мы реально внутри YaGames iframe
+  useEffect(() => {
     const isYaGamesAvailable = () => {
       try {
-        // @ts-ignore
         return window.YaGames && window.self !== window.top;
-      } catch (e) {
+      } catch {
         return false;
       }
     };
 
-    if (isYaGamesAvailable()) {
-      try {
-        // @ts-ignore
-        const ysdk = window.YaGames.ysdk;
+    if (!isYaGamesAvailable()) return;
 
-        const handlePause = () => {
-          setIsPaused(true);
-          audioManager.setMuted(true);
-        };
+    try {
+      // @ts-ignore
+      const ysdk = window.YaGames.ysdk;
 
-        const handleResume = () => {
-          setIsPaused(false);
-          audioManager.setMuted(false);
-        };
+      const handlePause = () => {
+        setIsPaused(true);
+        audioManager.setMuted(true);
+        saveGame();
+      };
 
+      const handleResume = () => {
+        setIsPaused(false);
+        audioManager.setMuted(false);
+      };
+
+      // Добавьте проверку перед подпиской
+      if (ysdk?.on) {
         ysdk.on("game_api_pause", handlePause);
         ysdk.on("game_api_resume", handleResume);
+      }
 
-        return () => {
+      return () => {
+        if (ysdk?.off) {
           ysdk.off("game_api_pause", handlePause);
           ysdk.off("game_api_resume", handleResume);
-        };
-      } catch (e) {
-        console.log("YaGames SDK error:", e);
-      }
-    } else {
-      console.log("YaGames not available (running locally)");
+        }
+      };
+    } catch (e) {
+      console.log("YaGames SDK not available in this environment:", e);
     }
-  }, []);
+  }, [saveGame]);
+
+  if (isLoading) {
+    return (
+      <div className="app-loading">
+        <div className="loading-spinner" />
+        <p>Загрузка...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="app">
@@ -709,7 +796,6 @@ function App() {
       ) : (
         <Game onBack={() => setScreen("menu")} isPaused={isPaused} />
       )}
-
       {isSettings && (
         <Settings
           setCurrentLang={handleLanguageChange}
@@ -719,6 +805,14 @@ function App() {
         />
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <AppContent />
+    </ErrorBoundary>
   );
 }
 
@@ -1056,36 +1150,43 @@ export class Enemy {
   static spawn(level: number, locationId: TLocation): Enemy {
     const isBoss = level % 10 === 0;
     const locationEnemyIds = isBoss ? LOCATION_BOSSES[locationId] : LOCATION_ENEMIES[locationId];
-
     const availableTemplates = MONSTER_TEMPLATES.filter((m) => locationEnemyIds.includes(m.id) && m.isBoss === isBoss);
 
-    const template =
-      availableTemplates.length > 0
-        ? availableTemplates[Math.floor(Math.random() * availableTemplates.length)]
-        : MONSTER_TEMPLATES.find((m) => m.isBoss === isBoss) || MONSTER_TEMPLATES[0];
+    // Если нет доступных врагов для локации, используем дефолтных
+    let template;
+    if (availableTemplates.length > 0) {
+      template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)]!;
+    } else {
+      // Фallback на первого подходящего врага
+      const fallbackTemplates = MONSTER_TEMPLATES.filter((m) => m.isBoss === isBoss);
+      template =
+        fallbackTemplates.length > 0
+          ? fallbackTemplates[Math.floor(Math.random() * fallbackTemplates.length)]!
+          : MONSTER_TEMPLATES[0]!;
+    }
 
-    const baseHp = template.baseHp * Math.pow(1.1, level - 1);
-    const maxHp = isBoss ? baseHp * 5 : baseHp;
-
+    // Корректный расчёт HP с проверкой минимума
+    const baseHp = Math.max(50, template.baseHp * Math.pow(1.1, Math.min(level - 1, 100)));
+    const maxHp = Math.floor(isBoss ? baseHp * 5 : baseHp);
     const elements: TElementType[] = ["water", "fire", "earth", "ice", "light", "dark", "physical"];
-    const resistances: Partial<Record<TElementType, number>> = { ...template.resistances };
-
+    const resistances: Partial<Record<TElementType, number>> = {
+      ...template.resistances,
+    };
     const resistCount = isBoss ? 3 : 1;
     const shuffled = [...elements].sort(() => Math.random() - 0.5);
-
     for (let i = 0; i < resistCount; i++) {
-      if (resistances[shuffled[i]] === undefined) {
-        resistances[shuffled[i]] = 0.25 + Math.random() * 0.5;
+      const element = shuffled[i]!;
+      if (resistances[element] === undefined) {
+        resistances[element] = 0.25 + Math.random() * 0.5;
       }
     }
-
     const weakCount = isBoss ? 2 : 1;
     for (let i = 0; i < weakCount; i++) {
-      if (resistances[shuffled[i]] === undefined) {
-        resistances[shuffled[i]] = -0.5;
+      const element = shuffled[i]!;
+      if (resistances[element] === undefined) {
+        resistances[element] = -0.5;
       }
     }
-
     const drops: TDropItem[] = [...template.drops];
 
     if (isBoss) {
@@ -1114,6 +1215,21 @@ export class Enemy {
       drops,
     });
   }
+
+  static fromExisting(existing: Enemy, newHp: number): Enemy {
+    const enemy = new Enemy({
+      id: existing.id,
+      nameKey: existing.nameKey,
+      level: existing.level,
+      maxHp: existing.maxHp,
+      resistances: { ...existing.resistances },
+      sprite: existing.sprite,
+      isBoss: existing.isBoss,
+      drops: [...existing.drops],
+    });
+    enemy.currentHp = newHp;
+    return enemy;
+  }
 }
  
  
@@ -1123,11 +1239,16 @@ import { INVENTORY_ITEMS } from "../game/constant";
 
 export class Inventory {
   private items: Map<string, TInventoryItem>;
-  private collection: Map<string, TCollectionCategory>; // id -> category
+  private collection: Map<string, TCollectionCategory>;
+  private _collectionCache: Map<string, TCollectionCategory> | null = null;
 
   constructor() {
     this.items = new Map();
     this.collection = new Map();
+  }
+
+  private invalidateCollectionCache(): void {
+    this._collectionCache = null;
   }
 
   addItem(itemId: string, count: number = 1): void {
@@ -1136,16 +1257,14 @@ export class Inventory {
       console.warn(`Unknown item: ${itemId}`);
       return;
     }
-
     if (template.type === "collection") {
       const category = template.collectionCategory || "accessory";
       this.collection.set(itemId, category);
+      this.invalidateCollectionCache();
       return;
     }
-
     const existing = this.items.get(itemId);
     const maxStack = template.maxStack || 99;
-
     if (existing) {
       const newCount = Math.min(existing.count + count, maxStack);
       existing.count = newCount;
@@ -1155,15 +1274,16 @@ export class Inventory {
         count: Math.min(count, maxStack),
       });
     }
+    this.invalidateCollectionCache();
   }
 
   removeItem(itemId: string, count: number = 1): boolean {
     const existing = this.items.get(itemId);
     if (!existing || existing.count < count) return false;
-
     existing.count -= count;
     if (existing.count <= 0) {
       this.items.delete(itemId);
+      this.invalidateCollectionCache();
     }
     return true;
   }
@@ -1177,7 +1297,6 @@ export class Inventory {
   }
 
   getAllItems(): TInventoryItem[] {
-    // Возвращает только НЕ коллекционные предметы
     return Array.from(this.items.values()).filter((item) => item.type !== "collection");
   }
 
@@ -1190,13 +1309,15 @@ export class Inventory {
     return item ? item.count >= count : false;
   }
 
-  // Коллекция методы
   hasCollection(itemId: string): boolean {
     return this.collection.has(itemId);
   }
 
-  getCollection(): Map<string, TCollectionCategory> {
-    return new Map(this.collection);
+  getCollection(): ReadonlyMap<string, TCollectionCategory> {
+    if (!this._collectionCache) {
+      this._collectionCache = new Map(this.collection);
+    }
+    return this._collectionCache;
   }
 
   getCollectionByCategory(category: TCollectionCategory): string[] {
@@ -1208,15 +1329,12 @@ export class Inventory {
   useItem(itemId: string, waifuId?: string): { success: boolean; effect?: TInventoryItem["effect"]; message?: string } {
     const item = this.items.get(itemId);
     if (!item) return { success: false, message: "Item not found" };
-
     if (item.type !== "consumable" || !item.effect) {
       return { success: false, message: "Item is not usable" };
     }
-
     if (item.effect.target === "selected_waifu" && !waifuId) {
       return { success: false, message: "No waifu selected" };
     }
-
     this.removeItem(itemId, 1);
     return { success: true, effect: item.effect };
   }
@@ -1228,14 +1346,21 @@ export class Inventory {
     });
   }
 
-  deserialize(data: string): void {
+  deserialize(data: string): Inventory {
     try {
       const parsed = JSON.parse(data);
-      this.items = new Map(parsed.items || []);
-      this.collection = new Map(parsed.collection || []);
+      const newInventory = new Inventory();
+      newInventory.items = new Map(parsed.items || []);
+      newInventory.collection = new Map(parsed.collection || []);
+      return newInventory;
     } catch (e) {
       console.error("Failed to deserialize inventory:", e);
+      return new Inventory();
     }
+  }
+
+  clone(): Inventory {
+    return this.deserialize(this.serialize());
   }
 }
  
@@ -1244,7 +1369,7 @@ export class Inventory {
 import type { IGlobalUpgrades, TElementType, TRarity, TWaifu } from "../types";
 import { t } from "../locales/i18n";
 import type { LocaleKeys } from "../locales/locales";
-import { INITIAL_GLOBAL_UPGRADES } from "../components/Game/Game";
+import { INITIAL_GLOBAL_UPGRADES } from "../game/constant";
 
 export interface WaifuConfig {
   id: string;
@@ -1276,21 +1401,15 @@ export class Waifu {
   element: TElementType;
   image: string;
   descriptionKey: LocaleKeys;
-
   baseClickPower: number;
   baseCritChance: number;
   baseCritMultiplier: number;
-
   stats: WaifuStats;
-
   duplicateCount: number;
   maxDuplicates: number = 20;
-
   unlockedOutfits: string[];
   currentOutfit: string;
-
   globalUpgrades: IGlobalUpgrades = INITIAL_GLOBAL_UPGRADES;
-
   critChanceBonus: number = 0;
   critMultiplierBonus: number = 0;
 
@@ -1301,11 +1420,9 @@ export class Waifu {
     this.element = config.element;
     this.image = config.image;
     this.descriptionKey = config.description;
-
     this.baseClickPower = config.baseStats.clickPower;
     this.baseCritChance = config.baseStats.critChance;
     this.baseCritMultiplier = config.baseStats.critMultiplier;
-
     this.stats = {
       level: 1,
       affection: 0,
@@ -1314,10 +1431,35 @@ export class Waifu {
       clicksGenerated: 0,
       totalDamage: 0,
     };
-
     this.duplicateCount = 0;
     this.unlockedOutfits = ["default"];
     this.currentOutfit = "default";
+  }
+
+  clone(): Waifu {
+    const newWaifu = new Waifu({
+      id: this.id,
+      nameKey: this.nameKey,
+      rarity: this.rarity,
+      element: this.element,
+      image: this.image,
+      description: this.descriptionKey,
+      baseStats: {
+        clickPower: this.baseClickPower,
+        critChance: this.baseCritChance,
+        critMultiplier: this.baseCritMultiplier,
+      },
+    });
+
+    newWaifu.stats = { ...this.stats };
+    newWaifu.duplicateCount = this.duplicateCount;
+    newWaifu.unlockedOutfits = [...this.unlockedOutfits];
+    newWaifu.currentOutfit = this.currentOutfit;
+    newWaifu.globalUpgrades = { ...this.globalUpgrades };
+    newWaifu.critChanceBonus = this.critChanceBonus;
+    newWaifu.critMultiplierBonus = this.critMultiplierBonus;
+
+    return newWaifu;
   }
 
   setGlobalUpgrades(upgrades: IGlobalUpgrades): void {
@@ -1346,16 +1488,13 @@ export class Waifu {
 
   getClickPower(): number {
     const baseWithBonus = this.baseClickPower + this.globalUpgrades.clickPowerBonus * 100;
-
     const totalPercentBonus =
       (this.stats.level - 1) * 10 +
       this.stats.affection * 1 +
       this.duplicateCount * 30 +
       (this.globalUpgrades.elementDamage[this.element] || 0) * 10 +
-      (this.globalUpgrades.collectionBuffs?.elementDamage?.[this.element] || 0) * 10;
-
+      (this.globalUpgrades.collectionBuffs.elementDamage[this.element] || 0) * 10;
     const totalMultiplier = 1 + totalPercentBonus / 100;
-
     return Math.floor(baseWithBonus * totalMultiplier);
   }
 
@@ -1367,19 +1506,17 @@ export class Waifu {
 
   getCritMultiplier(): number {
     const dupBonus = this.duplicateCount * 0.05;
-    const collectionBonus = this.globalUpgrades.collectionBuffs?.critPowerBonus || 0;
+    const collectionBonus = this.globalUpgrades.collectionBuffs.critPowerBonus || 0;
     return this.baseCritMultiplier + dupBonus + collectionBonus + this.critMultiplierBonus;
   }
 
   addExp(amount: number): boolean {
     this.stats.exp += amount;
     let leveledUp = false;
-
     while (this.stats.exp >= this.stats.expToNext) {
       this.levelUp();
       leveledUp = true;
     }
-
     return leveledUp;
   }
 
@@ -1463,11 +1600,148 @@ export class Waifu {
 }
  
  
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\ErrorBoundary\ErrorBoundary.tsx ===== 
+import { Component, ErrorInfo, ReactNode } from "react";
+
+interface Props {
+  children: ReactNode;
+  fallback?: ReactNode;
+}
+
+interface State {
+  hasError: boolean;
+  error: Error | null;
+}
+
+export class ErrorBoundary extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("[ErrorBoundary] Caught error:", error, errorInfo);
+
+    try {
+      localStorage.setItem(
+        "harem-clicker-error",
+        JSON.stringify({
+          message: error.message,
+          stack: error.stack,
+          componentStack: errorInfo.componentStack,
+          timestamp: Date.now(),
+        }),
+      );
+    } catch {}
+  }
+
+  handleReset = () => {
+    localStorage.removeItem("harem-clicker-save-v2");
+    localStorage.removeItem("harem-clicker-error");
+    window.location.reload();
+  };
+
+  handleReport = () => {
+    if (this.state.error) {
+      const errorData = {
+        message: this.state.error.message,
+        stack: this.state.error.stack,
+        timestamp: Date.now(),
+        userAgent: navigator.userAgent,
+      };
+
+      console.error("[ErrorBoundary] Error report:", errorData);
+      alert("Ошибка сохранена в консоли. Пожалуйста, отправьте скриншот разработчику.");
+    }
+  };
+
+  render() {
+    if (this.state.hasError) {
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
+
+      return (
+        <div
+          style={{
+            padding: "20px",
+            textAlign: "center",
+            fontFamily: "Arial, sans-serif",
+          }}
+        >
+          <h1 style={{ color: "#f44336" }}>⚠️ Произошла ошибка</h1>
+          <p>Игра столкнулась с непредвиденной ошибкой.</p>
+          {this.state.error && (
+            <details
+              style={{
+                margin: "20px 0",
+                padding: "10px",
+                background: "#f5f5f5",
+                borderRadius: "4px",
+                textAlign: "left",
+              }}
+            >
+              <summary style={{ cursor: "pointer" }}>Детали ошибки</summary>
+              <pre
+                style={{
+                  fontSize: "12px",
+                  overflow: "auto",
+                  maxHeight: "200px",
+                }}
+              >
+                {this.state.error.message}
+                {"\n"}
+                {this.state.error.stack}
+              </pre>
+            </details>
+          )}
+          <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+            <button
+              onClick={this.handleReset}
+              style={{
+                padding: "10px 20px",
+                background: "#f44336",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              Сбросить прогресс
+            </button>
+            <button
+              onClick={this.handleReport}
+              style={{
+                padding: "10px 20px",
+                background: "#2196f3",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              Сообщить об ошибке
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+ 
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.tsx ===== 
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, memo } from "react";
+import { useShallow } from "zustand/shallow";
 import { t } from "../../locales/i18n";
-import { Enemy } from "../../classes/Enemy";
-import { Waifu } from "../../classes/Waifu";
+import { useGameStore } from "../../store/gameStore";
+import { useBattle } from "../../hooks/useBattle";
 import { EnemyComponent } from "./components/EnemyComponent/EnemyComponent";
 import { WaifuComponent } from "./components/WaifuComponent/WaifuComponent";
 import { UpgradePanel } from "./components/UpgradePanel/UpgradePanel";
@@ -1479,19 +1753,9 @@ import { Pause } from "./components/Pause/Pause";
 import { Settings } from "../Settings/Settings";
 import { LocationSelector } from "./components/LocationSelector/LocationSelector";
 import "./Game.css";
-import { testWaifus, LOCATIONS, LOCATION_UNLOCK_REQUIREMENTS, COLLECTION_BUFFS } from "../../game/constant";
 import { Icon } from "../Icon/Icon";
 import { Background } from "./components/Background/Background";
-import { Inventory } from "../../classes/Inventory";
 import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
-import type {
-  IGlobalUpgrades,
-  TCollectionCategory,
-  TCraftItem,
-  TElementType,
-  TLocation,
-  TLocationProgress,
-} from "../../types";
 import { CheatMenu } from "./components/CheatMenu/CheatMenu";
 import { CraftPanel } from "./components/CraftPanel/CraftPanel";
 
@@ -1500,429 +1764,203 @@ interface Props {
   isPaused: boolean;
 }
 
-const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
-  forest: { currentLevel: 1, maxLevelReached: 1, unlocked: true },
-  desert: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
-  ice: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
-  volcano: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
-  castle: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
-  abyss: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
-};
-export const INITIAL_GLOBAL_UPGRADES: IGlobalUpgrades = {
-  clickPowerBonus: 0,
-  elementDamage: {
-    water: 0,
-    fire: 0,
-    earth: 0,
-    ice: 0,
-    light: 0,
-    dark: 0,
-    physical: 0,
-  },
-  collectionBuffs: {
-    elementDamage: {
-      water: 0,
-      fire: 0,
-      earth: 0,
-      ice: 0,
-      light: 0,
-      dark: 0,
-      physical: 0,
-    },
-    enemyTypeDamage: {},
-    critPowerBonus: 0,
-    gemBonus: 0,
-    expBonus: 0,
-  },
-};
-export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
-  const [inventory, setInventory] = useState(() => new Inventory());
-
-  const [currentLocation, setCurrentLocation] = useState<TLocation>("forest");
-  const [locationProgress, setLocationProgress] = useState<TLocationProgress>(INITIAL_LOCATION_PROGRESS);
-
-  const getCurrentEnemyLevel = useCallback(() => {
-    return locationProgress[currentLocation].currentLevel;
-  }, [currentLocation, locationProgress]);
-
-  const [enemy, setEnemy] = useState<Enemy>(() => Enemy.spawn(1, currentLocation));
-
-  const [ownedWaifus, setOwnedWaifus] = useState<Waifu[]>([Waifu.fromTemplate(testWaifus[0])]);
-  // testWaifus.map((template) => Waifu.fromTemplate(template)),
-  const [activeWaifu, setActiveWaifu] = useState<Waifu | null>(null);
-
-  const [globalUpgrades, setGlobalUpgrades] = useState<IGlobalUpgrades>(INITIAL_GLOBAL_UPGRADES);
-
-  const [collection, setCollection] = useState<Map<string, TCollectionCategory>>(new Map());
-
-  const [showGacha, setShowGacha] = useState(false);
-  const [showCollection, setShowCollection] = useState(false);
-  const [showWaifuSelect, setShowWaifuSelect] = useState(false);
-  const [showUpgrades, setShowUpgrades] = useState(false);
-  const [selectedWaifuDetail, setSelectedWaifuDetail] = useState<Waifu | null>(null);
-  const [showPause, setShowPause] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [showLocationSelector, setShowLocationSelector] = useState(false);
-  const [showCraft, setShowCraft] = useState(false);
-  const [showBackpack, setShowBackpack] = useState(false);
-
-  const currentLocationConfig = LOCATIONS.find((l) => l.id === currentLocation)!;
-
-  const calculateCollectionBuffs = useCallback(
-    (collection: Map<string, TCollectionCategory>): IGlobalUpgrades["collectionBuffs"] => {
-      const buffs: IGlobalUpgrades["collectionBuffs"] = {
-        elementDamage: {
-          water: 0,
-          fire: 0,
-          earth: 0,
-          ice: 0,
-          light: 0,
-          dark: 0,
-          physical: 0,
-        },
-        enemyTypeDamage: {},
-        critPowerBonus: 0,
-        gemBonus: 0,
-        expBonus: 0,
-      };
-
-      for (const [itemId] of collection) {
-        const buff = COLLECTION_BUFFS[itemId];
-        if (!buff) continue;
-
-        switch (buff.buffType) {
-          case "element_damage":
-            if (buff.target && typeof buff.target === "string") {
-              buffs.elementDamage[buff.target as TElementType] += buff.value;
-            }
-            break;
-          case "enemy_type_damage":
-            if (buff.target) {
-              buffs.enemyTypeDamage[buff.target] = (buffs.enemyTypeDamage[buff.target] || 0) + buff.value;
-            }
-            break;
-          case "crit_power":
-            buffs.critPowerBonus += buff.value;
-            break;
-          case "gem_bonus":
-            buffs.gemBonus += buff.value;
-            break;
-          case "exp_bonus":
-            buffs.expBonus += buff.value;
-            break;
-        }
-      }
-
-      return buffs;
-    },
-    [],
-  );
-  useEffect(() => {
-    setActiveWaifu(ownedWaifus[0]);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setShowPause((prev) => !prev);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  useEffect(() => {
-    setOwnedWaifus((prev) =>
-      prev.map((w) => {
-        w.setGlobalUpgrades(globalUpgrades);
-        return w;
-      }),
+export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Props) {
+  const { inventory, ownedWaifus, activeWaifuId, enemy, currentLocation, locationProgress, isPaused, panels } =
+    useGameStore(
+      useShallow((state) => ({
+        inventory: state.inventory,
+        ownedWaifus: state.ownedWaifus,
+        activeWaifuId: state.activeWaifuId,
+        enemy: state.enemy,
+        currentLocation: state.currentLocation,
+        locationProgress: state.locationProgress,
+        isPaused: state.isPaused,
+        globalUpgrades: state.globalUpgrades,
+        panels: state.panels,
+      })),
     );
-    if (activeWaifu) {
-      activeWaifu.setGlobalUpgrades(globalUpgrades);
-    }
-  }, [globalUpgrades]);
 
-  useEffect(() => {
-    const level = getCurrentEnemyLevel();
-    setEnemy(Enemy.spawn(level, currentLocation));
-  }, [currentLocation, getCurrentEnemyLevel]);
+  const addItem = useGameStore((state) => state.addItem);
+  const removeItem = useGameStore((state) => state.removeItem);
+  const useItem = useGameStore((state) => state.useItem);
+  const refreshWaifus = useGameStore((state) => state.refreshWaifus);
+  const setActiveWaifu = useGameStore((state) => state.setActiveWaifu);
+  const closePanel = useGameStore((state) => state.closePanel);
+  const openPanel = useGameStore((state) => state.openPanel);
+  const changeLocation = useGameStore((state) => state.changeLocation);
+  const dealDamage = useGameStore((state) => state.dealDamage);
 
-  const refreshInventory = useCallback(() => {
-    setInventory((prev) => {
-      const next = new Inventory();
-      next.deserialize(prev.serialize());
-      const newCollection = next.getCollection();
-      setCollection(newCollection);
+  const { handleClick, currentLevel, locationConfig } = useBattle();
 
-      const collectionBuffs = calculateCollectionBuffs(newCollection);
-      setGlobalUpgrades((prevUpgrades) => ({
-        ...prevUpgrades,
-        collectionBuffs,
-      }));
+  const activeWaifu = ownedWaifus.find((w) => w.id === activeWaifuId);
+  const gems = inventory.getItemCount("gem");
+  const essence = inventory.getItemCount("essence");
 
-      return next;
-    });
-  }, []);
+  const handleEnemyClick = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      handleClick(e);
+    },
+    [handleClick],
+  );
 
-  const checkLocationUnlocks = useCallback((progress: TLocationProgress): TLocationProgress => {
-    const newProgress = { ...progress };
+  const handleLocationChange = useCallback(
+    (location: typeof currentLocation) => {
+      changeLocation(location);
+      closePanel("locationSelector");
+    },
+    [changeLocation, closePanel],
+  );
 
-    for (const [locationId, requirement] of Object.entries(LOCATION_UNLOCK_REQUIREMENTS)) {
-      const locId = locationId as TLocation;
-      if (!newProgress[locId].unlocked && requirement) {
-        const prevLocation = requirement.prevLocation;
-        if (newProgress[prevLocation].maxLevelReached >= requirement.killLevel) {
-          newProgress[locId].unlocked = true;
-        }
+  const handleUseItem = useCallback(
+    (itemId: string) => {
+      const item = inventory.getItem(itemId);
+      if (!item || !item.effect) return;
+
+      if (
+        item.effect.type === "level_down_10" ||
+        item.effect.type === "level_down_20" ||
+        item.effect.type === "level_down_50"
+      ) {
+        const levelsToReduce = item.effect.value;
+        const newLevel = Math.max(1, locationProgress[currentLocation].currentLevel - levelsToReduce);
+
+        useGameStore.setState((state) => ({
+          locationProgress: {
+            ...state.locationProgress,
+            [currentLocation]: {
+              ...state.locationProgress[currentLocation],
+              currentLevel: newLevel,
+            },
+          },
+        }));
+
+        removeItem(itemId, 1);
+        return;
       }
-    }
 
-    return newProgress;
-  }, []);
+      if (!activeWaifu) {
+        alert(t("ui.selectWaifuFirst"));
+        return;
+      }
 
-  const handleLocationChange = useCallback((location: TLocation) => {
-    setCurrentLocation(location);
-    setShowLocationSelector(false);
-  }, []);
+      const result = useItem(itemId, activeWaifu.id);
+      if (result.success && result.effect) {
+        if (result.effect.type === "exp") {
+          activeWaifu.addExp(result.effect.value);
+        } else if (result.effect.type === "affection") {
+          activeWaifu.addAffection(result.effect.value);
+        }
+        refreshWaifus();
+      }
+    },
+    [inventory, currentLocation, locationProgress, activeWaifu, removeItem, useItem, refreshWaifus],
+  );
+
   const handleCraft = useCallback(
-    (item: TCraftItem) => {
+    (item: (typeof import("../../game/constant").CRAFT_ITEMS)[0]) => {
       for (const ing of item.ingredients) {
-        if (!inventory.removeItem(ing.itemId, ing.count)) {
+        if (!removeItem(ing.itemId, ing.count)) {
           return;
         }
       }
-      inventory.addItem(item.id, 1);
-      refreshInventory();
+      addItem(item.id, 1);
     },
-    [inventory, refreshInventory],
+    [addItem, removeItem],
   );
 
-  const handleEnemyDefeated = useCallback(
-    (baseExpReward: number, baseDrops: Array<{ id: string; count: number }>) => {
-      const bonuses = currentLocationConfig.bonuses;
-      const gemBonus = globalUpgrades.collectionBuffs.gemBonus;
-      const expBonus = globalUpgrades.collectionBuffs.expBonus;
-
-      const expReward = Math.floor(baseExpReward * bonuses.expMultiplier * (1 + expBonus));
-      activeWaifu?.addExp(expReward);
-
-      for (const drop of baseDrops) {
-        const boostedCount = Math.floor(drop.count * bonuses.dropChanceMultiplier);
-        inventory.addItem(drop.id, Math.max(1, boostedCount));
-      }
-
-      const currentLevel = getCurrentEnemyLevel();
-      const baseGems = Math.floor(10 + currentLevel / 5);
-      const boostedGems = Math.floor(baseGems * bonuses.gemMultiplier * (1 + gemBonus));
-      inventory.addItem("gem", boostedGems);
-
-      const baseEssence = 1;
-      const boostedEssence = Math.floor(baseEssence * bonuses.essenceMultiplier);
-      inventory.addItem("essence", Math.max(1, boostedEssence));
-
-      setLocationProgress((prev) => {
-        const newProgress = {
-          ...prev,
-          [currentLocation]: {
-            ...prev[currentLocation],
-            currentLevel: prev[currentLocation].currentLevel + 1,
-            maxLevelReached: Math.max(prev[currentLocation].maxLevelReached, prev[currentLocation].currentLevel),
-          },
-        };
-        return checkLocationUnlocks(newProgress);
-      });
-
-      refreshInventory();
+  const handleWaifuSelect = useCallback(
+    (waifuId: string) => {
+      setActiveWaifu(waifuId);
+      closePanel("waifuSelect");
     },
-    [
-      activeWaifu,
-      inventory,
-      refreshInventory,
-      currentLocation,
-      currentLocationConfig,
-      getCurrentEnemyLevel,
-      checkLocationUnlocks,
-      globalUpgrades.collectionBuffs.gemBonus,
-      globalUpgrades.collectionBuffs.expBonus,
-    ],
+    [setActiveWaifu, closePanel],
   );
 
-  const handleUseItem = (itemId: string) => {
-    const item = inventory.getItem(itemId);
-    if (!item || !item.effect) return;
+  const handlePauseSettings = useCallback(() => {
+    closePanel("pause");
+    openPanel("settings");
+  }, [closePanel, openPanel]);
 
-    if (
-      item.effect.type === "level_down_10" ||
-      item.effect.type === "level_down_20" ||
-      item.effect.type === "level_down_50"
-    ) {
-      const levelsToReduce = item.effect.value;
-      setLocationProgress((prev) => {
-        const currentLevel = prev[currentLocation].currentLevel;
-        const newLevel = Math.max(1, currentLevel - levelsToReduce);
-        return {
-          ...prev,
-          [currentLocation]: {
-            ...prev[currentLocation],
-            currentLevel: newLevel,
-          },
-        };
-      });
-      inventory.removeItem(itemId, 1);
-      refreshInventory();
-      return;
-    }
-    if (!activeWaifu) {
-      alert(t("ui.selectWaifuFirst"));
-      return;
-    }
-
-    const result = inventory.useItem(itemId, activeWaifu.id);
-    if (result.success && result.effect) {
-      if (result.effect.type === "exp") {
-        activeWaifu.addExp(result.effect.value);
-      } else if (result.effect.type === "affection") {
-        activeWaifu.addAffection(result.effect.value);
-      }
-      setOwnedWaifus([...ownedWaifus]);
-      refreshInventory();
-    }
-  };
-
-  const handleUpgrade = (type: string, cost: number, element?: TElementType) => {
-    if (!inventory.removeItem("gem", cost)) return;
-
-    refreshInventory();
-
-    setGlobalUpgrades((prev) => {
-      const next = { ...prev };
-      if (type === "click_power") {
-        next.clickPowerBonus += 1;
-      } else if (type === "element" && element) {
-        next.elementDamage[element] += 1;
-      }
-
-      setOwnedWaifus((waifus) =>
-        waifus.map((w) => {
-          w.setGlobalUpgrades(next);
-          return w;
-        }),
-      );
-
-      if (activeWaifu) {
-        activeWaifu.setGlobalUpgrades(next);
-      }
-
-      return next;
-    });
-  };
-
-  const handleSummon = (waifu: Waifu, cost: number, isDuplicate: boolean) => {
-    inventory.removeItem("essence", cost);
-
-    waifu.setGlobalUpgrades(globalUpgrades);
-
-    if (isDuplicate) {
-      setOwnedWaifus((prev) => prev.map((w) => (w.id === waifu.id ? waifu : w)));
-
-      if (activeWaifu?.id === waifu.id) {
-        setActiveWaifu(waifu);
-      }
-    } else {
-      setOwnedWaifus((prev) => [...prev, waifu]);
-    }
-    refreshInventory();
-  };
-
-  const handleWaifuSelect = (waifu: Waifu) => {
-    setActiveWaifu(waifu);
-  };
-
-  const handleWaifuClick = () => {
-    if (activeWaifu) {
-      setSelectedWaifuDetail(activeWaifu);
-    }
-  };
-
-  const handlePauseSettings = () => {
-    setShowPause(false);
-    setShowSettings(true);
-  };
-
-  const handlePauseMenu = () => {
-    setShowPause(false);
+  const handlePauseMenu = useCallback(() => {
+    closePanel("pause");
     onBack();
-  };
+  }, [closePanel, onBack]);
 
-  if (!activeWaifu) {
+  const handleWaifuClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (activeWaifuId) {
+        useGameStore.setState((state) => ({
+          panels: { ...state.panels, waifuDetail: activeWaifuId },
+        }));
+      }
+    },
+    [activeWaifuId],
+  );
+
+  const handleCloseWaifuDetail = useCallback(() => {
+    closePanel("waifuDetail");
+  }, [closePanel]);
+
+  if (!activeWaifu || !enemy) {
     return <div className="game-loading">{t("ui.loading")}</div>;
   }
-
-  const gems = inventory.getItemCount("gem");
-  const essence = inventory.getItemCount("essence");
-  const currentLevel = getCurrentEnemyLevel();
 
   return (
     <div className="game">
       <Background locationId={currentLocation} />
+
       <header className="game-header">
         <div className="currency-display">
           <div className="currency-item">
             <Icon name="gem" size="md" />
             <span className="currency-value">{Math.floor(gems)}</span>
-            {currentLocationConfig.bonuses.gemMultiplier > 1 && (
-              <span className="bonus-indicator">x{currentLocationConfig.bonuses.gemMultiplier.toFixed(1)}</span>
+            {locationConfig && locationConfig.bonuses.gemMultiplier > 1 && (
+              <span className="bonus-indicator">x{locationConfig.bonuses.gemMultiplier.toFixed(1)}</span>
             )}
           </div>
           <div className="currency-item essence">
             <Icon name="essence" size="md" />
             <span className="currency-value">{Math.floor(essence)}</span>
-            {currentLocationConfig.bonuses.essenceMultiplier > 1 && (
-              <span className="bonus-indicator">x{currentLocationConfig.bonuses.essenceMultiplier.toFixed(1)}</span>
+            {locationConfig && locationConfig.bonuses.essenceMultiplier > 1 && (
+              <span className="bonus-indicator">x{locationConfig.bonuses.essenceMultiplier.toFixed(1)}</span>
             )}
           </div>
         </div>
-
-        <button className="btn-icon-only" onClick={() => setShowPause(true)}>
+        <button className="btn-icon-only" onClick={() => openPanel("pause")}>
           <Icon name="pause" size="md" />
         </button>
       </header>
 
       <nav className="game-sidebar">
-        <button className="side-btn" onClick={() => setShowLocationSelector(true)}>
+        <button className="side-btn" onClick={() => openPanel("locationSelector")}>
           <Icon name={currentLocation} size="lg" />
           <span>{t("ui.location")}</span>
           <span className="side-badge">{currentLevel}</span>
         </button>
-
-        <button className="side-btn" onClick={() => setShowGacha(true)}>
+        <button className="side-btn" onClick={() => openPanel("gacha")}>
           <Icon name="gacha" size="lg" />
           <span>{t("ui.gacha")}</span>
           <span className="side-btn-cost">10✨</span>
         </button>
-
-        <button className="side-btn" onClick={() => setShowCollection(true)}>
+        <button className="side-btn" onClick={() => openPanel("collection")}>
           <Icon name="collection" size="lg" />
           <span>{t("ui.collection")}</span>
         </button>
-
-        <button className="side-btn" onClick={() => setShowWaifuSelect(true)}>
+        <button className="side-btn" onClick={() => openPanel("waifuSelect")}>
           <Icon name="waifus" size="lg" />
           <span>{t("ui.waifus")}</span>
           <span className="side-badge">{ownedWaifus.length}</span>
         </button>
-
-        <button className="side-btn" onClick={() => setShowUpgrades(true)}>
+        <button className="side-btn" onClick={() => openPanel("upgrades")}>
           <Icon name="upgrades" size="lg" />
           <span>{t("ui.upgrades")}</span>
         </button>
-        <button className="side-btn" onClick={() => setShowBackpack(true)}>
+        <button className="side-btn" onClick={() => openPanel("backpack")}>
           <Icon name="backpack" size="lg" />
           <span>{t("ui.backpack")}</span>
         </button>
-        <button className="side-btn" onClick={() => setShowCraft(true)}>
+        <button className="side-btn" onClick={() => openPanel("craft")}>
           <Icon name="collection" size="lg" />
           <span>{t("ui.craft")}</span>
         </button>
@@ -1931,140 +1969,104 @@ export function Game({ onBack, isPaused: isGlobalPaused }: Props) {
       <main className="game-main">
         <div className="battle-arena">
           <div onClick={handleWaifuClick} className="waifu-clickable">
-            <WaifuComponent waifu={activeWaifu} />
+            <WaifuComponent />
           </div>
           <EnemyComponent
             enemy={enemy}
             activeWaifu={activeWaifu}
-            onEnemyDefeated={handleEnemyDefeated}
-            isPaused={isGlobalPaused || showPause}
-            dropChanceMultiplier={currentLocationConfig.bonuses.dropChanceMultiplier}
+            isPaused={isGlobalPaused || isPaused}
+            dropChanceMultiplier={locationConfig?.bonuses.dropChanceMultiplier ?? 1}
+            onClick={handleEnemyClick}
           />
         </div>
       </main>
 
       <LocationSelector
-        isOpen={showLocationSelector}
-        onClose={() => setShowLocationSelector(false)}
+        isOpen={panels.locationSelector}
+        onClose={() => closePanel("locationSelector")}
         currentLocation={currentLocation}
         locationProgress={locationProgress}
         onLocationChange={handleLocationChange}
       />
 
-      <GachaPanel
-        isOpen={showGacha}
-        onClose={() => setShowGacha(false)}
-        essence={essence}
-        ownedWaifus={ownedWaifus}
-        onSummon={handleSummon}
-      />
+      <GachaPanel isOpen={panels.gacha} onClose={() => closePanel("gacha")} />
 
-      <CollectionPanel isOpen={showCollection} onClose={() => setShowCollection(false)} collection={collection} />
+      <CollectionPanel isOpen={panels.collection} onClose={() => closePanel("collection")} />
 
       <WaifuSelectPanel
-        isOpen={showWaifuSelect}
-        onClose={() => setShowWaifuSelect(false)}
-        waifus={ownedWaifus}
-        activeWaifu={activeWaifu}
+        isOpen={panels.waifuSelect}
+        onClose={() => closePanel("waifuSelect")}
         onSelect={handleWaifuSelect}
       />
 
-      <UpgradePanel
-        isOpen={showUpgrades}
-        onClose={() => setShowUpgrades(false)}
-        gems={gems}
-        onUpgrade={handleUpgrade}
-        upgradeLevels={{
-          clickPower: Math.floor(globalUpgrades.clickPowerBonus),
-          elementDamage: globalUpgrades.elementDamage,
-        }}
-      />
+      <UpgradePanel isOpen={panels.upgrades} onClose={() => closePanel("upgrades")} />
+
       <BackpackPanel
-        isOpen={showBackpack}
-        onClose={() => setShowBackpack(false)}
-        inventory={inventory}
+        isOpen={panels.backpack}
+        onClose={() => closePanel("backpack")}
         onUseItem={handleUseItem}
         selectedWaifuId={activeWaifu?.id}
       />
 
       <WaifuDetailPanel
-        isOpen={!!selectedWaifuDetail}
-        onClose={() => setSelectedWaifuDetail(null)}
-        waifu={selectedWaifuDetail}
+        isOpen={!!panels.waifuDetail}
+        onClose={() => closePanel("waifuDetail")}
+        waifuId={panels.waifuDetail}
       />
 
       <Pause
-        isOpen={showPause}
-        onClose={() => setShowPause(false)}
+        isOpen={panels.pause}
+        onClose={() => closePanel("pause")}
         onSettings={handlePauseSettings}
         onMenu={handlePauseMenu}
       />
 
-      {showSettings && (
+      {panels.settings && (
         <Settings
-          setIsSettings={() => setShowSettings(false)}
+          setIsSettings={() => closePanel("settings")}
           setCurrentLang={() => {}}
-          isPaused={isGlobalPaused || showPause}
+          isPaused={isGlobalPaused || isPaused}
         />
       )}
+
       <CraftPanel
-        isOpen={showCraft}
-        onClose={() => setShowCraft(false)}
-        inventory={inventory}
+        isOpen={panels.craft}
+        onClose={() => closePanel("craft")}
         onCraft={handleCraft}
         onUseItem={handleUseItem}
         selectedWaifuId={activeWaifu?.id}
       />
 
       <CheatMenu
-        inventory={inventory}
-        ownedWaifus={ownedWaifus}
-        onInventoryUpdate={refreshInventory}
-        onWaifuAdd={(waifu) => {
-          if (!ownedWaifus.find((w) => w.id === waifu.id)) {
-            setOwnedWaifus((prev) => [...prev, waifu]);
-          }
-          refreshInventory();
-        }}
         onSetGems={(amount) => {
           const current = inventory.getItemCount("gem");
           if (amount > current) {
-            inventory.addItem("gem", amount - current);
+            addItem("gem", amount - current);
           } else if (amount < current) {
-            inventory.removeItem("gem", current - amount);
+            removeItem("gem", current - amount);
           }
-          refreshInventory();
         }}
         onSetEssence={(amount) => {
           const current = inventory.getItemCount("essence");
           if (amount > current) {
-            inventory.addItem("essence", amount - current);
+            addItem("essence", amount - current);
           } else if (amount < current) {
-            inventory.removeItem("essence", current - amount);
+            removeItem("essence", current - amount);
           }
-          refreshInventory();
         }}
         onKillEnemy={() => {
-          setEnemy((prev) => {
-            prev.currentHp = 0;
-            return prev;
-          });
+          if (enemy) {
+            enemy.currentHp = 0;
+            dealDamage(0, false);
+          }
         }}
         onLevelUp={() => {
-          setLocationProgress((prev) => ({
-            ...prev,
-            [currentLocation]: {
-              ...prev[currentLocation],
-              currentLevel: prev[currentLocation].currentLevel + 10,
-            },
-          }));
+          changeLocation(currentLocation);
         }}
-        gems={inventory.getItemCount("gem")}
-        essence={inventory.getItemCount("essence")}
       />
     </div>
   );
-}
+});
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\Background.tsx ===== 
@@ -2089,7 +2091,7 @@ export function Background({ locationId = "forest" }: BackgroundProps) {
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\BackpackPanel.tsx ===== 
 import { useState } from "react";
 import { t } from "../../../../locales/i18n";
-import type { Inventory } from "../../../../classes/Inventory";
+import { useGameStore } from "../../../../store/gameStore";
 import { RARITY_COLORS } from "../../../../game/constant";
 import "./BackpackPanel.css";
 import { Icon } from "../../../Icon/Icon";
@@ -2097,21 +2099,22 @@ import { Icon } from "../../../Icon/Icon";
 interface BackpackPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  inventory: Inventory;
   onUseItem: (itemId: string) => void;
   selectedWaifuId?: string;
 }
 
 type TabType = "all" | "consumable" | "material" | "currency";
 
-export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedWaifuId }: BackpackPanelProps) {
+export function BackpackPanel({ isOpen, onClose, onUseItem, selectedWaifuId }: BackpackPanelProps) {
   const [activeTab, setActiveTab] = useState<TabType>("all");
+
+  const inventory = useGameStore((state) => state.inventory);
 
   if (!isOpen) return null;
 
   const items = inventory.getAllItems();
-
   const filteredItems = activeTab === "all" ? items : items.filter((item) => item.type === activeTab);
+
   const tabs: { id: TabType; label: string; icon: string }[] = [
     { id: "all", label: t("ui.all"), icon: "all" },
     { id: "consumable", label: t("ui.consumables"), icon: "potion" },
@@ -2130,7 +2133,6 @@ export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedW
             ✕
           </button>
         </div>
-
         <div className="backpack-tabs">
           {tabs.map((tab) => (
             <button
@@ -2143,7 +2145,6 @@ export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedW
             </button>
           ))}
         </div>
-
         <div className="backpack-content">
           {filteredItems.length === 0 ? (
             <p className="empty-message">{t("ui.noItems")}</p>
@@ -2184,39 +2185,21 @@ export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedW
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CheatMenu\CheatMenu.tsx ===== 
 import { useState, useEffect } from "react";
 import { t } from "../../../../locales/i18n";
-import { Waifu } from "../../../../classes/Waifu";
-import { Inventory } from "../../../../classes/Inventory";
+import { useGameStore } from "../../../../store/gameStore";
 import { testWaifus, INVENTORY_ITEMS, COLLECTION_BUFFS } from "../../../../game/constant";
-import type { TElementType, TCollectionCategory } from "../../../../types";
 import "./CheatMenu.css";
+import { useShallow } from "zustand/shallow";
 
 interface CheatMenuProps {
-  inventory: Inventory;
-  ownedWaifus: Waifu[];
-  onInventoryUpdate: () => void;
-  onWaifuAdd: (waifu: Waifu) => void;
   onSetGems: (amount: number) => void;
   onSetEssence: (amount: number) => void;
   onKillEnemy: () => void;
   onLevelUp: () => void;
-  gems: number;
-  essence: number;
 }
 
 type CheatTab = "resources" | "waifus" | "items" | "buffs" | "battle";
 
-export function CheatMenu({
-  inventory,
-  ownedWaifus,
-  onInventoryUpdate,
-  onWaifuAdd,
-  onSetGems,
-  onSetEssence,
-  onKillEnemy,
-  onLevelUp,
-  gems,
-  essence,
-}: CheatMenuProps) {
+export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy, onLevelUp }: CheatMenuProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<CheatTab>("resources");
   const [resourceAmount, setResourceAmount] = useState<string>("1000");
@@ -2224,14 +2207,25 @@ export function CheatMenu({
   const [selectedItemId, setSelectedItemId] = useState<string>("gem");
   const [itemCount, setItemCount] = useState<string>("10");
 
+  const { inventory, ownedWaifus, addItem, addWaifu } = useGameStore(
+    useShallow((state) => ({
+      inventory: state.inventory,
+      ownedWaifus: state.ownedWaifus,
+      addItem: state.addItem,
+      addWaifu: state.addWaifu,
+    })),
+  );
+
+  const gems = inventory.getItemCount("gem");
+  const essence = inventory.getItemCount("essence");
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "`" || e.key === "~" || e.key === "F12") {
+      if (e.key === "`" || e.key === "~") {
         e.preventDefault();
         setIsVisible((prev) => !prev);
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
@@ -2240,98 +2234,25 @@ export function CheatMenu({
 
   const handleAddGems = () => {
     const amount = parseInt(resourceAmount) || 0;
-    for (let i = 0; i < amount; i++) {
-      inventory.addItem("gem", 1);
-    }
-    onInventoryUpdate();
+    addItem("gem", amount);
   };
 
   const handleAddEssence = () => {
     const amount = parseInt(resourceAmount) || 0;
-    for (let i = 0; i < amount; i++) {
-      inventory.addItem("essence", 1);
-    }
-    onInventoryUpdate();
-  };
-
-  const handleSetGems = () => {
-    const amount = parseInt(resourceAmount) || 0;
-    onSetGems(amount);
-  };
-
-  const handleSetEssence = () => {
-    const amount = parseInt(resourceAmount) || 0;
-    onSetEssence(amount);
+    addItem("essence", amount);
   };
 
   const handleSpawnWaifu = () => {
     const template = testWaifus.find((w) => w.id === selectedWaifuId);
     if (!template) return;
-
-    const existing = ownedWaifus.find((w) => w.id === selectedWaifuId);
-    if (existing) {
-      existing.addDuplicate();
-      onWaifuAdd(existing);
-    } else {
-      const newWaifu = Waifu.fromTemplate(template);
-      onWaifuAdd(newWaifu);
-    }
-  };
-
-  const handleSpawnAllWaifus = () => {
-    testWaifus.forEach((template) => {
-      const existing = ownedWaifus.find((w) => w.id === template.id);
-      if (existing) {
-        existing.addDuplicate();
-        onWaifuAdd(existing);
-      } else {
-        const newWaifu = Waifu.fromTemplate(template);
-        onWaifuAdd(newWaifu);
-      }
-    });
-  };
-
-  const handleMaxAllWaifus = () => {
-    ownedWaifus.forEach((waifu) => {
-      while (!waifu.isMaxed()) {
-        waifu.addDuplicate();
-      }
-    });
-    onInventoryUpdate();
+    const { Waifu } = require("../../../../classes/Waifu");
+    const newWaifu = Waifu.fromTemplate(template);
+    addWaifu(newWaifu);
   };
 
   const handleAddItem = () => {
     const count = parseInt(itemCount) || 1;
-    inventory.addItem(selectedItemId, count);
-    onInventoryUpdate();
-  };
-
-  const handleAddAllItems = () => {
-    Object.keys(INVENTORY_ITEMS).forEach((itemId) => {
-      const item = INVENTORY_ITEMS[itemId];
-      if (item.type !== "currency") {
-        inventory.addItem(itemId, 99);
-      }
-    });
-    onInventoryUpdate();
-  };
-
-  const handleAddAllCollection = () => {
-    Object.keys(INVENTORY_ITEMS).forEach((itemId) => {
-      const item = INVENTORY_ITEMS[itemId];
-      if (item.type === "collection") {
-        inventory.addItem(itemId, 1);
-      }
-    });
-    onInventoryUpdate();
-  };
-
-  const handleClearInventory = () => {
-    const items = inventory.getAllItems();
-    items.forEach((item) => {
-      inventory.removeItem(item.id, item.count);
-    });
-    onInventoryUpdate();
+    addItem(selectedItemId, count);
   };
 
   const tabs: { id: CheatTab; label: string }[] = [
@@ -2357,9 +2278,7 @@ export function CheatMenu({
             ✕
           </button>
         </div>
-
         <div className="cheat-hint">Нажмите ` или F12 чтобы закрыть</div>
-
         <div className="cheat-tabs">
           {tabs.map((tab) => (
             <button
@@ -2371,7 +2290,6 @@ export function CheatMenu({
             </button>
           ))}
         </div>
-
         <div className="cheat-content">
           {activeTab === "resources" && (
             <div className="cheat-section">
@@ -2396,16 +2314,18 @@ export function CheatMenu({
                 <button className="cheat-btn" onClick={handleAddEssence}>
                   +✨ Добавить эссенцию
                 </button>
-                <button className="cheat-btn cheat-btn-danger" onClick={handleSetGems}>
+                <button className="cheat-btn cheat-btn-danger" onClick={() => onSetGems(parseInt(resourceAmount) || 0)}>
                   =💎 Установить кристаллы
                 </button>
-                <button className="cheat-btn cheat-btn-danger" onClick={handleSetEssence}>
+                <button
+                  className="cheat-btn cheat-btn-danger"
+                  onClick={() => onSetEssence(parseInt(resourceAmount) || 0)}
+                >
                   =✨ Установить эссенцию
                 </button>
               </div>
             </div>
           )}
-
           {activeTab === "waifus" && (
             <div className="cheat-section">
               <h3>Вайфу</h3>
@@ -2427,12 +2347,6 @@ export function CheatMenu({
                 <button className="cheat-btn" onClick={handleSpawnWaifu}>
                   Призвать вайфу
                 </button>
-                <button className="cheat-btn" onClick={handleSpawnAllWaifus}>
-                  Призвать всех вайфу
-                </button>
-                <button className="cheat-btn cheat-btn-warning" onClick={handleMaxAllWaifus}>
-                  Макс. дубликаты всем
-                </button>
               </div>
               <div className="cheat-owned">
                 <h4>Имеющиеся: {ownedWaifus.length}</h4>
@@ -2446,7 +2360,6 @@ export function CheatMenu({
               </div>
             </div>
           )}
-
           {activeTab === "items" && (
             <div className="cheat-section">
               <h3>Предметы</h3>
@@ -2479,19 +2392,9 @@ export function CheatMenu({
                 <button className="cheat-btn" onClick={handleAddItem}>
                   Добавить предмет
                 </button>
-                <button className="cheat-btn" onClick={handleAddAllItems}>
-                  Все предметы x99
-                </button>
-                <button className="cheat-btn cheat-btn-success" onClick={handleAddAllCollection}>
-                  Все коллекционные
-                </button>
-                <button className="cheat-btn cheat-btn-danger" onClick={handleClearInventory}>
-                  Очистить инвентарь
-                </button>
               </div>
             </div>
           )}
-
           {activeTab === "buffs" && (
             <div className="cheat-section">
               <h3>Коллекционные баффы</h3>
@@ -2510,7 +2413,6 @@ export function CheatMenu({
               </div>
             </div>
           )}
-
           {activeTab === "battle" && (
             <div className="cheat-section">
               <h3>Бой</h3>
@@ -2538,19 +2440,22 @@ import type { TCollectionCategory } from "../../../../types";
 import { COLLECTION_BUFFS, INVENTORY_ITEMS } from "../../../../game/constant";
 import "./CollectionPanel.css";
 import { Icon } from "../../../Icon/Icon";
+import { useGameStore } from "../../../../store/gameStore";
 
 interface CollectionPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  collection: Map<string, TCollectionCategory>; // id -> category
 }
 
-export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanelProps) {
+export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
   const [selectedCategory, setSelectedCategory] = useState<TCollectionCategory | "all">("all");
 
-  // Формируем список из полученных коллекционных предметов
+  // Получаем inventory напрямую, а не через useShallow
+  const inventory = useGameStore((state) => state.inventory);
+
   const collectedItems = useMemo(() => {
-    return Array.from(collection.entries()).map(([id, category]) => {
+    const entries = Array.from(inventory.getCollection().entries());
+    return entries.map(([id, category]) => {
       const template = INVENTORY_ITEMS[id];
       return {
         id,
@@ -2561,7 +2466,8 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
         rarity: template?.rarity || "common",
       };
     });
-  }, [collection]);
+  }, [inventory]);
+
   const getItemBuff = (itemId: string) => {
     return COLLECTION_BUFFS[itemId];
   };
@@ -2577,7 +2483,6 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
   const filteredItems =
     selectedCategory === "all" ? collectedItems : collectedItems.filter((item) => item.category === selectedCategory);
 
-  // Подсчёт по категориям
   const counts = useMemo(() => {
     const total = collectedItems.length;
     const byCategory = {
@@ -2603,7 +2508,6 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
             ✕
           </button>
         </div>
-
         <div className="category-tabs">
           {categories.map((cat) => (
             <button
@@ -2619,7 +2523,6 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
             </button>
           ))}
         </div>
-
         <div className="collection-grid">
           {filteredItems.length === 0 ? (
             <div className="empty-collection">
@@ -2651,8 +2554,6 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
             })
           )}
         </div>
-
-        {/* Плейсхолдеры для недоступных категорий */}
         {selectedCategory === "memoria" && counts.byCategory.memoria === 0 && (
           <div className="category-hint">
             <Icon name="memoria" size="md" />
@@ -2660,7 +2561,6 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
             <small>{t("ui.buyInShop")}</small>
           </div>
         )}
-
         {selectedCategory === "outfit" && counts.byCategory.outfit === 0 && (
           <div className="category-hint">
             <Icon name="outfit" size="md" />
@@ -2677,7 +2577,7 @@ export function CollectionPanel({ isOpen, onClose, collection }: CollectionPanel
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CraftPanel\CraftPanel.tsx ===== 
 import { useState, useMemo, useCallback } from "react";
 import { t } from "../../../../locales/i18n";
-import { Inventory } from "../../../../classes/Inventory";
+import { useGameStore } from "../../../../store/gameStore";
 import { CRAFT_ITEMS, INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
 import type { TCraftItem } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
@@ -2686,7 +2586,6 @@ import "./CraftPanel.css";
 interface CraftPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  inventory: Inventory;
   onCraft: (item: TCraftItem) => void;
   onUseItem: (itemId: string) => void;
   selectedWaifuId?: string;
@@ -2694,56 +2593,41 @@ interface CraftPanelProps {
 
 type CraftTab = "craft" | "use";
 
-export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, selectedWaifuId }: CraftPanelProps) {
-  // ВСЕ хуки должны быть вызваны ДО любого условного возврата!
+export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuId }: CraftPanelProps) {
   const [activeTab, setActiveTab] = useState<CraftTab>("craft");
   const [selectedCraftItem, setSelectedCraftItem] = useState<TCraftItem | null>(null);
 
-  // Мемоизируем функции
-  const canCraft = useCallback(
-    (item: TCraftItem): boolean => {
-      return item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
-    },
-    [inventory],
-  );
-
-  const getMissingIngredients = useCallback(
-    (item: TCraftItem): string[] => {
-      return item.ingredients
-        .filter((ing) => inventory.getItemCount(ing.itemId) < ing.count)
-        .map((ing) => t(`items.${INVENTORY_ITEMS[ing.itemId]?.nameKey || ing.itemId}.name`));
-    },
-    [inventory],
-  );
-
-  // Используем строковое представление inventory для стабильности
-  const inventoryKey = useMemo(() => {
-    return inventory.serialize();
-  }, [inventory]);
+  const inventory = useGameStore((state) => state.inventory);
 
   const craftableItems = useMemo(() => {
-    return CRAFT_ITEMS.map((item) => ({
-      ...item,
-      canCraft: canCraft(item),
-      missingIngredients: getMissingIngredients(item),
-    }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inventoryKey]);
+    return CRAFT_ITEMS.map((item) => {
+      const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
+      const missingIngredients = item.ingredients
+        .filter((ing) => inventory.getItemCount(ing.itemId) < ing.count)
+        .map((ing) => t(`items.${INVENTORY_ITEMS[ing.itemId]?.nameKey || ing.itemId}.name`));
+
+      return {
+        ...item,
+        canCraft,
+        missingIngredients,
+      };
+    });
+  }, [inventory]);
 
   const consumableItems = useMemo(() => {
     return inventory.getItemsByType("consumable");
-  }, [inventoryKey]);
+  }, [inventory]);
 
   const handleCraft = useCallback(
     (item: TCraftItem) => {
-      if (canCraft(item)) {
+      const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
+      if (canCraft) {
         onCraft(item);
       }
     },
-    [canCraft, onCraft],
+    [inventory, onCraft],
   );
 
-  // Условный возврат ДОЛЖЕН быть ПОСЛЕ всех хуков!
   if (!isOpen) return null;
 
   return (
@@ -2757,7 +2641,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
             ✕
           </button>
         </div>
-
         <div className="craft-tabs">
           <button
             className={`craft-tab ${activeTab === "craft" ? "active" : ""}`}
@@ -2771,7 +2654,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
             {t("ui.useItems")}
           </button>
         </div>
-
         <div className="craft-content">
           {activeTab === "craft" ? (
             <div className="craft-list">
@@ -2790,9 +2672,7 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
                       {item.canCraft ? "✓" : "✕"}
                     </span>
                   </div>
-
                   <p className="craft-item-desc">{t(item.descriptionKey)}</p>
-
                   <div className="craft-ingredients">
                     {item.ingredients.map((ing) => {
                       const has = inventory.getItemCount(ing.itemId);
@@ -2808,7 +2688,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
                       );
                     })}
                   </div>
-
                   {item.effect && (
                     <div className="craft-effect">
                       <Icon name="upgrades" size="sm" />
@@ -2855,7 +2734,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
             </div>
           )}
         </div>
-
         {selectedCraftItem && (
           <div className="craft-modal-overlay" onClick={() => setSelectedCraftItem(null)}>
             <div className="craft-modal" onClick={(e) => e.stopPropagation()}>
@@ -2863,7 +2741,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
                 {t(`items.${selectedCraftItem.nameKey}.name`)}
               </h3>
               <p>{t(selectedCraftItem.descriptionKey)}</p>
-
               <div className="craft-modal-ingredients">
                 <h4>{t("ui.requiredMaterials")}</h4>
                 {selectedCraftItem.ingredients.map((ing) => {
@@ -2881,7 +2758,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
                   );
                 })}
               </div>
-
               <div className="craft-modal-actions">
                 <button className="btn-secondary" onClick={() => setSelectedCraftItem(null)}>
                   {t("ui.cancel")}
@@ -2889,7 +2765,9 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
                 <button
                   className="btn-primary"
                   onClick={() => handleCraft(selectedCraftItem)}
-                  disabled={!canCraft(selectedCraftItem)}
+                  disabled={
+                    !selectedCraftItem.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count)
+                  }
                 >
                   {t("ui.craft")}
                 </button>
@@ -2904,9 +2782,10 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\EnemyComponent.tsx ===== 
-import { useState, useEffect, useRef } from "react";
-import { Enemy, type DamageInfo } from "../../../../classes/Enemy";
+import { useState, useRef, useEffect, useCallback } from "react";
+import type { DamageInfo } from "../../../../classes/Enemy";
 import type { Waifu } from "../../../../classes/Waifu";
+import type { Enemy } from "../../../../classes/Enemy";
 import "./EnemyComponent.css";
 import { ELEMENT_COLORS, ELEMENT_KEYS, INVENTORY_ITEMS } from "../../../../game/constant";
 import type { TElementType } from "../../../../types";
@@ -2922,185 +2801,138 @@ interface DropEffect {
   count: number;
 }
 
+interface ClickEffect {
+  id: number;
+  x: number;
+  y: number;
+  value: number;
+  isCrit: boolean;
+  element: TElementType;
+  effectiveness: "weak" | "normal" | "resist";
+}
+
 interface EnemyComponentProps {
   enemy: Enemy;
-  activeWaifu: Waifu;
-  onEnemyDefeated: (expReward: number, drops: Array<{ id: string; count: number }>) => void;
+  activeWaifu: Waifu | null;
   isPaused: boolean;
   dropChanceMultiplier?: number;
+  onClick?: (e: React.MouseEvent | React.TouchEvent) => void;
 }
+
+const clickIdRef = { current: 0 };
+let dropIdCounter = 0;
 
 export function EnemyComponent({
   enemy,
   activeWaifu,
-  onEnemyDefeated,
   isPaused,
   dropChanceMultiplier = 1,
+  onClick,
 }: EnemyComponentProps) {
-  const [clickEffects, setClickEffects] = useState<
-    Array<{
-      id: number;
-      x: number;
-      y: number;
-      value: number;
-      isCrit: boolean;
-      element: TElementType;
-      effectiveness: "weak" | "normal" | "resist";
-    }>
-  >([]);
+  const [clickEffects, setClickEffects] = useState<ClickEffect[]>([]);
   const [dropEffects, setDropEffects] = useState<DropEffect[]>([]);
-  const dropIdRef = useRef(0);
-  const clickIdRef = useRef(0);
-  const waifuRef = useRef(activeWaifu);
-  const enemyRef = useRef(enemy);
-  const pausedRef = useRef(isPaused);
+  const [hpPercent, setHpPercent] = useState(() => enemy.getHpPercent());
+  const [currentHp, setCurrentHp] = useState(() => enemy.currentHp);
 
-  useEffect(() => {
-    waifuRef.current = activeWaifu;
-  }, [activeWaifu]);
+  const enemyRef = useRef(enemy);
 
   useEffect(() => {
     enemyRef.current = enemy;
+    setHpPercent(enemy.getHpPercent());
+    setCurrentHp(enemy.currentHp);
   }, [enemy]);
 
   useEffect(() => {
-    pausedRef.current = isPaused;
-  }, [isPaused]);
+    const interval = setInterval(() => {
+      if (enemyRef.current) {
+        setHpPercent(enemyRef.current.getHpPercent());
+        setCurrentHp(enemyRef.current.currentHp);
+      }
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
 
-  const addDropEffect = (x: number, y: number, itemId: string, count: number) => {
-    const id = dropIdRef.current++;
+  const addDropEffect = useCallback((itemId: string, count: number, x: number, y: number) => {
+    const id = dropIdCounter++;
     setDropEffects((prev) => [...prev, { id, x, y, itemId, count }]);
     setTimeout(() => {
       setDropEffects((prev) => prev.filter((effect) => effect.id !== id));
-    }, 800);
-  };
+    }, 1500);
+  }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (pausedRef.current) return;
-
-      const currentWaifu = waifuRef.current;
-      const currentEnemy = enemyRef.current;
-
-      if (!currentWaifu || !currentEnemy) return;
-
-      const damage = currentWaifu.getClickPower();
-      const isCrit = Math.random() < currentWaifu.getCritChance();
-      const damageInfo: DamageInfo = {
-        type: currentWaifu.element,
-        amount: damage,
-        isCrit,
-        critMultiplier: currentWaifu.getCritMultiplier(),
-        source: currentWaifu.id,
-      };
-      const actualDamage = currentEnemy.takeDamage(damageInfo);
-
-      setClickEffects((prev) => [
-        ...prev,
-        {
-          id: clickIdRef.current++,
-          x: window.innerWidth / 2,
-          y: window.innerHeight / 2 - 100,
-          value: actualDamage,
-          isCrit,
-          element: currentWaifu.element,
-          effectiveness: "normal",
-        },
-      ]);
-
+  const addClickEffect = useCallback(
+    (
+      x: number,
+      y: number,
+      value: number,
+      isCrit: boolean,
+      element: TElementType,
+      effectiveness: "weak" | "normal" | "resist",
+    ) => {
+      const id = clickIdRef.current++;
+      setClickEffects((prev) => [...prev, { id, x, y, value, isCrit, element, effectiveness }]);
       setTimeout(() => {
-        setClickEffects((prev) => prev.filter((e) => e.id !== clickIdRef.current - 1));
+        setClickEffects((prev) => prev.filter((effect) => effect.id !== id));
       }, 600);
+    },
+    [],
+  );
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      if (isPaused || !activeWaifu) return;
+
+      if (onClick) {
+        onClick(e);
+      }
 
       audioManager.playClick();
 
-      if (!currentEnemy.isAlive()) {
-        audioManager.playEnemyDefeat();
-        const drops = currentEnemy.rollDrops(dropChanceMultiplier);
-        drops.forEach((drop, index) => {
-          const offsetX = (index - drops.length / 2) * 40;
-          const offsetY = -50 - Math.random() * 30;
-          addDropEffect(window.innerWidth / 2 + offsetX, window.innerHeight / 2 + offsetY, drop.id, drop.count);
-        });
-        onEnemyDefeated(currentEnemy.expReward, drops);
+      let clientX: number;
+      let clientY: number;
+
+      if ("touches" in e) {
+        clientX = e.touches[0]?.clientX ?? window.innerWidth / 2;
+        clientY = e.touches[0]?.clientY ?? window.innerHeight / 2;
+      } else {
+        clientX = (e as React.MouseEvent).clientX;
+        clientY = (e as React.MouseEvent).clientY;
       }
-    }, 1000);
 
-    return () => clearInterval(interval);
-  }, [dropChanceMultiplier, onEnemyDefeated]);
+      const clickPower = activeWaifu.getClickPower();
+      const elementMultiplier = activeWaifu.getElementMultiplier(enemy.resistances);
+      const isCrit = Math.random() < activeWaifu.getCritChance();
+      const critMultiplier = isCrit ? activeWaifu.getCritMultiplier() : 1;
 
-  const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
-    if (isPaused) return;
-    audioManager.playClick();
-    let clientX, clientY;
-    if ("touches" in e) {
-      clientX = e.touches[0].clientX;
-      clientY = e.touches[0].clientY;
-    } else {
-      clientX = (e as React.MouseEvent).clientX;
-      clientY = (e as React.MouseEvent).clientY;
-    }
-    const clickPower = activeWaifu.getClickPower();
-    const isCrit = Math.random() < activeWaifu.getCritChance();
-    const damageInfo: DamageInfo = {
-      type: activeWaifu.element,
-      amount: clickPower,
-      isCrit,
-      critMultiplier: activeWaifu.getCritMultiplier(),
-      source: activeWaifu.id,
-    };
-    const actualDamage = enemy.takeDamage(damageInfo);
-    const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
-    activeWaifu.recordClick(actualDamage);
-    addClickEffect(clientX, clientY, actualDamage, isCrit, activeWaifu.element, effectiveness);
-    if (!enemy.isAlive()) {
-      death();
-    }
-  };
+      const finalDamage = Math.floor(clickPower * elementMultiplier * critMultiplier);
 
-  const death = () => {
-    audioManager.playEnemyDefeat();
-    const drops = enemy.rollDrops(dropChanceMultiplier);
-    drops.forEach((drop, index) => {
-      const offsetX = (index - drops.length / 2) * 40;
-      const offsetY = -50 - Math.random() * 30;
-      addDropEffect(window.innerWidth / 2 + offsetX, window.innerHeight / 2 + offsetY, drop.id, drop.count);
-    });
-    onEnemyDefeated(enemy.expReward, drops);
-  };
+      const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
+      addClickEffect(clientX, clientY, finalDamage, isCrit, activeWaifu.element, effectiveness);
 
-  const addClickEffect = (
-    x: number,
-    y: number,
-    value: number,
-    isCrit: boolean,
-    element: TElementType,
-    effectiveness?: "weak" | "normal" | "resist",
-  ) => {
-    const id = clickIdRef.current++;
-    setClickEffects((prev) => [
-      ...prev,
-      {
-        id,
-        x,
-        y,
-        value,
-        isCrit,
-        element,
-        effectiveness: effectiveness || "normal",
-      },
-    ]);
-    setTimeout(() => {
-      setClickEffects((prev) => prev.filter((effect) => effect.id !== id));
-    }, 600);
-  };
+      // Проверяем смерть врага и показываем дроп
+      const newHp = enemy.currentHp - finalDamage;
+      if (newHp <= 0) {
+        const drops = enemy.rollDrops(dropChanceMultiplier);
+        drops.forEach((drop, index) => {
+          setTimeout(() => {
+            addDropEffect(
+              drop.id,
+              drop.count,
+              clientX + (Math.random() - 0.5) * 100,
+              clientY + (Math.random() - 0.5) * 50,
+            );
+          }, index * 200);
+        });
+      }
+    },
+    [isPaused, activeWaifu, enemy, dropChanceMultiplier, onClick, addClickEffect, addDropEffect],
+  );
 
   const getResistanceTooltip = (value: number): string => {
     if (value > 0) {
       return `${t("ui.resist")}: ${Math.round(value * 100)}%`;
-    } else {
-      return `${t("ui.weak")}: ${Math.round(Math.abs(value) * 100)}%`;
     }
+    return `${t("ui.weak")}: ${Math.round(Math.abs(value) * 100)}%`;
   };
 
   return (
@@ -3112,7 +2944,6 @@ export function EnemyComponent({
         </span>
         {enemy.isBoss && <span className="boss-badge">{t("ui.boss")}</span>}
       </div>
-
       <div
         className={`enemy-sprite-container ${!enemy.isAlive() ? "defeated" : ""}`}
         onClick={handleClick}
@@ -3121,16 +2952,14 @@ export function EnemyComponent({
         <img src={enemy.sprite} alt={enemy.name} draggable={false} />
         {enemy.isBoss && <div className="boss-aura" />}
       </div>
-
       <div className="enemy-hp-container">
         <div className="enemy-hp-bar">
-          <div className="enemy-hp-fill" style={{ width: `${enemy.getHpPercent()}%` }} />
+          <div className="enemy-hp-fill" style={{ width: `${hpPercent}%` }} />
         </div>
         <span className="enemy-hp-text">
-          {Math.floor(enemy.currentHp)} / {Math.floor(enemy.maxHp)} {t("ui.hp")}
+          {Math.floor(currentHp)} / {Math.floor(enemy.maxHp)} {t("ui.hp")}
         </span>
       </div>
-
       <div className="enemy-resists">
         {Object.entries(enemy.resistances)
           .filter(([_, value]) => value !== 0)
@@ -3145,7 +2974,6 @@ export function EnemyComponent({
             </span>
           ))}
       </div>
-
       {clickEffects.map((effect) => (
         <div
           key={effect.id}
@@ -3165,14 +2993,7 @@ export function EnemyComponent({
         </div>
       ))}
       {dropEffects.map((effect) => (
-        <div
-          key={effect.id}
-          className="drop-effect"
-          style={{
-            left: effect.x,
-            top: effect.y,
-          }}
-        >
+        <div key={effect.id} className="drop-effect" style={{ left: effect.x, top: effect.y }}>
           <Icon name={INVENTORY_ITEMS[effect.itemId]?.icon || "unknown"} size="md" />
           <span className="drop-count">+{effect.count}</span>
           <span className="drop-name">
@@ -3186,8 +3007,7 @@ export function EnemyComponent({
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\DropPoolPanel.tsx ===== 
-// src/components/Game/components/GachaPanel/DropPoolPanel.tsx
-import { memo, useState } from "react";
+import { memo, useState, useMemo } from "react";
 import { t } from "../../../../locales/i18n";
 import { testWaifus, RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
 import type { Waifu } from "../../../../classes/Waifu";
@@ -3204,16 +3024,18 @@ interface DropPoolPanelProps {
 
 const rarities: TRarity[] = ["mythic", "legendary", "epic", "rare", "uncommon", "common"];
 
-const GROUPED_WAIFUS = rarities.reduce(
-  (acc, rarity) => {
-    acc[rarity] = testWaifus.filter((w) => w.rarity === rarity);
-    return acc;
-  },
-  {} as Record<TRarity, TWaifu[]>,
-);
-
 export const DropPoolPanel = memo(({ isOpen, onClose, ownedWaifus }: DropPoolPanelProps) => {
   const [selectedRarity, setSelectedRarity] = useState<TRarity | "all">("all");
+
+  const groupedWaifus = useMemo(() => {
+    return rarities.reduce(
+      (acc, rarity) => {
+        acc[rarity] = testWaifus.filter((w) => w.rarity === rarity);
+        return acc;
+      },
+      {} as Record<TRarity, TWaifu[]>,
+    );
+  }, []);
 
   if (!isOpen) return null;
 
@@ -3270,7 +3092,7 @@ export const DropPoolPanel = memo(({ isOpen, onClose, ownedWaifus }: DropPoolPan
               </h3>
 
               <div className="waifu-grid">
-                {GROUPED_WAIFUS[rarity].map((template) => {
+                {groupedWaifus[rarity].map((template) => {
                   const status = getWaifuStatus(template.id);
 
                   return (
@@ -3346,28 +3168,25 @@ export const DropPoolPanel = memo(({ isOpen, onClose, ownedWaifus }: DropPoolPan
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\GachaPanel.tsx ===== 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { t } from "../../../../locales/i18n";
 import { Waifu } from "../../../../classes/Waifu";
 import { testWaifus, BASE_DROP_RATES, RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
 import type { TRarity } from "../../../../types";
-
 import "./GachaPanel.css";
 import { DropPoolPanel } from "./DropPoolPanel";
 import { Icon } from "../../../Icon/Icon";
+import { useGameStore } from "../../../../store/gameStore";
 
 interface GachaPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  essence: number;
-  ownedWaifus: Waifu[];
-  onSummon: (waifu: Waifu, cost: number, isDuplicate: boolean) => void;
 }
 
 type Tab = "summon" | "pool";
 
-export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: GachaPanelProps) {
-  const timeoutRef = useRef<number>(0);
+export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
+  const timeoutRef = useRef<number | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("summon");
   const [isAnimating, setIsAnimating] = useState(false);
   const [result, setResult] = useState<{
@@ -3376,12 +3195,17 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
   } | null>(null);
   const [showPool, setShowPool] = useState(false);
 
-  const getAvailablePool = () => {
+  const essence = useGameStore((state) => state.inventory.getItemCount("essence"));
+  const ownedWaifus = useGameStore((state) => state.ownedWaifus);
+  const addWaifu = useGameStore((state) => state.addWaifu);
+  const removeItem = useGameStore((state) => state.removeItem);
+
+  const getAvailablePool = useCallback(() => {
     const maxedIds = new Set(ownedWaifus.filter((w) => w.isMaxed()).map((w) => w.id));
     return testWaifus.filter((w) => !maxedIds.has(w.id));
-  };
+  }, [ownedWaifus]);
 
-  const calculateDropRates = () => {
+  const dropInfo = useMemo(() => {
     const available = getAvailablePool();
     const counts: Record<TRarity, number> = {
       common: available.filter((w) => w.rarity === "common").length,
@@ -3391,75 +3215,51 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
       legendary: available.filter((w) => w.rarity === "legendary").length,
       mythic: available.filter((w) => w.rarity === "mythic").length,
     };
-
     const total = Object.values(counts).reduce((a, b) => a + b, 0);
     if (total === 0) return null;
-
     return {
       counts,
       rates: BASE_DROP_RATES,
     };
-  };
+  }, [getAvailablePool]);
 
-  const performSummon = () => {
+  const performSummon = useCallback(() => {
     if (essence < 10) return;
-
     const available = getAvailablePool();
     if (available.length === 0) {
       alert(t("ui.poolEmpty"));
       return;
     }
-
     setIsAnimating(true);
-
-    timeoutRef.current = setTimeout(() => {
+    timeoutRef.current = window.setTimeout(() => {
       const roll = Math.random();
       let rarity: TRarity;
-
       if (roll < BASE_DROP_RATES.mythic) rarity = "mythic";
       else if (roll < BASE_DROP_RATES.legendary) rarity = "legendary";
       else if (roll < BASE_DROP_RATES.epic) rarity = "epic";
       else if (roll < BASE_DROP_RATES.rare) rarity = "rare";
       else if (roll < BASE_DROP_RATES.uncommon) rarity = "uncommon";
       else rarity = "common";
-
       const candidates = available.filter((w) => w.rarity === rarity);
-
-      let selected;
-      if (candidates.length === 0) {
-        const randomIdx = Math.floor(Math.random() * available.length);
-        selected = available[randomIdx];
-      } else {
-        const randomIdx = Math.floor(Math.random() * candidates.length);
-        selected = candidates[randomIdx];
-      }
-
-      const existingWaifu = ownedWaifus.find((w) => w.id === selected.id);
-      let waifu: Waifu;
-      let isDuplicate = false;
-
-      if (existingWaifu) {
-        existingWaifu.addDuplicate();
-        waifu = existingWaifu;
-        isDuplicate = true;
-      } else {
-        waifu = Waifu.fromTemplate(selected);
-      }
-
+      const selected =
+        candidates.length > 0
+          ? candidates[Math.floor(Math.random() * candidates.length)]!
+          : available[Math.floor(Math.random() * available.length)]!;
+      const waifu = Waifu.fromTemplate(selected);
+      const isDuplicate = ownedWaifus.some((w) => w.id === waifu.id);
       setResult({ waifu, isDuplicate });
       setIsAnimating(false);
-      onSummon(waifu, 10, isDuplicate);
-      timeoutRef.current = 0;
+      removeItem("essence", 10);
+      addWaifu(waifu);
+      timeoutRef.current = null;
     }, 1000);
-  };
+  }, [essence, getAvailablePool, ownedWaifus, removeItem, addWaifu]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setResult(null);
     setActiveTab("summon");
     onClose();
-  };
-
-  const dropInfo = calculateDropRates();
+  }, [onClose]);
 
   useEffect(() => {
     return () => {
@@ -3480,7 +3280,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
             ✕
           </button>
         </div>
-
         <div className="gacha-tabs">
           <button
             className={`gacha-tab ${activeTab === "summon" ? "active" : ""}`}
@@ -3492,7 +3291,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
             {t("ui.dropPool")}
           </button>
         </div>
-
         <div className="panel-content">
           {activeTab === "summon" ? (
             <>
@@ -3511,7 +3309,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                       <small>+30% {t("ui.stats")}</small>
                     </div>
                   )}
-
                   <div className="result-waifu">
                     <img src={result.waifu.image} alt={result.waifu.name} />
                     <h3>{result.waifu.name}</h3>
@@ -3525,7 +3322,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                     </span>
                     {result.isDuplicate && <span className="dup-count-badge">{result.waifu.duplicateCount}/20</span>}
                   </div>
-
                   <div className="waifu-stats-preview">
                     <span>
                       <Icon name="click" size="sm" /> {result.waifu.getClickPower()}
@@ -3537,7 +3333,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                       <Icon name="critPower" size="sm" /> {result.waifu.getCritMultiplier().toFixed(1)}x
                     </span>
                   </div>
-
                   <button className="btn-primary" onClick={() => setResult(null)}>
                     {t("ui.continue")}
                   </button>
@@ -3545,7 +3340,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
               ) : (
                 <>
                   <p className="gacha-description">{t("gacha.desc")}</p>
-
                   <div className="gacha-rates">
                     <h4>{t("ui.dropRates")}</h4>
                     {dropInfo ? (
@@ -3564,7 +3358,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                       <p className="empty-pool-warning">⚠️ {t("ui.poolEmptyWarning")}</p>
                     )}
                   </div>
-
                   <div className="gacha-action">
                     <div className="cost-display">
                       <span>
@@ -3591,7 +3384,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
               <button className="btn-secondary" onClick={() => setShowPool(true)}>
                 📚 {t("ui.viewFullPool")}
               </button>
-
               <div className="quick-pool-stats">
                 <h4>{t("ui.collectionProgress")}</h4>
                 <div className="collection-bar">
@@ -3605,7 +3397,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
                     {ownedWaifus.length} / {testWaifus.length}
                   </span>
                 </div>
-
                 <div className="maxed-stats">
                   <span>
                     {t("ui.maxedWaifus")}: {ownedWaifus.filter((w) => w.isMaxed()).length}
@@ -3616,7 +3407,6 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
           )}
         </div>
       </div>
-
       <DropPoolPanel isOpen={showPool} onClose={() => setShowPool(false)} ownedWaifus={ownedWaifus} />
     </div>
   );
@@ -3626,7 +3416,7 @@ export function GachaPanel({ isOpen, onClose, essence, ownedWaifus, onSummon }: 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\LocationSelector\LocationSelector.tsx ===== 
 import { t } from "../../../../locales/i18n";
 import { LOCATIONS, LOCATION_ENEMIES, LOCATION_UNLOCK_REQUIREMENTS } from "../../../../game/constant";
-import type { TLocation, TLocationProgress } from "../../../../types";
+import type { TLocation } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
 import "./LocationSelector.css";
 
@@ -3634,7 +3424,7 @@ interface LocationSelectorProps {
   isOpen: boolean;
   onClose: () => void;
   currentLocation: TLocation;
-  locationProgress: TLocationProgress;
+  locationProgress: Record<TLocation, { currentLevel: number; maxLevelReached: number; unlocked: boolean }>;
   onLocationChange: (location: TLocation) => void;
 }
 
@@ -3670,7 +3460,6 @@ export function LocationSelector({
             ✕
           </button>
         </div>
-
         <div className="location-list">
           {LOCATIONS.map((loc) => {
             const progress = locationProgress[loc.id];
@@ -3692,7 +3481,6 @@ export function LocationSelector({
                 <div className="location-icon">
                   <Icon name={loc.id} size="lg" />
                 </div>
-
                 <div className="location-info">
                   <span className="location-name">{t(`ui.locations.${loc.id}`)}</span>
                   <span className="location-enemies">
@@ -3702,14 +3490,12 @@ export function LocationSelector({
                       .join(", ")}
                     ...
                   </span>
-
                   <div className="location-bonuses">
                     <span className="bonus-badge gem">💎 x{formatBonus(loc.bonuses.gemMultiplier)}</span>
                     <span className="bonus-badge essence">✨ x{formatBonus(loc.bonuses.essenceMultiplier)}</span>
                     <span className="bonus-badge exp">⭐ x{formatBonus(loc.bonuses.expMultiplier)}</span>
                   </div>
                 </div>
-
                 <div className="location-meta">
                   {isCurrent ? (
                     <span className="current-badge">{t("ui.active")}</span>
@@ -3787,16 +3573,12 @@ import { Icon } from "../../../Icon/Icon";
 import "./UpgradePanel.css";
 import type { TElementType } from "../../../../types";
 import { ELEMENT_COLORS } from "../../../../game/constant";
+import { useGameStore } from "../../../../store/gameStore";
+import { useShallow } from "zustand/shallow";
 
 interface UpgradePanelProps {
   isOpen: boolean;
   onClose: () => void;
-  gems: number;
-  onUpgrade: (type: string, cost: number, element?: TElementType) => void;
-  upgradeLevels: {
-    clickPower: number;
-    elementDamage: Record<TElementType, number>;
-  };
 }
 
 interface UpgradeConfig {
@@ -3810,7 +3592,15 @@ interface UpgradeConfig {
   element?: TElementType;
 }
 
-export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }: UpgradePanelProps) {
+export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
+  const { gems, globalUpgrades, upgradeClickPower, upgradeElement } = useGameStore(
+    useShallow((state) => ({
+      gems: state.inventory.getItemCount("gem"),
+      globalUpgrades: state.globalUpgrades,
+      upgradeClickPower: state.upgradeClickPower,
+      upgradeElement: state.upgradeElement,
+    })),
+  );
   const getCost = (baseCost: number, level: number) => {
     const scaledLevel = Math.min(level, 100);
     return Math.floor(baseCost * Math.pow(1.5, scaledLevel));
@@ -3824,7 +3614,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "click",
       getCost: (lvl) => getCost(10, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 1000}`,
-      level: upgradeLevels.clickPower,
+      level: globalUpgrades.clickPowerBonus,
     },
     {
       id: "element_water",
@@ -3833,7 +3623,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "water",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.water,
+      level: globalUpgrades.elementDamage.water,
       element: "water",
     },
     {
@@ -3843,7 +3633,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "fire",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.fire,
+      level: globalUpgrades.elementDamage.fire,
       element: "fire",
     },
     {
@@ -3853,7 +3643,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "earth",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.earth,
+      level: globalUpgrades.elementDamage.earth,
       element: "earth",
     },
     {
@@ -3863,7 +3653,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "ice",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.ice,
+      level: globalUpgrades.elementDamage.ice,
       element: "ice",
     },
     {
@@ -3873,7 +3663,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "light",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.light,
+      level: globalUpgrades.elementDamage.light,
       element: "light",
     },
     {
@@ -3883,7 +3673,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "dark",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.dark,
+      level: globalUpgrades.elementDamage.dark,
       element: "dark",
     },
     {
@@ -3893,7 +3683,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "physical",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.physical,
+      level: globalUpgrades.elementDamage.physical,
       element: "physical",
     },
   ];
@@ -3901,7 +3691,11 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
   const handleUpgrade = (upgrade: UpgradeConfig) => {
     const cost = upgrade.getCost(upgrade.level);
     if (gems >= cost) {
-      onUpgrade(upgrade.element ? "element" : upgrade.id, cost, upgrade.element);
+      if (upgrade.element) {
+        upgradeElement(upgrade.element);
+      } else {
+        upgradeClickPower();
+      }
     }
   };
 
@@ -3922,16 +3716,13 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
             <Icon name="close" size="md" />
           </button>
         </div>
-
         <div className="panel-content">
           <p className="upgrades-global-hint">{t("upgrades.globalHint")}</p>
-
           <div className="upgrade-list-modal">
             {upgrades.map((upgrade) => {
               const cost = upgrade.getCost(upgrade.level);
               const effect = upgrade.getEffect(upgrade.level);
               const canAfford = gems >= cost;
-
               return (
                 <div
                   key={upgrade.id}
@@ -3953,7 +3744,6 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
                       </span>
                     </div>
                   </div>
-
                   <button
                     type="button"
                     className="btn-upgrade-modal"
@@ -3976,46 +3766,51 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuComponent\WaifuComponent.tsx ===== 
-import { Waifu } from "../../../../classes/Waifu";
+import { useGameStore } from "../../../../store/gameStore";
 import { RARITY_COLORS } from "../../../../game/constant";
 import "./WaifuComponent.css";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
+import { useShallow } from "zustand/shallow";
 
-interface WaifuComponentProps {
-  waifu: Waifu;
-}
+export function WaifuComponent() {
+  const { activeWaifuId, ownedWaifus } = useGameStore(
+    useShallow((state) => ({
+      activeWaifuId: state.activeWaifuId,
+      ownedWaifus: state.ownedWaifus,
+    })),
+  );
+  const activeWaifu = ownedWaifus.find((w) => w.id === activeWaifuId);
 
-export function WaifuComponent({ waifu }: WaifuComponentProps) {
-  const rarityColor = RARITY_COLORS[waifu.rarity];
+  if (!activeWaifu) return null;
+
+  const rarityColor = RARITY_COLORS[activeWaifu.rarity];
 
   return (
     <div className="waifu-component">
       <div className="waifu-portrait-container">
         <img
-          src={waifu.image}
-          alt={waifu.name}
+          src={activeWaifu.image}
+          alt={activeWaifu.name}
           className="waifu-portrait"
           onError={(e) => {
             (e.target as HTMLImageElement).src = "/waifus/placeholder.png";
           }}
         />
         <div className="waifu-element-icon">
-          <Icon name={waifu.element} size="md" />
+          <Icon name={activeWaifu.element} size="md" />
         </div>
       </div>
-
       <div className="waifu-info-battle">
         <h3 className="waifu-name-battle" style={{ color: rarityColor }}>
-          {waifu.name}
+          {activeWaifu.name}
         </h3>
-
         <div className="waifu-stats-battle">
           <span className="waifu-level">
-            <Icon name="level" size="sm" /> {t("ui.level")}.{waifu.stats.level}
+            <Icon name="level" size="sm" /> {t("ui.level")}.{activeWaifu.stats.level}
           </span>
           <span className="waifu-click-power">
-            <Icon name="click" size="sm" /> {waifu.getClickPower()}
+            <Icon name="click" size="sm" /> {activeWaifu.getClickPower()}
           </span>
         </div>
       </div>
@@ -4026,7 +3821,7 @@ export function WaifuComponent({ waifu }: WaifuComponentProps) {
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuDetailPanel\WaifuDetailPanel.tsx ===== 
 import { t } from "../../../../locales/i18n";
-import { Waifu } from "../../../../classes/Waifu";
+import { useGameStore } from "../../../../store/gameStore";
 import { RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
 import "./WaifuDetailPanel.css";
 import { Icon } from "../../../Icon/Icon";
@@ -4034,11 +3829,13 @@ import { Icon } from "../../../Icon/Icon";
 interface WaifuDetailPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  waifu: Waifu | null;
+  waifuId: string | null;
 }
 
-export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelProps) {
-  if (!isOpen || !waifu) return null;
+export function WaifuDetailPanel({ isOpen, onClose, waifuId }: WaifuDetailPanelProps) {
+  const waifu = useGameStore((state) => (waifuId ? state.ownedWaifus.find((w) => w.id === waifuId) : undefined));
+
+  if (!isOpen || !waifu || !waifuId) return null;
 
   const rarityColor = RARITY_COLORS[waifu.rarity];
   const expPercent = (waifu.stats.exp / waifu.stats.expToNext) * 100;
@@ -4052,7 +3849,6 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
             <Icon name="close" size="md" />
           </button>
         </div>
-
         <div className="waifu-detail-content">
           <div className="waifu-detail-portrait">
             <img
@@ -4067,14 +3863,11 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
               <Icon name={waifu.element} size="lg" />
             </div>
           </div>
-
           <div className="waifu-detail-rarity" style={{ color: rarityColor, borderColor: rarityColor }}>
             <Icon name={waifu.rarity} size="sm" />
             {t(`ui.${RARITY_KEYS[waifu.rarity]}`).toUpperCase()}
           </div>
-
-          <p className="waifu-description">{t(waifu.description as any)}</p>
-
+          <p className="waifu-description">{t(waifu.descriptionKey)}</p>
           <div className="waifu-stats-detail">
             <div className="stat-row-detail">
               <span className="stat-label">
@@ -4082,7 +3875,6 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
               </span>
               <span className="stat-value">{waifu.stats.level}</span>
             </div>
-
             <div className="stat-row-detail exp-row">
               <span className="stat-label">
                 <Icon name="exp" size="sm" /> {t("ui.exp")}
@@ -4094,35 +3886,30 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
                 </span>
               </div>
             </div>
-
             <div className="stat-row-detail">
               <span className="stat-label">
                 <Icon name="affection" size="sm" /> {t("ui.affection")}
               </span>
               <span className="stat-value">{waifu.stats.affection}</span>
             </div>
-
             <div className="stat-row-detail">
               <span className="stat-label">
                 <Icon name="click" size="sm" /> {t("ui.click")}
               </span>
               <span className="stat-value">{waifu.getClickPower()}</span>
             </div>
-
             <div className="stat-row-detail">
               <span className="stat-label">
                 <Icon name="crit" size="sm" /> {t("ui.critChance")}
               </span>
               <span className="stat-value">{(waifu.getCritChance() * 100).toFixed(1)}%</span>
             </div>
-
             <div className="stat-row-detail">
               <span className="stat-label">
                 <Icon name="critPower" size="sm" /> {t("ui.critPower")}
               </span>
               <span className="stat-value">{waifu.getCritMultiplier().toFixed(1)}x</span>
             </div>
-
             <div className="stat-row-detail">
               <span className="stat-label">
                 <Icon name="outfit" size="sm" /> {t("ui.outfits")}
@@ -4130,7 +3917,6 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
               <span className="stat-value">{waifu.unlockedOutfits.length}</span>
             </div>
           </div>
-
           <div className="waifu-stats-total">
             <h4>{t("ui.totalStats")}</h4>
             <p>
@@ -4149,23 +3935,31 @@ export function WaifuDetailPanel({ isOpen, onClose, waifu }: WaifuDetailPanelPro
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuSelectPanel\WaifuSelectPanel.tsx ===== 
 import { t } from "../../../../locales/i18n";
-import { Waifu } from "../../../../classes/Waifu";
-
+import { useGameStore } from "../../../../store/gameStore";
 import "./WaifuSelectPanel.css";
 import { RARITY_COLORS } from "../../../../game/constant";
 import { Icon } from "../../../Icon/Icon";
+import { useShallow } from "zustand/shallow";
 
 interface WaifuSelectPanelProps {
   isOpen: boolean;
-  waifus: Waifu[];
-  activeWaifu: Waifu | null;
-
   onClose: () => void;
-  onSelect: (waifu: Waifu) => void;
+  onSelect: (waifuId: string) => void;
 }
 
-export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelect }: WaifuSelectPanelProps) {
+export function WaifuSelectPanel({ isOpen, onClose, onSelect }: WaifuSelectPanelProps) {
+  const { ownedWaifus, activeWaifuId } = useGameStore(
+    useShallow((state) => ({
+      ownedWaifus: state.ownedWaifus,
+      activeWaifuId: state.activeWaifuId,
+    })),
+  );
+
   if (!isOpen) return null;
+
+  const handleSelect = (waifuId: string) => {
+    onSelect(waifuId);
+  };
 
   return (
     <div className="panel-overlay" onClick={onClose}>
@@ -4176,20 +3970,16 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
             <Icon name="close" size="md" />
           </button>
         </div>
-
         <div className="waifu-list">
-          {waifus.length === 0 ? (
+          {ownedWaifus.length === 0 ? (
             <p className="empty-message">{t("ui.noWaifus")}</p>
           ) : (
-            waifus.map((waifu) => (
+            ownedWaifus.map((waifu) => (
               <button
                 key={waifu.id}
-                className={`waifu-card ${activeWaifu?.id === waifu.id ? "active" : ""}`}
-                style={{ borderColor: activeWaifu?.id === waifu.id ? undefined : RARITY_COLORS[waifu.rarity] }}
-                onClick={() => {
-                  onSelect(waifu);
-                  onClose();
-                }}
+                className={`waifu-card ${activeWaifuId === waifu.id ? "active" : ""}`}
+                style={{ borderColor: activeWaifuId === waifu.id ? undefined : RARITY_COLORS[waifu.rarity] }}
+                onClick={() => handleSelect(waifu.id)}
               >
                 <div className="waifu-card-portrait">
                   <img
@@ -4203,7 +3993,6 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
                     <Icon name={waifu.element} size="sm" />
                   </span>
                 </div>
-
                 <div className="waifu-card-info">
                   <span className="waifu-name" style={{ color: RARITY_COLORS[waifu.rarity] }}>
                     {waifu.name}
@@ -4220,8 +4009,7 @@ export function WaifuSelectPanel({ isOpen, onClose, waifus, activeWaifu, onSelec
                     </small>
                   </div>
                 </div>
-
-                {activeWaifu?.id === waifu.id && <span className="active-badge">✓</span>}
+                {activeWaifuId === waifu.id && <span className="active-badge">✓</span>}
               </button>
             ))
           )}
@@ -4309,154 +4097,133 @@ import type { Lang } from "../../locales/locales";
 import "./LanguageSelector.css";
 
 interface LanguageSelectorProps {
-    variant?: "icon" | "dropdown" | "buttons";
-    showLabel?: boolean;
-    onLanguageChange?: (lang: Lang) => void;
-    className?: string;
+  variant?: "icon" | "dropdown" | "buttons";
+  showLabel?: boolean;
+  onLanguageChange?: (lang: Lang) => void;
+  className?: string;
 }
 
 const languages: {
-    code: Lang;
-    flag: string;
-    name: string;
-    nativeName: string;
+  code: Lang;
+  flag: string;
+  name: string;
+  nativeName: string;
 }[] = [{ code: "ru", flag: "🇷🇺", name: "Russian", nativeName: "Русский" }];
 
 export function LanguageSelector({
-    variant = "icon",
-    showLabel = false,
-    onLanguageChange,
-    className = "",
+  variant = "icon",
+  showLabel = false,
+  onLanguageChange,
+  className = "",
 }: LanguageSelectorProps) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [currentLang, setCurrentLang] = useState<Lang>(getLang());
-    const containerRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentLang, setCurrentLang] = useState<Lang>(getLang());
+  const containerRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const handleClickOutside = (event: Event) => {
-            if (
-                containerRef.current &&
-                !containerRef.current.contains(event.target as Node)
-            ) {
-                setIsOpen(false);
-            }
-        };
-
-        if (isOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
-            document.addEventListener("touchstart", handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-            document.removeEventListener("touchstart", handleClickOutside);
-        };
-    }, [isOpen]);
-
-    const handleLanguageSelect = (lang: Lang) => {
-        setLang(lang);
-        setCurrentLang(lang);
+  useEffect(() => {
+    const handleClickOutside = (event: Event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
-        onLanguageChange?.(lang);
+      }
     };
 
-    const currentLanguage =
-        languages.find((l) => l.code === currentLang) || languages[0];
-
-    if (variant === "icon") {
-        return (
-            <div
-                ref={containerRef}
-                className={`language-selector-icon ${className}`}
-            >
-                <button
-                    className="lang-icon-btn"
-                    onClick={() => setIsOpen(!isOpen)}
-                    title={t("ui.changeLanguage")}
-                    aria-label={t("ui.changeLanguage")}
-                >
-                    <span className="lang-globe">🌐</span>
-                    <span className="lang-current-flag">
-                        {currentLanguage.flag}
-                    </span>
-                </button>
-
-                {isOpen && (
-                    <div className="lang-dropdown">
-                        {languages.map((lang) => (
-                            <button
-                                key={lang.code}
-                                className={`lang-option ${currentLang === lang.code ? "active" : ""}`}
-                                onClick={() => handleLanguageSelect(lang.code)}
-                            >
-                                <span className="lang-flag">{lang.flag}</span>
-                                <span className="lang-native-name">
-                                    {lang.nativeName}
-                                </span>
-                            </button>
-                        ))}
-                    </div>
-                )}
-            </div>
-        );
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
     }
 
-    if (variant === "dropdown") {
-        return (
-            <div
-                ref={containerRef}
-                className={`language-selector-dropdown ${className}`}
-            >
-                {showLabel && (
-                    <span className="setting-label">{t("ui.language")}</span>
-                )}
-                <button
-                    className="lang-dropdown-toggle"
-                    onClick={() => setIsOpen(!isOpen)}
-                >
-                    <span>{currentLanguage.flag}</span>
-                    <span>{currentLanguage.nativeName}</span>
-                    <span className="dropdown-arrow">{isOpen ? "▲" : "▼"}</span>
-                </button>
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [isOpen]);
 
-                {isOpen && (
-                    <div className="lang-dropdown-menu">
-                        {languages.map((lang) => (
-                            <button
-                                key={lang.code}
-                                className={`lang-dropdown-option ${currentLang === lang.code ? "active" : ""}`}
-                                onClick={() => handleLanguageSelect(lang.code)}
-                            >
-                                <span>{lang.flag}</span>
-                                <span>{lang.nativeName}</span>
-                            </button>
-                        ))}
-                    </div>
-                )}
-            </div>
-        );
-    }
+  const handleLanguageSelect = (lang: Lang) => {
+    setLang(lang);
+    setCurrentLang(lang);
+    setIsOpen(false);
+    onLanguageChange?.(lang);
+  };
 
+  const currentLanguage = languages.find((l) => l.code === currentLang) || languages[0]!;
+
+  if (variant === "icon") {
     return (
-        <div className={`language-selector-buttons ${className}`}>
-            {showLabel && (
-                <span className="setting-label">{t("ui.language")}</span>
-            )}
-            <div className="lang-buttons-row">
-                {languages.map((lang) => (
-                    <button
-                        key={lang.code}
-                        className={`lang-btn ${currentLang === lang.code ? "active" : ""}`}
-                        onClick={() => handleLanguageSelect(lang.code)}
-                        title={lang.nativeName}
-                    >
-                        <span className="lang-btn-flag">{lang.flag}</span>
-                        <span className="lang-btn-name">{lang.nativeName}</span>
-                    </button>
-                ))}
-            </div>
-        </div>
+      <div ref={containerRef} className={`language-selector-icon ${className}`}>
+        <button
+          className="lang-icon-btn"
+          onClick={() => setIsOpen(!isOpen)}
+          title={t("ui.changeLanguage")}
+          aria-label={t("ui.changeLanguage")}
+        >
+          <span className="lang-globe">🌐</span>
+          <span className="lang-current-flag">{currentLanguage.flag}</span>
+        </button>
+
+        {isOpen && (
+          <div className="lang-dropdown">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                className={`lang-option ${currentLang === lang.code ? "active" : ""}`}
+                onClick={() => handleLanguageSelect(lang.code)}
+              >
+                <span className="lang-flag">{lang.flag}</span>
+                <span className="lang-native-name">{lang.nativeName}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     );
+  }
+
+  if (variant === "dropdown") {
+    return (
+      <div ref={containerRef} className={`language-selector-dropdown ${className}`}>
+        {showLabel && <span className="setting-label">{t("ui.language")}</span>}
+        <button className="lang-dropdown-toggle" onClick={() => setIsOpen(!isOpen)}>
+          <span>{currentLanguage.flag}</span>
+          <span>{currentLanguage.nativeName}</span>
+          <span className="dropdown-arrow">{isOpen ? "▲" : "▼"}</span>
+        </button>
+
+        {isOpen && (
+          <div className="lang-dropdown-menu">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                className={`lang-dropdown-option ${currentLang === lang.code ? "active" : ""}`}
+                onClick={() => handleLanguageSelect(lang.code)}
+              >
+                <span>{lang.flag}</span>
+                <span>{lang.nativeName}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className={`language-selector-buttons ${className}`}>
+      {showLabel && <span className="setting-label">{t("ui.language")}</span>}
+      <div className="lang-buttons-row">
+        {languages.map((lang) => (
+          <button
+            key={lang.code}
+            className={`lang-btn ${currentLang === lang.code ? "active" : ""}`}
+            onClick={() => handleLanguageSelect(lang.code)}
+            title={lang.nativeName}
+          >
+            <span className="lang-btn-flag">{lang.flag}</span>
+            <span className="lang-btn-name">{lang.nativeName}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
  
  
@@ -4724,6 +4491,8 @@ import type {
   TLocation,
   ILocationConfig,
   TCraftItem,
+  IGlobalUpgrades,
+  TLocationProgress,
 } from "../types";
 
 export const BASE_DROP_RATES: Record<TRarity, number> = {
@@ -5344,25 +5113,6 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     drops: [
       { id: "gel", nameKey: "gel", chance: 0.5, minCount: 1, maxCount: 3, type: "material" },
       { id: "slime_core", nameKey: "slimeCore", chance: 0.01, minCount: 1, maxCount: 1, type: "collection" },
-
-      { id: "gel", nameKey: "gel", chance: 1, minCount: 1, maxCount: 5, type: "material" },
-      { id: "slime_core", nameKey: "slimeCore", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "goblin_dagger", nameKey: "goblinDagger", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "goblin_ear", nameKey: "goblinEar", chance: 1, minCount: 1, maxCount: 3, type: "material" },
-      { id: "bone", nameKey: "bone", chance: 1, minCount: 1, maxCount: 5, type: "material" },
-      { id: "skull", nameKey: "skull", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "ancient_coin", nameKey: "ancientCoin", chance: 1, minCount: 1, maxCount: 3, type: "collection" },
-      { id: "ectoplasm", nameKey: "ectoplasm", chance: 1, minCount: 1, maxCount: 3, type: "material" },
-      { id: "soul_shard", nameKey: "soulShard", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "magic_scroll", nameKey: "magicScroll", chance: 1, minCount: 1, maxCount: 2, type: "material" },
-      { id: "dark_orb", nameKey: "darkOrb", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "mage_staff", nameKey: "mageStaff", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "demon_horn", nameKey: "demonHorn", chance: 1, minCount: 1, maxCount: 2, type: "material" },
-      { id: "hellfire_essence", nameKey: "hellfireEssence", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "demon_wing", nameKey: "demonWing", chance: 1, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "exp_scroll_500", nameKey: "expScroll500", chance: 1, minCount: 1, maxCount: 3, type: "consumable" },
-      { id: "exp_scroll_1000", nameKey: "expScroll1000", chance: 1, minCount: 1, maxCount: 2, type: "consumable" },
-      { id: "affection_potion", nameKey: "affectionPotion", chance: 1, minCount: 1, maxCount: 5, type: "consumable" },
     ],
   },
   {
@@ -6091,6 +5841,297 @@ export const CRAFT_ITEMS: TCraftItem[] = [
     },
   },
 ];
+export const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
+  forest: { currentLevel: 1, maxLevelReached: 1, unlocked: true },
+  desert: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  ice: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  volcano: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  castle: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+  abyss: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+};
+
+export const INITIAL_GLOBAL_UPGRADES: IGlobalUpgrades = {
+  clickPowerBonus: 0,
+  elementDamage: {
+    water: 0,
+    fire: 0,
+    earth: 0,
+    ice: 0,
+    light: 0,
+    dark: 0,
+    physical: 0,
+  },
+  collectionBuffs: {
+    elementDamage: {
+      water: 0,
+      fire: 0,
+      earth: 0,
+      ice: 0,
+      light: 0,
+      dark: 0,
+      physical: 0,
+    },
+    enemyTypeDamage: {},
+    critPowerBonus: 0,
+    gemBonus: 0,
+    expBonus: 0,
+  },
+};
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useBattle.ts ===== 
+import { useCallback, useEffect, useRef } from "react";
+import { useGameStore } from "../store/gameStore";
+import { BattleService } from "../services/BattleService";
+import { audioManager } from "../audio/AudioManager";
+import { LOCATIONS } from "../game/constant";
+
+const AUTO_ATTACK_INTERVAL = 1000;
+
+export function useBattle() {
+  const enemy = useGameStore((state) => state.enemy);
+  const ownedWaifus = useGameStore((state) => state.ownedWaifus);
+  const activeWaifuId = useGameStore((state) => state.activeWaifuId);
+  const globalUpgrades = useGameStore((state) => state.globalUpgrades);
+  const isPaused = useGameStore((state) => state.isPaused);
+  const currentLocation = useGameStore((state) => state.currentLocation);
+  const locationProgress = useGameStore((state) => state.locationProgress);
+  const dealDamage = useGameStore((state) => state.dealDamage);
+
+  const activeWaifu = ownedWaifus.find((w) => w.id === activeWaifuId);
+  const lastAttackRef = useRef(0);
+  const autoAttackIntervalRef = useRef<number | null>(null);
+
+  const handleClick = useCallback(
+    (
+      e: React.MouseEvent | React.TouchEvent,
+      onDamageDealt?: (damage: number, isCrit: boolean, x: number, y: number) => void,
+    ) => {
+      if (!enemy || !activeWaifu || isPaused) return;
+      const now = Date.now();
+      if (now - lastAttackRef.current < 100) return;
+      lastAttackRef.current = now;
+      audioManager.playClick();
+      const calculation = BattleService.calculateDamage(activeWaifu, enemy, globalUpgrades);
+      const actualDamage = dealDamage(calculation.base, calculation.isCrit);
+      let clientX: number;
+      let clientY: number;
+
+      if ("touches" in e) {
+        clientX = e.touches[0]?.clientX ?? window.innerWidth / 2;
+        clientY = e.touches[0]?.clientY ?? window.innerHeight / 2;
+      } else {
+        clientX = (e as React.MouseEvent).clientX;
+        clientY = (e as React.MouseEvent).clientY;
+      }
+      if (onDamageDealt) {
+        onDamageDealt(actualDamage, calculation.isCrit, clientX, clientY);
+      }
+      activeWaifu.recordClick(actualDamage);
+    },
+    [enemy, activeWaifu, isPaused, globalUpgrades, dealDamage],
+  );
+
+  // Автоклик
+  useEffect(() => {
+    // Очищаем предыдущий интервал
+    if (autoAttackIntervalRef.current) {
+      clearInterval(autoAttackIntervalRef.current);
+      autoAttackIntervalRef.current = null;
+    }
+
+    if (isPaused || !enemy || !activeWaifu) {
+      return;
+    }
+
+    autoAttackIntervalRef.current = window.setInterval(() => {
+      if (!enemy.isAlive()) {
+        // Если враг мёртв, очищаем интервал
+        if (autoAttackIntervalRef.current) {
+          clearInterval(autoAttackIntervalRef.current);
+          autoAttackIntervalRef.current = null;
+        }
+        return;
+      }
+      const calculation = BattleService.calculateDamage(activeWaifu, enemy, globalUpgrades);
+      dealDamage(calculation.base, calculation.isCrit);
+      audioManager.playClick();
+    }, AUTO_ATTACK_INTERVAL);
+
+    return () => {
+      if (autoAttackIntervalRef.current) {
+        clearInterval(autoAttackIntervalRef.current);
+        autoAttackIntervalRef.current = null;
+      }
+    };
+  }, [isPaused, enemy?.id, activeWaifu?.id, globalUpgrades, dealDamage]);
+
+  const currentLevel = locationProgress[currentLocation]?.currentLevel ?? 1;
+  const locationConfig = LOCATIONS.find((l) => l.id === currentLocation);
+
+  return {
+    handleClick,
+    enemy,
+    activeWaifu,
+    isPaused,
+    currentLevel,
+    locationConfig,
+  };
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useSave.ts ===== 
+import { useEffect, useCallback, useRef } from "react";
+import { useGameStore } from "../store/gameStore";
+
+const SAVE_KEY = "harem-clicker-save-v2";
+const BACKUP_KEY = "harem-clicker-backup-v2";
+const AUTO_SAVE_INTERVAL = 30000;
+
+export function useAutoSave() {
+  const saveTimeoutRef = useRef<number | null>(null);
+
+  const saveGame = useCallback(() => {
+    try {
+      const state = useGameStore.getState();
+      const serialized = useGameStore.persist.getOptions().partialize?.(state);
+
+      if (serialized) {
+        localStorage.setItem(SAVE_KEY, JSON.stringify(serialized));
+        localStorage.setItem(
+          "harem-clicker-last-save",
+          JSON.stringify({
+            timestamp: Date.now(),
+            version: "2.0.0",
+          }),
+        );
+        console.log("[useSave] Game saved");
+      }
+    } catch (error) {
+      console.error("[useSave] Save failed:", error);
+    }
+  }, []);
+
+  const loadGame = useCallback(() => {
+    try {
+      const saved = localStorage.getItem(SAVE_KEY);
+      const hasSave = saved !== null;
+      console.log("[useSave] Save check:", hasSave ? "found" : "not found");
+      return hasSave;
+    } catch (error) {
+      console.error("[useSave] Load check failed:", error);
+      return false;
+    }
+  }, []);
+
+  const createBackup = useCallback(() => {
+    try {
+      const current = localStorage.getItem(SAVE_KEY);
+      if (current) {
+        localStorage.setItem(BACKUP_KEY, current);
+        console.log("[useSave] Backup created");
+      }
+    } catch (error) {
+      console.error("[useSave] Backup failed:", error);
+    }
+  }, []);
+
+  const resetGame = useCallback(() => {
+    localStorage.removeItem(SAVE_KEY);
+    localStorage.removeItem(BACKUP_KEY);
+    localStorage.removeItem("harem-clicker-last-save");
+    window.location.reload();
+  }, []);
+
+  const exportSave = useCallback((): string | null => {
+    try {
+      const saved = localStorage.getItem(SAVE_KEY);
+      return saved ? btoa(saved) : null;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const importSave = useCallback((encoded: string): boolean => {
+    try {
+      const decoded = atob(encoded);
+      JSON.parse(decoded);
+      localStorage.setItem(SAVE_KEY, decoded);
+      return true;
+    } catch {
+      return false;
+    }
+  }, []);
+
+  useEffect(() => {
+    saveGame();
+
+    saveTimeoutRef.current = window.setInterval(() => {
+      saveGame();
+    }, AUTO_SAVE_INTERVAL);
+
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearInterval(saveTimeoutRef.current);
+      }
+    };
+  }, [saveGame]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      saveGame();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [saveGame]);
+
+  return {
+    saveGame,
+    loadGame,
+    createBackup,
+    resetGame,
+    exportSave,
+    importSave,
+  };
+}
+
+export function useSaveStatus() {
+  const getLastSaveTime = useCallback(() => {
+    try {
+      const data = localStorage.getItem("harem-clicker-last-save");
+      if (data) {
+        const parsed = JSON.parse(data);
+        return parsed.timestamp;
+      }
+    } catch {
+      return null;
+    }
+    return null;
+  }, []);
+
+  const getSaveSize = useCallback(() => {
+    try {
+      const saved = localStorage.getItem(SAVE_KEY);
+      return saved ? new Blob([saved]).size : 0;
+    } catch {
+      return 0;
+    }
+  }, []);
+
+  const hasSave = useCallback(() => {
+    return localStorage.getItem(SAVE_KEY) !== null;
+  }, []);
+
+  return {
+    getLastSaveTime,
+    getSaveSize,
+    hasSave,
+  };
+}
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\i18n.ts ===== 
@@ -6691,5 +6732,612 @@ export const locales = {
 } as const;
 
 export type Lang = keyof typeof locales;
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\BattleService.ts ===== 
+import type { Waifu } from "../classes/Waifu";
+import type { Enemy } from "../classes/Enemy";
+import type { IGlobalUpgrades } from "../types";
+
+export interface DamageCalculation {
+  base: number;
+  isCrit: boolean;
+  effectiveness: "weak" | "normal" | "resist";
+  elementMultiplier: number;
+}
+
+export interface RewardCalculation {
+  exp: number;
+  gems: number;
+  essence: number;
+  drops: Array<{ id: string; count: number }>;
+}
+
+export const BattleService = {
+  calculateDamage(waifu: Waifu, enemy: Enemy, _globalUpgrades: IGlobalUpgrades): DamageCalculation {
+    const clickPower = waifu.getClickPower();
+    const critChance = waifu.getCritChance();
+    const isCrit = Math.random() < critChance;
+
+    const elementMultiplier = waifu.getElementMultiplier(enemy.resistances);
+    let effectiveness: "weak" | "normal" | "resist" = "normal";
+
+    if (elementMultiplier > 1.3) {
+      effectiveness = "weak";
+    } else if (elementMultiplier < 0.7) {
+      effectiveness = "resist";
+    }
+
+    const base = Math.floor(clickPower * elementMultiplier);
+
+    return {
+      base,
+      isCrit,
+      effectiveness,
+      elementMultiplier,
+    };
+  },
+
+  calculateRewards(
+    enemy: Enemy,
+    locationBonus: {
+      gemMultiplier: number;
+      essenceMultiplier: number;
+      expMultiplier: number;
+      dropChanceMultiplier: number;
+    },
+    globalUpgrades: IGlobalUpgrades,
+    currentLevel: number,
+  ): RewardCalculation {
+    const gemBonus = globalUpgrades.collectionBuffs.gemBonus;
+    const expBonus = globalUpgrades.collectionBuffs.expBonus;
+
+    const exp = Math.floor(enemy.expReward * locationBonus.expMultiplier * (1 + expBonus));
+
+    const baseGems = Math.floor(10 + currentLevel / 5);
+    const gems = Math.floor(baseGems * locationBonus.gemMultiplier * (1 + gemBonus));
+
+    const baseEssence = 1;
+    const essence = Math.floor(baseEssence * locationBonus.essenceMultiplier);
+
+    const drops = enemy.rollDrops(locationBonus.dropChanceMultiplier);
+
+    return { exp, gems, essence, drops };
+  },
+
+  shouldAutoAttack(isPaused: boolean, enemyAlive: boolean, waifuExists: boolean): boolean {
+    return !isPaused && enemyAlive && waifuExists;
+  },
+};
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\gameStore.ts ===== 
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import type { GameState, PersistedGameState, SerializedWaifu, GameActions } from "./types";
+import { Inventory } from "../classes/Inventory";
+import { Waifu } from "../classes/Waifu";
+import { Enemy } from "../classes/Enemy";
+import {
+  testWaifus,
+  LOCATIONS,
+  LOCATION_UNLOCK_REQUIREMENTS,
+  INITIAL_LOCATION_PROGRESS,
+  INITIAL_GLOBAL_UPGRADES,
+} from "../game/constant";
+import type { TLocation, TElementType } from "../types";
+
+const createInitialState = (): GameState => ({
+  inventory: new Inventory(),
+  ownedWaifus: [Waifu.fromTemplate(testWaifus[0]!)],
+  activeWaifuId: testWaifus[0]?.id ?? null,
+  enemy: Enemy.spawn(1, "forest"),
+  currentLocation: "forest",
+  locationProgress: INITIAL_LOCATION_PROGRESS,
+  isPaused: false,
+  globalUpgrades: INITIAL_GLOBAL_UPGRADES,
+  panels: {
+    gacha: false,
+    collection: false,
+    waifuSelect: false,
+    upgrades: false,
+    backpack: false,
+    craft: false,
+    pause: false,
+    settings: false,
+    locationSelector: false,
+    waifuDetail: null,
+  },
+});
+
+export const useGameStore = create<GameState & GameActions>()(
+  persist(
+    (set, get) => ({
+      ...createInitialState(),
+      addItem: (itemId: string, count: number) => {
+        const current = get().inventory.clone();
+        current.addItem(itemId, count);
+        set({ inventory: current });
+      },
+      removeItem: (itemId: string, count: number): boolean => {
+        const current = get().inventory.clone();
+        const success = current.removeItem(itemId, count);
+        if (success) {
+          set({ inventory: current });
+        }
+        return success;
+      },
+      useItem: (itemId: string, waifuId?: string) => {
+        const current = get().inventory;
+        const result = current.useItem(itemId, waifuId);
+        if (result.success) {
+          const cloned = current.clone();
+          set({ inventory: cloned });
+        }
+        return result;
+      },
+      refreshInventory: () => {
+        const current = get().inventory.clone();
+        set({ inventory: current });
+      },
+      addWaifu: (waifu: Waifu) => {
+        const state = get();
+        const existing = state.ownedWaifus.find((w) => w.id === waifu.id);
+        if (existing) {
+          const updatedWaifus = state.ownedWaifus.map((w) => {
+            if (w.id === waifu.id) {
+              const newWaifu = w.clone();
+              newWaifu.addDuplicate();
+              newWaifu.setGlobalUpgrades(state.globalUpgrades);
+              return newWaifu;
+            }
+            return w;
+          });
+          set({ ownedWaifus: updatedWaifus });
+        } else {
+          waifu.setGlobalUpgrades(state.globalUpgrades);
+          set({
+            ownedWaifus: [...state.ownedWaifus, waifu],
+            activeWaifuId: state.activeWaifuId ?? waifu.id,
+          });
+        }
+      },
+      setActiveWaifu: (waifuId: string) => {
+        set({ activeWaifuId: waifuId });
+      },
+      removeWaifu: (waifuId: string) => {
+        set((state) => {
+          const newWaifus = state.ownedWaifus.filter((w) => w.id !== waifuId);
+          let newActiveId = state.activeWaifuId;
+          if (state.activeWaifuId === waifuId) {
+            newActiveId = newWaifus[0]?.id ?? null;
+          }
+          return {
+            ownedWaifus: newWaifus,
+            activeWaifuId: newActiveId,
+          };
+        });
+      },
+      refreshWaifus: () => {
+        const state = get();
+        const updatedWaifus = state.ownedWaifus.map((w) => {
+          const newWaifu = w.clone();
+          newWaifu.setGlobalUpgrades(state.globalUpgrades);
+          return newWaifu;
+        });
+        set({ ownedWaifus: updatedWaifus });
+      },
+      spawnEnemy: () => {
+        const state = get();
+        const level = state.locationProgress[state.currentLocation].currentLevel;
+        set({ enemy: Enemy.spawn(level, state.currentLocation) });
+      },
+      dealDamage: (damage: number, isCrit: boolean): number => {
+        const state = get();
+        const enemy = state.enemy;
+        const activeWaifu = state.ownedWaifus.find((w) => w.id === state.activeWaifuId);
+        if (!enemy || !activeWaifu) return 0;
+        const enemyTypeDamageBonus = state.globalUpgrades.collectionBuffs.enemyTypeDamage[enemy.nameKey] || 0;
+        const actualDamage = enemy.takeDamage(
+          {
+            type: activeWaifu.element,
+            amount: damage,
+            isCrit,
+            critMultiplier: activeWaifu.getCritMultiplier(),
+            source: activeWaifu.id,
+          },
+          enemyTypeDamageBonus,
+        );
+
+        // Создаем новый объект Enemy с обновленным HP
+        const newEnemy = Enemy.fromExisting(enemy, enemy.currentHp);
+        set({ enemy: newEnemy });
+
+        if (!newEnemy.isAlive()) {
+          setTimeout(() => {
+            const currentState = get();
+            if (currentState.enemy?.id === newEnemy.id && !currentState.enemy.isAlive()) {
+              currentState.defeatEnemy();
+            }
+          }, 100);
+        }
+
+        return actualDamage;
+      },
+      defeatEnemy: () => {
+        const state = get();
+        const enemy = state.enemy;
+        if (!enemy) return;
+        const locationConfig = LOCATIONS.find((l) => l.id === state.currentLocation);
+        if (!locationConfig) return;
+        const bonuses = locationConfig.bonuses;
+        const gemBonus = state.globalUpgrades.collectionBuffs.gemBonus;
+        const expBonus = state.globalUpgrades.collectionBuffs.expBonus;
+        const expReward = Math.floor(enemy.expReward * bonuses.expMultiplier * (1 + expBonus));
+        const activeWaifu = state.ownedWaifus.find((w) => w.id === state.activeWaifuId);
+        if (activeWaifu) {
+          const leveledUp = activeWaifu.addExp(expReward);
+          if (leveledUp) {
+            set({ ownedWaifus: [...state.ownedWaifus] });
+          }
+        }
+        const currentLevel = state.locationProgress[state.currentLocation].currentLevel;
+        const baseGems = Math.floor(10 + currentLevel / 5);
+        const boostedGems = Math.floor(baseGems * bonuses.gemMultiplier * (1 + gemBonus));
+        state.addItem("gem", boostedGems);
+        const baseEssence = 1;
+        const boostedEssence = Math.floor(baseEssence * bonuses.essenceMultiplier);
+        state.addItem("essence", Math.max(1, boostedEssence));
+        const baseDrops = enemy.rollDrops(bonuses.dropChanceMultiplier);
+        for (const drop of baseDrops) {
+          const boostedCount = Math.floor(drop.count * bonuses.dropChanceMultiplier);
+          state.addItem(drop.id, Math.max(1, boostedCount));
+        }
+
+        set((currentState) => {
+          const newProgress = {
+            ...currentState.locationProgress,
+            [currentState.currentLocation]: {
+              ...currentState.locationProgress[currentState.currentLocation],
+              currentLevel: currentState.locationProgress[currentState.currentLocation].currentLevel + 1,
+              maxLevelReached: Math.max(
+                currentState.locationProgress[currentState.currentLocation].maxLevelReached,
+                currentState.locationProgress[currentState.currentLocation].currentLevel + 1,
+              ),
+            },
+          };
+
+          setTimeout(() => {
+            const finalState = get();
+            finalState.checkLocationUnlocks();
+            finalState.spawnEnemy();
+          }, 0);
+
+          return { locationProgress: newProgress };
+        });
+      },
+      changeLocation: (location: TLocation) => {
+        set({ currentLocation: location });
+        setTimeout(() => {
+          get().spawnEnemy();
+        }, 0);
+      },
+      setPaused: (paused: boolean) => {
+        set({ isPaused: paused });
+      },
+      checkLocationUnlocks: () => {
+        const state = get();
+        const newProgress = { ...state.locationProgress };
+        let changed = false;
+        for (const [locationId, requirement] of Object.entries(LOCATION_UNLOCK_REQUIREMENTS)) {
+          const locId = locationId as TLocation;
+          if (!newProgress[locId].unlocked && requirement) {
+            const prevLocation = requirement.prevLocation;
+            if (newProgress[prevLocation].maxLevelReached >= requirement.killLevel) {
+              newProgress[locId].unlocked = true;
+              changed = true;
+            }
+          }
+        }
+        if (changed) {
+          set({ locationProgress: newProgress });
+        }
+      },
+      openPanel: (panel: keyof GameState["panels"]) => {
+        set((state) => ({
+          panels: { ...state.panels, [panel]: true },
+        }));
+      },
+      closePanel: (panel: keyof GameState["panels"]) => {
+        set((state) => ({
+          panels: { ...state.panels, [panel]: false },
+        }));
+      },
+      togglePanel: (panel: keyof GameState["panels"]) => {
+        set((state) => ({
+          panels: { ...state.panels, [panel]: !state.panels[panel] },
+        }));
+      },
+      upgradeClickPower: (): boolean => {
+        const state = get();
+        const currentLevel = state.globalUpgrades.clickPowerBonus;
+        const cost = Math.floor(10 * Math.pow(1.5, currentLevel));
+        const inventory = state.inventory.clone();
+        if (!inventory.removeItem("gem", cost)) {
+          return false;
+        }
+        set({
+          inventory,
+          globalUpgrades: {
+            ...state.globalUpgrades,
+            clickPowerBonus: currentLevel + 1,
+          },
+        });
+        get().refreshWaifus();
+        return true;
+      },
+      upgradeElement: (element: TElementType): boolean => {
+        const state = get();
+        const currentLevel = state.globalUpgrades.elementDamage[element];
+        const cost = Math.floor(100 * Math.pow(1.5, currentLevel));
+        const inventory = state.inventory.clone();
+        if (!inventory.removeItem("gem", cost)) {
+          return false;
+        }
+        set({
+          inventory,
+          globalUpgrades: {
+            ...state.globalUpgrades,
+            elementDamage: {
+              ...state.globalUpgrades.elementDamage,
+              [element]: currentLevel + 1,
+            },
+          },
+        });
+        get().refreshWaifus();
+        return true;
+      },
+      resetGame: () => {
+        localStorage.removeItem("harem-clicker-save-v2");
+        window.location.reload();
+      },
+      loadGame: (_savedState: Partial<GameState>) => {
+        console.log("[Store] Load game");
+      },
+    }),
+    {
+      name: "harem-clicker-save-v2",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        inventory: state.inventory.serialize(),
+        ownedWaifus: state.ownedWaifus.map((w) => ({
+          id: w.id,
+          stats: { ...w.stats },
+          duplicateCount: w.duplicateCount,
+          unlockedOutfits: [...w.unlockedOutfits],
+          currentOutfit: w.currentOutfit,
+        })),
+        activeWaifuId: state.activeWaifuId,
+        currentLocation: state.currentLocation,
+        locationProgress: state.locationProgress,
+        globalUpgrades: state.globalUpgrades,
+        // НЕ сохраняем: enemy, panels, isPaused
+      }),
+      merge: (persistedState, currentState) => {
+        if (!persistedState || typeof persistedState !== "object") {
+          return currentState;
+        }
+        const saved = persistedState as Partial<PersistedGameState>;
+        const inventory = new Inventory();
+        if (saved.inventory && typeof saved.inventory === "string") {
+          try {
+            inventory.deserialize(saved.inventory);
+          } catch (e) {
+            console.warn("[Store] Failed to deserialize inventory:", e);
+          }
+        }
+        const ownedWaifus =
+          (saved.ownedWaifus as SerializedWaifu[] | undefined)?.map((data) => {
+            try {
+              const template = testWaifus.find((t) => t.id === data.id);
+              const waifu = template ? Waifu.fromTemplate(template) : Waifu.createDefault();
+              waifu.stats = { ...data.stats };
+              waifu.duplicateCount = data.duplicateCount;
+              waifu.unlockedOutfits = data.unlockedOutfits || [];
+              waifu.currentOutfit = data.currentOutfit || "default";
+              return waifu;
+            } catch (e) {
+              console.warn(`[Store] Failed to deserialize waifu ${data?.id}:`, e);
+              return Waifu.createDefault();
+            }
+          }) ?? currentState.ownedWaifus;
+
+        const mergedState = {
+          ...currentState,
+          inventory,
+          ownedWaifus,
+          activeWaifuId: saved.activeWaifuId ?? currentState.activeWaifuId,
+          currentLocation: saved.currentLocation ?? currentState.currentLocation,
+          locationProgress: saved.locationProgress ?? currentState.locationProgress,
+          globalUpgrades: saved.globalUpgrades ?? currentState.globalUpgrades,
+        };
+
+        const level = mergedState.locationProgress[mergedState.currentLocation].currentLevel;
+        mergedState.enemy = Enemy.spawn(level, mergedState.currentLocation);
+
+        return mergedState;
+      },
+      onRehydrateStorage: () => (_state, _error) => {
+        if (_error) {
+          console.error("[Store] Rehydration failed:", _error);
+        } else {
+          console.log("[Store] Rehydration successful");
+        }
+      },
+    },
+  ),
+);
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\types.ts ===== 
+import type { Inventory } from "../classes/Inventory";
+import type { Waifu } from "../classes/Waifu";
+import type { Enemy } from "../classes/Enemy";
+import type { TLocation, TLocationProgress, IGlobalUpgrades, TElementType } from "../types";
+
+export interface GameState {
+  inventory: Inventory;
+  ownedWaifus: Waifu[];
+  activeWaifuId: string | null;
+  enemy: Enemy | null;
+  currentLocation: TLocation;
+  locationProgress: TLocationProgress;
+  isPaused: boolean;
+  globalUpgrades: IGlobalUpgrades;
+  panels: {
+    gacha: boolean;
+    collection: boolean;
+    waifuSelect: boolean;
+    upgrades: boolean;
+    backpack: boolean;
+    craft: boolean;
+    pause: boolean;
+    settings: boolean;
+    locationSelector: boolean;
+    waifuDetail: string | null;
+  };
+}
+
+export interface GameActions {
+  addItem: (itemId: string, count: number) => void;
+  removeItem: (itemId: string, count: number) => boolean;
+  useItem: (itemId: string, waifuId?: string) => UseItemResult;
+  refreshInventory: () => void;
+  addWaifu: (waifu: Waifu) => void;
+  setActiveWaifu: (waifuId: string) => void;
+  removeWaifu: (waifuId: string) => void;
+  refreshWaifus: () => void;
+  spawnEnemy: () => void;
+  dealDamage: (damage: number, isCrit: boolean) => number;
+  defeatEnemy: () => void;
+  changeLocation: (location: TLocation) => void;
+  setPaused: (paused: boolean) => void;
+  checkLocationUnlocks: () => void;
+  openPanel: (panel: keyof GameState["panels"]) => void;
+  closePanel: (panel: keyof GameState["panels"]) => void;
+  togglePanel: (panel: keyof GameState["panels"]) => void;
+  upgradeClickPower: () => boolean;
+  upgradeElement: (element: TElementType) => boolean;
+  resetGame: () => void;
+  loadGame: (savedState: Partial<GameState>) => void;
+}
+
+export interface UseItemResult {
+  success: boolean;
+  effect?: {
+    type: string;
+    value: number;
+    target: string;
+  };
+  message?: string;
+}
+
+export interface PersistedGameState {
+  inventory: string;
+  ownedWaifus: SerializedWaifu[];
+  activeWaifuId: string | null;
+  currentLocation: TLocation;
+  locationProgress: TLocationProgress;
+  globalUpgrades: IGlobalUpgrades;
+}
+
+export interface SerializedWaifu {
+  id: string;
+  stats: {
+    level: number;
+    affection: number;
+    exp: number;
+    expToNext: number;
+    clicksGenerated: number;
+    totalDamage: number;
+  };
+  duplicateCount: number;
+  unlockedOutfits: string[];
+  currentOutfit: string;
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\middleware\saveMiddleware.ts ===== 
+import { StateCreator } from "zustand";
+import type { GameState } from "../types";
+
+const AUTO_SAVE_INTERVAL = 30000;
+
+export function createSaveMiddleware<T extends GameState>(config: StateCreator<T>): StateCreator<T> {
+  return (set, get, api) => {
+    const store = config(set, get, api);
+
+    let saveInterval: number | null = null;
+
+    const save = () => {
+      try {
+        localStorage.setItem(
+          "harem-clicker-last-save",
+          JSON.stringify({
+            timestamp: Date.now(),
+            version: "2.0.0",
+          }),
+        );
+        console.log("[SaveMiddleware] Game saved successfully");
+      } catch (error) {
+        console.error("[SaveMiddleware] Save failed:", error);
+      }
+    };
+
+    const startAutoSave = () => {
+      if (saveInterval) return;
+      saveInterval = window.setInterval(save, AUTO_SAVE_INTERVAL);
+    };
+
+    const stopAutoSave = () => {
+      if (saveInterval) {
+        clearInterval(saveInterval);
+        saveInterval = null;
+      }
+    };
+
+    const manualSave = () => {
+      save();
+    };
+
+    const getLastSaveTime = (): number | null => {
+      try {
+        const data = localStorage.getItem("harem-clicker-last-save");
+        if (data) {
+          const parsed = JSON.parse(data);
+          return parsed.timestamp;
+        }
+      } catch {
+        return null;
+      }
+      return null;
+    };
+
+    const clearSave = () => {
+      localStorage.removeItem("harem-clicker-save-v2");
+      localStorage.removeItem("harem-clicker-last-save");
+    };
+
+    (store as any).saveUtils = {
+      startAutoSave,
+      stopAutoSave,
+      manualSave,
+      getLastSaveTime,
+      clearSave,
+    };
+
+    return store;
+  };
+}
  
  

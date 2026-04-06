@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { t } from "../../../../locales/i18n";
-import { Inventory } from "../../../../classes/Inventory";
+import { useGameStore } from "../../../../store/gameStore";
 import { CRAFT_ITEMS, INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
 import type { TCraftItem } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
@@ -9,7 +9,6 @@ import "./CraftPanel.css";
 interface CraftPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  inventory: Inventory;
   onCraft: (item: TCraftItem) => void;
   onUseItem: (itemId: string) => void;
   selectedWaifuId?: string;
@@ -17,56 +16,41 @@ interface CraftPanelProps {
 
 type CraftTab = "craft" | "use";
 
-export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, selectedWaifuId }: CraftPanelProps) {
-  // ВСЕ хуки должны быть вызваны ДО любого условного возврата!
+export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuId }: CraftPanelProps) {
   const [activeTab, setActiveTab] = useState<CraftTab>("craft");
   const [selectedCraftItem, setSelectedCraftItem] = useState<TCraftItem | null>(null);
 
-  // Мемоизируем функции
-  const canCraft = useCallback(
-    (item: TCraftItem): boolean => {
-      return item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
-    },
-    [inventory],
-  );
-
-  const getMissingIngredients = useCallback(
-    (item: TCraftItem): string[] => {
-      return item.ingredients
-        .filter((ing) => inventory.getItemCount(ing.itemId) < ing.count)
-        .map((ing) => t(`items.${INVENTORY_ITEMS[ing.itemId]?.nameKey || ing.itemId}.name`));
-    },
-    [inventory],
-  );
-
-  // Используем строковое представление inventory для стабильности
-  const inventoryKey = useMemo(() => {
-    return inventory.serialize();
-  }, [inventory]);
+  const inventory = useGameStore((state) => state.inventory);
 
   const craftableItems = useMemo(() => {
-    return CRAFT_ITEMS.map((item) => ({
-      ...item,
-      canCraft: canCraft(item),
-      missingIngredients: getMissingIngredients(item),
-    }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inventoryKey]);
+    return CRAFT_ITEMS.map((item) => {
+      const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
+      const missingIngredients = item.ingredients
+        .filter((ing) => inventory.getItemCount(ing.itemId) < ing.count)
+        .map((ing) => t(`items.${INVENTORY_ITEMS[ing.itemId]?.nameKey || ing.itemId}.name`));
+
+      return {
+        ...item,
+        canCraft,
+        missingIngredients,
+      };
+    });
+  }, [inventory]);
 
   const consumableItems = useMemo(() => {
     return inventory.getItemsByType("consumable");
-  }, [inventoryKey]);
+  }, [inventory]);
 
   const handleCraft = useCallback(
     (item: TCraftItem) => {
-      if (canCraft(item)) {
+      const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
+      if (canCraft) {
         onCraft(item);
       }
     },
-    [canCraft, onCraft],
+    [inventory, onCraft],
   );
 
-  // Условный возврат ДОЛЖЕН быть ПОСЛЕ всех хуков!
   if (!isOpen) return null;
 
   return (
@@ -80,7 +64,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
             ✕
           </button>
         </div>
-
         <div className="craft-tabs">
           <button
             className={`craft-tab ${activeTab === "craft" ? "active" : ""}`}
@@ -94,7 +77,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
             {t("ui.useItems")}
           </button>
         </div>
-
         <div className="craft-content">
           {activeTab === "craft" ? (
             <div className="craft-list">
@@ -113,9 +95,7 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
                       {item.canCraft ? "✓" : "✕"}
                     </span>
                   </div>
-
                   <p className="craft-item-desc">{t(item.descriptionKey)}</p>
-
                   <div className="craft-ingredients">
                     {item.ingredients.map((ing) => {
                       const has = inventory.getItemCount(ing.itemId);
@@ -131,7 +111,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
                       );
                     })}
                   </div>
-
                   {item.effect && (
                     <div className="craft-effect">
                       <Icon name="upgrades" size="sm" />
@@ -178,7 +157,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
             </div>
           )}
         </div>
-
         {selectedCraftItem && (
           <div className="craft-modal-overlay" onClick={() => setSelectedCraftItem(null)}>
             <div className="craft-modal" onClick={(e) => e.stopPropagation()}>
@@ -186,7 +164,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
                 {t(`items.${selectedCraftItem.nameKey}.name`)}
               </h3>
               <p>{t(selectedCraftItem.descriptionKey)}</p>
-
               <div className="craft-modal-ingredients">
                 <h4>{t("ui.requiredMaterials")}</h4>
                 {selectedCraftItem.ingredients.map((ing) => {
@@ -204,7 +181,6 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
                   );
                 })}
               </div>
-
               <div className="craft-modal-actions">
                 <button className="btn-secondary" onClick={() => setSelectedCraftItem(null)}>
                   {t("ui.cancel")}
@@ -212,7 +188,9 @@ export function CraftPanel({ isOpen, onClose, inventory, onCraft, onUseItem, sel
                 <button
                   className="btn-primary"
                   onClick={() => handleCraft(selectedCraftItem)}
-                  disabled={!canCraft(selectedCraftItem)}
+                  disabled={
+                    !selectedCraftItem.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count)
+                  }
                 >
                   {t("ui.craft")}
                 </button>

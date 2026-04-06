@@ -3,16 +3,12 @@ import { Icon } from "../../../Icon/Icon";
 import "./UpgradePanel.css";
 import type { TElementType } from "../../../../types";
 import { ELEMENT_COLORS } from "../../../../game/constant";
+import { useGameStore } from "../../../../store/gameStore";
+import { useShallow } from "zustand/shallow";
 
 interface UpgradePanelProps {
   isOpen: boolean;
   onClose: () => void;
-  gems: number;
-  onUpgrade: (type: string, cost: number, element?: TElementType) => void;
-  upgradeLevels: {
-    clickPower: number;
-    elementDamage: Record<TElementType, number>;
-  };
 }
 
 interface UpgradeConfig {
@@ -26,7 +22,15 @@ interface UpgradeConfig {
   element?: TElementType;
 }
 
-export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }: UpgradePanelProps) {
+export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
+  const { gems, globalUpgrades, upgradeClickPower, upgradeElement } = useGameStore(
+    useShallow((state) => ({
+      gems: state.inventory.getItemCount("gem"),
+      globalUpgrades: state.globalUpgrades,
+      upgradeClickPower: state.upgradeClickPower,
+      upgradeElement: state.upgradeElement,
+    })),
+  );
   const getCost = (baseCost: number, level: number) => {
     const scaledLevel = Math.min(level, 100);
     return Math.floor(baseCost * Math.pow(1.5, scaledLevel));
@@ -40,7 +44,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "click",
       getCost: (lvl) => getCost(10, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 1000}`,
-      level: upgradeLevels.clickPower,
+      level: globalUpgrades.clickPowerBonus,
     },
     {
       id: "element_water",
@@ -49,7 +53,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "water",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.water,
+      level: globalUpgrades.elementDamage.water,
       element: "water",
     },
     {
@@ -59,7 +63,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "fire",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.fire,
+      level: globalUpgrades.elementDamage.fire,
       element: "fire",
     },
     {
@@ -69,7 +73,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "earth",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.earth,
+      level: globalUpgrades.elementDamage.earth,
       element: "earth",
     },
     {
@@ -79,7 +83,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "ice",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.ice,
+      level: globalUpgrades.elementDamage.ice,
       element: "ice",
     },
     {
@@ -89,7 +93,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "light",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.light,
+      level: globalUpgrades.elementDamage.light,
       element: "light",
     },
     {
@@ -99,7 +103,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "dark",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.dark,
+      level: globalUpgrades.elementDamage.dark,
       element: "dark",
     },
     {
@@ -109,7 +113,7 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
       icon: "physical",
       getCost: (lvl) => getCost(100, lvl),
       getEffect: (lvl) => `+${(lvl + 1) * 10}%`,
-      level: upgradeLevels.elementDamage.physical,
+      level: globalUpgrades.elementDamage.physical,
       element: "physical",
     },
   ];
@@ -117,7 +121,11 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
   const handleUpgrade = (upgrade: UpgradeConfig) => {
     const cost = upgrade.getCost(upgrade.level);
     if (gems >= cost) {
-      onUpgrade(upgrade.element ? "element" : upgrade.id, cost, upgrade.element);
+      if (upgrade.element) {
+        upgradeElement(upgrade.element);
+      } else {
+        upgradeClickPower();
+      }
     }
   };
 
@@ -138,16 +146,13 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
             <Icon name="close" size="md" />
           </button>
         </div>
-
         <div className="panel-content">
           <p className="upgrades-global-hint">{t("upgrades.globalHint")}</p>
-
           <div className="upgrade-list-modal">
             {upgrades.map((upgrade) => {
               const cost = upgrade.getCost(upgrade.level);
               const effect = upgrade.getEffect(upgrade.level);
               const canAfford = gems >= cost;
-
               return (
                 <div
                   key={upgrade.id}
@@ -169,7 +174,6 @@ export function UpgradePanel({ isOpen, onClose, gems, onUpgrade, upgradeLevels }
                       </span>
                     </div>
                   </div>
-
                   <button
                     type="button"
                     className="btn-upgrade-modal"

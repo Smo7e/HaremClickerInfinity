@@ -1,5 +1,4 @@
-// src/components/Game/components/GachaPanel/DropPoolPanel.tsx
-import { memo, useState } from "react";
+import { memo, useState, useMemo } from "react";
 import { t } from "../../../../locales/i18n";
 import { testWaifus, RARITY_COLORS, RARITY_KEYS } from "../../../../game/constant";
 import type { Waifu } from "../../../../classes/Waifu";
@@ -16,16 +15,18 @@ interface DropPoolPanelProps {
 
 const rarities: TRarity[] = ["mythic", "legendary", "epic", "rare", "uncommon", "common"];
 
-const GROUPED_WAIFUS = rarities.reduce(
-  (acc, rarity) => {
-    acc[rarity] = testWaifus.filter((w) => w.rarity === rarity);
-    return acc;
-  },
-  {} as Record<TRarity, TWaifu[]>,
-);
-
 export const DropPoolPanel = memo(({ isOpen, onClose, ownedWaifus }: DropPoolPanelProps) => {
   const [selectedRarity, setSelectedRarity] = useState<TRarity | "all">("all");
+
+  const groupedWaifus = useMemo(() => {
+    return rarities.reduce(
+      (acc, rarity) => {
+        acc[rarity] = testWaifus.filter((w) => w.rarity === rarity);
+        return acc;
+      },
+      {} as Record<TRarity, TWaifu[]>,
+    );
+  }, []);
 
   if (!isOpen) return null;
 
@@ -82,7 +83,7 @@ export const DropPoolPanel = memo(({ isOpen, onClose, ownedWaifus }: DropPoolPan
               </h3>
 
               <div className="waifu-grid">
-                {GROUPED_WAIFUS[rarity].map((template) => {
+                {groupedWaifus[rarity].map((template) => {
                   const status = getWaifuStatus(template.id);
 
                   return (

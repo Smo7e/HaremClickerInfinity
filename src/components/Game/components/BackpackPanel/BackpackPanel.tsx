@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { t } from "../../../../locales/i18n";
-import type { Inventory } from "../../../../classes/Inventory";
+import { useGameStore } from "../../../../store/gameStore";
 import { RARITY_COLORS } from "../../../../game/constant";
 import "./BackpackPanel.css";
 import { Icon } from "../../../Icon/Icon";
@@ -8,21 +8,22 @@ import { Icon } from "../../../Icon/Icon";
 interface BackpackPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  inventory: Inventory;
   onUseItem: (itemId: string) => void;
   selectedWaifuId?: string;
 }
 
 type TabType = "all" | "consumable" | "material" | "currency";
 
-export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedWaifuId }: BackpackPanelProps) {
+export function BackpackPanel({ isOpen, onClose, onUseItem, selectedWaifuId }: BackpackPanelProps) {
   const [activeTab, setActiveTab] = useState<TabType>("all");
+
+  const inventory = useGameStore((state) => state.inventory);
 
   if (!isOpen) return null;
 
   const items = inventory.getAllItems();
-
   const filteredItems = activeTab === "all" ? items : items.filter((item) => item.type === activeTab);
+
   const tabs: { id: TabType; label: string; icon: string }[] = [
     { id: "all", label: t("ui.all"), icon: "all" },
     { id: "consumable", label: t("ui.consumables"), icon: "potion" },
@@ -41,7 +42,6 @@ export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedW
             ✕
           </button>
         </div>
-
         <div className="backpack-tabs">
           {tabs.map((tab) => (
             <button
@@ -54,7 +54,6 @@ export function BackpackPanel({ isOpen, onClose, inventory, onUseItem, selectedW
             </button>
           ))}
         </div>
-
         <div className="backpack-content">
           {filteredItems.length === 0 ? (
             <p className="empty-message">{t("ui.noItems")}</p>

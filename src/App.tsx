@@ -2,19 +2,25 @@ import { useState, useEffect, useCallback } from "react";
 import { MainMenu } from "./components/MainMenu/MainMenu";
 import { Settings } from "./components/Settings/Settings";
 import { Game } from "./components/Game/Game";
+import { ErrorBoundary } from "./components/ErrorBoundary/ErrorBoundary";
 import type { Lang } from "./locales/locales";
 import { getLang, setLang } from "./locales/i18n";
 import { audioManager } from "./audio/AudioManager";
+import { useAutoSave } from "./hooks/useSave";
+import { useGameStore } from "./store/gameStore";
 
 export type TScreen = "menu" | "game";
 
-function App() {
+function AppContent() {
   const [screen, setScreen] = useState<TScreen>("menu");
   const [isSettings, setIsSettings] = useState<boolean>(false);
   const [_, setCurrentLang] = useState<Lang>(getLang());
-
   const [isPaused, setIsPaused] = useState(false);
   const [audioInitialized, setAudioInitialized] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { loadGame } = useAutoSave();
+  const hasRehydrated = useGameStore.persist.hasHydrated();
 
   const initAudio = useCallback(async () => {
     if (!audioInitialized) {
@@ -35,6 +41,25 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const init = async () => {
+      try {
+        await useGameStore.persist.rehydrate();
+        const hasSave = loadGame();
+        if (hasSave) {
+          console.log("[App] Save loaded successfully");
+        }
+      } catch (error) {
+        console.error("[App] Failed to load save:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    init();
+    initAudio().catch(console.error);
+  }, [loadGame, initAudio]);
+
+  useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
         setIsPaused(true);
@@ -48,48 +73,56 @@ function App() {
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
-  useEffect(() => {
-    initAudio().catch(console.error);
 
-    // Проверяем, что мы реально внутри YaGames iframe
+  useEffect(() => {
     const isYaGamesAvailable = () => {
       try {
-        // @ts-ignore
         return window.YaGames && window.self !== window.top;
-      } catch (e) {
+      } catch {
         return false;
       }
     };
 
-    if (isYaGamesAvailable()) {
-      try {
-        // @ts-ignore
-        const ysdk = window.YaGames.ysdk;
+    if (!isYaGamesAvailable()) return;
 
-        const handlePause = () => {
-          setIsPaused(true);
-          audioManager.setMuted(true);
-        };
+    try {
+      //@ts-ignore
+      const ysdk = window.YaGames.ysdk;
 
-        const handleResume = () => {
-          setIsPaused(false);
-          audioManager.setMuted(false);
-        };
+      const handlePause = () => {
+        setIsPaused(true);
+        audioManager.setMuted(true);
+      };
 
+      const handleResume = () => {
+        setIsPaused(false);
+        audioManager.setMuted(false);
+      };
+
+      if (ysdk?.on) {
         ysdk.on("game_api_pause", handlePause);
         ysdk.on("game_api_resume", handleResume);
+      }
 
-        return () => {
+      return () => {
+        if (ysdk?.off) {
           ysdk.off("game_api_pause", handlePause);
           ysdk.off("game_api_resume", handleResume);
-        };
-      } catch (e) {
-        console.log("YaGames SDK error:", e);
-      }
-    } else {
-      console.log("YaGames not available (running locally)");
+        }
+      };
+    } catch (e) {
+      console.log("YaGames SDK not available in this environment:", e);
     }
   }, []);
+
+  if (isLoading || !hasRehydrated) {
+    return (
+      <div className="app-loading">
+        <div className="loading-spinner" />
+        <p>Загрузка...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="app">
@@ -105,7 +138,6 @@ function App() {
       ) : (
         <Game onBack={() => setScreen("menu")} isPaused={isPaused} />
       )}
-
       {isSettings && (
         <Settings
           setCurrentLang={handleLanguageChange}
@@ -115,6 +147,14 @@ function App() {
         />
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <AppContent />
+    </ErrorBoundary>
   );
 }
 
