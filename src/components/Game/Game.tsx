@@ -97,6 +97,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         }));
 
         removeItem(itemId, 1);
+        useGameStore.getState().spawnEnemy();
         return;
       }
 

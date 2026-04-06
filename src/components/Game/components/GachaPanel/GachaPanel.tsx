@@ -75,8 +75,15 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
         candidates.length > 0
           ? candidates[Math.floor(Math.random() * candidates.length)]!
           : available[Math.floor(Math.random() * available.length)]!;
+
       const waifu = Waifu.fromTemplate(selected);
-      const isDuplicate = ownedWaifus.some((w) => w.id === waifu.id);
+      const existing = ownedWaifus.find((w) => w.id === waifu.id);
+      const isDuplicate = !!existing;
+
+      if (isDuplicate && existing) {
+        waifu.duplicateCount = existing.duplicateCount + 1;
+      }
+
       setResult({ waifu, isDuplicate });
       setIsAnimating(false);
       removeItem("essence", 10);

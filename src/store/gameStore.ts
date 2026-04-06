@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { GameState, SerializedWaifu, GameActions } from "./types";
+import type { GameState, SerializedWaifu, GameActions, PersistedGameState } from "./types";
 import { Inventory } from "../classes/Inventory";
 import { Waifu } from "../classes/Waifu";
 import { Enemy } from "../classes/Enemy";
@@ -15,8 +15,8 @@ import type { TLocation, TElementType, TLocationProgress, IGlobalUpgrades, TBest
 
 const createInitialState = (): GameState => ({
   inventory: new Inventory(),
-  ownedWaifus: [Waifu.fromTemplate(testWaifus[0]!)],
-  activeWaifuId: testWaifus[0]?.id ?? null,
+  ownedWaifus: [Waifu.fromTemplate(testWaifus[testWaifus.length - 1]!)],
+  activeWaifuId: testWaifus[testWaifus.length - 1]?.id ?? null,
   enemy: Enemy.spawn(1, "forest"),
   currentLocation: "forest",
   locationProgress: INITIAL_LOCATION_PROGRESS,
@@ -156,7 +156,6 @@ export const useGameStore = create<GameState & GameActions>()(
         const enemy = state.enemy;
         if (!enemy) return;
 
-        // Записываем убийство в бестиарий
         get().recordEnemyKill(enemy.nameKey);
 
         const locationConfig = LOCATIONS.find((l) => l.id === state.currentLocation);
@@ -252,7 +251,7 @@ export const useGameStore = create<GameState & GameActions>()(
       upgradeClickPower: (): boolean => {
         const state = get();
         const currentLevel = state.globalUpgrades.clickPowerBonus;
-        const cost = Math.floor(10 + Math.pow(currentLevel, 2.3));
+        const cost = Math.floor(10 + Math.pow(currentLevel, 1.5));
 
         const inventory = state.inventory.clone();
         if (!inventory.removeItem("gem", cost)) {
@@ -296,7 +295,6 @@ export const useGameStore = create<GameState & GameActions>()(
       loadGame: (_savedState: Partial<GameState>) => {
         console.log("[Store] Load game");
       },
-      // Бестиарий
       recordEnemyKill: (enemyNameKey: string) => {
         set((state) => {
           const currentEntry = state.bestiary[enemyNameKey];
@@ -321,7 +319,7 @@ export const useGameStore = create<GameState & GameActions>()(
       name: "harem-clicker-save-v2",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => {
-        const partial = {
+        const partial: PersistedGameState = {
           inventory: state.inventory.serialize(),
           ownedWaifus: state.ownedWaifus.map((w) => ({
             id: w.id,
@@ -335,8 +333,21 @@ export const useGameStore = create<GameState & GameActions>()(
           locationProgress: state.locationProgress,
           globalUpgrades: state.globalUpgrades,
           bestiary: state.bestiary,
+          // Сохраняем текущего врага
+          enemy: state.enemy
+            ? {
+                id: state.enemy.id,
+                nameKey: state.enemy.nameKey,
+                level: state.enemy.level,
+                maxHp: state.enemy.maxHp,
+                currentHp: state.enemy.currentHp,
+                sprite: state.enemy.sprite,
+                isBoss: state.enemy.isBoss,
+                resistances: state.enemy.resistances,
+                drops: state.enemy.drops,
+              }
+            : null,
         };
-        console.log("[Store] partialize globalUpgrades:", partial.globalUpgrades);
         return partial;
       },
       merge: (persistedState, currentState) => {
@@ -383,6 +394,54 @@ export const useGameStore = create<GameState & GameActions>()(
           });
         }
 
+        // Восстанавливаем врага из сохранения или создаём нового
+        let enemy: Enemy | null = null;
+        const savedEnemy = saved.enemy as {
+          id: string;
+          nameKey: string;
+          level: number;
+          maxHp: number;
+          currentHp: number;
+          sprite: string;
+          isBoss: boolean;
+          resistances: Record<TElementType, number>;
+          drops: Array<{
+            id: string;
+            nameKey: string;
+            chance: number;
+            minCount: number;
+            maxCount: number;
+            type: "collection" | "consumable" | "material" | "currency";
+          }>;
+        } | null;
+
+        if (savedEnemy) {
+          try {
+            enemy = new Enemy({
+              id: savedEnemy.id,
+              nameKey: savedEnemy.nameKey,
+              level: savedEnemy.level,
+              maxHp: savedEnemy.maxHp,
+              resistances: savedEnemy.resistances,
+              sprite: savedEnemy.sprite,
+              isBoss: savedEnemy.isBoss,
+              drops: savedEnemy.drops,
+            });
+            enemy.currentHp = savedEnemy.currentHp;
+          } catch (e) {
+            console.warn("[Store] Failed to restore enemy:", e);
+            enemy = null;
+          }
+        }
+
+        // Если враг не восстановился, создаём нового
+        if (!enemy) {
+          const savedLocation = (saved.currentLocation as TLocation) ?? currentState.currentLocation;
+          const savedProgress = (saved.locationProgress as TLocationProgress) ?? currentState.locationProgress;
+          const level = savedProgress[savedLocation]?.currentLevel ?? 1;
+          enemy = Enemy.spawn(level, savedLocation);
+        }
+
         return {
           ...currentState,
           inventory,
@@ -392,12 +451,7 @@ export const useGameStore = create<GameState & GameActions>()(
           locationProgress: (saved.locationProgress as TLocationProgress) ?? currentState.locationProgress,
           globalUpgrades: mergedGlobalUpgrades,
           bestiary: mergedBestiary,
-          enemy: Enemy.spawn(
-            (saved.locationProgress as TLocationProgress)?.[
-              (saved.currentLocation as TLocation) ?? currentState.currentLocation
-            ]?.currentLevel ?? currentState.locationProgress[currentState.currentLocation].currentLevel,
-            (saved.currentLocation as TLocation) ?? currentState.currentLocation,
-          ),
+          enemy,
         };
       },
       onRehydrateStorage: () => (_state, _error) => {

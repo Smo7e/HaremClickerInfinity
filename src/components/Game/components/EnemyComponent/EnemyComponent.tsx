@@ -8,6 +8,8 @@ import type { TElementType } from "../../../../types";
 import { audioManager } from "../../../../audio/AudioManager";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
+import { BattleService } from "../../../../services/BattleService";
+import { useGameStore } from "../../../../store/gameStore";
 
 interface DropEffect {
   id: number;
@@ -37,6 +39,7 @@ interface EnemyComponentProps {
 
 const clickIdRef = { current: 0 };
 let dropIdCounter = 0;
+const AUTO_ATTACK_INTERVAL = 1000;
 
 export function EnemyComponent({
   enemy,
@@ -51,6 +54,11 @@ export function EnemyComponent({
   const [currentHp, setCurrentHp] = useState(() => enemy.currentHp);
 
   const enemyRef = useRef(enemy);
+  const autoAttackIntervalRef = useRef<number | null>(null);
+  const enemyContainerRef = useRef<HTMLDivElement>(null);
+
+  const globalUpgrades = useGameStore((state) => state.globalUpgrades);
+  const dealDamage = useGameStore((state) => state.dealDamage);
 
   useEffect(() => {
     enemyRef.current = enemy;
@@ -94,6 +102,68 @@ export function EnemyComponent({
     [],
   );
 
+  const performAttack = useCallback(
+    (isAuto: boolean = false) => {
+      if (!enemy || !activeWaifu) return;
+
+      const calculation = BattleService.calculateDamage(activeWaifu, enemy, globalUpgrades);
+      const actualDamage = dealDamage(calculation.base, calculation.isCrit);
+
+      let x: number, y: number;
+      if (isAuto && enemyContainerRef.current) {
+        const rect = enemyContainerRef.current.getBoundingClientRect();
+        x = rect.left + rect.width / 2 + (Math.random() - 0.5) * 60;
+        y = rect.top + rect.height / 2 + (Math.random() - 0.5) * 60;
+      } else {
+        x = window.innerWidth / 2;
+        y = window.innerHeight / 2;
+      }
+
+      addClickEffect(x, y, actualDamage, calculation.isCrit, activeWaifu.element, calculation.effectiveness);
+
+      const newHp = enemy.currentHp - actualDamage;
+      if (newHp <= 0) {
+        const drops = enemy.rollDrops(dropChanceMultiplier);
+        drops.forEach((drop, index) => {
+          setTimeout(() => {
+            addDropEffect(drop.id, drop.count, x + (Math.random() - 0.5) * 100, y + (Math.random() - 0.5) * 50);
+          }, index * 200);
+        });
+      }
+    },
+    [enemy, activeWaifu, globalUpgrades, dealDamage, dropChanceMultiplier, addClickEffect, addDropEffect],
+  );
+
+  useEffect(() => {
+    if (autoAttackIntervalRef.current) {
+      clearInterval(autoAttackIntervalRef.current);
+      autoAttackIntervalRef.current = null;
+    }
+
+    if (isPaused || !enemy || !activeWaifu) {
+      return;
+    }
+
+    autoAttackIntervalRef.current = window.setInterval(() => {
+      if (!enemy.isAlive()) {
+        if (autoAttackIntervalRef.current) {
+          clearInterval(autoAttackIntervalRef.current);
+          autoAttackIntervalRef.current = null;
+        }
+        return;
+      }
+      performAttack(true);
+      audioManager.playClick();
+    }, AUTO_ATTACK_INTERVAL);
+
+    return () => {
+      if (autoAttackIntervalRef.current) {
+        clearInterval(autoAttackIntervalRef.current);
+        autoAttackIntervalRef.current = null;
+      }
+    };
+  }, [isPaused, enemy?.id, activeWaifu?.id, performAttack]);
+
   const handleClick = useCallback(
     (e: React.MouseEvent | React.TouchEvent) => {
       if (isPaused || !activeWaifu) return;
@@ -125,7 +195,6 @@ export function EnemyComponent({
       const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
       addClickEffect(clientX, clientY, finalDamage, isCrit, activeWaifu.element, effectiveness);
 
-      // Проверяем смерть врага и показываем дроп
       const newHp = enemy.currentHp - finalDamage;
       if (newHp <= 0) {
         const drops = enemy.rollDrops(dropChanceMultiplier);
@@ -161,6 +230,7 @@ export function EnemyComponent({
         {enemy.isBoss && <span className="boss-badge">{t("ui.boss")}</span>}
       </div>
       <div
+        ref={enemyContainerRef}
         className={`enemy-sprite-container ${!enemy.isAlive() ? "defeated" : ""}`}
         onClick={handleClick}
         onTouchStart={handleClick}

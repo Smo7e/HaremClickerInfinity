@@ -135,7 +135,7 @@ export class Enemy {
       MAX_SAFE_HP,
       Math.max(50, template.baseHp * Math.pow(1.15, Math.min(level - 1, 200)) * Math.pow(locationScaling, 2)),
     );
-    const maxHp = Math.floor(isBoss ? baseHp * 5 : baseHp);
+    const maxHp = Math.floor(isBoss ? baseHp * 2 : baseHp);
 
     const resistances: Partial<Record<TElementType, number>> = {};
 
@@ -172,7 +172,7 @@ export class Enemy {
 
     if (isBoss) {
       drops.push({ id: "gem", nameKey: "gem", chance: 1, minCount: 50, maxCount: 50, type: "currency" });
-      drops.push({ id: "essence", nameKey: "essence", chance: 1, minCount: 5, maxCount: 5, type: "currency" });
+      drops.push({ id: "essence", nameKey: "essence", chance: 1, minCount: 1, maxCount: 5, type: "currency" });
     } else {
       drops.push({
         id: "gem",
@@ -182,7 +182,7 @@ export class Enemy {
         maxCount: 10 + Math.floor(level / 5),
         type: "currency",
       });
-      drops.push({ id: "essence", nameKey: "essence", chance: 1, minCount: 1, maxCount: 1, type: "currency" });
+      drops.push({ id: "essence", nameKey: "essence", chance: 0.1, minCount: 1, maxCount: 1, type: "currency" });
     }
 
     return new Enemy({

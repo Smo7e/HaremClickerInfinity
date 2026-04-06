@@ -7,6 +7,7 @@ import {
   LOCATION_BOSSES,
   INVENTORY_ITEMS,
   ELEMENT_COLORS,
+  ELEMENT_KEYS,
 } from "../../../../game/constant";
 import type { TLocation, TElementType } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
@@ -67,8 +68,37 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
 
     return map;
   }, [locationProgress]);
+  const getResistanceDisplay = (
+    value: number,
+  ): {
+    label: string;
+    color: string;
+    range: string;
+    isPositive: boolean;
+  } => {
+    if (value > 0) {
+      return {
+        label: t("ui.resist"),
+        color: "#ff6b6b",
+        range: `0-${Math.round(value * 100)}%`,
+        isPositive: true,
+      };
+    } else if (value < 0) {
+      return {
+        label: t("ui.weak"),
+        color: "#51cf66",
+        range: `0${Math.round(value * 100)}%`,
+        isPositive: false,
+      };
+    }
+    return {
+      label: t("ui.normal"),
+      color: "#9e9e9e",
+      range: "0%",
+      isPositive: true,
+    };
+  };
 
-  // Фильтруем только разблокированных врагов (хотя бы 1 убийство)
   const unlockedEnemies = useMemo(() => {
     return MONSTER_TEMPLATES.filter((template) => {
       const entry = bestiary[template.nameKey];
@@ -111,18 +141,6 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
       hasDropsUnlocked: killCount >= UNLOCK_THRESHOLDS.drops,
     };
   }, [selectedEnemy, bestiary, enemyLocations]);
-
-  const getResistanceLabel = (value: number): string => {
-    if (value > 0.3) return t("ui.resist");
-    if (value < -0.2) return t("ui.weak");
-    return t("ui.normal");
-  };
-
-  const getResistanceColor = (value: number): string => {
-    if (value > 0.3) return "#ff6b6b";
-    if (value < -0.2) return "#51cf66";
-    return "#9e9e9e";
-  };
 
   if (!isOpen) return null;
 
@@ -287,27 +305,31 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
                     <Icon name="shield" size="sm" /> {t("ui.resistances")}
                   </h4>
                   <div className="detail-resistances">
-                    {Object.entries(selectedEnemyData.resistances).length > 0 ? (
-                      Object.entries(selectedEnemyData.resistances).map(([element, value]) => {
-                        const numValue = value as number;
-                        return (
-                          <div
-                            key={element}
-                            className="resistance-item"
-                            style={{ borderColor: ELEMENT_COLORS[element as TElementType] }}
-                          >
-                            <Icon name={element} size="sm" />
-                            <span className="resistance-name">{t(`ui.${element}`)}</span>
-                            <span className="resistance-value" style={{ color: getResistanceColor(numValue) }}>
-                              {numValue > 0 ? "+" : ""}
-                              {Math.round(numValue * 100)}%
-                            </span>
-                            <span className="resistance-label" style={{ color: getResistanceColor(numValue) }}>
-                              {getResistanceLabel(numValue)}
-                            </span>
-                          </div>
-                        );
-                      })
+                    {Object.entries(selectedEnemyData.resistances).filter(([_, value]) => value !== 0).length > 0 ? (
+                      Object.entries(selectedEnemyData.resistances)
+                        .filter(([_, value]) => value !== 0)
+                        .map(([element, value]) => {
+                          const numValue = value as number;
+                          const display = getResistanceDisplay(numValue);
+                          return (
+                            <div
+                              key={element}
+                              className="resistance-item"
+                              style={{ borderColor: ELEMENT_COLORS[element as TElementType] }}
+                            >
+                              <Icon name={element} size="sm" />
+                              <span className="resistance-name">
+                                {t(`ui.${ELEMENT_KEYS[element as TElementType]}`)}
+                              </span>
+                              <span className="resistance-label" style={{ color: display.color }}>
+                                {display.label}
+                              </span>
+                              <span className="resistance-range" style={{ color: display.color, fontWeight: "bold" }}>
+                                {display.range}
+                              </span>
+                            </div>
+                          );
+                        })
                     ) : (
                       <span className="no-resists">{t("ui.noSpecialResists")}</span>
                     )}

@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { useGameStore } from "../store/gameStore";
 import { BattleService } from "../services/BattleService";
 import { audioManager } from "../audio/AudioManager";
 import { LOCATIONS } from "../game/constant";
-
-const AUTO_ATTACK_INTERVAL = 1000;
 
 export function useBattle() {
   const enemy = useGameStore((state) => state.enemy);
@@ -18,7 +16,6 @@ export function useBattle() {
 
   const activeWaifu = ownedWaifus.find((w) => w.id === activeWaifuId);
   const lastAttackRef = useRef(0);
-  const autoAttackIntervalRef = useRef<number | null>(null);
 
   const handleClick = useCallback(
     (
@@ -49,40 +46,6 @@ export function useBattle() {
     },
     [enemy, activeWaifu, isPaused, globalUpgrades, dealDamage],
   );
-
-  // Автоклик
-  useEffect(() => {
-    // Очищаем предыдущий интервал
-    if (autoAttackIntervalRef.current) {
-      clearInterval(autoAttackIntervalRef.current);
-      autoAttackIntervalRef.current = null;
-    }
-
-    if (isPaused || !enemy || !activeWaifu) {
-      return;
-    }
-
-    autoAttackIntervalRef.current = window.setInterval(() => {
-      if (!enemy.isAlive()) {
-        // Если враг мёртв, очищаем интервал
-        if (autoAttackIntervalRef.current) {
-          clearInterval(autoAttackIntervalRef.current);
-          autoAttackIntervalRef.current = null;
-        }
-        return;
-      }
-      const calculation = BattleService.calculateDamage(activeWaifu, enemy, globalUpgrades);
-      dealDamage(calculation.base, calculation.isCrit);
-      audioManager.playClick();
-    }, AUTO_ATTACK_INTERVAL);
-
-    return () => {
-      if (autoAttackIntervalRef.current) {
-        clearInterval(autoAttackIntervalRef.current);
-        autoAttackIntervalRef.current = null;
-      }
-    };
-  }, [isPaused, enemy?.id, activeWaifu?.id, globalUpgrades, dealDamage]);
 
   const currentLevel = locationProgress[currentLocation]?.currentLevel ?? 1;
   const locationConfig = LOCATIONS.find((l) => l.id === currentLocation);

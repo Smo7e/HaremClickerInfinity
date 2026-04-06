@@ -1,7 +1,14 @@
 import type { Inventory } from "../classes/Inventory";
 import type { Waifu } from "../classes/Waifu";
 import type { Enemy } from "../classes/Enemy";
-import type { TLocation, TLocationProgress, IGlobalUpgrades, TElementType, TBestiaryProgress } from "../types";
+import type {
+  TLocation,
+  TLocationProgress,
+  IGlobalUpgrades,
+  TElementType,
+  TBestiaryProgress,
+  TDropItem,
+} from "../types";
 
 export interface GameState {
   inventory: Inventory;
@@ -50,7 +57,6 @@ export interface GameActions {
   upgradeElement: (element: TElementType) => boolean;
   resetGame: () => void;
   loadGame: (savedState: Partial<GameState>) => void;
-  // Бестиарий
   recordEnemyKill: (enemyNameKey: string) => void;
   getBestiaryEntry: (enemyId: string) => { killCount: number; unlocked: boolean } | undefined;
 }
@@ -63,16 +69,6 @@ export interface UseItemResult {
     target: string;
   };
   message?: string;
-}
-
-export interface PersistedGameState {
-  inventory: string;
-  ownedWaifus: SerializedWaifu[];
-  activeWaifuId: string | null;
-  currentLocation: TLocation;
-  locationProgress: TLocationProgress;
-  globalUpgrades: IGlobalUpgrades;
-  bestiary: TBestiaryProgress;
 }
 
 export interface SerializedWaifu {
@@ -88,4 +84,27 @@ export interface SerializedWaifu {
   duplicateCount: number;
   unlockedOutfits: string[];
   currentOutfit: string;
+}
+
+export interface SerializedEnemy {
+  id: string;
+  nameKey: string;
+  level: number;
+  maxHp: number;
+  currentHp: number;
+  sprite: string;
+  isBoss: boolean;
+  resistances: Record<TElementType, number>;
+  drops: TDropItem[];
+}
+
+export interface PersistedGameState {
+  inventory: string;
+  ownedWaifus: SerializedWaifu[];
+  activeWaifuId: string | null;
+  currentLocation: TLocation;
+  locationProgress: TLocationProgress;
+  globalUpgrades: IGlobalUpgrades;
+  bestiary: TBestiaryProgress;
+  enemy: SerializedEnemy | null;
 }
