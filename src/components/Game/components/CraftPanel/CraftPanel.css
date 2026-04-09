@@ -4,6 +4,7 @@
   max-height: 80vh;
 }
 
+/* Основные вкладки (Создать / Использовать) */
 .craft-tabs {
   display: flex;
   gap: 8px;
@@ -30,16 +31,52 @@
   border-color: var(--accent-color);
 }
 
-.craft-content {
-  padding: 16px;
-  overflow-y: auto;
-  max-height: 60vh;
+/* Фильтры (Зелья, Свитки и т.д.) - стиль как у Collection */
+.craft-filters {
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-x: auto;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.1);
 }
 
+.craft-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  min-height: 36px;
+  font-size: 14px;
+}
+
+.craft-filter-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+.craft-filter-btn.active {
+  background: var(--rarity-epic);
+  color: white;
+}
+
+/* Список крафта - убран скролл, скроллит родитель */
 .craft-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
+  gap: 16px;
+  padding: 16px 20px;
+  /* overflow-y: auto; <-- УДАЛЕНО */
+  /* max-height: 60vh; <-- УДАЛЕНО */
 }
 
 .craft-item-card {
@@ -138,10 +175,12 @@
   color: var(--accent-color);
 }
 
+/* Список использования предметов */
 .use-items-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding: 0 20px 20px;
 }
 
 .use-item-card {
@@ -193,6 +232,7 @@
   cursor: not-allowed;
 }
 
+/* Модальное окно */
 .craft-modal-overlay {
   position: fixed;
   inset: 0;

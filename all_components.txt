@@ -180,6 +180,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Icon
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\LanguageSelector
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\TutorialPanel
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\ErrorBoundary\ErrorBoundary.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.css
@@ -235,6 +236,8 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu\MainMe
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu\MainMenu.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settings.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settings.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\TutorialPanel\TutorialPanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\TutorialPanel\TutorialPanel.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\constant.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\index.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useBattle.ts
@@ -400,6 +403,12 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\TutorialPanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\TutorialPanel\index.tsx ===== 
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\index.ts ===== 
@@ -2080,8 +2089,12 @@ type TabType = "all" | "consumable" | "material" | "currency";
 
 export function BackpackPanel({ isOpen, onClose, onUseItem, selectedWaifuId }: BackpackPanelProps) {
   const [activeTab, setActiveTab] = useState<TabType>("all");
-
   const inventory = useGameStore((state) => state.inventory);
+  const currentLocation = useGameStore((state) => state.currentLocation);
+  const locationProgress = useGameStore((state) => state.locationProgress);
+
+  // Текущий уровень активной локации
+  const currentLevel = locationProgress[currentLocation]?.currentLevel ?? 1;
 
   if (!isOpen) return null;
 
@@ -2123,29 +2136,37 @@ export function BackpackPanel({ isOpen, onClose, onUseItem, selectedWaifuId }: B
             <p className="empty-message">{t("ui.noItems")}</p>
           ) : (
             <div className="item-grid">
-              {filteredItems.map((item) => (
-                <div key={item.id} className={`item-card rarity-${item.rarity}`}>
-                  <div className="item-icon-container">
-                    <Icon name={item.icon} size="lg" />
-                    {item.count > 1 && <span className="item-count">{item.count}</span>}
+              {filteredItems.map((item) => {
+                // Безопасная подстановка уровня только для свитков понижения
+                let itemDesc = t(`items.${item.nameKey}.desc`);
+                if (itemDesc.includes("{{level}}")) {
+                  itemDesc = itemDesc.replace("{{level}}", currentLevel.toString());
+                }
+
+                return (
+                  <div key={item.id} className={`item-card rarity-${item.rarity}`}>
+                    <div className="item-icon-container">
+                      <Icon name={item.icon} size="lg" />
+                      {item.count > 1 && <span className="item-count">{item.count}</span>}
+                    </div>
+                    <div className="item-info">
+                      <span className="item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
+                        {t(`items.${item.nameKey}.name`)}
+                      </span>
+                      <span className="item-desc">{itemDesc}</span>
+                    </div>
+                    {item.type === "consumable" && (
+                      <button
+                        className="btn-use-item"
+                        onClick={() => onUseItem(item.id)}
+                        disabled={item.effect?.target === "selected_waifu" && !selectedWaifuId}
+                      >
+                        {t("ui.use")}
+                      </button>
+                    )}
                   </div>
-                  <div className="item-info">
-                    <span className="item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
-                      {t(`items.${item.nameKey}.name`)}
-                    </span>
-                    <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
-                  </div>
-                  {item.type === "consumable" && (
-                    <button
-                      className="btn-use-item"
-                      onClick={() => onUseItem(item.id)}
-                      disabled={item.effect?.target === "selected_waifu" && !selectedWaifuId}
-                    >
-                      {t("ui.use")}
-                    </button>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -3126,31 +3147,37 @@ interface CraftPanelProps {
 }
 
 type CraftTab = "craft" | "use";
+type CraftFilter = "all" | "potion" | "scroll" | "available";
 
 export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuId }: CraftPanelProps) {
   const [activeTab, setActiveTab] = useState<CraftTab>("craft");
   const [selectedCraftItem, setSelectedCraftItem] = useState<TCraftItem | null>(null);
-
+  const [craftFilter, setCraftFilter] = useState<CraftFilter>("all");
   const inventory = useGameStore((state) => state.inventory);
+  const currentLocation = useGameStore((state) => state.currentLocation);
+  const locationProgress = useGameStore((state) => state.locationProgress);
+  const currentLevel = locationProgress[currentLocation]?.currentLevel ?? 1;
 
   const craftableItems = useMemo(() => {
     return CRAFT_ITEMS.map((item) => {
       const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
-      const missingIngredients = item.ingredients
-        .filter((ing) => inventory.getItemCount(ing.itemId) < ing.count)
-        .map((ing) => t(`items.${INVENTORY_ITEMS[ing.itemId]?.nameKey || ing.itemId}.name`));
-
-      return {
-        ...item,
-        canCraft,
-        missingIngredients,
-      };
+      return { ...item, canCraft };
     });
   }, [inventory]);
 
   const consumableItems = useMemo(() => {
     return inventory.getItemsByType("consumable");
   }, [inventory]);
+
+  // Фильтрация по подкатегориям
+  const filteredCraftItems = useMemo(() => {
+    return craftableItems.filter((item) => {
+      if (craftFilter === "available") return item.canCraft;
+      if (craftFilter === "potion") return item.id.includes("potion") || item.icon.includes("potion");
+      if (craftFilter === "scroll") return item.id.includes("scroll") || item.icon.includes("scroll");
+      return true;
+    });
+  }, [craftableItems, craftFilter]);
 
   const handleCraft = useCallback(
     (item: TCraftItem) => {
@@ -3188,56 +3215,98 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
             {t("ui.useItems")}
           </button>
         </div>
-        <div className="craft-content">
+
+        <div className="panel-content">
           {activeTab === "craft" ? (
-            <div className="craft-list">
-              {craftableItems.map((item) => (
-                <div
-                  key={item.id}
-                  className={`craft-item-card ${item.canCraft ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
-                  onClick={() => setSelectedCraftItem(item)}
+            <>
+              {/* Фильтры в стиле коллекции */}
+              <div className="craft-filters">
+                <button
+                  className={`craft-filter-btn ${craftFilter === "all" ? "active" : ""}`}
+                  onClick={() => setCraftFilter("all")}
                 >
-                  <div className="craft-item-header">
-                    <Icon name={item.icon} size="md" />
-                    <span className="craft-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
-                      {t(`items.${item.nameKey}.name`)}
-                    </span>
-                    <span className={`craft-status ${item.canCraft ? "ready" : "locked"}`}>
-                      {item.canCraft ? "✓" : "✕"}
-                    </span>
-                  </div>
-                  <p className="craft-item-desc">{t(item.descriptionKey)}</p>
-                  <div className="craft-ingredients">
-                    {item.ingredients.map((ing) => {
-                      const has = inventory.getItemCount(ing.itemId);
-                      const needed = ing.count;
-                      const template = INVENTORY_ITEMS[ing.itemId];
-                      return (
-                        <div key={ing.itemId} className={`ingredient ${has >= needed ? "has" : "missing"}`}>
-                          <Icon name={template?.icon || "unknown"} size="sm" />
+                  <Icon name="all" size="sm" />
+                  <span>{t("ui.all")}</span>
+                </button>
+                <button
+                  className={`craft-filter-btn ${craftFilter === "potion" ? "active" : ""}`}
+                  onClick={() => setCraftFilter("potion")}
+                >
+                  <Icon name="potion" size="sm" />
+                  <span>{t("ui.potions")}</span>
+                </button>
+                <button
+                  className={`craft-filter-btn ${craftFilter === "scroll" ? "active" : ""}`}
+                  onClick={() => setCraftFilter("scroll")}
+                >
+                  <Icon name="scroll" size="sm" />
+                  <span>{t("ui.scrolls")}</span>
+                </button>
+                <button
+                  className={`craft-filter-btn ${craftFilter === "available" ? "active" : ""}`}
+                  onClick={() => setCraftFilter("available")}
+                >
+                  <Icon name="check" size="sm" />
+                  <span>{t("ui.available")}</span>
+                </button>
+              </div>
+
+              {/* Список рецептов (скроллится вместе с панелью) */}
+              <div className="craft-list">
+                {filteredCraftItems.length === 0 ? (
+                  <p className="empty-message">{t("ui.noItems")}</p>
+                ) : (
+                  filteredCraftItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className={`craft-item-card ${item.canCraft ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
+                      onClick={() => setSelectedCraftItem(item)}
+                    >
+                      <div className="craft-item-header">
+                        <Icon name={item.icon} size="md" />
+                        <span className="craft-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
+                          {t(`items.${item.nameKey}.name`)}
+                        </span>
+                        <span className={`craft-status ${item.canCraft ? "ready" : "locked"}`}>
+                          {item.canCraft ? "✓" : "✕"}
+                        </span>
+                      </div>
+                      <p className="craft-item-desc">
+                        {t(item.descriptionKey).replace("{{level}}", currentLevel.toString())}
+                      </p>
+                      <div className="craft-ingredients">
+                        {item.ingredients.map((ing) => {
+                          const has = inventory.getItemCount(ing.itemId);
+                          const needed = ing.count;
+                          const template = INVENTORY_ITEMS[ing.itemId];
+                          return (
+                            <div key={ing.itemId} className={`ingredient ${has >= needed ? "has" : "missing"}`}>
+                              <Icon name={template?.icon || "unknown"} size="sm" />
+                              <span>
+                                {has}/{needed} {t(`items.${template?.nameKey || ing.itemId}.name`)}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      {item.effect && (
+                        <div className="craft-effect">
+                          <Icon name="upgrades" size="sm" />
                           <span>
-                            {has}/{needed} {t(`items.${template?.nameKey || ing.itemId}.name`)}
+                            {item.effect.type === "level_down_10" && "-10 " + t("ui.levels")}
+                            {item.effect.type === "level_down_20" && "-20 " + t("ui.levels")}
+                            {item.effect.type === "level_down_50" && "-50 " + t("ui.levels")}
+                            {item.effect.type === "exp" && `+${item.effect.value} EXP`}
+                            {item.effect.type === "affection" && `+${item.effect.value} ${t("ui.affection")}`}
+                            {item.effect.type === "heal" && `+${item.effect.value} HP`}
                           </span>
                         </div>
-                      );
-                    })}
-                  </div>
-                  {item.effect && (
-                    <div className="craft-effect">
-                      <Icon name="upgrades" size="sm" />
-                      <span>
-                        {item.effect.type === "level_down_10" && "-10 " + t("ui.levels")}
-                        {item.effect.type === "level_down_20" && "-20 " + t("ui.levels")}
-                        {item.effect.type === "level_down_50" && "-50 " + t("ui.levels")}
-                        {item.effect.type === "exp" && `+${item.effect.value} EXP`}
-                        {item.effect.type === "affection" && `+${item.effect.value} ${t("ui.affection")}`}
-                        {item.effect.type === "heal" && `+${item.effect.value} HP`}
-                      </span>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
-            </div>
+                  ))
+                )}
+              </div>
+            </>
           ) : (
             <div className="use-items-list">
               {consumableItems.length === 0 ? (
@@ -3268,13 +3337,14 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
             </div>
           )}
         </div>
+
         {selectedCraftItem && (
           <div className="craft-modal-overlay" onClick={() => setSelectedCraftItem(null)}>
             <div className="craft-modal" onClick={(e) => e.stopPropagation()}>
               <h3 style={{ color: RARITY_COLORS[selectedCraftItem.rarity] }}>
                 {t(`items.${selectedCraftItem.nameKey}.name`)}
               </h3>
-              <p>{t(selectedCraftItem.descriptionKey)}</p>
+              <p>{t(selectedCraftItem.descriptionKey).replace("{{level}}", currentLevel.toString())}</p>
               <div className="craft-modal-ingredients">
                 <h4>{t("ui.requiredMaterials")}</h4>
                 {selectedCraftItem.ingredients.map((ing) => {
@@ -3425,7 +3495,7 @@ export function EnemyComponent({
     (isAuto: boolean = false) => {
       if (!enemy || !activeWaifu) return;
 
-      const calculation = BattleService.calculateDamage(activeWaifu, enemy, globalUpgrades);
+      const calculation = BattleService.calculateDamage(activeWaifu, enemy);
       const actualDamage = dealDamage(calculation.base, calculation.isCrit);
 
       let x: number, y: number;
@@ -4873,10 +4943,12 @@ export function LanguageSelector({
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu\MainMenu.tsx ===== 
+import { useState } from "react";
 import { t } from "../../locales/i18n";
 import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
 import type { Lang } from "../../locales/locales";
 import "./MainMenu.css";
+import { TutorialPanel } from "../TutorialPanel/TutorialPanel";
 
 interface Props {
   onPlay: () => void;
@@ -4885,6 +4957,8 @@ interface Props {
 }
 
 export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
+
   return (
     <div className="main-menu">
       <div className="main-menu-header">
@@ -4904,6 +4978,11 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
             {t("ui.play")}
           </button>
 
+          <button className="btn-secondary btn-tutorial" onClick={() => setIsTutorialOpen(true)}>
+            <span className="btn-icon">📖</span>
+            {t("tutorial.title")}
+          </button>
+
           <button className="btn-secondary btn-settings" onClick={onSettings}>
             <span className="btn-icon">⚙</span>
             {t("ui.settings")}
@@ -4914,6 +4993,8 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
       <div className="main-menu-footer">
         <span className="version">v0.1</span>
       </div>
+
+      <TutorialPanel isOpen={isTutorialOpen} onClose={() => setIsTutorialOpen(false)} />
     </div>
   );
 }
@@ -5111,6 +5192,352 @@ export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPa
             {t("ui.back")}
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\TutorialPanel\TutorialPanel.tsx ===== 
+import { useState } from "react";
+import { t } from "../../locales/i18n";
+import { Icon } from "../Icon/Icon";
+
+import "./TutorialPanel.css";
+
+interface TutorialPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+type TutorialTab = "basics" | "combat" | "locations" | "waifus" | "upgrades" | "craft" | "collection";
+
+export function TutorialPanel({ isOpen, onClose }: TutorialPanelProps) {
+  const [activeTab, setActiveTab] = useState<TutorialTab>("basics");
+
+  if (!isOpen) return null;
+
+  const tabs: { id: TutorialTab; label: string; icon: string }[] = [
+    { id: "basics", label: t("tutorial.basics"), icon: "click" },
+    { id: "combat", label: t("tutorial.combat"), icon: "crit" },
+    { id: "locations", label: t("tutorial.locations"), icon: "pool" },
+    { id: "waifus", label: t("tutorial.waifus"), icon: "waifus" },
+    { id: "upgrades", label: t("tutorial.upgrades"), icon: "upgrades" },
+    { id: "craft", label: t("tutorial.craft"), icon: "collection" },
+    { id: "collection", label: t("tutorial.collection"), icon: "backpack" },
+  ];
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "basics":
+        return (
+          <div className="tutorial-content">
+            <h3>{t("tutorial.basicsTitle")}</h3>
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="click" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.clickTitle")}</h4>
+                <p>{t("tutorial.clickDesc")}</p>
+              </div>
+            </div>
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="gem" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.currencyTitle")}</h4>
+                <p>{t("tutorial.currencyDesc")}</p>
+                <div className="tutorial-currencies">
+                  <span className="currency-tag gem">
+                    <Icon name="gem" size="vsm" /> {t("items.gem.name")}
+                  </span>
+                  <span className="currency-tag essence">
+                    <Icon name="essence" size="vsm" /> {t("items.essence.name")}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="tutorial-notice">
+              <Icon name="check" size="sm" />
+              <span>{t("tutorial.autoSaveTip")}</span>
+            </div>
+          </div>
+        );
+
+      case "combat":
+        return (
+          <div className="tutorial-content">
+            <h3>{t("tutorial.combatTitle")}</h3>
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="crit" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.critTitle")}</h4>
+                <p>{t("tutorial.critDesc")}</p>
+              </div>
+            </div>
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="weak" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.elementsTitle")}</h4>
+                <p>{t("tutorial.elementsDesc")}</p>
+                <div className="elements-grid">
+                  {["water", "fire", "earth", "ice", "light", "dark", "physical"].map((el) => (
+                    <span key={el} className={`element-tag ${el}`}>
+                      <Icon name={el} size="sm" /> {t(`ui.${el}`)}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="tutorial-warning">
+              <Icon name="shield" size="sm" />
+              <span>{t("tutorial.resistWarning")}</span>
+            </div>
+          </div>
+        );
+
+      case "locations":
+        return (
+          <div className="tutorial-content">
+            <h3>{t("tutorial.locationsTitle")}</h3>
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="forest" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.locationChangeTitle")}</h4>
+                <p>{t("tutorial.locationChangeDesc")}</p>
+              </div>
+            </div>
+
+            <div className="tutorial-card highlight">
+              <div className="tutorial-card-icon">
+                <Icon name="scroll" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.scrollsTitle")}</h4>
+                <p>{t("tutorial.scrollsDesc")}</p>
+                <div className="scrolls-list">
+                  <div className="scroll-item">
+                    <span className="scroll-name">{t("items.levelDownScroll10.name")}</span>
+                    <span className="scroll-effect">-10 {t("ui.levels")}</span>
+                  </div>
+                  <div className="scroll-item">
+                    <span className="scroll-name">{t("items.levelDownScroll20.name")}</span>
+                    <span className="scroll-effect">-20 {t("ui.levels")}</span>
+                  </div>
+                  <div className="scroll-item">
+                    <span className="scroll-name">{t("items.levelDownScroll50.name")}</span>
+                    <span className="scroll-effect">-50 {t("ui.levels")}</span>
+                  </div>
+                </div>
+                <p className="tutorial-hint">{t("tutorial.scrollsHint")}</p>
+              </div>
+            </div>
+
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="pool" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.locationBonusTitle")}</h4>
+                <p>{t("tutorial.locationBonusDesc")}</p>
+              </div>
+            </div>
+          </div>
+        );
+
+      case "waifus":
+        return (
+          <div className="tutorial-content">
+            <h3>{t("tutorial.waifusTitle")}</h3>
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="gacha" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.gachaTitle")}</h4>
+                <p>{t("tutorial.gachaDesc")}</p>
+                <div className="cost-badge">
+                  <Icon name="essence" size="sm" /> 10 {t("ui.essence")}
+                </div>
+              </div>
+            </div>
+
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="duplicate" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.duplicatesTitle")}</h4>
+                <p>{t("tutorial.duplicatesDesc")}</p>
+                <div className="bonus-tag">+30% {t("ui.stats")}</div>
+              </div>
+            </div>
+
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="level" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.expTitle")}</h4>
+                <p>{t("tutorial.expDesc")}</p>
+              </div>
+            </div>
+          </div>
+        );
+
+      case "upgrades":
+        return (
+          <div className="tutorial-content">
+            <h3>{t("tutorial.upgradesTitle")}</h3>
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="upgrades" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.globalUpgradesTitle")}</h4>
+                <p>{t("tutorial.globalUpgradesDesc")}</p>
+              </div>
+            </div>
+
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="click" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.clickPowerTitle")}</h4>
+                <p>{t("tutorial.clickPowerDesc")}</p>
+              </div>
+            </div>
+
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="fire" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.elementUpgradesTitle")}</h4>
+                <p>{t("tutorial.elementUpgradesDesc")}</p>
+              </div>
+            </div>
+
+            <div className="tutorial-notice">
+              <Icon name="gem" size="sm" />
+              <span>{t("tutorial.upgradeCostTip")}</span>
+            </div>
+          </div>
+        );
+
+      case "craft":
+        return (
+          <div className="tutorial-content">
+            <h3>{t("tutorial.craftTitle")}</h3>
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="collection" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.craftingTitle")}</h4>
+                <p>{t("tutorial.craftingDesc")}</p>
+              </div>
+            </div>
+
+            <div className="tutorial-grid">
+              <div className="tutorial-mini-card">
+                <Icon name="scroll" size="md" />
+                <span>{t("items.expScroll500.name")}</span>
+              </div>
+              <div className="tutorial-mini-card">
+                <Icon name="potion" size="md" />
+                <span>{t("items.affectionPotion.name")}</span>
+              </div>
+              <div className="tutorial-mini-card highlight">
+                <Icon name="scroll" size="md" />
+                <span>{t("items.levelDownScroll10.name")}</span>
+              </div>
+            </div>
+
+            <div className="tutorial-warning">
+              <Icon name="backpack" size="sm" />
+              <span>{t("tutorial.materialsTip")}</span>
+            </div>
+          </div>
+        );
+
+      case "collection":
+        return (
+          <div className="tutorial-content">
+            <h3>{t("tutorial.collectionTitle")}</h3>
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="backpack" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.collectionItemsTitle")}</h4>
+                <p>{t("tutorial.collectionItemsDesc")}</p>
+              </div>
+            </div>
+
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="upgrades" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.buffsTitle")}</h4>
+                <p>{t("tutorial.buffsDesc")}</p>
+                <div className="buff-examples">
+                  <span className="buff-tag">+50% {t("tutorial.vsSlimes")}</span>
+                  <span className="buff-tag">+20% {t("tutorial.darkDamage")}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="tutorial-card">
+              <div className="tutorial-card-icon">
+                <Icon name="collection" size="lg" />
+              </div>
+              <div className="tutorial-card-content">
+                <h4>{t("tutorial.bestiaryTitle")}</h4>
+                <p>{t("tutorial.bestiaryDesc")}</p>
+              </div>
+            </div>
+          </div>
+        );
+    }
+  };
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel tutorial-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>
+            <Icon name="book" size="md" /> {t("tutorial.title")}
+          </h2>
+          <button className="btn-close" onClick={onClose}>
+            <Icon name="close" size="md" />
+          </button>
+        </div>
+
+        <div className="tutorial-tabs">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              className={`tutorial-tab ${activeTab === tab.id ? "active" : ""}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              <Icon name={tab.icon} size="sm" />
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="tutorial-scroll-content">{renderContent()}</div>
       </div>
     </div>
   );
@@ -7006,6 +7433,8 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 export const locales = {
   ru: {
     ui: {
+      potions: "Зелья",
+      scrolls: "Свитки",
       cps: "Кликов/сек",
       cpsWarning: "⚠️ Подозрение на автокликер!",
       cpsWarningSubtitle: "Остановитесь или сохранение будет удалено",
@@ -7539,15 +7968,15 @@ export const locales = {
       },
       levelDownScroll10: {
         name: "Свиток понижения I",
-        desc: "Понижает текущий уровень локации на 10",
+        desc: "Понижает текущий уровень локации на 10 (Сейчас: {{level}})",
       },
       levelDownScroll20: {
         name: "Свиток понижения II",
-        desc: "Понижает текущий уровень локации на 20",
+        desc: "Понижает текущий уровень локации на 20 (Сейчас: {{level}})",
       },
       levelDownScroll50: {
         name: "Свиток понижения III",
-        desc: "Понижает текущий уровень локации на 50",
+        desc: "Понижает текущий уровень локации на 50 (Сейчас: {{level}})",
       },
       forestEssence: {
         name: "Лесная эссенция",
@@ -7610,6 +8039,94 @@ export const locales = {
         desc: "Сфера чистой тьмы, образовавшаяся в глубинах.",
       },
     },
+    tutorial: {
+      title: "Обучение",
+      basics: "Основы",
+      combat: "Бой",
+      locations: "Локации",
+      waifus: "Вайфу",
+      upgrades: "Улучшения",
+      craft: "Крафт",
+      collection: "Коллекция",
+
+      // Basics
+      basicsTitle: "Как играть",
+      clickTitle: "Клики и бой",
+      clickDesc:
+        "Кликайте по врагу, чтобы наносить урон. Чем быстрее кликаете — тем больше урона наносите. За победу над врагом вы получаете кристаллы и опыт.",
+      currencyTitle: "Валюта",
+      currencyDesc:
+        "Кристаллы используются для улучшений, эссенция — для призыва новых вайфу. За прохождение уровней также даются материалы для крафта.",
+      autoSaveTip: "Игра автоматически сохраняет прогресс. Можно закрывать и возвращаться позже!",
+
+      // Combat
+      combatTitle: "Система боя",
+      critTitle: "Критические удары",
+      critDesc:
+        "У каждой вайфу есть шанс критического удара и множитель крита. Криты наносят огромный урон и отображаются желтым цветом.",
+      elementsTitle: "Стихии и сопротивления",
+      elementsDesc:
+        "У каждой вайфу есть стихия. Враги имеют сопротивления и уязвимости к стихиям. Используйте правильную стихию, чтобы наносить больше урона (зеленый значок), и избегайте сопротивлений (красный значок).",
+      resistWarning: "Обратите внимание на иконки стихий под врагом — они показывают сопротивления!",
+
+      // Locations
+      locationsTitle: "Локации и уровни",
+      locationChangeTitle: "Смена локаций",
+      locationChangeDesc:
+        "Каждая локация имеет свои бонусы к добыче кристаллов, эссенции и опыта. Чем выше уровень локации — тем сильнее враги, но и награды больше.",
+      scrollsTitle: "Свитки понижения уровня",
+      scrollsDesc:
+        "Если враги стали слишком сильными и вы не можете их победить — используйте свитки понижения уровня! Они уменьшают текущий уровень локации, делая врагов слабее.",
+      scrollsHint: "Совет: Свитки можно создать в меню Крафта или получить из сундуков.",
+      locationBonusTitle: "Бонусы локаций",
+      locationBonusDesc:
+        "Пустыня дает больше кристаллов, Ледяные пики — эссенции, Вулкан — опыта. Выбирайте локацию в зависимости от того, что вам нужно.",
+
+      // Waifus
+      waifusTitle: "Система вайфу",
+      gachaTitle: "Призыв",
+      gachaDesc:
+        "Используйте эссенцию для призыва новых вайфу. Каждая вайфу имеет свою редкость, стихию и базовые характеристики.",
+      duplicatesTitle: "Дубликаты",
+      duplicatesDesc:
+        "Если призвали вайфу, которая уже есть — она получает +1 дубликат. Каждый дубликат увеличивает характеристики на 30%! Максимум — 20 дубликатов.",
+      expTitle: "Опыт и уровни",
+      expDesc:
+        "Вайфу получает опыт за победу над врагами. При наборе опыта она повышает уровень, что увеличивает силу клика. Также можно использовать свитки опыта.",
+
+      // Upgrades
+      upgradesTitle: "Улучшения",
+      globalUpgradesTitle: "Глобальные улучшения",
+      globalUpgradesDesc:
+        "Улучшения применяются ко всем вайфу сразу. Они стоят кристаллов, но дают огромный прирост силы.",
+      clickPowerTitle: "Сила клика",
+      clickPowerDesc: "Увеличивает базовый урон от каждого клика. Основной способ прогресса на начальных этапах.",
+      elementUpgradesTitle: "Стихийный урон",
+      elementUpgradesDesc:
+        "Увеличивает урон вайфу определенной стихии. Если у вас много вайфу огненной стихии — качайте огонь!",
+      upgradeCostTip: "Стоимость улучшений растет с каждым уровнем, но и бонус тоже увеличивается.",
+
+      // Craft
+      craftTitle: "Крафт и предметы",
+      craftingTitle: "Создание предметов",
+      craftingDesc:
+        "В меню Крафта можно создавать полезные предметы: свитки опыта (+EXP), зелья привязанности (+бонус к характеристикам) и свитки понижения уровня.",
+      materialsTip: "Материалы выпадают из врагов. Боссы дают больше материалов и редкие предметы.",
+
+      // Collection
+      collectionTitle: "Коллекция и бестиарий",
+      collectionItemsTitle: "Коллекционные предметы",
+      collectionItemsDesc:
+        "Враги могут выпадать редкие коллекционные предметы (оружие, аксессуары). Они дают пассивные бонусы ко всему аккаунту.",
+      buffsTitle: "Бонусы коллекции",
+      buffsDesc:
+        "Собранные предметы дают постоянные бонусы: +урон против определенных типов врагов, +сила крита, +кристаллы с врагов.",
+      vsSlimes: "против слаймов",
+      darkDamage: "темный урон",
+      bestiaryTitle: "Бестиарий",
+      bestiaryDesc:
+        "В разделе Бестиарий отслеживается статистика убитых врагов. Чем больше убиваете — тем больше информации открывается (сопротивления, дроп).",
+    },
   },
 } as const;
 
@@ -7636,7 +8153,7 @@ export interface RewardCalculation {
 }
 
 export const BattleService = {
-  calculateDamage(waifu: Waifu, enemy: Enemy, _globalUpgrades: IGlobalUpgrades): DamageCalculation {
+  calculateDamage(waifu: Waifu, enemy: Enemy): DamageCalculation {
     const clickPower = waifu.getClickPower();
     const critChance = waifu.getCritChance();
     const isCrit = Math.random() < critChance;
@@ -10074,6 +10591,7 @@ button {
   max-height: 80vh;
 }
 
+/* Основные вкладки (Создать / Использовать) */
 .craft-tabs {
   display: flex;
   gap: 8px;
@@ -10100,16 +10618,52 @@ button {
   border-color: var(--accent-color);
 }
 
-.craft-content {
-  padding: 16px;
-  overflow-y: auto;
-  max-height: 60vh;
+/* Фильтры (Зелья, Свитки и т.д.) - стиль как у Collection */
+.craft-filters {
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-x: auto;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.1);
 }
 
+.craft-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  min-height: 36px;
+  font-size: 14px;
+}
+
+.craft-filter-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+.craft-filter-btn.active {
+  background: var(--rarity-epic);
+  color: white;
+}
+
+/* Список крафта - убран скролл, скроллит родитель */
 .craft-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
+  gap: 16px;
+  padding: 16px 20px;
+  /* overflow-y: auto; <-- УДАЛЕНО */
+  /* max-height: 60vh; <-- УДАЛЕНО */
 }
 
 .craft-item-card {
@@ -10208,10 +10762,12 @@ button {
   color: var(--accent-color);
 }
 
+/* Список использования предметов */
 .use-items-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding: 0 20px 20px;
 }
 
 .use-item-card {
@@ -10263,6 +10819,7 @@ button {
   cursor: not-allowed;
 }
 
+/* Модальное окно */
 .craft-modal-overlay {
   position: fixed;
   inset: 0;
@@ -10350,42 +10907,60 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  width: 320px;
+  width: 300px;
   position: relative;
   flex-shrink: 0;
 }
 
+/* --- ЗАГОЛОВОК (Имя и Уровень) --- */
 .enemy-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 22px;
-  font-weight: bold;
+  justify-content: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 700;
   white-space: nowrap;
-  min-height: 32px;
+  min-height: 40px;
+
+  /* Контрастный фон */
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  padding: 6px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px;
 }
 
 .enemy-name {
-  color: var(--text-primary);
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 .enemy-level {
-  color: var(--text-secondary);
+  color: #e0e0e0;
   font-size: 16px;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 .boss-badge {
-  background: linear-gradient(135deg, #f44336, #ff9800);
+  background: linear-gradient(135deg, #ff4b4b, #ff9900);
   padding: 3px 10px;
-  border-radius: 20px;
+  border-radius: 8px;
   font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;
+  color: white;
+  box-shadow: 0 2px 6px rgba(255, 75, 75, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
+/* --- СПРАЙТ ВРАГА --- */
 .enemy-sprite-container {
-  width: 220px;
-  height: 220px;
+  width: 180px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10402,82 +10977,83 @@ button {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
 }
 
-.enemy-sprite {
-  font-size: 140px;
-  line-height: 1;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
-}
-
-.boss-aura {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(244, 67, 54, 0.4) 0%, transparent 70%);
-  animation: pulse 2s infinite;
-}
-
+/* --- ПОЛОСКА ХП --- */
 .enemy-hp-container {
   width: 100%;
   max-width: 280px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  min-height: 42px;
+  align-items: center;
+  gap: 8px;
 }
 
 .enemy-hp-bar {
   width: 100%;
   height: 20px;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
   overflow: hidden;
   border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .enemy-hp-fill {
   height: 100%;
-  background: linear-gradient(90deg, #f44336 0%, #ff9800 100%);
+  background: linear-gradient(90deg, #ff4b4b 0%, #ff9900 100%);
   transition: width 0.3s ease;
 }
 
+/* --- ТЕКСТ ХП --- */
 .enemy-hp-text {
+  display: inline-block;
   text-align: center;
-  font-size: 14px;
-  color: var(--text-secondary);
-  font-weight: 600;
-  min-height: 18px;
+  font-size: 15px;
+  color: #ffffff;
+  font-weight: 700;
+  min-height: 22px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 4px;
 }
 
+/* --- СОПРОТИВЛЕНИЯ --- */
 .enemy-resists {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
   min-height: 32px;
+  margin-top: 4px;
 }
 
 .resist-badge {
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 13px;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   gap: 4px;
+  font-weight: 600;
 }
 
 .resist-badge.resist {
   color: #ff6b6b;
 }
-
 .resist-badge.weak {
   color: #51cf66;
 }
 
+/* --- ЭФФЕКТЫ УРОНА И ДРОПА --- */
 .damage-effect {
   position: fixed;
   pointer-events: none;
@@ -10497,23 +11073,6 @@ button {
   text-shadow: 0 0 20px rgba(255, 235, 59, 0.8);
 }
 
-.damage-effect.weak::after {
-  content: "💫";
-  position: absolute;
-  right: -20px;
-  top: -10px;
-  font-size: 16px;
-}
-
-.damage-effect.resist::after {
-  content: "🛡️";
-  position: absolute;
-  right: -20px;
-  top: -10px;
-  font-size: 16px;
-  opacity: 0.7;
-}
-
 @keyframes damageFloat {
   0% {
     opacity: 1;
@@ -10523,211 +11082,6 @@ button {
     opacity: 0;
     transform: translateY(-100px) scale(1.5);
   }
-}
-
-@media (max-width: 1200px) {
-  .enemy-component {
-    width: 280px;
-  }
-
-  .enemy-sprite-container {
-    width: 200px;
-    height: 200px;
-  }
-
-  .enemy-header {
-    font-size: 20px;
-  }
-
-  .enemy-level {
-    font-size: 15px;
-  }
-
-  .enemy-hp-container {
-    max-width: 260px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .enemy-component {
-    width: 240px;
-  }
-
-  .enemy-sprite-container {
-    width: 180px;
-    height: 180px;
-  }
-
-  .enemy-header {
-    font-size: 18px;
-    min-height: 28px;
-  }
-
-  .enemy-level {
-    font-size: 14px;
-  }
-
-  .enemy-hp-container {
-    max-width: 220px;
-    min-height: 38px;
-  }
-
-  .enemy-resists {
-    min-height: 28px;
-  }
-}
-
-@media (max-width: 768px) {
-  .enemy-component {
-    width: 160px;
-    gap: 10px;
-  }
-
-  .enemy-sprite-container {
-    width: 130px;
-    height: 130px;
-  }
-
-  .enemy-header {
-    font-size: 14px;
-    gap: 6px;
-    min-height: 24px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .enemy-level {
-    font-size: 12px;
-  }
-
-  .boss-badge {
-    font-size: 9px;
-    padding: 2px 6px;
-  }
-
-  .enemy-hp-container {
-    max-width: 150px;
-    min-height: 32px;
-  }
-
-  .enemy-hp-bar {
-    height: 16px;
-  }
-
-  .enemy-hp-text {
-    font-size: 11px;
-    min-height: 14px;
-  }
-
-  .resist-badge {
-    font-size: 10px;
-    padding: 3px 6px;
-  }
-
-  .enemy-resists {
-    min-height: 24px;
-    gap: 4px;
-  }
-}
-
-@media (max-width: 480px) {
-  .enemy-component {
-    width: 120px;
-    gap: 8px;
-  }
-
-  .enemy-sprite-container {
-    width: 100px;
-    height: 100px;
-  }
-
-  .enemy-header {
-    font-size: 12px;
-    gap: 4px;
-    min-height: 20px;
-  }
-
-  .enemy-level {
-    font-size: 10px;
-  }
-
-  .boss-badge {
-    font-size: 8px;
-    padding: 2px 5px;
-  }
-
-  .enemy-hp-container {
-    max-width: 110px;
-    min-height: 28px;
-  }
-
-  .enemy-hp-bar {
-    height: 14px;
-  }
-
-  .enemy-hp-text {
-    font-size: 9px;
-    min-height: 12px;
-  }
-
-  .resist-badge {
-    font-size: 9px;
-    padding: 2px 4px;
-  }
-
-  .enemy-resists {
-    min-height: 20px;
-    gap: 3px;
-  }
-}
-.enemy-drops {
-  margin-top: 15px;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
-  width: 100%;
-}
-
-.enemy-drops h4 {
-  margin: 0 0 10px 0;
-  font-size: 14px;
-  color: var(--text-secondary);
-  text-align: center;
-}
-
-.drop-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  font-size: 13px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.drop-item:last-child {
-  border-bottom: none;
-}
-
-.drop-name {
-  flex: 1;
-}
-
-.drop-chance {
-  color: #ffd43b;
-  font-weight: 600;
-}
-
-.drop-count {
-  color: var(--text-muted);
-  font-size: 11px;
-}
-
-.drop-item.currency .drop-chance {
-  color: #51cf66;
-}
-
-.drop-item.collection .drop-chance {
-  color: #a855f7;
 }
 
 .drop-effect {
@@ -10778,6 +11132,79 @@ button {
   100% {
     opacity: 0;
     transform: translateY(-50px) scale(0.9);
+  }
+}
+
+/* --- АДАПТИВНОСТЬ --- */
+@media (max-width: 768px) {
+  .enemy-component {
+    width: 260px;
+  }
+
+  .enemy-header {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 5px 10px;
+    font-size: 17px;
+    gap: 6px;
+    min-height: 34px;
+  }
+
+  .enemy-level {
+    font-size: 14px;
+  }
+
+  .enemy-sprite-container {
+    width: 150px;
+    height: 150px;
+  }
+
+  .enemy-hp-container {
+    max-width: 220px;
+  }
+
+  .enemy-hp-text {
+    font-size: 13px;
+    padding: 2px 8px;
+  }
+
+  .enemy-hp-bar {
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .enemy-component {
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .enemy-header {
+    font-size: 15px;
+    min-height: 32px;
+    padding: 4px 8px;
+  }
+
+  .enemy-sprite-container {
+    width: 120px;
+    height: 120px;
+  }
+
+  .enemy-level {
+    font-size: 12px;
+  }
+
+  .boss-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .enemy-hp-text {
+    font-size: 11px;
+  }
+
+  .enemy-hp-bar {
+    height: 16px;
   }
 }
  
@@ -13217,6 +13644,351 @@ button {
   display: flex;
   justify-content: center;
   flex-shrink: 0;
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\TutorialPanel\TutorialPanel.css ===== 
+.tutorial-panel {
+  width: 95vw;
+  max-width: 700px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.tutorial-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-x: auto;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.tutorial-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.tutorial-tab:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.tutorial-tab.active {
+  background: var(--rarity-epic);
+  color: white;
+}
+
+.tutorial-scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  min-height: 0;
+}
+
+.tutorial-content h3 {
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+  font-size: 22px;
+  text-align: center;
+}
+
+.tutorial-card {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.tutorial-card.highlight {
+  border-color: var(--rarity-epic);
+  background: rgba(156, 39, 176, 0.1);
+}
+
+.tutorial-card-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.tutorial-card-content {
+  flex: 1;
+}
+
+.tutorial-card-content h4 {
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+.tutorial-card-content p {
+  margin: 0 0 10px 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.tutorial-currencies {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.currency-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.currency-tag.gem {
+  background: rgba(102, 126, 234, 0.2);
+  color: #a78bfa;
+}
+
+.currency-tag.essence {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+}
+
+.elements-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.element-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.element-tag.water {
+  color: #2196f3;
+}
+.element-tag.fire {
+  color: #f44336;
+}
+.element-tag.earth {
+  color: #4caf50;
+}
+.element-tag.ice {
+  color: #00bcd4;
+}
+.element-tag.light {
+  color: #ffeb3b;
+}
+.element-tag.dark {
+  color: #9c27b0;
+}
+.element-tag.physical {
+  color: #9e9e9e;
+}
+
+.scrolls-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.scroll-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.scroll-name {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.scroll-effect {
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+.tutorial-hint {
+  margin: 10px 0 0 0;
+  padding: 10px;
+  background: rgba(255, 212, 59, 0.1);
+  border-left: 3px solid #ffd43b;
+  border-radius: 0 8px 8px 0;
+  font-size: 13px;
+  color: #ffd43b;
+}
+
+.cost-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: rgba(168, 85, 247, 0.2);
+  border-radius: 8px;
+  font-size: 13px;
+  color: #c084fc;
+  font-weight: 600;
+}
+
+.bonus-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(255, 212, 59, 0.2);
+  color: #ffd43b;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tutorial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.tutorial-mini-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.tutorial-mini-card.highlight {
+  border: 1px solid var(--rarity-epic);
+  background: rgba(156, 39, 176, 0.1);
+}
+
+.tutorial-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  border-radius: 8px;
+  color: #4caf50;
+  font-size: 13px;
+}
+
+.tutorial-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  border-radius: 8px;
+  color: #f44336;
+  font-size: 13px;
+}
+
+.buff-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.buff-tag {
+  padding: 4px 10px;
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .tutorial-panel {
+    width: 98vw;
+    max-height: 95vh;
+  }
+
+  .tutorial-tabs {
+    padding: 12px 15px;
+  }
+
+  .tutorial-tab {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .tutorial-card {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tutorial-card-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .tutorial-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .tutorial-scroll-content {
+    padding: 15px;
+  }
+
+  .tutorial-content h3 {
+    font-size: 18px;
+  }
+
+  .tutorial-card-content h4 {
+    font-size: 14px;
+  }
+
+  .tutorial-card-content p {
+    font-size: 13px;
+  }
+
+  .scroll-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
 }
  
  

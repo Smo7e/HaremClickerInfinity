@@ -107,7 +107,7 @@ export function EnemyComponent({
     (isAuto: boolean = false) => {
       if (!enemy || !activeWaifu) return;
 
-      const calculation = BattleService.calculateDamage(activeWaifu, enemy, globalUpgrades);
+      const calculation = BattleService.calculateDamage(activeWaifu, enemy);
       const actualDamage = dealDamage(calculation.base, calculation.isCrit);
 
       let x: number, y: number;

@@ -17,7 +17,7 @@ export interface RewardCalculation {
 }
 
 export const BattleService = {
-  calculateDamage(waifu: Waifu, enemy: Enemy, _globalUpgrades: IGlobalUpgrades): DamageCalculation {
+  calculateDamage(waifu: Waifu, enemy: Enemy): DamageCalculation {
     const clickPower = waifu.getClickPower();
     const critChance = waifu.getCritChance();
     const isCrit = Math.random() < critChance;

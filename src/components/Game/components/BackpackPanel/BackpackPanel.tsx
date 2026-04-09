@@ -16,8 +16,12 @@ type TabType = "all" | "consumable" | "material" | "currency";
 
 export function BackpackPanel({ isOpen, onClose, onUseItem, selectedWaifuId }: BackpackPanelProps) {
   const [activeTab, setActiveTab] = useState<TabType>("all");
-
   const inventory = useGameStore((state) => state.inventory);
+  const currentLocation = useGameStore((state) => state.currentLocation);
+  const locationProgress = useGameStore((state) => state.locationProgress);
+
+  // Текущий уровень активной локации
+  const currentLevel = locationProgress[currentLocation]?.currentLevel ?? 1;
 
   if (!isOpen) return null;
 
@@ -59,29 +63,37 @@ export function BackpackPanel({ isOpen, onClose, onUseItem, selectedWaifuId }: B
             <p className="empty-message">{t("ui.noItems")}</p>
           ) : (
             <div className="item-grid">
-              {filteredItems.map((item) => (
-                <div key={item.id} className={`item-card rarity-${item.rarity}`}>
-                  <div className="item-icon-container">
-                    <Icon name={item.icon} size="lg" />
-                    {item.count > 1 && <span className="item-count">{item.count}</span>}
+              {filteredItems.map((item) => {
+                // Безопасная подстановка уровня только для свитков понижения
+                let itemDesc = t(`items.${item.nameKey}.desc`);
+                if (itemDesc.includes("{{level}}")) {
+                  itemDesc = itemDesc.replace("{{level}}", currentLevel.toString());
+                }
+
+                return (
+                  <div key={item.id} className={`item-card rarity-${item.rarity}`}>
+                    <div className="item-icon-container">
+                      <Icon name={item.icon} size="lg" />
+                      {item.count > 1 && <span className="item-count">{item.count}</span>}
+                    </div>
+                    <div className="item-info">
+                      <span className="item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
+                        {t(`items.${item.nameKey}.name`)}
+                      </span>
+                      <span className="item-desc">{itemDesc}</span>
+                    </div>
+                    {item.type === "consumable" && (
+                      <button
+                        className="btn-use-item"
+                        onClick={() => onUseItem(item.id)}
+                        disabled={item.effect?.target === "selected_waifu" && !selectedWaifuId}
+                      >
+                        {t("ui.use")}
+                      </button>
+                    )}
                   </div>
-                  <div className="item-info">
-                    <span className="item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
-                      {t(`items.${item.nameKey}.name`)}
-                    </span>
-                    <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
-                  </div>
-                  {item.type === "consumable" && (
-                    <button
-                      className="btn-use-item"
-                      onClick={() => onUseItem(item.id)}
-                      disabled={item.effect?.target === "selected_waifu" && !selectedWaifuId}
-                    >
-                      {t("ui.use")}
-                    </button>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

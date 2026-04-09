@@ -15,31 +15,37 @@ interface CraftPanelProps {
 }
 
 type CraftTab = "craft" | "use";
+type CraftFilter = "all" | "potion" | "scroll" | "available";
 
 export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuId }: CraftPanelProps) {
   const [activeTab, setActiveTab] = useState<CraftTab>("craft");
   const [selectedCraftItem, setSelectedCraftItem] = useState<TCraftItem | null>(null);
-
+  const [craftFilter, setCraftFilter] = useState<CraftFilter>("all");
   const inventory = useGameStore((state) => state.inventory);
+  const currentLocation = useGameStore((state) => state.currentLocation);
+  const locationProgress = useGameStore((state) => state.locationProgress);
+  const currentLevel = locationProgress[currentLocation]?.currentLevel ?? 1;
 
   const craftableItems = useMemo(() => {
     return CRAFT_ITEMS.map((item) => {
       const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
-      const missingIngredients = item.ingredients
-        .filter((ing) => inventory.getItemCount(ing.itemId) < ing.count)
-        .map((ing) => t(`items.${INVENTORY_ITEMS[ing.itemId]?.nameKey || ing.itemId}.name`));
-
-      return {
-        ...item,
-        canCraft,
-        missingIngredients,
-      };
+      return { ...item, canCraft };
     });
   }, [inventory]);
 
   const consumableItems = useMemo(() => {
     return inventory.getItemsByType("consumable");
   }, [inventory]);
+
+  // Фильтрация по подкатегориям
+  const filteredCraftItems = useMemo(() => {
+    return craftableItems.filter((item) => {
+      if (craftFilter === "available") return item.canCraft;
+      if (craftFilter === "potion") return item.id.includes("potion") || item.icon.includes("potion");
+      if (craftFilter === "scroll") return item.id.includes("scroll") || item.icon.includes("scroll");
+      return true;
+    });
+  }, [craftableItems, craftFilter]);
 
   const handleCraft = useCallback(
     (item: TCraftItem) => {
@@ -77,56 +83,98 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
             {t("ui.useItems")}
           </button>
         </div>
-        <div className="craft-content">
+
+        <div className="panel-content">
           {activeTab === "craft" ? (
-            <div className="craft-list">
-              {craftableItems.map((item) => (
-                <div
-                  key={item.id}
-                  className={`craft-item-card ${item.canCraft ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
-                  onClick={() => setSelectedCraftItem(item)}
+            <>
+              {/* Фильтры в стиле коллекции */}
+              <div className="craft-filters">
+                <button
+                  className={`craft-filter-btn ${craftFilter === "all" ? "active" : ""}`}
+                  onClick={() => setCraftFilter("all")}
                 >
-                  <div className="craft-item-header">
-                    <Icon name={item.icon} size="md" />
-                    <span className="craft-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
-                      {t(`items.${item.nameKey}.name`)}
-                    </span>
-                    <span className={`craft-status ${item.canCraft ? "ready" : "locked"}`}>
-                      {item.canCraft ? "✓" : "✕"}
-                    </span>
-                  </div>
-                  <p className="craft-item-desc">{t(item.descriptionKey)}</p>
-                  <div className="craft-ingredients">
-                    {item.ingredients.map((ing) => {
-                      const has = inventory.getItemCount(ing.itemId);
-                      const needed = ing.count;
-                      const template = INVENTORY_ITEMS[ing.itemId];
-                      return (
-                        <div key={ing.itemId} className={`ingredient ${has >= needed ? "has" : "missing"}`}>
-                          <Icon name={template?.icon || "unknown"} size="sm" />
+                  <Icon name="all" size="sm" />
+                  <span>{t("ui.all")}</span>
+                </button>
+                <button
+                  className={`craft-filter-btn ${craftFilter === "potion" ? "active" : ""}`}
+                  onClick={() => setCraftFilter("potion")}
+                >
+                  <Icon name="potion" size="sm" />
+                  <span>{t("ui.potions")}</span>
+                </button>
+                <button
+                  className={`craft-filter-btn ${craftFilter === "scroll" ? "active" : ""}`}
+                  onClick={() => setCraftFilter("scroll")}
+                >
+                  <Icon name="scroll" size="sm" />
+                  <span>{t("ui.scrolls")}</span>
+                </button>
+                <button
+                  className={`craft-filter-btn ${craftFilter === "available" ? "active" : ""}`}
+                  onClick={() => setCraftFilter("available")}
+                >
+                  <Icon name="check" size="sm" />
+                  <span>{t("ui.available")}</span>
+                </button>
+              </div>
+
+              {/* Список рецептов (скроллится вместе с панелью) */}
+              <div className="craft-list">
+                {filteredCraftItems.length === 0 ? (
+                  <p className="empty-message">{t("ui.noItems")}</p>
+                ) : (
+                  filteredCraftItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className={`craft-item-card ${item.canCraft ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
+                      onClick={() => setSelectedCraftItem(item)}
+                    >
+                      <div className="craft-item-header">
+                        <Icon name={item.icon} size="md" />
+                        <span className="craft-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
+                          {t(`items.${item.nameKey}.name`)}
+                        </span>
+                        <span className={`craft-status ${item.canCraft ? "ready" : "locked"}`}>
+                          {item.canCraft ? "✓" : "✕"}
+                        </span>
+                      </div>
+                      <p className="craft-item-desc">
+                        {t(item.descriptionKey).replace("{{level}}", currentLevel.toString())}
+                      </p>
+                      <div className="craft-ingredients">
+                        {item.ingredients.map((ing) => {
+                          const has = inventory.getItemCount(ing.itemId);
+                          const needed = ing.count;
+                          const template = INVENTORY_ITEMS[ing.itemId];
+                          return (
+                            <div key={ing.itemId} className={`ingredient ${has >= needed ? "has" : "missing"}`}>
+                              <Icon name={template?.icon || "unknown"} size="sm" />
+                              <span>
+                                {has}/{needed} {t(`items.${template?.nameKey || ing.itemId}.name`)}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      {item.effect && (
+                        <div className="craft-effect">
+                          <Icon name="upgrades" size="sm" />
                           <span>
-                            {has}/{needed} {t(`items.${template?.nameKey || ing.itemId}.name`)}
+                            {item.effect.type === "level_down_10" && "-10 " + t("ui.levels")}
+                            {item.effect.type === "level_down_20" && "-20 " + t("ui.levels")}
+                            {item.effect.type === "level_down_50" && "-50 " + t("ui.levels")}
+                            {item.effect.type === "exp" && `+${item.effect.value} EXP`}
+                            {item.effect.type === "affection" && `+${item.effect.value} ${t("ui.affection")}`}
+                            {item.effect.type === "heal" && `+${item.effect.value} HP`}
                           </span>
                         </div>
-                      );
-                    })}
-                  </div>
-                  {item.effect && (
-                    <div className="craft-effect">
-                      <Icon name="upgrades" size="sm" />
-                      <span>
-                        {item.effect.type === "level_down_10" && "-10 " + t("ui.levels")}
-                        {item.effect.type === "level_down_20" && "-20 " + t("ui.levels")}
-                        {item.effect.type === "level_down_50" && "-50 " + t("ui.levels")}
-                        {item.effect.type === "exp" && `+${item.effect.value} EXP`}
-                        {item.effect.type === "affection" && `+${item.effect.value} ${t("ui.affection")}`}
-                        {item.effect.type === "heal" && `+${item.effect.value} HP`}
-                      </span>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
-            </div>
+                  ))
+                )}
+              </div>
+            </>
           ) : (
             <div className="use-items-list">
               {consumableItems.length === 0 ? (
@@ -157,13 +205,14 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
             </div>
           )}
         </div>
+
         {selectedCraftItem && (
           <div className="craft-modal-overlay" onClick={() => setSelectedCraftItem(null)}>
             <div className="craft-modal" onClick={(e) => e.stopPropagation()}>
               <h3 style={{ color: RARITY_COLORS[selectedCraftItem.rarity] }}>
                 {t(`items.${selectedCraftItem.nameKey}.name`)}
               </h3>
-              <p>{t(selectedCraftItem.descriptionKey)}</p>
+              <p>{t(selectedCraftItem.descriptionKey).replace("{{level}}", currentLevel.toString())}</p>
               <div className="craft-modal-ingredients">
                 <h4>{t("ui.requiredMaterials")}</h4>
                 {selectedCraftItem.ingredients.map((ing) => {

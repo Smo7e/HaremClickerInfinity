@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { t } from "../../locales/i18n";
 import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
 import type { Lang } from "../../locales/locales";
 import "./MainMenu.css";
+import { TutorialPanel } from "../TutorialPanel/TutorialPanel";
 
 interface Props {
   onPlay: () => void;
@@ -10,6 +12,8 @@ interface Props {
 }
 
 export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
+
   return (
     <div className="main-menu">
       <div className="main-menu-header">
@@ -29,6 +33,11 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
             {t("ui.play")}
           </button>
 
+          <button className="btn-secondary btn-tutorial" onClick={() => setIsTutorialOpen(true)}>
+            <span className="btn-icon">📖</span>
+            {t("tutorial.title")}
+          </button>
+
           <button className="btn-secondary btn-settings" onClick={onSettings}>
             <span className="btn-icon">⚙</span>
             {t("ui.settings")}
@@ -39,6 +48,8 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
       <div className="main-menu-footer">
         <span className="version">v0.1</span>
       </div>
+
+      <TutorialPanel isOpen={isTutorialOpen} onClose={() => setIsTutorialOpen(false)} />
     </div>
   );
 }

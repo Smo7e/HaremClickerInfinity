@@ -7,11 +7,10 @@ export default defineConfig({
     react(),
     {
       name: "fix-asset-paths",
-      enforce: "post", // Важно: запускаем ПОСЛЕ трансформации React
+      enforce: "post",
       transform(code, id) {
         if (id.includes("node_modules")) return;
 
-        // Порядок важен: сначала специфичные пути, потом общие
         return code
           .replace(/(['"`])\/waifus\//g, `$1assets/images/waifus/`)
           .replace(/(['"`])\/backgrounds\//g, `$1assets/images/backgrounds/`)
