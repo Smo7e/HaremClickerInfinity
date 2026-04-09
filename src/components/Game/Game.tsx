@@ -20,6 +20,7 @@ import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
 import { CheatMenu } from "./components/CheatMenu/CheatMenu";
 import { CraftPanel } from "./components/CraftPanel/CraftPanel";
 import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
+import { useCPS } from "../../hooks/useCPS";
 
 interface Props {
   onBack: () => void;
@@ -53,6 +54,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   const dealDamage = useGameStore((state) => state.dealDamage);
 
   const { handleClick, currentLevel, locationConfig } = useBattle();
+  const { cps, isWarning, recordClick } = useCPS();
 
   const activeWaifu = ownedWaifus.find((w) => w.id === activeWaifuId);
   const gems = inventory.getItemCount("gem");
@@ -60,6 +62,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
 
   const handleEnemyClick = useCallback(
     (e: React.MouseEvent | React.TouchEvent) => {
+      recordClick();
       handleClick(e);
     },
     [handleClick],
@@ -168,6 +171,17 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   return (
     <div className="game">
       <Background locationId={currentLocation} />
+      <div className="cps-display" style={{ opacity: 0.9 }}>
+        <span className="cps-value">{cps}</span>
+        <span className="cps-label">{t("ui.cps")}</span>
+
+        {isWarning && (
+          <div className="cps-warning-popup">
+            <span className="warning-title">{t("ui.cpsWarning")}</span>
+            <span className="warning-subtitle">{t("ui.cpsWarningSubtitle")}</span>
+          </div>
+        )}
+      </div>
 
       <header className="game-header">
         <div className="currency-display">

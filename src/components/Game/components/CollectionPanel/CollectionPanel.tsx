@@ -87,51 +87,53 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
             </button>
           ))}
         </div>
-        <div className="collection-grid">
-          {filteredItems.length === 0 ? (
-            <div className="empty-collection">
-              <Icon name="collection" size="lg" />
-              <p>{t("ui.noCollectionItems")}</p>
-              <small>{t("ui.killEnemiesForDrops")}</small>
+        <div className="collection-scroll-content">
+          <div className="collection-grid">
+            {filteredItems.length === 0 ? (
+              <div className="empty-collection">
+                <Icon name="collection" size="lg" />
+                <p>{t("ui.noCollectionItems")}</p>
+                <small>{t("ui.killEnemiesForDrops")}</small>
+              </div>
+            ) : (
+              filteredItems.map((item) => {
+                const buff = getItemBuff(item.id);
+                return (
+                  <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
+                    <div className="item-icon">
+                      <Icon name={item.icon} size="lg" />
+                    </div>
+                    <div className="item-info">
+                      <span className="item-name">{t(`items.${item.nameKey}.name`)}</span>
+                      <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
+                      <span className="item-category">{t(`collection.${item.category}s`)}</span>
+                      {buff && (
+                        <span className="item-buff">
+                          <Icon name="upgrades" size="sm" />
+                          {t(buff.descriptionKey)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+          {selectedCategory === "memoria" && counts.byCategory.memoria === 0 && (
+            <div className="category-hint">
+              <Icon name="memoria" size="md" />
+              <p>{t("ui.memoriaHint")}</p>
+              <small>{t("ui.buyInShop")}</small>
             </div>
-          ) : (
-            filteredItems.map((item) => {
-              const buff = getItemBuff(item.id);
-              return (
-                <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
-                  <div className="item-icon">
-                    <Icon name={item.icon} size="lg" />
-                  </div>
-                  <div className="item-info">
-                    <span className="item-name">{t(`items.${item.nameKey}.name`)}</span>
-                    <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
-                    <span className="item-category">{t(`collection.${item.category}s`)}</span>
-                    {buff && (
-                      <span className="item-buff">
-                        <Icon name="upgrades" size="sm" />
-                        {t(buff.descriptionKey)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              );
-            })
+          )}
+          {selectedCategory === "outfit" && counts.byCategory.outfit === 0 && (
+            <div className="category-hint">
+              <Icon name="outfit" size="md" />
+              <p>{t("ui.outfitHint")}</p>
+              <small>{t("ui.buyInShop")}</small>
+            </div>
           )}
         </div>
-        {selectedCategory === "memoria" && counts.byCategory.memoria === 0 && (
-          <div className="category-hint">
-            <Icon name="memoria" size="md" />
-            <p>{t("ui.memoriaHint")}</p>
-            <small>{t("ui.buyInShop")}</small>
-          </div>
-        )}
-        {selectedCategory === "outfit" && counts.byCategory.outfit === 0 && (
-          <div className="category-hint">
-            <Icon name="outfit" size="md" />
-            <p>{t("ui.outfitHint")}</p>
-            <small>{t("ui.buyInShop")}</small>
-          </div>
-        )}
       </div>
     </div>
   );

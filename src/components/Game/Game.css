@@ -263,3 +263,129 @@
     padding: 8px 12px;
   }
 }
+.cps-display {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 100;
+  min-width: 70px;
+}
+
+.cps-display.warning {
+  background: rgba(244, 67, 54, 0.3);
+  border-color: #f44336;
+  animation: pulseWarning 1s infinite;
+}
+
+.cps-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.cps-display.warning .cps-value {
+  color: #ffeb3b;
+}
+
+.cps-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.cps-warning-popup {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  background: rgba(244, 67, 54, 0.95);
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 200px;
+  box-shadow: 0 4px 20px rgba(244, 67, 54, 0.4);
+  animation: slideDown 0.3s ease;
+}
+
+.warning-title {
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+.warning-subtitle {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.warning-timer {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffeb3b;
+  margin-top: 4px;
+}
+
+@keyframes pulseWarning {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .cps-display {
+    top: 10px;
+    right: 10px;
+    padding: 6px 12px;
+    min-width: 60px;
+  }
+
+  .cps-value {
+    font-size: 14px;
+  }
+
+  .cps-label {
+    font-size: 9px;
+  }
+
+  .cps-warning-popup {
+    min-width: 160px;
+    padding: 10px 12px;
+  }
+
+  .warning-title {
+    font-size: 12px;
+  }
+
+  .warning-subtitle {
+    font-size: 10px;
+  }
+
+  .warning-timer {
+    font-size: 14px;
+  }
+}

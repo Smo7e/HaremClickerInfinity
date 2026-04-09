@@ -56,6 +56,7 @@ export function EnemyComponent({
   const enemyRef = useRef(enemy);
   const autoAttackIntervalRef = useRef<number | null>(null);
   const enemyContainerRef = useRef<HTMLDivElement>(null);
+  const touchHandledRef = useRef(false);
 
   const globalUpgrades = useGameStore((state) => state.globalUpgrades);
   const dealDamage = useGameStore((state) => state.dealDamage);
@@ -164,26 +165,28 @@ export function EnemyComponent({
     };
   }, [isPaused, enemy?.id, activeWaifu?.id, performAttack]);
 
-  const handleClick = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent) => {
       if (isPaused || !activeWaifu) return;
 
+      e.preventDefault();
+
+      if (e.pointerType === "touch") {
+        if (touchHandledRef.current) return;
+        touchHandledRef.current = true;
+        setTimeout(() => {
+          touchHandledRef.current = false;
+        }, 100);
+      }
+
       if (onClick) {
-        onClick(e);
+        onClick(e as unknown as React.MouseEvent);
       }
 
       audioManager.playClick();
 
-      let clientX: number;
-      let clientY: number;
-
-      if ("touches" in e) {
-        clientX = e.touches[0]?.clientX ?? window.innerWidth / 2;
-        clientY = e.touches[0]?.clientY ?? window.innerHeight / 2;
-      } else {
-        clientX = (e as React.MouseEvent).clientX;
-        clientY = (e as React.MouseEvent).clientY;
-      }
+      const clientX = e.clientX;
+      const clientY = e.clientY;
 
       const clickPower = activeWaifu.getClickPower();
       const elementMultiplier = activeWaifu.getElementMultiplier(enemy.resistances);
@@ -232,8 +235,7 @@ export function EnemyComponent({
       <div
         ref={enemyContainerRef}
         className={`enemy-sprite-container ${!enemy.isAlive() ? "defeated" : ""}`}
-        onClick={handleClick}
-        onTouchStart={handleClick}
+        onPointerDown={handlePointerDown}
       >
         <img src={enemy.sprite} alt={enemy.name} draggable={false} />
         {enemy.isBoss && <div className="boss-aura" />}

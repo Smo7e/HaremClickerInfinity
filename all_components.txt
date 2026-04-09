@@ -238,6 +238,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settin
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\constant.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\index.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useBattle.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useCPS.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useSave.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\i18n.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\locales.ts
@@ -1713,6 +1714,7 @@ import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
 import { CheatMenu } from "./components/CheatMenu/CheatMenu";
 import { CraftPanel } from "./components/CraftPanel/CraftPanel";
 import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
+import { useCPS } from "../../hooks/useCPS";
 
 interface Props {
   onBack: () => void;
@@ -1746,6 +1748,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   const dealDamage = useGameStore((state) => state.dealDamage);
 
   const { handleClick, currentLevel, locationConfig } = useBattle();
+  const { cps, isWarning, recordClick } = useCPS();
 
   const activeWaifu = ownedWaifus.find((w) => w.id === activeWaifuId);
   const gems = inventory.getItemCount("gem");
@@ -1753,6 +1756,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
 
   const handleEnemyClick = useCallback(
     (e: React.MouseEvent | React.TouchEvent) => {
+      recordClick();
       handleClick(e);
     },
     [handleClick],
@@ -1861,6 +1865,17 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   return (
     <div className="game">
       <Background locationId={currentLocation} />
+      <div className="cps-display" style={{ opacity: 0.9 }}>
+        <span className="cps-value">{cps}</span>
+        <span className="cps-label">{t("ui.cps")}</span>
+
+        {isWarning && (
+          <div className="cps-warning-popup">
+            <span className="warning-title">{t("ui.cpsWarning")}</span>
+            <span className="warning-subtitle">{t("ui.cpsWarningSubtitle")}</span>
+          </div>
+        )}
+      </div>
 
       <header className="game-header">
         <div className="currency-display">
@@ -3040,51 +3055,53 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
             </button>
           ))}
         </div>
-        <div className="collection-grid">
-          {filteredItems.length === 0 ? (
-            <div className="empty-collection">
-              <Icon name="collection" size="lg" />
-              <p>{t("ui.noCollectionItems")}</p>
-              <small>{t("ui.killEnemiesForDrops")}</small>
+        <div className="collection-scroll-content">
+          <div className="collection-grid">
+            {filteredItems.length === 0 ? (
+              <div className="empty-collection">
+                <Icon name="collection" size="lg" />
+                <p>{t("ui.noCollectionItems")}</p>
+                <small>{t("ui.killEnemiesForDrops")}</small>
+              </div>
+            ) : (
+              filteredItems.map((item) => {
+                const buff = getItemBuff(item.id);
+                return (
+                  <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
+                    <div className="item-icon">
+                      <Icon name={item.icon} size="lg" />
+                    </div>
+                    <div className="item-info">
+                      <span className="item-name">{t(`items.${item.nameKey}.name`)}</span>
+                      <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
+                      <span className="item-category">{t(`collection.${item.category}s`)}</span>
+                      {buff && (
+                        <span className="item-buff">
+                          <Icon name="upgrades" size="sm" />
+                          {t(buff.descriptionKey)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+          {selectedCategory === "memoria" && counts.byCategory.memoria === 0 && (
+            <div className="category-hint">
+              <Icon name="memoria" size="md" />
+              <p>{t("ui.memoriaHint")}</p>
+              <small>{t("ui.buyInShop")}</small>
             </div>
-          ) : (
-            filteredItems.map((item) => {
-              const buff = getItemBuff(item.id);
-              return (
-                <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
-                  <div className="item-icon">
-                    <Icon name={item.icon} size="lg" />
-                  </div>
-                  <div className="item-info">
-                    <span className="item-name">{t(`items.${item.nameKey}.name`)}</span>
-                    <span className="item-desc">{t(`items.${item.nameKey}.desc`)}</span>
-                    <span className="item-category">{t(`collection.${item.category}s`)}</span>
-                    {buff && (
-                      <span className="item-buff">
-                        <Icon name="upgrades" size="sm" />
-                        {t(buff.descriptionKey)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              );
-            })
+          )}
+          {selectedCategory === "outfit" && counts.byCategory.outfit === 0 && (
+            <div className="category-hint">
+              <Icon name="outfit" size="md" />
+              <p>{t("ui.outfitHint")}</p>
+              <small>{t("ui.buyInShop")}</small>
+            </div>
           )}
         </div>
-        {selectedCategory === "memoria" && counts.byCategory.memoria === 0 && (
-          <div className="category-hint">
-            <Icon name="memoria" size="md" />
-            <p>{t("ui.memoriaHint")}</p>
-            <small>{t("ui.buyInShop")}</small>
-          </div>
-        )}
-        {selectedCategory === "outfit" && counts.byCategory.outfit === 0 && (
-          <div className="category-hint">
-            <Icon name="outfit" size="md" />
-            <p>{t("ui.outfitHint")}</p>
-            <small>{t("ui.buyInShop")}</small>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -3357,6 +3374,7 @@ export function EnemyComponent({
   const enemyRef = useRef(enemy);
   const autoAttackIntervalRef = useRef<number | null>(null);
   const enemyContainerRef = useRef<HTMLDivElement>(null);
+  const touchHandledRef = useRef(false);
 
   const globalUpgrades = useGameStore((state) => state.globalUpgrades);
   const dealDamage = useGameStore((state) => state.dealDamage);
@@ -3465,26 +3483,28 @@ export function EnemyComponent({
     };
   }, [isPaused, enemy?.id, activeWaifu?.id, performAttack]);
 
-  const handleClick = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent) => {
       if (isPaused || !activeWaifu) return;
 
+      e.preventDefault();
+
+      if (e.pointerType === "touch") {
+        if (touchHandledRef.current) return;
+        touchHandledRef.current = true;
+        setTimeout(() => {
+          touchHandledRef.current = false;
+        }, 100);
+      }
+
       if (onClick) {
-        onClick(e);
+        onClick(e as unknown as React.MouseEvent);
       }
 
       audioManager.playClick();
 
-      let clientX: number;
-      let clientY: number;
-
-      if ("touches" in e) {
-        clientX = e.touches[0]?.clientX ?? window.innerWidth / 2;
-        clientY = e.touches[0]?.clientY ?? window.innerHeight / 2;
-      } else {
-        clientX = (e as React.MouseEvent).clientX;
-        clientY = (e as React.MouseEvent).clientY;
-      }
+      const clientX = e.clientX;
+      const clientY = e.clientY;
 
       const clickPower = activeWaifu.getClickPower();
       const elementMultiplier = activeWaifu.getElementMultiplier(enemy.resistances);
@@ -3533,8 +3553,7 @@ export function EnemyComponent({
       <div
         ref={enemyContainerRef}
         className={`enemy-sprite-container ${!enemy.isAlive() ? "defeated" : ""}`}
-        onClick={handleClick}
-        onTouchStart={handleClick}
+        onPointerDown={handlePointerDown}
       >
         <img src={enemy.sprite} alt={enemy.name} draggable={false} />
         {enemy.isBoss && <div className="boss-aura" />}
@@ -5522,16 +5541,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     type: "material",
     maxStack: 99,
   },
-  golem_core: {
-    id: "golem_core",
-    nameKey: "golemCore",
-    descriptionKey: "items.golemCore.desc",
-    icon: "golem_core",
-    rarity: "rare",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "accessory",
-  },
+
   sand_stone: {
     id: "sand_stone",
     nameKey: "sandStone",
@@ -5541,16 +5551,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     type: "material",
     maxStack: 99,
   },
-  scarab_shell: {
-    id: "scarab_shell",
-    nameKey: "scarabShell",
-    descriptionKey: "items.scarabShell.desc",
-    icon: "scarab_shell",
-    rarity: "uncommon",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "accessory",
-  },
+
   ice_crystal: {
     id: "ice_crystal",
     nameKey: "iceCrystal",
@@ -5587,26 +5588,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     type: "material",
     maxStack: 99,
   },
-  dragon_scale: {
-    id: "dragon_scale",
-    nameKey: "dragonScale",
-    descriptionKey: "items.dragonScale.desc",
-    icon: "dragon_scale",
-    rarity: "rare",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "accessory",
-  },
-  knight_armor: {
-    id: "knight_armor",
-    nameKey: "knightArmor",
-    descriptionKey: "items.knightArmor.desc",
-    icon: "knight_armor",
-    rarity: "uncommon",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "outfit",
-  },
+
   cursed_cloth: {
     id: "cursed_cloth",
     nameKey: "cursedCloth",
@@ -5624,26 +5606,6 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     rarity: "rare",
     type: "material",
     maxStack: 99,
-  },
-  shadow_tentacle_item: {
-    id: "shadow_tentacle_item",
-    nameKey: "shadowTentacleItem",
-    descriptionKey: "items.shadowTentacleItem.desc",
-    icon: "shadow_tentacle",
-    rarity: "rare",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "weapon",
-  },
-  abyss_pearl: {
-    id: "abyss_pearl",
-    nameKey: "abyssPearl",
-    descriptionKey: "items.abyssPearl.desc",
-    icon: "abyss_pearl",
-    rarity: "epic",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "accessory",
   },
 };
 
@@ -6733,6 +6695,108 @@ export function useBattle() {
 }
  
  
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useCPS.ts ===== 
+import { useEffect, useRef, useCallback, useState } from "react";
+import { useGameStore } from "../store/gameStore";
+
+const MAX_CPS = 20;
+const WARNING_DURATION = 30;
+const RESET_DELAY = 5000;
+
+interface CPSState {
+  cps: number;
+  isWarning: boolean;
+  warningTimeLeft: number;
+}
+
+export function useCPS() {
+  const clicksRef = useRef<number[]>([]);
+  const warningStartRef = useRef<number | null>(null);
+  const accumulatedWarningRef = useRef(0);
+  const lastViolationRef = useRef<number | null>(null);
+
+  const [state, setState] = useState<CPSState>({
+    cps: 0,
+    isWarning: false,
+    warningTimeLeft: WARNING_DURATION,
+  });
+
+  const resetGame = useGameStore((state) => state.resetGame);
+
+  const recordClick = useCallback(() => {
+    const now = Date.now();
+    clicksRef.current.push(now);
+
+    if (clicksRef.current.length > 100) {
+      clicksRef.current = clicksRef.current.slice(-50);
+    }
+  }, []);
+
+  const checkCPS = useCallback(() => {
+    const now = Date.now();
+    const oneSecondAgo = now - 1000;
+
+    clicksRef.current = clicksRef.current.filter((t) => t > oneSecondAgo);
+    const currentCPS = clicksRef.current.length;
+    const isViolation = currentCPS > MAX_CPS;
+
+    setState((prev) => {
+      let isWarning = prev.isWarning;
+      let warningTimeLeft = prev.warningTimeLeft;
+
+      if (isViolation) {
+        lastViolationRef.current = now;
+
+        if (!warningStartRef.current) {
+          warningStartRef.current = now;
+          isWarning = true;
+        }
+
+        const currentSession = now - warningStartRef.current;
+        const totalMs = accumulatedWarningRef.current + currentSession;
+        warningTimeLeft = Math.max(0, WARNING_DURATION - Math.floor(totalMs / 1000));
+
+        if (warningTimeLeft <= 0) {
+          resetGame();
+          window.location.reload();
+          return prev;
+        }
+      } else if (isWarning && lastViolationRef.current) {
+        const timeSinceViolation = now - lastViolationRef.current;
+
+        if (timeSinceViolation >= RESET_DELAY) {
+          if (warningStartRef.current) {
+            const sessionMs = lastViolationRef.current - warningStartRef.current;
+            accumulatedWarningRef.current += sessionMs;
+          }
+          warningStartRef.current = null;
+          lastViolationRef.current = null;
+          isWarning = false;
+        }
+      }
+      return {
+        cps: currentCPS,
+        isWarning,
+        warningTimeLeft,
+      };
+    });
+  }, [resetGame]);
+
+  useEffect(() => {
+    const interval = window.setInterval(checkCPS, 100);
+    return () => clearInterval(interval);
+  }, [checkCPS]);
+
+  return {
+    cps: state.cps,
+    isWarning: state.isWarning,
+    warningTimeLeft: state.warningTimeLeft,
+    recordClick,
+    maxCPS: MAX_CPS,
+  };
+}
+ 
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useSave.ts ===== 
 import { useEffect, useCallback, useRef } from "react";
 import { useGameStore } from "../store/gameStore";
@@ -6942,6 +7006,10 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 export const locales = {
   ru: {
     ui: {
+      cps: "Кликов/сек",
+      cpsWarning: "⚠️ Подозрение на автокликер!",
+      cpsWarningSubtitle: "Остановитесь или сохранение будет удалено",
+      cpsWarningTime: "Осталось: {{seconds}}с",
       killEnemiesForDrops: "Убивайте врагов для коллекционных предметов",
       unlockRequirement: "Убейте босса на уровне {{level}} в {{location}}",
       killsToUnlock: "{{current}} / {{required}} убийств",
@@ -8752,6 +8820,132 @@ button {
     padding: 8px 12px;
   }
 }
+.cps-display {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 100;
+  min-width: 70px;
+}
+
+.cps-display.warning {
+  background: rgba(244, 67, 54, 0.3);
+  border-color: #f44336;
+  animation: pulseWarning 1s infinite;
+}
+
+.cps-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.cps-display.warning .cps-value {
+  color: #ffeb3b;
+}
+
+.cps-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.cps-warning-popup {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  background: rgba(244, 67, 54, 0.95);
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 200px;
+  box-shadow: 0 4px 20px rgba(244, 67, 54, 0.4);
+  animation: slideDown 0.3s ease;
+}
+
+.warning-title {
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+.warning-subtitle {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.warning-timer {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffeb3b;
+  margin-top: 4px;
+}
+
+@keyframes pulseWarning {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .cps-display {
+    top: 10px;
+    right: 10px;
+    padding: 6px 12px;
+    min-width: 60px;
+  }
+
+  .cps-value {
+    font-size: 14px;
+  }
+
+  .cps-label {
+    font-size: 9px;
+  }
+
+  .cps-warning-popup {
+    min-width: 160px;
+    padding: 10px 12px;
+  }
+
+  .warning-title {
+    font-size: 12px;
+  }
+
+  .warning-subtitle {
+    font-size: 10px;
+  }
+
+  .warning-timer {
+    font-size: 14px;
+  }
+}
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\Background.css ===== 
@@ -9711,8 +9905,10 @@ button {
 .collection-panel {
   width: 90vw;
   max-width: 1000px;
-  min-height: 600px;
-  max-height: 85vh;
+  height: 85%;
+  max-height: 90%;
+  display: flex;
+  flex-direction: column;
 }
 
 .collection-progress {
@@ -9721,6 +9917,11 @@ button {
   border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
+}
+.collection-scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 .category-tabs {

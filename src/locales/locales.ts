@@ -14,6 +14,10 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 export const locales = {
   ru: {
     ui: {
+      cps: "Кликов/сек",
+      cpsWarning: "⚠️ Подозрение на автокликер!",
+      cpsWarningSubtitle: "Остановитесь или сохранение будет удалено",
+      cpsWarningTime: "Осталось: {{seconds}}с",
       killEnemiesForDrops: "Убивайте врагов для коллекционных предметов",
       unlockRequirement: "Убейте босса на уровне {{level}} в {{location}}",
       killsToUnlock: "{{current}} / {{required}} убийств",

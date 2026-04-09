@@ -421,16 +421,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     type: "material",
     maxStack: 99,
   },
-  golem_core: {
-    id: "golem_core",
-    nameKey: "golemCore",
-    descriptionKey: "items.golemCore.desc",
-    icon: "golem_core",
-    rarity: "rare",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "accessory",
-  },
+
   sand_stone: {
     id: "sand_stone",
     nameKey: "sandStone",
@@ -440,16 +431,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     type: "material",
     maxStack: 99,
   },
-  scarab_shell: {
-    id: "scarab_shell",
-    nameKey: "scarabShell",
-    descriptionKey: "items.scarabShell.desc",
-    icon: "scarab_shell",
-    rarity: "uncommon",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "accessory",
-  },
+
   ice_crystal: {
     id: "ice_crystal",
     nameKey: "iceCrystal",
@@ -486,26 +468,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     type: "material",
     maxStack: 99,
   },
-  dragon_scale: {
-    id: "dragon_scale",
-    nameKey: "dragonScale",
-    descriptionKey: "items.dragonScale.desc",
-    icon: "dragon_scale",
-    rarity: "rare",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "accessory",
-  },
-  knight_armor: {
-    id: "knight_armor",
-    nameKey: "knightArmor",
-    descriptionKey: "items.knightArmor.desc",
-    icon: "knight_armor",
-    rarity: "uncommon",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "outfit",
-  },
+
   cursed_cloth: {
     id: "cursed_cloth",
     nameKey: "cursedCloth",
@@ -523,26 +486,6 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     rarity: "rare",
     type: "material",
     maxStack: 99,
-  },
-  shadow_tentacle_item: {
-    id: "shadow_tentacle_item",
-    nameKey: "shadowTentacleItem",
-    descriptionKey: "items.shadowTentacleItem.desc",
-    icon: "shadow_tentacle",
-    rarity: "rare",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "weapon",
-  },
-  abyss_pearl: {
-    id: "abyss_pearl",
-    nameKey: "abyssPearl",
-    descriptionKey: "items.abyssPearl.desc",
-    icon: "abyss_pearl",
-    rarity: "epic",
-    type: "collection",
-    maxStack: 1,
-    collectionCategory: "accessory",
   },
 };
 
