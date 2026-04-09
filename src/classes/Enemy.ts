@@ -178,8 +178,8 @@ export class Enemy {
         id: "gem",
         nameKey: "gem",
         chance: 1,
-        minCount: 10 + Math.floor(level / 5),
-        maxCount: 10 + Math.floor(level / 5),
+        minCount: 10 + Math.floor(level / 4),
+        maxCount: 10 + Math.floor(level / 4),
         type: "currency",
       });
       drops.push({ id: "essence", nameKey: "essence", chance: 0.1, minCount: 1, maxCount: 1, type: "currency" });

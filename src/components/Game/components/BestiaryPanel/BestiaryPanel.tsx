@@ -23,7 +23,7 @@ type TabType = "all" | TLocation;
 const UNLOCK_THRESHOLDS = {
   locations: 5,
   resistances: 100,
-  drops: 500,
+  drops: 200,
 };
 
 export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
@@ -35,12 +35,9 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
 
   const locationOrder: TLocation[] = ["forest", "desert", "ice", "volcano", "castle", "abyss"];
 
-  // Карта враг->локации (только разблокированные для игрока)
-  // Учитываем и обычных врагов из LOCATION_ENEMIES, и боссов из LOCATION_BOSSES
   const enemyLocations = useMemo(() => {
     const map: Record<string, TLocation[]> = {};
 
-    // Обычные враги
     for (const [location, enemies] of Object.entries(LOCATION_ENEMIES)) {
       const loc = location as TLocation;
       if (locationProgress[loc].unlocked) {
@@ -53,7 +50,6 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
       }
     }
 
-    // Боссы
     for (const [location, bosses] of Object.entries(LOCATION_BOSSES)) {
       const loc = location as TLocation;
       if (locationProgress[loc].unlocked) {
@@ -110,20 +106,17 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
     }));
   }, [bestiary, enemyLocations]);
 
-  // Фильтрация по вкладке
   const filteredEnemies = useMemo(() => {
     if (activeTab === "all") return unlockedEnemies;
     return unlockedEnemies.filter((enemy) => enemy.locations.includes(activeTab));
   }, [unlockedEnemies, activeTab]);
 
-  // Статистика открытых монстров
   const stats = useMemo(() => {
     const totalMonsters = MONSTER_TEMPLATES.length;
     const unlockedCount = unlockedEnemies.length;
     return { totalMonsters, unlockedCount };
   }, [unlockedEnemies]);
 
-  // Данные выбранного врага с учетом разблокировок
   const selectedEnemyData = useMemo(() => {
     if (!selectedEnemy) return null;
     const template = MONSTER_TEMPLATES.find((t) => t.id === selectedEnemy);
@@ -252,7 +245,6 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
 
               <p className="detail-description">{t(selectedEnemyData.description)}</p>
 
-              {/* Локации - разблокируются при 5 убийствах */}
               {selectedEnemyData.hasLocationsUnlocked ? (
                 <div className="detail-section">
                   <h4>
@@ -298,7 +290,6 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
                 </div>
               )}
 
-              {/* Сопротивления - разблокируются при 100 убийствах */}
               {selectedEnemyData.hasResistancesUnlocked ? (
                 <div className="detail-section">
                   <h4>
@@ -362,7 +353,6 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
                 </div>
               )}
 
-              {/* Дропы - разблокируются при 500 убийствах */}
               {selectedEnemyData.hasDropsUnlocked ? (
                 <div className="detail-section">
                   <h4>
@@ -375,7 +365,7 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
                         <div key={drop.id} className="drop-item-detail">
                           <Icon name={item?.icon || "unknown"} size="sm" />
                           <span className="drop-name">{item ? t(`items.${item.nameKey}.name`) : drop.id}</span>
-                          <span className="drop-chance">{Math.round(drop.chance * 100)}%</span>
+                          <span className="drop-chance">{(drop.chance * 100).toFixed(2)}%</span>
                           <span className="drop-range">
                             {drop.minCount}-{drop.maxCount}
                           </span>

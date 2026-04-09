@@ -14,6 +14,8 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 export const locales = {
   ru: {
     ui: {
+      killEnemiesForDrops: "Убивайте врагов для коллекционных предметов",
+      unlockRequirement: "Убейте босса на уровне {{level}} в {{location}}",
       killsToUnlock: "{{current}} / {{required}} убийств",
       locationLocked: "Локация ещё не открыта",
       unknownLocations: "Неизвестно",

@@ -7,7 +7,6 @@
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\all_components.txt
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\collect.bat
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\collectNonCSS.bat
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\eslint.config.js
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\index.html
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\package-lock.json
@@ -18,94 +17,8 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.app.json
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.json
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.node.json
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.tsbuildinfo
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\vite.config.ts
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\favicon.svg
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\icons.svg
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\index.html
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-D98C2m7x.css
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-WdzPZM_E.js
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\background.ogg
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\click.mp3
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\enemy_defeat.mp3
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\panel_click.mp3
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\abyss.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\castle.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\desert.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\forest.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\ice.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\volcano.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\DarkMage.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\DireWolf.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Ghost.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Goblin.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\LesserDemon.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Mimic.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Mummy.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Skeleton.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Slime.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\VampireThrall.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Whelp.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\accessory.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\all.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\back.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\check.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\close.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\collection.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\common.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\dark.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\earth.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\epic.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\essence.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\fire.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\gacha.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\gem.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\home.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\ice.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\legendary.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\light.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\memoria.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\mythic.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\outfit.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\pause.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\physical.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\play.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\pool.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\rare.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\settings.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\uncommon.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\unknown.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\upgrades.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\waifus.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\water.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\weapon.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Aqua.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Cerberus.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Emerald.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Frost.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Gaia.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Hana.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Ignis.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Leviathan.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Lux.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Momo.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Phoenix.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Rin.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Ruby.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Sakura.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Sapphire.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Sora.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Terra.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Tiamat.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Umbra.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Yui.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\YukiOnna.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\favicon.svg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\icons.svg
@@ -256,6 +169,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\main.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\vite-env.d.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\AudioManager.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Enemy.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Inventory.ts
@@ -658,6 +572,22 @@ export type TBestiaryProgress = Record<string, TBestiaryEntry>;
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\vite-env.d.ts ===== 
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly BASE_URL: string;
+  readonly MODE: string;
+  readonly DEV: boolean;
+  readonly PROD: boolean;
+  readonly SSR: boolean;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\App.tsx ===== 
@@ -1217,8 +1147,8 @@ export class Enemy {
         id: "gem",
         nameKey: "gem",
         chance: 1,
-        minCount: 10 + Math.floor(level / 5),
-        maxCount: 10 + Math.floor(level / 5),
+        minCount: 10 + Math.floor(level / 4),
+        maxCount: 10 + Math.floor(level / 4),
         type: "currency",
       });
       drops.push({ id: "essence", nameKey: "essence", chance: 0.1, minCount: 1, maxCount: 1, type: "currency" });
@@ -1513,8 +1443,8 @@ export class Waifu {
   getClickPower(): number {
     const baseWithBonus = this.baseClickPower + this.globalUpgrades.clickPowerBonus * 100;
     const totalPercentBonus =
-      (this.stats.level - 1) * 10 +
-      this.stats.affection * 1 +
+      (this.stats.level - 1) * 15 +
+      this.stats.affection * 0.5 +
       this.duplicateCount * 30 +
       (this.globalUpgrades.elementDamage[this.element] || 0) * 10 +
       (this.globalUpgrades.collectionBuffs.elementDamage[this.element] || 0) * 10;
@@ -1547,7 +1477,7 @@ export class Waifu {
   private levelUp(): void {
     this.stats.level++;
     this.stats.exp -= this.stats.expToNext;
-    this.stats.expToNext = Math.floor(this.stats.expToNext * 1.2);
+    this.stats.expToNext = Math.floor(this.stats.expToNext * 1.1);
   }
 
   addAffection(amount: number): void {
@@ -1963,7 +1893,10 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         <button className="side-btn" onClick={() => openPanel("gacha")}>
           <Icon name="gacha" size="lg" />
           <span>{t("ui.gacha")}</span>
-          <span className="side-btn-cost">10✨</span>
+          <span className="side-btn-cost">
+            10
+            <Icon name="essence" size="vsm" />
+          </span>
         </button>
         <button className="side-btn" onClick={() => openPanel("collection")}>
           <Icon name="collection" size="lg" />
@@ -2098,18 +2031,18 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
 import "./Background.css";
 
 interface BackgroundProps {
-    locationId?: string;
+  locationId?: string;
 }
 
 export function Background({ locationId = "forest" }: BackgroundProps) {
-    return (
-        <div
-            className="game-background"
-            style={{
-                backgroundImage: `url(/assets/images/backgrounds/${locationId}.png)`,
-            }}
-        />
-    );
+  return (
+    <div
+      className="game-background"
+      style={{
+        backgroundImage: `url(${import.meta.env.BASE_URL}assets/images/backgrounds/${locationId}.png)`,
+      }}
+    />
+  );
 }
  
  
@@ -2233,7 +2166,7 @@ type TabType = "all" | TLocation;
 const UNLOCK_THRESHOLDS = {
   locations: 5,
   resistances: 100,
-  drops: 500,
+  drops: 200,
 };
 
 export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
@@ -2245,12 +2178,9 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
 
   const locationOrder: TLocation[] = ["forest", "desert", "ice", "volcano", "castle", "abyss"];
 
-  // Карта враг->локации (только разблокированные для игрока)
-  // Учитываем и обычных врагов из LOCATION_ENEMIES, и боссов из LOCATION_BOSSES
   const enemyLocations = useMemo(() => {
     const map: Record<string, TLocation[]> = {};
 
-    // Обычные враги
     for (const [location, enemies] of Object.entries(LOCATION_ENEMIES)) {
       const loc = location as TLocation;
       if (locationProgress[loc].unlocked) {
@@ -2263,7 +2193,6 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
       }
     }
 
-    // Боссы
     for (const [location, bosses] of Object.entries(LOCATION_BOSSES)) {
       const loc = location as TLocation;
       if (locationProgress[loc].unlocked) {
@@ -2320,20 +2249,17 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
     }));
   }, [bestiary, enemyLocations]);
 
-  // Фильтрация по вкладке
   const filteredEnemies = useMemo(() => {
     if (activeTab === "all") return unlockedEnemies;
     return unlockedEnemies.filter((enemy) => enemy.locations.includes(activeTab));
   }, [unlockedEnemies, activeTab]);
 
-  // Статистика открытых монстров
   const stats = useMemo(() => {
     const totalMonsters = MONSTER_TEMPLATES.length;
     const unlockedCount = unlockedEnemies.length;
     return { totalMonsters, unlockedCount };
   }, [unlockedEnemies]);
 
-  // Данные выбранного врага с учетом разблокировок
   const selectedEnemyData = useMemo(() => {
     if (!selectedEnemy) return null;
     const template = MONSTER_TEMPLATES.find((t) => t.id === selectedEnemy);
@@ -2462,7 +2388,6 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
 
               <p className="detail-description">{t(selectedEnemyData.description)}</p>
 
-              {/* Локации - разблокируются при 5 убийствах */}
               {selectedEnemyData.hasLocationsUnlocked ? (
                 <div className="detail-section">
                   <h4>
@@ -2508,7 +2433,6 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
                 </div>
               )}
 
-              {/* Сопротивления - разблокируются при 100 убийствах */}
               {selectedEnemyData.hasResistancesUnlocked ? (
                 <div className="detail-section">
                   <h4>
@@ -2572,7 +2496,6 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
                 </div>
               )}
 
-              {/* Дропы - разблокируются при 500 убийствах */}
               {selectedEnemyData.hasDropsUnlocked ? (
                 <div className="detail-section">
                   <h4>
@@ -2585,7 +2508,7 @@ export function BestiaryPanel({ isOpen, onClose }: BestiaryPanelProps) {
                         <div key={drop.id} className="drop-item-detail">
                           <Icon name={item?.icon || "unknown"} size="sm" />
                           <span className="drop-name">{item ? t(`items.${item.nameKey}.name`) : drop.id}</span>
-                          <span className="drop-chance">{Math.round(drop.chance * 100)}%</span>
+                          <span className="drop-chance">{(drop.chance * 100).toFixed(2)}%</span>
                           <span className="drop-range">
                             {drop.minCount}-{drop.maxCount}
                           </span>
@@ -3909,8 +3832,15 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
         candidates.length > 0
           ? candidates[Math.floor(Math.random() * candidates.length)]!
           : available[Math.floor(Math.random() * available.length)]!;
+
       const waifu = Waifu.fromTemplate(selected);
-      const isDuplicate = ownedWaifus.some((w) => w.id === waifu.id);
+      const existing = ownedWaifus.find((w) => w.id === waifu.id);
+      const isDuplicate = !!existing;
+
+      if (isDuplicate && existing) {
+        waifu.duplicateCount = existing.duplicateCount + 1;
+      }
+
       setResult({ waifu, isDuplicate });
       setIsAnimating(false);
       removeItem("essence", 10);
@@ -4429,7 +4359,9 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
                     style={canAfford && upgrade.element ? { background: ELEMENT_COLORS[upgrade.element] } : undefined}
                   >
                     <span className="upgrade-effect-modal">{effect}</span>
-                    <span className="upgrade-cost-modal">💎 {cost}</span>
+                    <span className="upgrade-cost-modal">
+                      <Icon name="gem" size="vsm" /> {cost}
+                    </span>
                   </button>
                 </div>
               );
@@ -4700,11 +4632,12 @@ export function WaifuSelectPanel({ isOpen, onClose, onSelect }: WaifuSelectPanel
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Icon\Icon.tsx ===== 
 interface IconProps {
   name: string;
-  size?: "sm" | "md" | "lg";
+  size?: "vsm" | "sm" | "md" | "lg";
   className?: string;
 }
 
 const sizeMap = {
+  vsm: 16,
   sm: 24,
   md: 32,
   lg: 48,
@@ -7009,6 +6942,8 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 export const locales = {
   ru: {
     ui: {
+      killEnemiesForDrops: "Убивайте врагов для коллекционных предметов",
+      unlockRequirement: "Убейте босса на уровне {{level}} в {{location}}",
       killsToUnlock: "{{current}} / {{required}} убийств",
       locationLocked: "Локация ещё не открыта",
       unknownLocations: "Неизвестно",
@@ -7944,7 +7879,7 @@ export const useGameStore = create<GameState & GameActions>()(
       upgradeClickPower: (): boolean => {
         const state = get();
         const currentLevel = state.globalUpgrades.clickPowerBonus;
-        const cost = Math.floor(10 + Math.pow(currentLevel, 1.5));
+        const cost = Math.floor(10 + Math.pow(currentLevel, 2.3));
 
         const inventory = state.inventory.clone();
         if (!inventory.removeItem("gem", cost)) {

@@ -251,7 +251,7 @@ export const useGameStore = create<GameState & GameActions>()(
       upgradeClickPower: (): boolean => {
         const state = get();
         const currentLevel = state.globalUpgrades.clickPowerBonus;
-        const cost = Math.floor(10 + Math.pow(currentLevel, 1.5));
+        const cost = Math.floor(10 + Math.pow(currentLevel, 2.3));
 
         const inventory = state.inventory.clone();
         if (!inventory.removeItem("gem", cost)) {

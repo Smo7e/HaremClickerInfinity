@@ -121,8 +121,8 @@ export class Waifu {
   getClickPower(): number {
     const baseWithBonus = this.baseClickPower + this.globalUpgrades.clickPowerBonus * 100;
     const totalPercentBonus =
-      (this.stats.level - 1) * 10 +
-      this.stats.affection * 1 +
+      (this.stats.level - 1) * 15 +
+      this.stats.affection * 0.5 +
       this.duplicateCount * 30 +
       (this.globalUpgrades.elementDamage[this.element] || 0) * 10 +
       (this.globalUpgrades.collectionBuffs.elementDamage[this.element] || 0) * 10;
@@ -155,7 +155,7 @@ export class Waifu {
   private levelUp(): void {
     this.stats.level++;
     this.stats.exp -= this.stats.expToNext;
-    this.stats.expToNext = Math.floor(this.stats.expToNext * 1.2);
+    this.stats.expToNext = Math.floor(this.stats.expToNext * 1.1);
   }
 
   addAffection(amount: number): void {

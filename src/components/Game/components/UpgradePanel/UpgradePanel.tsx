@@ -195,7 +195,9 @@ export function UpgradePanel({ isOpen, onClose }: UpgradePanelProps) {
                     style={canAfford && upgrade.element ? { background: ELEMENT_COLORS[upgrade.element] } : undefined}
                   >
                     <span className="upgrade-effect-modal">{effect}</span>
-                    <span className="upgrade-cost-modal">💎 {cost}</span>
+                    <span className="upgrade-cost-modal">
+                      <Icon name="gem" size="vsm" /> {cost}
+                    </span>
                   </button>
                 </div>
               );

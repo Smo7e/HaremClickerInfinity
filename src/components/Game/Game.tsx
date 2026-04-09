@@ -200,7 +200,10 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         <button className="side-btn" onClick={() => openPanel("gacha")}>
           <Icon name="gacha" size="lg" />
           <span>{t("ui.gacha")}</span>
-          <span className="side-btn-cost">10✨</span>
+          <span className="side-btn-cost">
+            10
+            <Icon name="essence" size="vsm" />
+          </span>
         </button>
         <button className="side-btn" onClick={() => openPanel("collection")}>
           <Icon name="collection" size="lg" />
