@@ -1,5 +1,5 @@
 import type { TInventoryItem, TItemType, TCollectionCategory } from "../types";
-import { INVENTORY_ITEMS } from "../game/constant";
+import { INVENTORY_ITEMS, TInventoryItemId } from "../game/constant";
 
 export class Inventory {
   items: Map<string, TInventoryItem>;
@@ -52,7 +52,7 @@ export class Inventory {
     return true;
   }
 
-  getItem(itemId: string): TInventoryItem | undefined {
+  getItem(itemId: TInventoryItemId): TInventoryItem | undefined {
     return this.items.get(itemId);
   }
 

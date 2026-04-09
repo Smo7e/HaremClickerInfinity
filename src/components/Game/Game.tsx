@@ -18,7 +18,7 @@ import { Icon } from "../Icon/Icon";
 import { Background } from "./components/Background/Background";
 import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
 import { CheatMenu } from "./components/CheatMenu/CheatMenu";
-import { CraftPanel } from "./components/CraftPanel/CraftPanel";
+import { CraftPanel, TCraftableItem } from "./components/CraftPanel/CraftPanel";
 import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
 import { useCPS } from "../../hooks/useCPS";
 
@@ -80,15 +80,10 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     (itemId: string) => {
       const item = inventory.getItem(itemId);
       if (!item || !item.effect) return;
-
-      if (
-        item.effect.type === "level_down_10" ||
-        item.effect.type === "level_down_20" ||
-        item.effect.type === "level_down_50"
-      ) {
+      // Используем универсальный тип level_down
+      if (item.effect.type === "level_down") {
         const levelsToReduce = item.effect.value;
         const newLevel = Math.max(1, locationProgress[currentLocation].currentLevel - levelsToReduce);
-
         useGameStore.setState((state) => ({
           locationProgress: {
             ...state.locationProgress,
@@ -98,7 +93,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
             },
           },
         }));
-
         removeItem(itemId, 1);
         useGameStore.getState().spawnEnemy();
         return;
@@ -123,17 +117,16 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   );
 
   const handleCraft = useCallback(
-    (item: (typeof import("../../game/constant").CRAFT_ITEMS)[0]) => {
+    (item: TCraftableItem, quantity: number = 1) => {
       for (const ing of item.ingredients) {
-        if (!removeItem(ing.itemId, ing.count)) {
+        if (!removeItem(ing.itemId, ing.count * quantity)) {
           return;
         }
       }
-      addItem(item.id, 1);
+      addItem(item.id, quantity);
     },
     [addItem, removeItem],
   );
-
   const handleWaifuSelect = useCallback(
     (waifuId: string) => {
       setActiveWaifu(waifuId);
@@ -237,11 +230,11 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
           <span>{t("ui.backpack")}</span>
         </button>
         <button className="side-btn" onClick={() => openPanel("craft")}>
-          <Icon name="collection" size="lg" />
+          <Icon name="craft" size="lg" />
           <span>{t("ui.craft")}</span>
         </button>
         <button className="side-btn" onClick={() => openPanel("bestiary")}>
-          <Icon name="collection" size="lg" />
+          <Icon name="book" size="lg" />
           <span>{t("ui.bestiary")}</span>
         </button>
       </nav>

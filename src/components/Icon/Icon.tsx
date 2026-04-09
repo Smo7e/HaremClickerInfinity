@@ -11,24 +11,7 @@ const sizeMap = {
   lg: 48,
 };
 
-// Эмодзи для отсутствующих иконок
-const EMOJI_FALLBACK: Record<string, string> = {
-  forest_essence: "🌿",
-  spider_venom: "🕷️",
-  golem_core: "🪨",
-  sand_stone: "🏜️",
-  scarab_shell: "🪲",
-  ice_crystal: "❄️",
-  frost_fang: "🐺",
-  lava_chunk: "🌋",
-  imp_ash: "🔥",
-  dragon_scale: "🐉",
-  knight_armor: "🛡️",
-  cursed_cloth: "🏴",
-  void_essence: "🌑",
-  shadow_tentacle: "🦑",
-  abyss_pearl: "⚫",
-};
+const EMOJI_FALLBACK: Record<string, string> = {};
 export function Icon({ name, size = "md", className = "" }: IconProps) {
   const px = sizeMap[size];
 

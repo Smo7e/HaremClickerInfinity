@@ -53,7 +53,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\G
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\Goblin.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\IceElemental.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\IceQueen.png
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\InfernoDragonNON.txt
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\InfernoDragon.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\LavaSlime.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\LesserDemon.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\enemies\Mimic.png
@@ -75,6 +75,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\aut
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\back.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\backpack.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\bone.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\book.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\castle.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\check.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\click.png
@@ -83,8 +84,10 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\coi
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\coin_old.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\collection.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\common.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\craft.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\crit.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\critPower.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\cursed_cloth.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\dagger.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\dark.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\desert.png
@@ -98,12 +101,17 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\ess
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\exp.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\fire.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\forest.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\forest_essence.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\frost_fang.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\gacha.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\gel.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\gem.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\home.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\horn.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\ice.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\ice_crystal.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\imp_ash.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\lava_chunk.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\legendary.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\level.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\light.png
@@ -117,18 +125,39 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\phy
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\play.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\pool.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\potion.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\potion_abyss.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\potion_castle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\potion_desert.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\potion_forest.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\potion_ice.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\potion_volcano.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\rare.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\sand_stone.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_abyss_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_abyss_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_castle_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_castle_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_desert_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_desert_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_forest_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_forest_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_ice_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_ice_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_volcano_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\scroll_volcano_exp.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\settings.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\shield.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\skull.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\slime_core.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\soul_shard.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\spider_venom.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\staff.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\summoning.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\uncommon.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\unknown.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\upgrades.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\void_essence.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\volcano.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\waifus.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images\icons\water.png
@@ -457,7 +486,6 @@ export type TItemType = "collection" | "consumable" | "material" | "currency";
 export interface ILocationConfig {
   id: TLocation;
   nameKey: string;
-  availableEnemies: string[];
   minLevel: number;
   maxLevel: number;
   levelScaling: number;
@@ -481,8 +509,54 @@ export type TWaifu = {
   critMultiplier: number;
 };
 export type TCollectionCategory = "weapon" | "accessory" | "memoria" | "outfit";
+export type TInventoryItemId =
+  | "gem"
+  | "essence"
+  | "coin"
+  | "gel"
+  | "slime_core"
+  | "goblin_dagger"
+  | "goblin_ear"
+  | "bone"
+  | "skull"
+  | "ectoplasm"
+  | "soul_shard"
+  | "magic_scroll"
+  | "dark_orb"
+  | "mage_staff"
+  | "demon_horn"
+  | "hellfire_essence"
+  | "demon_wing"
+  | "ancient_coin"
+  | "forest_essence"
+  | "spider_venom"
+  | "sand_stone"
+  | "ice_crystal"
+  | "frost_fang"
+  | "lava_chunk"
+  | "imp_ash"
+  | "cursed_cloth"
+  | "void_essence"
+  | "affection_potion_forest"
+  | "exp_scroll_forest"
+  | "level_down_scroll_forest"
+  | "affection_potion_desert"
+  | "exp_scroll_desert"
+  | "level_down_scroll_desert"
+  | "affection_potion_ice"
+  | "exp_scroll_ice"
+  | "level_down_scroll_ice"
+  | "affection_potion_volcano"
+  | "exp_scroll_volcano"
+  | "level_down_scroll_volcano"
+  | "affection_potion_castle"
+  | "exp_scroll_castle"
+  | "level_down_scroll_castle"
+  | "affection_potion_abyss"
+  | "exp_scroll_abyss"
+  | "level_down_scroll_abyss";
 export type TInventoryItem = {
-  id: string;
+  id: TInventoryItemId;
   nameKey: string;
   descriptionKey: LocaleKeys;
   icon: string;
@@ -490,25 +564,21 @@ export type TInventoryItem = {
   type: TItemType;
   count: number;
   maxStack?: number;
+  canCraft?: boolean;
+  ingredients?: Array<{
+    itemId: TInventoryItemId;
+    count: number;
+  }>;
   effect?: {
-    type:
-      | "exp"
-      | "affection"
-      | "crit_chance"
-      | "heal"
-      | "damage_boost"
-      | "level_down_10"
-      | "level_down_20"
-      | "level_down_50";
+    type: "exp" | "affection" | "level_down";
     value: number;
     target: "selected_waifu" | "global" | "current_location";
-    duration?: number;
   };
   collectionCategory?: TCollectionCategory;
 };
 
 export type TDropItem = {
-  id: string;
+  id: TInventoryItemId;
   nameKey: string;
   chance: number;
   minCount: number;
@@ -522,7 +592,7 @@ export interface IInventory {
 }
 
 export type TConsumableItem = {
-  id: string;
+  id: TInventoryItemId;
   nameKey: string;
   descriptionKey: LocaleKeys;
   icon: string;
@@ -554,22 +624,6 @@ export interface IGlobalUpgrades {
     expBonus: number;
   };
 }
-export type TCraftItem = {
-  id: string;
-  nameKey: string;
-  descriptionKey: LocaleKeys;
-  icon: string;
-  rarity: TRarity;
-  ingredients: Array<{
-    itemId: string;
-    count: number;
-  }>;
-  effect?: {
-    type: "exp" | "affection" | "heal" | "level_down_10" | "level_down_20" | "level_down_50";
-    value: number;
-    target: "selected_waifu" | "global" | "current_location";
-  };
-};
 
 export type TBestiaryEntry = {
   enemyId: string;
@@ -1195,7 +1249,7 @@ export class Enemy {
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Inventory.ts ===== 
 import type { TInventoryItem, TItemType, TCollectionCategory } from "../types";
-import { INVENTORY_ITEMS } from "../game/constant";
+import { INVENTORY_ITEMS, TInventoryItemId } from "../game/constant";
 
 export class Inventory {
   items: Map<string, TInventoryItem>;
@@ -1248,7 +1302,7 @@ export class Inventory {
     return true;
   }
 
-  getItem(itemId: string): TInventoryItem | undefined {
+  getItem(itemId: TInventoryItemId): TInventoryItem | undefined {
     return this.items.get(itemId);
   }
 
@@ -1566,6 +1620,7 @@ export class Waifu {
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\ErrorBoundary\ErrorBoundary.tsx ===== 
 import { Component, ErrorInfo, ReactNode } from "react";
+import { t } from "../../locales/i18n";
 
 interface Props {
   children: ReactNode;
@@ -1619,7 +1674,7 @@ export class ErrorBoundary extends Component<Props, State> {
       };
 
       console.error("[ErrorBoundary] Error report:", errorData);
-      alert("Ошибка сохранена в консоли. Пожалуйста, отправьте скриншот разработчику.");
+      alert(t("errorBoundary.reportMessage"));
     }
   };
 
@@ -1637,8 +1692,8 @@ export class ErrorBoundary extends Component<Props, State> {
             fontFamily: "Arial, sans-serif",
           }}
         >
-          <h1 style={{ color: "#f44336" }}>⚠️ Произошла ошибка</h1>
-          <p>Игра столкнулась с непредвиденной ошибкой.</p>
+          <h1 style={{ color: "#f44336" }}>⚠️ {t("errorBoundary.title")}</h1>
+          <p>{t("errorBoundary.description")}</p>
           {this.state.error && (
             <details
               style={{
@@ -1649,7 +1704,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 textAlign: "left",
               }}
             >
-              <summary style={{ cursor: "pointer" }}>Детали ошибки</summary>
+              <summary style={{ cursor: "pointer" }}>{t("errorBoundary.details")}</summary>
               <pre
                 style={{
                   fontSize: "12px",
@@ -1675,7 +1730,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 cursor: "pointer",
               }}
             >
-              Сбросить прогресс
+              {t("errorBoundary.resetButton")}
             </button>
             <button
               onClick={this.handleReport}
@@ -1688,7 +1743,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 cursor: "pointer",
               }}
             >
-              Сообщить об ошибке
+              {t("errorBoundary.reportButton")}
             </button>
           </div>
         </div>
@@ -1721,7 +1776,7 @@ import { Icon } from "../Icon/Icon";
 import { Background } from "./components/Background/Background";
 import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
 import { CheatMenu } from "./components/CheatMenu/CheatMenu";
-import { CraftPanel } from "./components/CraftPanel/CraftPanel";
+import { CraftPanel, TCraftableItem } from "./components/CraftPanel/CraftPanel";
 import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
 import { useCPS } from "../../hooks/useCPS";
 
@@ -1783,15 +1838,10 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     (itemId: string) => {
       const item = inventory.getItem(itemId);
       if (!item || !item.effect) return;
-
-      if (
-        item.effect.type === "level_down_10" ||
-        item.effect.type === "level_down_20" ||
-        item.effect.type === "level_down_50"
-      ) {
+      // Используем универсальный тип level_down
+      if (item.effect.type === "level_down") {
         const levelsToReduce = item.effect.value;
         const newLevel = Math.max(1, locationProgress[currentLocation].currentLevel - levelsToReduce);
-
         useGameStore.setState((state) => ({
           locationProgress: {
             ...state.locationProgress,
@@ -1801,7 +1851,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
             },
           },
         }));
-
         removeItem(itemId, 1);
         useGameStore.getState().spawnEnemy();
         return;
@@ -1826,17 +1875,16 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   );
 
   const handleCraft = useCallback(
-    (item: (typeof import("../../game/constant").CRAFT_ITEMS)[0]) => {
+    (item: TCraftableItem, quantity: number = 1) => {
       for (const ing of item.ingredients) {
-        if (!removeItem(ing.itemId, ing.count)) {
+        if (!removeItem(ing.itemId, ing.count * quantity)) {
           return;
         }
       }
-      addItem(item.id, 1);
+      addItem(item.id, quantity);
     },
     [addItem, removeItem],
   );
-
   const handleWaifuSelect = useCallback(
     (waifuId: string) => {
       setActiveWaifu(waifuId);
@@ -1940,11 +1988,11 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
           <span>{t("ui.backpack")}</span>
         </button>
         <button className="side-btn" onClick={() => openPanel("craft")}>
-          <Icon name="collection" size="lg" />
+          <Icon name="craft" size="lg" />
           <span>{t("ui.craft")}</span>
         </button>
         <button className="side-btn" onClick={() => openPanel("bestiary")}>
-          <Icon name="collection" size="lg" />
+          <Icon name="book" size="lg" />
           <span>{t("ui.bestiary")}</span>
         </button>
       </nav>
@@ -2074,7 +2122,7 @@ export function Background({ locationId = "forest" }: BackgroundProps) {
 import { useState } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
-import { RARITY_COLORS } from "../../../../game/constant";
+import { INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
 import "./BackpackPanel.css";
 import { Icon } from "../../../Icon/Icon";
 
@@ -2137,10 +2185,14 @@ export function BackpackPanel({ isOpen, onClose, onUseItem, selectedWaifuId }: B
           ) : (
             <div className="item-grid">
               {filteredItems.map((item) => {
-                // Безопасная подстановка уровня только для свитков понижения
-                let itemDesc = t(`items.${item.nameKey}.desc`);
-                if (itemDesc.includes("{{level}}")) {
-                  itemDesc = itemDesc.replace("{{level}}", currentLevel.toString());
+                const template = INVENTORY_ITEMS[item.id];
+                const actualValue = template?.effect?.value ?? item.effect?.value ?? 0;
+                let itemDesc = t(`items.${item.nameKey}.desc`).replace("{{value}}", actualValue.toString());
+
+                // Для отображения эффекта тоже используйте шаблон:
+                const effectType = template?.effect?.type ?? item.effect?.type;
+                if (effectType === "level_down") {
+                  itemDesc = itemDesc + ` (${currentLevel.toString()})`;
                 }
 
                 return (
@@ -3130,36 +3182,51 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CraftPanel\CraftPanel.tsx ===== 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
-import { CRAFT_ITEMS, INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
-import type { TCraftItem } from "../../../../types";
+import { INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
+import type { TInventoryItem, TRarity } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
 import "./CraftPanel.css";
+
+export type TCraftableItem = TInventoryItem & {
+  canCraft: true;
+  ingredients: Array<{
+    itemId: string;
+    count: number;
+  }>;
+};
 
 interface CraftPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  onCraft: (item: TCraftItem) => void;
+  onCraft: (item: TCraftableItem, quantity: number) => void;
   onUseItem: (itemId: string) => void;
   selectedWaifuId?: string;
 }
 
 type CraftTab = "craft" | "use";
 type CraftFilter = "all" | "potion" | "scroll" | "available";
+const rarityOrder: TRarity[] = ["mythic", "legendary", "epic", "rare", "uncommon", "common"];
 
 export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuId }: CraftPanelProps) {
   const [activeTab, setActiveTab] = useState<CraftTab>("craft");
-  const [selectedCraftItem, setSelectedCraftItem] = useState<TCraftItem | null>(null);
+  const [selectedCraftItem, setSelectedCraftItem] = useState<TCraftableItem | null>(null);
+  const [craftQuantity, setCraftQuantity] = useState(1);
   const [craftFilter, setCraftFilter] = useState<CraftFilter>("all");
   const inventory = useGameStore((state) => state.inventory);
   const currentLocation = useGameStore((state) => state.currentLocation);
   const locationProgress = useGameStore((state) => state.locationProgress);
   const currentLevel = locationProgress[currentLocation]?.currentLevel ?? 1;
 
+  // Получаем все крафтовые предметы
   const craftableItems = useMemo(() => {
-    return CRAFT_ITEMS.map((item) => {
+    const items = Object.values(INVENTORY_ITEMS)
+      .filter((item): item is TCraftableItem => item.canCraft === true && !!item.ingredients)
+      .sort((a, b) => rarityOrder.indexOf(b.rarity) - rarityOrder.indexOf(a.rarity));
+
+    return items.map((item) => {
       const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
       return { ...item, canCraft };
     });
@@ -3169,7 +3236,7 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
     return inventory.getItemsByType("consumable");
   }, [inventory]);
 
-  // Фильтрация по подкатегориям
+  // Фильтрация
   const filteredCraftItems = useMemo(() => {
     return craftableItems.filter((item) => {
       if (craftFilter === "available") return item.canCraft;
@@ -3179,15 +3246,49 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
     });
   }, [craftableItems, craftFilter]);
 
-  const handleCraft = useCallback(
-    (item: TCraftItem) => {
-      const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
-      if (canCraft) {
-        onCraft(item);
+  // Расчет максимального количества для крафта
+  const getMaxCraftable = useCallback(
+    (item: TCraftableItem) => {
+      if (!item.ingredients || item.ingredients.length === 0) return 99;
+
+      const maxStack = item.maxStack || 1;
+      const currentCount = inventory.getItemCount(item.id);
+      const canFit = Math.max(0, maxStack - currentCount);
+
+      let max = Infinity;
+      for (const ing of item.ingredients) {
+        const has = inventory.getItemCount(ing.itemId);
+        const possible = Math.floor(has / ing.count);
+        if (possible < max) max = possible;
       }
+
+      return Math.max(0, Math.min(max, canFit));
     },
-    [inventory, onCraft],
+    [inventory],
   );
+
+  // Сбрасываем количество при открытии модалки
+  useEffect(() => {
+    if (selectedCraftItem) {
+      setCraftQuantity(1);
+    }
+  }, [selectedCraftItem?.id]);
+
+  const handleCraftClick = useCallback(() => {
+    if (!selectedCraftItem) return;
+    onCraft(selectedCraftItem, craftQuantity);
+    setSelectedCraftItem(null);
+    setCraftQuantity(1);
+  }, [selectedCraftItem, craftQuantity, onCraft]);
+
+  // Проверка возможности крафта выбранного количества
+  const canCraftAmount = useMemo(() => {
+    if (!selectedCraftItem) return false;
+    return selectedCraftItem.ingredients.every((ing) => {
+      const has = inventory.getItemCount(ing.itemId);
+      return has >= ing.count * craftQuantity;
+    });
+  }, [selectedCraftItem, craftQuantity, inventory]);
 
   if (!isOpen) return null;
 
@@ -3219,7 +3320,6 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
         <div className="panel-content">
           {activeTab === "craft" ? (
             <>
-              {/* Фильтры в стиле коллекции */}
               <div className="craft-filters">
                 <button
                   className={`craft-filter-btn ${craftFilter === "all" ? "active" : ""}`}
@@ -3251,59 +3351,60 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                 </button>
               </div>
 
-              {/* Список рецептов (скроллится вместе с панелью) */}
               <div className="craft-list">
                 {filteredCraftItems.length === 0 ? (
                   <p className="empty-message">{t("ui.noItems")}</p>
                 ) : (
-                  filteredCraftItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className={`craft-item-card ${item.canCraft ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
-                      onClick={() => setSelectedCraftItem(item)}
-                    >
-                      <div className="craft-item-header">
-                        <Icon name={item.icon} size="md" />
-                        <span className="craft-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
-                          {t(`items.${item.nameKey}.name`)}
-                        </span>
-                        <span className={`craft-status ${item.canCraft ? "ready" : "locked"}`}>
-                          {item.canCraft ? "✓" : "✕"}
-                        </span>
-                      </div>
-                      <p className="craft-item-desc">
-                        {t(item.descriptionKey).replace("{{level}}", currentLevel.toString())}
-                      </p>
-                      <div className="craft-ingredients">
-                        {item.ingredients.map((ing) => {
-                          const has = inventory.getItemCount(ing.itemId);
-                          const needed = ing.count;
-                          const template = INVENTORY_ITEMS[ing.itemId];
-                          return (
-                            <div key={ing.itemId} className={`ingredient ${has >= needed ? "has" : "missing"}`}>
-                              <Icon name={template?.icon || "unknown"} size="sm" />
-                              <span>
-                                {has}/{needed} {t(`items.${template?.nameKey || ing.itemId}.name`)}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                      {item.effect && (
-                        <div className="craft-effect">
-                          <Icon name="upgrades" size="sm" />
-                          <span>
-                            {item.effect.type === "level_down_10" && "-10 " + t("ui.levels")}
-                            {item.effect.type === "level_down_20" && "-20 " + t("ui.levels")}
-                            {item.effect.type === "level_down_50" && "-50 " + t("ui.levels")}
-                            {item.effect.type === "exp" && `+${item.effect.value} EXP`}
-                            {item.effect.type === "affection" && `+${item.effect.value} ${t("ui.affection")}`}
-                            {item.effect.type === "heal" && `+${item.effect.value} HP`}
+                  filteredCraftItems.map((item) => {
+                    const maxAmount = getMaxCraftable(item as TCraftableItem);
+                    return (
+                      <div
+                        key={item.id}
+                        className={`craft-item-card ${maxAmount > 0 ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
+                        onClick={() => setSelectedCraftItem(item as TCraftableItem)}
+                      >
+                        <div className="craft-item-header">
+                          <Icon name={item.icon} size="md" />
+                          <span className="craft-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
+                            {t(`items.${item.nameKey}.name`)}
+                          </span>
+                          <span className={`craft-status ${maxAmount > 0 ? "ready" : "locked"}`}>
+                            {maxAmount > 0 ? "✓" : "✕"}
                           </span>
                         </div>
-                      )}
-                    </div>
-                  ))
+                        <p className="craft-item-desc">
+                          {t(item.descriptionKey).replace("{{value}}", item.effect?.value.toString() || "0") +
+                            ` (${inventory.getItemCount(item.id)})`}
+                        </p>
+                        <div className="craft-ingredients">
+                          {item.ingredients.map((ing) => {
+                            const has = inventory.getItemCount(ing.itemId);
+                            const template = INVENTORY_ITEMS[ing.itemId];
+                            return (
+                              <div key={ing.itemId} className={`ingredient ${has >= ing.count ? "has" : "missing"}`}>
+                                <Icon name={template?.icon || "unknown"} size="sm" />
+                                <span>
+                                  {has}/{ing.count} {t(`items.${template?.nameKey || ing.itemId}.name`)}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        {item.effect && (
+                          <div className="craft-effect">
+                            {item.effect.type === "level_down" && <Icon name="scroll" size="sm" />}
+                            {item.effect.type === "exp" && <Icon name="exp" size="sm" />}
+                            {item.effect.type === "affection" && <Icon name="affection" size="sm" />}
+                            <span>
+                              {item.effect.type === "level_down" && -item.effect.value + " " + t("ui.levels")}
+                              {item.effect.type === "exp" && `+${item.effect.value} EXP`}
+                              {item.effect.type === "affection" && `+${item.effect.value} ${t("ui.affection")}`}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
                 )}
               </div>
             </>
@@ -3321,7 +3422,10 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                           {t(`items.${item.nameKey}.name`)}
                         </span>
                         <span className="use-item-count">x{item.count}</span>
-                        <p className="use-item-desc">{t(`items.${item.nameKey}.desc`)}</p>
+                        <p className="use-item-desc">
+                          {t(`items.${item.nameKey}.desc`) +
+                            (item.effect?.type === "level_down" ? ` (${currentLevel.toString()})` : "")}
+                        </p>
                       </div>
                     </div>
                     <button
@@ -3345,11 +3449,44 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                 {t(`items.${selectedCraftItem.nameKey}.name`)}
               </h3>
               <p>{t(selectedCraftItem.descriptionKey).replace("{{level}}", currentLevel.toString())}</p>
+
+              <div className="craft-quantity-selector">
+                <label>{t("ui.quantity") || "Количество"}:</label>
+                <div className="quantity-controls">
+                  <button
+                    className="qty-btn"
+                    onClick={() => setCraftQuantity((q) => Math.max(1, q - 1))}
+                    disabled={craftQuantity <= 1}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="range"
+                    min="1"
+                    max={getMaxCraftable(selectedCraftItem)}
+                    value={craftQuantity}
+                    onChange={(e) => setCraftQuantity(Number(e.target.value))}
+                    className="craft-quantity-slider"
+                  />
+                  <button
+                    className="qty-btn"
+                    onClick={() => setCraftQuantity((q) => Math.min(getMaxCraftable(selectedCraftItem), q + 1))}
+                    disabled={craftQuantity >= getMaxCraftable(selectedCraftItem)}
+                  >
+                    +
+                  </button>
+                  <span className="quantity-value">{craftQuantity}</span>
+                </div>
+                <small className="max-craft-hint">
+                  {t("ui.maxAvailable") || "Максимум"}: {getMaxCraftable(selectedCraftItem)}
+                </small>
+              </div>
+
               <div className="craft-modal-ingredients">
                 <h4>{t("ui.requiredMaterials")}</h4>
                 {selectedCraftItem.ingredients.map((ing) => {
                   const has = inventory.getItemCount(ing.itemId);
-                  const needed = ing.count;
+                  const needed = ing.count * craftQuantity;
                   const template = INVENTORY_ITEMS[ing.itemId];
                   return (
                     <div key={ing.itemId} className={`modal-ingredient ${has >= needed ? "has" : "missing"}`}>
@@ -3366,14 +3503,8 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                 <button className="btn-secondary" onClick={() => setSelectedCraftItem(null)}>
                   {t("ui.cancel")}
                 </button>
-                <button
-                  className="btn-primary"
-                  onClick={() => handleCraft(selectedCraftItem)}
-                  disabled={
-                    !selectedCraftItem.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count)
-                  }
-                >
-                  {t("ui.craft")}
+                <button className="btn-primary" onClick={handleCraftClick} disabled={!canCraftAmount}>
+                  {t("ui.craft")} {craftQuantity > 1 ? `x${craftQuantity}` : ""}
                 </button>
               </div>
             </div>
@@ -4098,7 +4229,7 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\LocationSelector\LocationSelector.tsx ===== 
 import { t } from "../../../../locales/i18n";
-import { LOCATIONS, LOCATION_ENEMIES, LOCATION_UNLOCK_REQUIREMENTS } from "../../../../game/constant";
+import { LOCATIONS, LOCATION_UNLOCK_REQUIREMENTS } from "../../../../game/constant";
 import type { TLocation } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
 import "./LocationSelector.css";
@@ -4166,13 +4297,7 @@ export function LocationSelector({
                 </div>
                 <div className="location-info">
                   <span className="location-name">{t(`ui.locations.${loc.id}`)}</span>
-                  <span className="location-enemies">
-                    {LOCATION_ENEMIES[loc.id]
-                      .slice(0, 2)
-                      .map((e) => t(`monsters.${e}.name`))
-                      .join(", ")}
-                    ...
-                  </span>
+
                   <div className="location-bonuses">
                     <span className="bonus-badge gem">💎 x{formatBonus(loc.bonuses.gemMultiplier)}</span>
                     <span className="bonus-badge essence">✨ x{formatBonus(loc.bonuses.essenceMultiplier)}</span>
@@ -4732,24 +4857,7 @@ const sizeMap = {
   lg: 48,
 };
 
-// Эмодзи для отсутствующих иконок
-const EMOJI_FALLBACK: Record<string, string> = {
-  forest_essence: "🌿",
-  spider_venom: "🕷️",
-  golem_core: "🪨",
-  sand_stone: "🏜️",
-  scarab_shell: "🪲",
-  ice_crystal: "❄️",
-  frost_fang: "🐺",
-  lava_chunk: "🌋",
-  imp_ash: "🔥",
-  dragon_scale: "🐉",
-  knight_armor: "🛡️",
-  cursed_cloth: "🏴",
-  void_essence: "🌑",
-  shadow_tentacle: "🦑",
-  abyss_pearl: "⚫",
-};
+const EMOJI_FALLBACK: Record<string, string> = {};
 export function Icon({ name, size = "md", className = "" }: IconProps) {
   const px = sizeMap[size];
 
@@ -5552,12 +5660,11 @@ import type {
   TWaifu,
   TDropItem,
   TInventoryItem,
-  TConsumableItem,
   TLocation,
   ILocationConfig,
-  TCraftItem,
   IGlobalUpgrades,
   TLocationProgress,
+  TInventoryItemId,
 } from "../types";
 
 export const BASE_DROP_RATES: Record<TRarity, number> = {
@@ -5607,73 +5714,7 @@ export const ELEMENT_KEYS: Record<TElementType, string> = {
   physical: "physical",
 };
 
-export const ITEM_ICONS: Record<string, string> = {
-  gel: "gel",
-  slime_core: "slime_core",
-  gem: "gem",
-  coin: "coin",
-  goblin_dagger: "dagger",
-  goblin_ear: "ear",
-  bone: "bone",
-  skull: "skull",
-  ancient_coin: "coin_old",
-  ectoplasm: "ectoplasm",
-  soul_shard: "soul_shard",
-  essence: "essence",
-  magic_scroll: "scroll",
-  dark_orb: "orb_dark",
-  mage_staff: "staff",
-  demon_horn: "horn",
-  hellfire_essence: "essence_fire",
-  demon_wing: "wing",
-  exp_scroll_500: "scroll",
-  exp_scroll_1000: "scroll",
-  affection_potion: "potion",
-  crit_boost: "potion_red",
-};
-
-export const ITEM_RARITY: Record<string, TRarity> = {
-  gel: "common",
-  slime_core: "rare",
-  gem: "common",
-  coin: "common",
-  goblin_dagger: "uncommon",
-  goblin_ear: "common",
-  bone: "common",
-  skull: "uncommon",
-  ancient_coin: "uncommon",
-  ectoplasm: "uncommon",
-  soul_shard: "rare",
-  essence: "uncommon",
-  magic_scroll: "rare",
-  dark_orb: "epic",
-  mage_staff: "legendary",
-  demon_horn: "rare",
-  hellfire_essence: "epic",
-  demon_wing: "legendary",
-  exp_scroll_500: "uncommon",
-  exp_scroll_1000: "rare",
-  affection_potion: "common",
-  crit_boost: "rare",
-
-  forest_essence: "common",
-  spider_venom: "uncommon",
-  golem_core: "rare",
-  sand_stone: "common",
-  scarab_shell: "uncommon",
-  ice_crystal: "common",
-  frost_fang: "uncommon",
-  lava_chunk: "common",
-  imp_ash: "common",
-  dragon_scale: "rare",
-  knight_armor: "uncommon",
-  cursed_cloth: "uncommon",
-  void_essence: "rare",
-  shadow_tentacle_item: "rare",
-  abyss_pearl: "epic",
-};
-
-export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
+export const INVENTORY_ITEMS: Record<TInventoryItemId, Omit<TInventoryItem, "count">> = {
   gem: {
     id: "gem",
     nameKey: "gem",
@@ -5682,15 +5723,26 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     rarity: "common",
     type: "currency",
     maxStack: 999999999,
+    canCraft: true,
+    ingredients: [
+      { itemId: "coin", count: 1 },
+      { itemId: "essence", count: 1 },
+    ],
   },
   essence: {
     id: "essence",
     nameKey: "essence",
     descriptionKey: "items.essence.desc",
     icon: "essence",
-    rarity: "uncommon",
+    rarity: "common",
     type: "currency",
     maxStack: 999999999,
+    canCraft: true,
+
+    ingredients: [
+      { itemId: "coin", count: 5 },
+      { itemId: "gem", count: 100 },
+    ],
   },
   coin: {
     id: "coin",
@@ -5708,7 +5760,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "gel",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   slime_core: {
     id: "slime_core",
@@ -5735,7 +5787,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "ear",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   bone: {
     id: "bone",
@@ -5744,7 +5796,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "bone",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   skull: {
     id: "skull",
@@ -5762,7 +5814,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "ectoplasm",
     rarity: "uncommon",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   soul_shard: {
     id: "soul_shard",
@@ -5780,7 +5832,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "scroll",
     rarity: "rare",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   dark_orb: {
     id: "dark_orb",
@@ -5807,7 +5859,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "horn",
     rarity: "rare",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   hellfire_essence: {
     id: "hellfire_essence",
@@ -5827,62 +5879,6 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     type: "collection",
     maxStack: 1,
   },
-  exp_scroll_500: {
-    id: "exp_scroll_500",
-    nameKey: "expScroll500",
-    descriptionKey: "items.expScroll500.desc",
-    icon: "scroll",
-    rarity: "uncommon",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "exp",
-      value: 500,
-      target: "selected_waifu",
-    },
-  },
-  exp_scroll_1000: {
-    id: "exp_scroll_1000",
-    nameKey: "expScroll1000",
-    descriptionKey: "items.expScroll1000.desc",
-    icon: "scroll",
-    rarity: "rare",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "exp",
-      value: 1000,
-      target: "selected_waifu",
-    },
-  },
-  exp_scroll_5000: {
-    id: "exp_scroll_5000",
-    nameKey: "expScroll5000",
-    descriptionKey: "items.expScroll5000.desc",
-    icon: "scroll",
-    rarity: "epic",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "exp",
-      value: 5000,
-      target: "selected_waifu",
-    },
-  },
-  affection_potion: {
-    id: "affection_potion",
-    nameKey: "affectionPotion",
-    descriptionKey: "items.affectionPotion.desc",
-    icon: "potion",
-    rarity: "common",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "affection",
-      value: 10,
-      target: "selected_waifu",
-    },
-  },
   ancient_coin: {
     id: "ancient_coin",
     nameKey: "ancientCoin",
@@ -5893,62 +5889,6 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     maxStack: 1,
     collectionCategory: "accessory",
   },
-  affection_potion_large: {
-    id: "affection_potion_large",
-    nameKey: "affectionPotionLarge",
-    descriptionKey: "items.affectionPotionLarge.desc",
-    icon: "potion",
-    rarity: "uncommon",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "affection",
-      value: 50,
-      target: "selected_waifu",
-    },
-  },
-  level_down_scroll_10: {
-    id: "level_down_scroll_10",
-    nameKey: "levelDownScroll10",
-    descriptionKey: "items.levelDownScroll10.desc",
-    icon: "scroll",
-    rarity: "uncommon",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "level_down_10",
-      value: 10,
-      target: "current_location",
-    },
-  },
-  level_down_scroll_20: {
-    id: "level_down_scroll_20",
-    nameKey: "levelDownScroll20",
-    descriptionKey: "items.levelDownScroll20.desc",
-    icon: "scroll",
-    rarity: "rare",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "level_down_20",
-      value: 20,
-      target: "current_location",
-    },
-  },
-  level_down_scroll_50: {
-    id: "level_down_scroll_50",
-    nameKey: "levelDownScroll50",
-    descriptionKey: "items.levelDownScroll50.desc",
-    icon: "scroll",
-    rarity: "epic",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "level_down_50",
-      value: 50,
-      target: "current_location",
-    },
-  },
 
   forest_essence: {
     id: "forest_essence",
@@ -5957,7 +5897,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "forest_essence",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   spider_venom: {
     id: "spider_venom",
@@ -5966,7 +5906,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "spider_venom",
     rarity: "uncommon",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
 
   sand_stone: {
@@ -5976,7 +5916,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "sand_stone",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
 
   ice_crystal: {
@@ -5986,7 +5926,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "ice_crystal",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   frost_fang: {
     id: "frost_fang",
@@ -5995,7 +5935,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "frost_fang",
     rarity: "uncommon",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   lava_chunk: {
     id: "lava_chunk",
@@ -6004,7 +5944,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "lava_chunk",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   imp_ash: {
     id: "imp_ash",
@@ -6013,7 +5953,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "imp_ash",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
 
   cursed_cloth: {
@@ -6023,7 +5963,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "cursed_cloth",
     rarity: "uncommon",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   void_essence: {
     id: "void_essence",
@@ -6032,7 +5972,288 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "void_essence",
     rarity: "rare",
     type: "material",
+    maxStack: 200,
+  },
+
+  affection_potion_forest: {
+    id: "affection_potion_forest",
+    nameKey: "affectionPotionForest",
+    descriptionKey: "items.affectionPotionForest.desc",
+    icon: "potion_forest",
+    rarity: "common",
+    type: "consumable",
     maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "forest_essence", count: 3 },
+      { itemId: "spider_venom", count: 2 },
+    ],
+    effect: { type: "affection", value: 10, target: "selected_waifu" },
+  },
+  exp_scroll_forest: {
+    id: "exp_scroll_forest",
+    nameKey: "expScrollForest",
+    descriptionKey: "items.expScrollForest.desc",
+    icon: "scroll_forest_exp",
+    rarity: "common",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "gel", count: 4 },
+      { itemId: "forest_essence", count: 2 },
+      { itemId: "essence", count: 3 },
+    ],
+    effect: { type: "exp", value: 500, target: "selected_waifu" },
+  },
+  level_down_scroll_forest: {
+    id: "level_down_scroll_forest",
+    nameKey: "levelDownScrollForest",
+    descriptionKey: "items.levelDownScrollForest.desc",
+    icon: "scroll_forest_down",
+    rarity: "common",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [{ itemId: "essence", count: 3 }],
+    effect: { type: "level_down", value: 5, target: "current_location" },
+  },
+
+  affection_potion_desert: {
+    id: "affection_potion_desert",
+    nameKey: "affectionPotionDesert",
+    descriptionKey: "items.affectionPotionDesert.desc",
+    icon: "potion_desert",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "sand_stone", count: 4 },
+      { itemId: "ectoplasm", count: 2 },
+    ],
+    effect: { type: "affection", value: 100, target: "selected_waifu" },
+  },
+  exp_scroll_desert: {
+    id: "exp_scroll_desert",
+    nameKey: "expScrollDesert",
+    descriptionKey: "items.expScrollDesert.desc",
+    icon: "scroll_desert_exp",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "sand_stone", count: 3 },
+      { itemId: "ectoplasm", count: 3 },
+      { itemId: "essence", count: 5 },
+    ],
+    effect: { type: "exp", value: 3000, target: "selected_waifu" },
+  },
+  level_down_scroll_desert: {
+    id: "level_down_scroll_desert",
+    nameKey: "levelDownScrollDesert",
+    descriptionKey: "items.levelDownScrollDesert.desc",
+    icon: "scroll_desert_down",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "sand_stone", count: 6 },
+      { itemId: "ectoplasm", count: 4 },
+    ],
+    effect: { type: "level_down", value: 10, target: "current_location" },
+  },
+
+  affection_potion_ice: {
+    id: "affection_potion_ice",
+    nameKey: "affectionPotionIce",
+    descriptionKey: "items.affectionPotionIce.desc",
+    icon: "potion_ice",
+    rarity: "rare",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "ice_crystal", count: 3 },
+      { itemId: "frost_fang", count: 2 },
+    ],
+    effect: { type: "affection", value: 200, target: "selected_waifu" },
+  },
+  exp_scroll_ice: {
+    id: "exp_scroll_ice",
+    nameKey: "expScrollIce",
+    descriptionKey: "items.expScrollIce.desc",
+    icon: "scroll_ice_exp",
+    rarity: "rare",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "ice_crystal", count: 4 },
+      { itemId: "frost_fang", count: 2 },
+      { itemId: "bone", count: 3 },
+      { itemId: "essence", count: 8 },
+    ],
+    effect: { type: "exp", value: 10000, target: "selected_waifu" },
+  },
+  level_down_scroll_ice: {
+    id: "level_down_scroll_ice",
+    nameKey: "levelDownScrollIce",
+    descriptionKey: "items.levelDownScrollIce.desc",
+    icon: "scroll_ice_down",
+    rarity: "rare",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "frost_fang", count: 4 },
+      { itemId: "ice_crystal", count: 2 },
+    ],
+    effect: { type: "level_down", value: 15, target: "current_location" },
+  },
+
+  affection_potion_volcano: {
+    id: "affection_potion_volcano",
+    nameKey: "affectionPotionVolcano",
+    descriptionKey: "items.affectionPotionVolcano.desc",
+    icon: "potion_volcano",
+    rarity: "epic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "imp_ash", count: 3 },
+      { itemId: "lava_chunk", count: 2 },
+    ],
+    effect: { type: "affection", value: 666, target: "selected_waifu" },
+  },
+  exp_scroll_volcano: {
+    id: "exp_scroll_volcano",
+    nameKey: "expScrollVolcano",
+    descriptionKey: "items.expScrollVolcano.desc",
+    icon: "scroll_volcano_exp",
+    rarity: "epic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "imp_ash", count: 4 },
+      { itemId: "lava_chunk", count: 3 },
+      { itemId: "demon_horn", count: 1 },
+      { itemId: "essence", count: 10 },
+    ],
+    effect: { type: "exp", value: 20000, target: "selected_waifu" },
+  },
+  level_down_scroll_volcano: {
+    id: "level_down_scroll_volcano",
+    nameKey: "levelDownScrollVolcano",
+    descriptionKey: "items.levelDownScrollVolcano.desc",
+    icon: "scroll_volcano_down",
+    rarity: "epic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "lava_chunk", count: 5 },
+      { itemId: "imp_ash", count: 3 },
+    ],
+    effect: { type: "level_down", value: 20, target: "current_location" },
+  },
+
+  affection_potion_castle: {
+    id: "affection_potion_castle",
+    nameKey: "affectionPotionCastle",
+    descriptionKey: "items.affectionPotionCastle.desc",
+    icon: "potion_castle",
+    rarity: "legendary",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "cursed_cloth", count: 3 },
+      { itemId: "ectoplasm", count: 3 },
+    ],
+    effect: { type: "affection", value: 1200, target: "selected_waifu" },
+  },
+  exp_scroll_castle: {
+    id: "exp_scroll_castle",
+    nameKey: "expScrollCastle",
+    descriptionKey: "items.expScrollCastle.desc",
+    icon: "scroll_castle_exp",
+    rarity: "legendary",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "cursed_cloth", count: 4 },
+      { itemId: "bone", count: 5 },
+      { itemId: "essence", count: 15 },
+    ],
+    effect: { type: "exp", value: 40000, target: "selected_waifu" },
+  },
+  level_down_scroll_castle: {
+    id: "level_down_scroll_castle",
+    nameKey: "levelDownScrollCastle",
+    descriptionKey: "items.levelDownScrollCastle.desc",
+    icon: "scroll_castle_down",
+    rarity: "legendary",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "cursed_cloth", count: 5 },
+      { itemId: "ectoplasm", count: 4 },
+    ],
+    effect: { type: "level_down", value: 30, target: "current_location" },
+  },
+
+  affection_potion_abyss: {
+    id: "affection_potion_abyss",
+    nameKey: "affectionPotionAbyss",
+    descriptionKey: "items.affectionPotionAbyss.desc",
+    icon: "potion_abyss",
+    rarity: "mythic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "void_essence", count: 2 },
+      { itemId: "ectoplasm", count: 4 },
+    ],
+    effect: { type: "affection", value: 3000, target: "selected_waifu" },
+  },
+  exp_scroll_abyss: {
+    id: "exp_scroll_abyss",
+    nameKey: "expScrollAbyss",
+    descriptionKey: "items.expScrollAbyss.desc",
+    icon: "scroll_abyss_exp",
+    rarity: "mythic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "void_essence", count: 3 },
+      { itemId: "ectoplasm", count: 5 },
+      { itemId: "essence", count: 20 },
+    ],
+    effect: { type: "exp", value: 80000, target: "selected_waifu" },
+  },
+  level_down_scroll_abyss: {
+    id: "level_down_scroll_abyss",
+    nameKey: "levelDownScrollAbyss",
+    descriptionKey: "items.levelDownScrollAbyss.desc",
+    icon: "scroll_abyss_down",
+    rarity: "mythic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "void_essence", count: 4 },
+      { itemId: "ectoplasm", count: 3 },
+    ],
+    effect: { type: "level_down", value: 50, target: "current_location" },
   },
 };
 
@@ -6324,7 +6545,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "forestGolem",
     baseHp: 200,
     sprite: "/assets/images/enemies/ForestGolem.png",
-    resistances: { earth: 0.3, fire: -0.4, physical: 0.2 }, // Земля +30% (резист), Огонь -40% (слабость)
+    resistances: { earth: 0.3, fire: -0.4, physical: 0.2 },
     isBoss: false,
     description: "monsters.forestGolem.desc",
     drops: [
@@ -6337,7 +6558,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "poisonSpider",
     baseHp: 110,
     sprite: "/assets/images/enemies/PoisonSpider.png",
-    resistances: { earth: 0.2, fire: -0.3, ice: 0.1 }, // Земля +20%, Огонь -30% (слабость)
+    resistances: { earth: 0.2, fire: -0.3, ice: 0.1 },
     isBoss: false,
     description: "monsters.poisonSpider.desc",
     drops: [
@@ -6351,22 +6572,18 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "forestGuardian",
     baseHp: 500,
     sprite: "/assets/images/enemies/ForestGuardian.png",
-    resistances: { earth: 0.5, fire: -0.5, light: 0.2, physical: 0.3 }, // Земля +50% (сильный резист), Огонь -50% (слабость)
+    resistances: { earth: 0.5, fire: -0.5, light: 0.2, physical: 0.3 },
     isBoss: true,
     description: "monsters.forestGuardian.desc",
-    drops: [
-      { id: "magic_scroll", nameKey: "magicScroll", chance: 0.5, minCount: 1, maxCount: 2, type: "material" },
-      { id: "golem_core", nameKey: "golemCore", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
-    ],
+    drops: [{ id: "magic_scroll", nameKey: "magicScroll", chance: 0.5, minCount: 1, maxCount: 2, type: "material" }],
   },
 
-  // ========== DESERT (исправлено: усилен огненный резист) ==========
   {
     id: "mummy",
     nameKey: "mummy",
     baseHp: 140,
     sprite: "/assets/images/enemies/Mummy.png",
-    resistances: { fire: 0.3, ice: -0.4, earth: 0.2 }, // Огонь +30% (резист к жаре), Лёд -40% (слабость)
+    resistances: { fire: 0.3, ice: -0.4, earth: 0.2 },
     isBoss: false,
     description: "monsters.mummy.desc",
     drops: [
@@ -6378,7 +6595,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "mimic",
     baseHp: 160,
     sprite: "/assets/images/enemies/Mimic.png",
-    resistances: { physical: -0.3, fire: 0.2, earth: 0.1 }, // Огонь +20% (дерево в пустыне высохло)
+    resistances: { physical: -0.3, fire: 0.2, earth: 0.1 },
     isBoss: false,
     description: "monsters.mimic.desc",
     drops: [{ id: "coin", nameKey: "coin", chance: 0.8, minCount: 10, maxCount: 30, type: "currency" }],
@@ -6388,7 +6605,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "sandWorm",
     baseHp: 180,
     sprite: "/assets/images/enemies/SandWorm.png",
-    resistances: { earth: 0.4, ice: -0.5, fire: 0.3 }, // Земля +40%, Огонь +30% (живёт в жаре)
+    resistances: { earth: 0.4, ice: -0.5, fire: 0.3 },
     isBoss: false,
     description: "monsters.sandWorm.desc",
     drops: [
@@ -6402,13 +6619,12 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "scarabBeetle",
     baseHp: 140,
     sprite: "/assets/images/enemies/ScarabBeetle.png",
-    resistances: { light: 0.3, physical: 0.2, fire: 0.2, earth: -0.2 }, // Огонь +20% (священный жук солнца)
+    resistances: { light: 0.3, physical: 0.2, fire: 0.2, earth: -0.2 },
     isBoss: false,
     description: "monsters.scarabBeetle.desc",
     drops: [
       { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.25, minCount: 1, maxCount: 2, type: "material" },
       { id: "soul_shard", nameKey: "soulShard", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "scarab_shell", nameKey: "scarabShell", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
     ],
   },
   {
@@ -6416,19 +6632,45 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "desertColossus",
     baseHp: 550,
     sprite: "/assets/images/enemies/DesertColossus.png",
-    resistances: { earth: 0.5, ice: -0.5, fire: 0.4, physical: 0.2 }, // Огонь +40% (голем пустыни)
+    resistances: { earth: 0.5, ice: -0.5, fire: 0.4, physical: 0.2 },
     isBoss: true,
     description: "monsters.desertColossus.desc",
     drops: [{ id: "dark_orb", nameKey: "darkOrb", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" }],
   },
 
-  // ========== ICE (исправлено: лёд это резист, не слабость!) ==========
+  // ========== ICE ==========
+  {
+    id: "ghost",
+    nameKey: "ghost",
+    baseHp: 120,
+    sprite: "/assets/images/enemies/Ghost.png",
+    resistances: { physical: 0.8, light: -0.5, dark: 0.3 },
+    isBoss: false,
+    description: "monsters.ghost.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.5, minCount: 1, maxCount: 2, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "vampireThrall",
+    nameKey: "vampireThrall",
+    baseHp: 140,
+    sprite: "/assets/images/enemies/VampireThrall.png",
+    resistances: { dark: 0.3, light: -0.4, physical: -0.1 },
+    isBoss: false,
+    description: "monsters.vampireThrall.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.3, minCount: 1, maxCount: 2, type: "material" },
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.2, minCount: 1, maxCount: 1, type: "material" },
+    ],
+  },
   {
     id: "ice_elemental",
     nameKey: "iceElemental",
     baseHp: 160,
     sprite: "/assets/images/enemies/IceElemental.png",
-    resistances: { ice: 0.6, fire: -0.5, water: 0.2 }, // Лёд +60% (иммунитет), Огонь -50% (слабость)
+    resistances: { ice: 0.6, fire: -0.5, water: 0.2 },
     isBoss: false,
     description: "monsters.iceElemental.desc",
     drops: [
@@ -6441,7 +6683,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "frostWolf",
     baseHp: 175,
     sprite: "/assets/images/enemies/FrostWolf.png",
-    resistances: { ice: 0.4, fire: -0.5, physical: 0.1 }, // Лёд +40% (ледяная шерсть), Огонь -50%
+    resistances: { ice: 0.4, fire: -0.5, physical: 0.1 },
     isBoss: false,
     description: "monsters.frostWolf.desc",
     drops: [
@@ -6455,7 +6697,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "iceQueen",
     baseHp: 600,
     sprite: "/assets/images/enemies/IceQueen.png",
-    resistances: { ice: 0.7, fire: -0.6, water: 0.3, light: 0.2 }, // Лёд +70% (богиня льда), Огонь -60%
+    resistances: { ice: 0.7, fire: -0.6, water: 0.3, light: 0.2 },
     isBoss: true,
     description: "monsters.iceQueen.desc",
     drops: [
@@ -6470,13 +6712,13 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     ],
   },
 
-  // ========== VOLCANO (исправлено: ВСЕ имеют огненный резист) ==========
+  // ========== VOLCANO ==========
   {
     id: "lesserDemon",
     nameKey: "lesserDemon",
     baseHp: 315,
     sprite: "/assets/images/enemies/LesserDemon.png",
-    resistances: { fire: 0.6, ice: -0.5, water: -0.3, light: 0.2 }, // Огонь +60% (демон огня!)
+    resistances: { fire: 0.6, ice: -0.5, water: -0.3, light: 0.2 },
     isBoss: true,
     description: "monsters.lesserDemon.desc",
     drops: [
@@ -6497,7 +6739,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "whelp",
     baseHp: 170,
     sprite: "/assets/images/enemies/Whelp.png",
-    resistances: { fire: 0.5, ice: -0.4, water: -0.2 }, // Огонь +50% (дракон!)
+    resistances: { fire: 0.5, ice: -0.4, water: -0.2 },
     isBoss: false,
     description: "monsters.whelp.desc",
     drops: [{ id: "demon_horn", nameKey: "demonHorn", chance: 0.15, minCount: 1, maxCount: 1, type: "material" }],
@@ -6507,7 +6749,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "lavaSlime",
     baseHp: 190,
     sprite: "/assets/images/enemies/LavaSlime.png",
-    resistances: { fire: 0.7, ice: -0.6, water: -0.5 }, // Огонь +70% (лава!), Вода -50% (застывает)
+    resistances: { fire: 0.7, ice: -0.6, water: -0.5 },
     isBoss: false,
     description: "monsters.lavaSlime.desc",
     drops: [
@@ -6528,7 +6770,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "fireImp",
     baseHp: 145,
     sprite: "/assets/images/enemies/FireImp.png",
-    resistances: { fire: 0.5, ice: -0.5, light: 0.1 }, // Огонь +50% (огненный имп!)
+    resistances: { fire: 0.5, ice: -0.5, light: 0.1 },
     isBoss: false,
     description: "monsters.fireImp.desc",
     drops: [
@@ -6541,22 +6783,19 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "infernoDragon",
     baseHp: 650,
     sprite: "/assets/images/enemies/InfernoDragon.png",
-    resistances: { fire: 0.8, ice: -0.6, water: -0.5, physical: 0.3 }, // Огонь +80% (бог огня!)
+    resistances: { fire: 0.8, ice: -0.6, water: -0.5, physical: 0.3 },
     isBoss: true,
     description: "monsters.infernoDragon.desc",
-    drops: [
-      { id: "demon_wing", nameKey: "demonWing", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "dragon_scale", nameKey: "dragonScale", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
-    ],
+    drops: [{ id: "demon_wing", nameKey: "demonWing", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" }],
   },
 
-  // ========== CASTLE (исправлено: нежить = слабость к свету, резист к тьме) ==========
+  // ========== CASTLE ==========
   {
     id: "skeleton",
     nameKey: "skeleton",
     baseHp: 150,
     sprite: "/assets/images/enemies/Skeleton.png",
-    resistances: { light: -0.5, dark: 0.4, physical: 0.1 }, // Свет -50% (нежить!), Тьма +40%
+    resistances: { light: -0.5, dark: 0.4, physical: 0.1 },
     isBoss: false,
     description: "monsters.skeleton.desc",
     drops: [
@@ -6569,13 +6808,12 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "armoredKnight",
     baseHp: 220,
     sprite: "/assets/images/enemies/ArmoredKnight.png",
-    resistances: { physical: 0.3, light: -0.4, dark: 0.4 }, // Тяжёлая броня = физ резист, но святой свет пробивает
+    resistances: { physical: 0.3, light: -0.4, dark: 0.4 },
     isBoss: false,
     description: "monsters.armoredKnight.desc",
     drops: [
       { id: "bone", nameKey: "bone", chance: 0.4, minCount: 1, maxCount: 3, type: "material" },
       { id: "ancient_coin", nameKey: "ancientCoin", chance: 0.002, minCount: 1, maxCount: 3, type: "collection" },
-      { id: "knight_armor", nameKey: "knightArmor", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
     ],
   },
   {
@@ -6583,7 +6821,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "cursedBanner",
     baseHp: 135,
     sprite: "/assets/images/enemies/CursedBanner.png",
-    resistances: { dark: 0.4, light: -0.5, physical: 0.3 }, // Проклятие = тьма, свет очищает
+    resistances: { dark: 0.4, light: -0.5, physical: 0.3 },
     isBoss: false,
     description: "monsters.cursedBanner.desc",
     drops: [
@@ -6597,19 +6835,19 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "castleLord",
     baseHp: 700,
     sprite: "/assets/images/enemies/CastleLord.png",
-    resistances: { dark: 0.5, light: -0.6, physical: 0.3, earth: 0.2 }, // Лорд тьмы, боится света
+    resistances: { dark: 0.5, light: -0.6, physical: 0.3, earth: 0.2 },
     isBoss: true,
     description: "monsters.castleLord.desc",
     drops: [{ id: "mage_staff", nameKey: "mageStaff", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" }],
   },
 
-  // ========== ABYSS (исправлено: чистая тьма = иммунитет к тьме) ==========
+  // ========== ABYSS ==========
   {
     id: "dark_mage",
     nameKey: "darkMage",
     baseHp: 300,
     sprite: "/assets/images/enemies/DarkMage.png",
-    resistances: { dark: 0.5, light: -0.5, fire: 0.2 }, // Тьма +50% (маг тьмы)
+    resistances: { dark: 0.5, light: -0.5, fire: 0.2 },
     isBoss: true,
     description: "monsters.darkMage.desc",
     drops: [
@@ -6623,7 +6861,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "voidWalker",
     baseHp: 240,
     sprite: "/assets/images/enemies/VoidWalker.png",
-    resistances: { dark: 0.6, light: -0.6, physical: 0.5 }, // Тьма +60% (существо пустоты)
+    resistances: { dark: 0.6, light: -0.6, physical: 0.5 },
     isBoss: false,
     description: "monsters.voidWalker.desc",
     drops: [
@@ -6637,27 +6875,17 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "shadowTentacle",
     baseHp: 165,
     sprite: "/assets/images/enemies/ShadowTentacle.png",
-    resistances: { dark: 0.5, light: -0.5, water: 0.2, physical: 0.4 }, // Тьма +50% (чистая тень)
+    resistances: { dark: 0.5, light: -0.5, water: 0.2, physical: 0.4 },
     isBoss: false,
     description: "monsters.shadowTentacle.desc",
-    drops: [
-      { id: "dark_orb", nameKey: "darkOrb", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" },
-      {
-        id: "shadow_tentacle_item",
-        nameKey: "shadowTentacleItem",
-        chance: 0.002,
-        minCount: 1,
-        maxCount: 1,
-        type: "collection",
-      },
-    ],
+    drops: [{ id: "dark_orb", nameKey: "darkOrb", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" }],
   },
   {
     id: "abyss_lord",
     nameKey: "abyssLord",
     baseHp: 800,
     sprite: "/assets/images/enemies/AbyssLord.png",
-    resistances: { dark: 0.8, light: -0.7, physical: 0.5 }, // Тьма +80% (бог бездны!), Свет -70%
+    resistances: { dark: 0.8, light: -0.7, physical: 0.5 },
     isBoss: true,
     description: "monsters.abyssLord.desc",
     drops: [
@@ -6670,37 +6898,10 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
         maxCount: 2,
         type: "collection",
       },
-      { id: "abyss_pearl", nameKey: "abyssPearl", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
     ],
   },
 ];
 
-export const CONSUMABLE_ITEMS: TConsumableItem[] = [
-  {
-    id: "exp_scroll_500",
-    nameKey: "expScroll500",
-    descriptionKey: "items.expScroll500.desc",
-    icon: "scroll",
-    effect: { type: "exp", value: 500, target: "selected_waifu" },
-    rarity: "uncommon",
-  },
-  {
-    id: "exp_scroll_1000",
-    nameKey: "expScroll1000",
-    descriptionKey: "items.expScroll1000.desc",
-    icon: "scroll",
-    effect: { type: "exp", value: 1000, target: "selected_waifu" },
-    rarity: "rare",
-  },
-  {
-    id: "affection_potion",
-    nameKey: "affectionPotion",
-    descriptionKey: "items.affectionPotion.desc",
-    icon: "potion",
-    effect: { type: "affection", value: 10, target: "selected_waifu" },
-    rarity: "common",
-  },
-];
 export const LOCATION_UNLOCK_REQUIREMENTS: Partial<Record<TLocation, { prevLocation: TLocation; killLevel: number }>> =
   {
     desert: { prevLocation: "forest", killLevel: 50 },
@@ -6714,7 +6915,6 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "forest",
     nameKey: "forest",
-    availableEnemies: ["slime", "goblin", "direWolf"],
     minLevel: 1,
     maxLevel: 999,
     levelScaling: 1,
@@ -6728,10 +6928,9 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "desert",
     nameKey: "desert",
-    availableEnemies: ["mummy", "mimic", "direWolf"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 2.5, // Увеличено с 1.3
+    levelScaling: 2.5,
     bonuses: {
       gemMultiplier: 1.8,
       essenceMultiplier: 1.4,
@@ -6742,10 +6941,9 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "ice",
     nameKey: "ice",
-    availableEnemies: ["ghost", "direWolf", "vampireThrall"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 4, // Увеличено с 1.4
+    levelScaling: 4,
     bonuses: {
       gemMultiplier: 2.5,
       essenceMultiplier: 1.8,
@@ -6756,10 +6954,9 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "volcano",
     nameKey: "volcano",
-    availableEnemies: ["lesserDemon", "whelp", "mimic"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 6, // Увеличено с 1.5
+    levelScaling: 6,
     bonuses: {
       gemMultiplier: 3.5,
       essenceMultiplier: 2.2,
@@ -6770,10 +6967,9 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "castle",
     nameKey: "castle",
-    availableEnemies: ["skeleton", "ghost", "mummy"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 9, // Увеличено с 1.6
+    levelScaling: 9,
     bonuses: {
       gemMultiplier: 4.5,
       essenceMultiplier: 2.8,
@@ -6784,10 +6980,9 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "abyss",
     nameKey: "abyss",
-    availableEnemies: ["dark_mage", "lesserDemon", "vampireThrall"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 15, // Увеличено с 2
+    levelScaling: 15,
     bonuses: {
       gemMultiplier: 7,
       essenceMultiplier: 4,
@@ -6796,6 +6991,7 @@ export const LOCATIONS: ILocationConfig[] = [
     },
   },
 ];
+
 export const LOCATION_ENEMIES: Record<TLocation, string[]> = {
   forest: ["slime", "goblin", "direWolf", "forest_golem", "poison_spider"],
   desert: ["mummy", "mimic", "direWolf", "sand_worm", "scarab_beetle"],
@@ -6804,6 +7000,7 @@ export const LOCATION_ENEMIES: Record<TLocation, string[]> = {
   castle: ["skeleton", "ghost", "mummy", "armored_knight", "cursed_banner"],
   abyss: ["lesserDemon", "vampireThrall", "void_walker", "shadow_tentacle"],
 };
+
 export const LOCATION_BOSSES: Record<TLocation, string[]> = {
   forest: ["dark_mage", "forest_guardian"],
   desert: ["lesser_demon", "desert_colossus"],
@@ -6864,7 +7061,6 @@ export const COLLECTION_BUFFS: Record<string, ICollectionBuff> = {
     value: 0.2,
     descriptionKey: "buffs.mageStaff",
   },
-
   hellfire_essence: {
     itemId: "hellfire_essence",
     buffType: "element_damage",
@@ -6886,140 +7082,6 @@ export const COLLECTION_BUFFS: Record<string, ICollectionBuff> = {
   },
 };
 
-export const CRAFT_ITEMS: TCraftItem[] = [
-  {
-    id: "exp_scroll_500",
-    nameKey: "expScroll500",
-    descriptionKey: "items.expScroll500.desc",
-    icon: "scroll",
-    rarity: "uncommon",
-    ingredients: [
-      { itemId: "gel", count: 5 },
-      { itemId: "essence", count: 3 },
-    ],
-    effect: {
-      type: "exp",
-      value: 500,
-      target: "selected_waifu",
-    },
-  },
-  {
-    id: "exp_scroll_1000",
-    nameKey: "expScroll1000",
-    descriptionKey: "items.expScroll1000.desc",
-    icon: "scroll",
-    rarity: "rare",
-    ingredients: [
-      { itemId: "ectoplasm", count: 3 },
-      { itemId: "essence", count: 5 },
-      { itemId: "magic_scroll", count: 1 },
-    ],
-    effect: {
-      type: "exp",
-      value: 1000,
-      target: "selected_waifu",
-    },
-  },
-  {
-    id: "exp_scroll_5000",
-    nameKey: "expScroll5000",
-    descriptionKey: "items.expScroll5000.desc",
-    icon: "scroll",
-    rarity: "epic",
-    ingredients: [
-      { itemId: "ectoplasm", count: 5 },
-      { itemId: "essence", count: 10 },
-      { itemId: "magic_scroll", count: 3 },
-    ],
-    effect: {
-      type: "exp",
-      value: 5000,
-      target: "selected_waifu",
-    },
-  },
-  {
-    id: "affection_potion",
-    nameKey: "affectionPotion",
-    descriptionKey: "items.affectionPotion.desc",
-    icon: "potion",
-    rarity: "common",
-    ingredients: [
-      { itemId: "gel", count: 3 },
-      { itemId: "goblin_ear", count: 2 },
-    ],
-    effect: {
-      type: "affection",
-      value: 10,
-      target: "selected_waifu",
-    },
-  },
-  {
-    id: "affection_potion_large",
-    nameKey: "affectionPotionLarge",
-    descriptionKey: "items.affectionPotionLarge.desc",
-    icon: "potion",
-    rarity: "uncommon",
-    ingredients: [
-      { itemId: "ectoplasm", count: 2 },
-      { itemId: "essence", count: 3 },
-      { itemId: "bone", count: 3 },
-    ],
-    effect: {
-      type: "affection",
-      value: 50,
-      target: "selected_waifu",
-    },
-  },
-  {
-    id: "level_down_scroll_10",
-    nameKey: "levelDownScroll10",
-    descriptionKey: "items.levelDownScroll10.desc",
-    icon: "scroll",
-    rarity: "uncommon",
-    ingredients: [{ itemId: "essence", count: 5 }],
-    effect: {
-      type: "level_down_10",
-      value: 10,
-      target: "current_location",
-    },
-  },
-  {
-    id: "level_down_scroll_20",
-    nameKey: "levelDownScroll20",
-    descriptionKey: "items.levelDownScroll20.desc",
-    icon: "scroll",
-    rarity: "rare",
-    ingredients: [
-      { itemId: "magic_scroll", count: 3 },
-      { itemId: "ectoplasm", count: 3 },
-      { itemId: "essence", count: 10 },
-      { itemId: "demon_horn", count: 1 },
-    ],
-    effect: {
-      type: "level_down_20",
-      value: 20,
-      target: "current_location",
-    },
-  },
-  {
-    id: "level_down_scroll_50",
-    nameKey: "levelDownScroll50",
-    descriptionKey: "items.levelDownScroll50.desc",
-    icon: "scroll",
-    rarity: "epic",
-    ingredients: [
-      { itemId: "magic_scroll", count: 5 },
-      { itemId: "ectoplasm", count: 5 },
-      { itemId: "demon_horn", count: 3 },
-      { itemId: "essence", count: 25 },
-    ],
-    effect: {
-      type: "level_down_50",
-      value: 50,
-      target: "current_location",
-    },
-  },
-];
 export const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
   forest: { currentLevel: 1, maxLevelReached: 1, unlocked: true },
   desert: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
@@ -7088,7 +7150,7 @@ export function useBattle() {
       if (now - lastAttackRef.current < 100) return;
       lastAttackRef.current = now;
       audioManager.playClick();
-      const calculation = BattleService.calculateDamage(activeWaifu, enemy, globalUpgrades);
+      const calculation = BattleService.calculateDamage(activeWaifu, enemy);
       const actualDamage = dealDamage(calculation.base, calculation.isCrit);
       let clientX: number;
       let clientY: number;
@@ -7432,10 +7494,34 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 
 export const locales = {
   ru: {
+    errorBoundary: {
+      title: "Произошла ошибка",
+      description: "Игра столкнулась с непредвиденной ошибкой.",
+      details: "Детали ошибки",
+      resetButton: "Сбросить прогресс",
+      reportButton: "Сообщить об ошибке",
+      reportMessage: "Ошибка сохранена в консоли. Пожалуйста, отправьте скриншот разработчику.",
+    },
     ui: {
+      quantity: "Количество",
+      maxAvailable: "Максимум",
+      loading: "Загрузка...",
+      cps: "Кликов/сек",
+      location: "Локация",
+      waifus: "Вайфу",
+      selectWaifuFirst: "Сначала выберите вайфу",
+      consumables: "Расходники",
+      materials: "Материалы",
+      currency: "Валюта",
+      memoriaHint: "Мемории дают мощные бонусы",
+      buyInShop: "Можно купить в магазине",
+      outfitHint: "Наряды меняют внешний вид вайфу",
+      useItems: "Использовать",
       potions: "Зелья",
       scrolls: "Свитки",
-      cps: "Кликов/сек",
+      cancel: "Отмена",
+      noConsumables: "Нет расходных предметов",
+      viewFullPool: "Открыть полный пул",
       cpsWarning: "⚠️ Подозрение на автокликер!",
       cpsWarningSubtitle: "Остановитесь или сохранение будет удалено",
       cpsWarningTime: "Осталось: {{seconds}}с",
@@ -7457,12 +7543,8 @@ export const locales = {
       killEnemiesToUnlock: "Убивайте врагов, чтобы разблокировать записи",
       craft: "Крафт",
       craftItems: "Создать",
-      useItems: "Использовать",
       requiredMaterials: "Необходимые материалы",
-      noConsumables: "Нет расходных предметов",
       levels: "уровней",
-      consumables: "Расходники",
-      materials: "Материалы",
       exp: "Опыт",
       locations: {
         forest: "Лес",
@@ -7472,7 +7554,6 @@ export const locales = {
         ice: "Ледяные пики",
         abyss: "Бездна",
       },
-      location: "Локация",
       changeLocation: "Сменить локацию",
       locationLevelRequired: "Требуется уровень врага {{level}}",
       gemBonus: "💎 x{{multiplier}}",
@@ -7482,7 +7563,6 @@ export const locales = {
       play: "Играть",
       settings: "Настройки",
       back: "Назад",
-      cancel: "Отмена",
       continue: "Продолжить",
       level: "Уровень",
       language: "Язык",
@@ -7506,7 +7586,6 @@ export const locales = {
       click: "Клик",
       auto: "Авто",
       upgrades: "Улучшения",
-      waifus: "Вайфу",
       gacha: "Призыв",
       prestige: "Престиж",
       collection: "Коллекция",
@@ -7523,7 +7602,6 @@ export const locales = {
       dropPoolHint: "При повторном выпадении вайфу: +30% к базовым статам",
       duplicate: "Дубликат!",
       stats: "статов",
-      viewFullPool: "Открыть полный пул",
       poolPreviewHint: "Нажмите кнопку ниже чтобы увидеть всех доступных вайфу",
       collectionProgress: "Прогресс коллекции",
       maxedWaifus: "Максимум",
@@ -7572,13 +7650,11 @@ export const locales = {
       max: "МАКС",
       availableCount: "доступно",
       backpack: "Рюкзак",
-      currency: "Валюта",
       items: "Предметы",
       coins: "Монеты",
       selectTarget: "Выберите цель",
       use: "Использовать",
       expAdded: "{{name}} получила {{amount}} опыта!",
-      selectWaifuFirst: "Сначала выберите вайфу",
       noCollectionItems: "Нет предметов коллекции",
       noItems: "Нет предметов",
     },
@@ -7642,7 +7718,6 @@ export const locales = {
     collection: {
       weapons: "Оружие",
       accessories: "Аксессуары",
-      accessorys: "Аксессуары",
       memoria: "Мемории",
       outfits: "Наряды",
     },
@@ -7938,46 +8013,12 @@ export const locales = {
         name: "Крыло демона",
         desc: "Крыло демона. Редчайший трофей охотника.",
       },
-      expScroll500: {
-        name: "Свиток опыта +500",
-        desc: "Дает +500 опыта выбранной вайфу",
-      },
-      expScroll1000: {
-        name: "Свиток опыта +1000",
-        desc: "Дает +1000 опыта выбранной вайфу",
-      },
-      affectionPotion: {
-        name: "Зелье привязанности",
-        desc: "Увеличивает привязанность на 10",
-      },
-      critBoost: {
-        name: "Зелье крита",
-        desc: "+10% шанс крита на 5 минут",
-      },
+
       ironSword: {
         name: "Железный меч",
         desc: "Базовое оружие начинающего искателя приключений.",
       },
-      expScroll5000: {
-        name: "Свиток опыта +5000",
-        desc: "Дает +5000 опыта выбранной вайфу",
-      },
-      affectionPotionLarge: {
-        name: "Большое зелье привязанности",
-        desc: "Увеличивает привязанность на 50",
-      },
-      levelDownScroll10: {
-        name: "Свиток понижения I",
-        desc: "Понижает текущий уровень локации на 10 (Сейчас: {{level}})",
-      },
-      levelDownScroll20: {
-        name: "Свиток понижения II",
-        desc: "Понижает текущий уровень локации на 20 (Сейчас: {{level}})",
-      },
-      levelDownScroll50: {
-        name: "Свиток понижения III",
-        desc: "Понижает текущий уровень локации на 50 (Сейчас: {{level}})",
-      },
+
       forestEssence: {
         name: "Лесная эссенция",
         desc: "Концентрированная жизненная сила леса.",
@@ -8038,6 +8079,25 @@ export const locales = {
         name: "Жемчужина бездны",
         desc: "Сфера чистой тьмы, образовавшаяся в глубинах.",
       },
+
+      affectionPotionForest: { name: "Лесной нектар", desc: "Увеличивает привязанность на {{value}}" },
+      expScrollForest: { name: "Свиток пробуждения", desc: "Дает +{{value}} опыта выбранной вайфу" },
+      levelDownScrollForest: { name: "Свиток укрытия", desc: "Понижает текущий уровень локации на {{value}}" },
+      affectionPotionDesert: { name: "Пустынный мираж", desc: "Увеличивает привязанность на {{value}}" },
+      expScrollDesert: { name: "Свиток зноя", desc: "Дает +{{value}} опыта выбранной вайфу" },
+      levelDownScrollDesert: { name: "Свиток песчаной бури", desc: "Понижает текущий уровень локации на {{value}}" },
+      affectionPotionIce: { name: "Эликсир инея", desc: "Увеличивает привязанность на {{value}}" },
+      expScrollIce: { name: "Свиток метели", desc: "Дает +{{value}} опыта выбранной вайфу" },
+      levelDownScrollIce: { name: "Свиток ледяного покоя", desc: "Понижает текущий уровень локации на {{value}}" },
+      affectionPotionVolcano: { name: "Пламенный отвар", desc: "Увеличивает привязанность на {{value}}" },
+      expScrollVolcano: { name: "Свиток магмы", desc: "Дает +{{value}} опыта выбранной вайфу" },
+      levelDownScrollVolcano: { name: "Свиток остывания", desc: "Понижает текущий уровень локации на {{value}}" },
+      affectionPotionCastle: { name: "Зелье призрачной любви", desc: "Увеличивает привязанность на {{value}}" },
+      expScrollCastle: { name: "Свиток некроманта", desc: "Дает +{{value}} опыта выбранной вайфу" },
+      levelDownScrollCastle: { name: "Свиток тишины гробницы", desc: "Понижает текущий уровень локации на {{value}}" },
+      affectionPotionAbyss: { name: "Настой пустоты", desc: "Увеличивает привязанность на {{value}}" },
+      expScrollAbyss: { name: "Свиток бездны", desc: "Дает +{{value}} опыта выбранной вайфу" },
+      levelDownScrollAbyss: { name: "Свиток затмения", desc: "Понижает текущий уровень локации на {{value}}" },
     },
     tutorial: {
       title: "Обучение",

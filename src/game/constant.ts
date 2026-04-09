@@ -5,12 +5,11 @@ import type {
   TWaifu,
   TDropItem,
   TInventoryItem,
-  TConsumableItem,
   TLocation,
   ILocationConfig,
-  TCraftItem,
   IGlobalUpgrades,
   TLocationProgress,
+  TInventoryItemId,
 } from "../types";
 
 export const BASE_DROP_RATES: Record<TRarity, number> = {
@@ -60,73 +59,7 @@ export const ELEMENT_KEYS: Record<TElementType, string> = {
   physical: "physical",
 };
 
-export const ITEM_ICONS: Record<string, string> = {
-  gel: "gel",
-  slime_core: "slime_core",
-  gem: "gem",
-  coin: "coin",
-  goblin_dagger: "dagger",
-  goblin_ear: "ear",
-  bone: "bone",
-  skull: "skull",
-  ancient_coin: "coin_old",
-  ectoplasm: "ectoplasm",
-  soul_shard: "soul_shard",
-  essence: "essence",
-  magic_scroll: "scroll",
-  dark_orb: "orb_dark",
-  mage_staff: "staff",
-  demon_horn: "horn",
-  hellfire_essence: "essence_fire",
-  demon_wing: "wing",
-  exp_scroll_500: "scroll",
-  exp_scroll_1000: "scroll",
-  affection_potion: "potion",
-  crit_boost: "potion_red",
-};
-
-export const ITEM_RARITY: Record<string, TRarity> = {
-  gel: "common",
-  slime_core: "rare",
-  gem: "common",
-  coin: "common",
-  goblin_dagger: "uncommon",
-  goblin_ear: "common",
-  bone: "common",
-  skull: "uncommon",
-  ancient_coin: "uncommon",
-  ectoplasm: "uncommon",
-  soul_shard: "rare",
-  essence: "uncommon",
-  magic_scroll: "rare",
-  dark_orb: "epic",
-  mage_staff: "legendary",
-  demon_horn: "rare",
-  hellfire_essence: "epic",
-  demon_wing: "legendary",
-  exp_scroll_500: "uncommon",
-  exp_scroll_1000: "rare",
-  affection_potion: "common",
-  crit_boost: "rare",
-
-  forest_essence: "common",
-  spider_venom: "uncommon",
-  golem_core: "rare",
-  sand_stone: "common",
-  scarab_shell: "uncommon",
-  ice_crystal: "common",
-  frost_fang: "uncommon",
-  lava_chunk: "common",
-  imp_ash: "common",
-  dragon_scale: "rare",
-  knight_armor: "uncommon",
-  cursed_cloth: "uncommon",
-  void_essence: "rare",
-  shadow_tentacle_item: "rare",
-  abyss_pearl: "epic",
-};
-
-export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
+export const INVENTORY_ITEMS: Record<TInventoryItemId, Omit<TInventoryItem, "count">> = {
   gem: {
     id: "gem",
     nameKey: "gem",
@@ -135,15 +68,26 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     rarity: "common",
     type: "currency",
     maxStack: 999999999,
+    canCraft: true,
+    ingredients: [
+      { itemId: "coin", count: 1 },
+      { itemId: "essence", count: 1 },
+    ],
   },
   essence: {
     id: "essence",
     nameKey: "essence",
     descriptionKey: "items.essence.desc",
     icon: "essence",
-    rarity: "uncommon",
+    rarity: "common",
     type: "currency",
     maxStack: 999999999,
+    canCraft: true,
+
+    ingredients: [
+      { itemId: "coin", count: 5 },
+      { itemId: "gem", count: 100 },
+    ],
   },
   coin: {
     id: "coin",
@@ -161,7 +105,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "gel",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   slime_core: {
     id: "slime_core",
@@ -188,7 +132,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "ear",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   bone: {
     id: "bone",
@@ -197,7 +141,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "bone",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   skull: {
     id: "skull",
@@ -215,7 +159,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "ectoplasm",
     rarity: "uncommon",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   soul_shard: {
     id: "soul_shard",
@@ -233,7 +177,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "scroll",
     rarity: "rare",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   dark_orb: {
     id: "dark_orb",
@@ -260,7 +204,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "horn",
     rarity: "rare",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   hellfire_essence: {
     id: "hellfire_essence",
@@ -280,62 +224,6 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     type: "collection",
     maxStack: 1,
   },
-  exp_scroll_500: {
-    id: "exp_scroll_500",
-    nameKey: "expScroll500",
-    descriptionKey: "items.expScroll500.desc",
-    icon: "scroll",
-    rarity: "uncommon",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "exp",
-      value: 500,
-      target: "selected_waifu",
-    },
-  },
-  exp_scroll_1000: {
-    id: "exp_scroll_1000",
-    nameKey: "expScroll1000",
-    descriptionKey: "items.expScroll1000.desc",
-    icon: "scroll",
-    rarity: "rare",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "exp",
-      value: 1000,
-      target: "selected_waifu",
-    },
-  },
-  exp_scroll_5000: {
-    id: "exp_scroll_5000",
-    nameKey: "expScroll5000",
-    descriptionKey: "items.expScroll5000.desc",
-    icon: "scroll",
-    rarity: "epic",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "exp",
-      value: 5000,
-      target: "selected_waifu",
-    },
-  },
-  affection_potion: {
-    id: "affection_potion",
-    nameKey: "affectionPotion",
-    descriptionKey: "items.affectionPotion.desc",
-    icon: "potion",
-    rarity: "common",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "affection",
-      value: 10,
-      target: "selected_waifu",
-    },
-  },
   ancient_coin: {
     id: "ancient_coin",
     nameKey: "ancientCoin",
@@ -346,62 +234,6 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     maxStack: 1,
     collectionCategory: "accessory",
   },
-  affection_potion_large: {
-    id: "affection_potion_large",
-    nameKey: "affectionPotionLarge",
-    descriptionKey: "items.affectionPotionLarge.desc",
-    icon: "potion",
-    rarity: "uncommon",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "affection",
-      value: 50,
-      target: "selected_waifu",
-    },
-  },
-  level_down_scroll_10: {
-    id: "level_down_scroll_10",
-    nameKey: "levelDownScroll10",
-    descriptionKey: "items.levelDownScroll10.desc",
-    icon: "scroll",
-    rarity: "uncommon",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "level_down_10",
-      value: 10,
-      target: "current_location",
-    },
-  },
-  level_down_scroll_20: {
-    id: "level_down_scroll_20",
-    nameKey: "levelDownScroll20",
-    descriptionKey: "items.levelDownScroll20.desc",
-    icon: "scroll",
-    rarity: "rare",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "level_down_20",
-      value: 20,
-      target: "current_location",
-    },
-  },
-  level_down_scroll_50: {
-    id: "level_down_scroll_50",
-    nameKey: "levelDownScroll50",
-    descriptionKey: "items.levelDownScroll50.desc",
-    icon: "scroll",
-    rarity: "epic",
-    type: "consumable",
-    maxStack: 99,
-    effect: {
-      type: "level_down_50",
-      value: 50,
-      target: "current_location",
-    },
-  },
 
   forest_essence: {
     id: "forest_essence",
@@ -410,7 +242,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "forest_essence",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   spider_venom: {
     id: "spider_venom",
@@ -419,7 +251,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "spider_venom",
     rarity: "uncommon",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
 
   sand_stone: {
@@ -429,7 +261,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "sand_stone",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
 
   ice_crystal: {
@@ -439,7 +271,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "ice_crystal",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   frost_fang: {
     id: "frost_fang",
@@ -448,7 +280,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "frost_fang",
     rarity: "uncommon",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   lava_chunk: {
     id: "lava_chunk",
@@ -457,7 +289,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "lava_chunk",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   imp_ash: {
     id: "imp_ash",
@@ -466,7 +298,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "imp_ash",
     rarity: "common",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
 
   cursed_cloth: {
@@ -476,7 +308,7 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "cursed_cloth",
     rarity: "uncommon",
     type: "material",
-    maxStack: 99,
+    maxStack: 200,
   },
   void_essence: {
     id: "void_essence",
@@ -485,7 +317,288 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     icon: "void_essence",
     rarity: "rare",
     type: "material",
+    maxStack: 200,
+  },
+
+  affection_potion_forest: {
+    id: "affection_potion_forest",
+    nameKey: "affectionPotionForest",
+    descriptionKey: "items.affectionPotionForest.desc",
+    icon: "potion_forest",
+    rarity: "common",
+    type: "consumable",
     maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "forest_essence", count: 3 },
+      { itemId: "spider_venom", count: 2 },
+    ],
+    effect: { type: "affection", value: 10, target: "selected_waifu" },
+  },
+  exp_scroll_forest: {
+    id: "exp_scroll_forest",
+    nameKey: "expScrollForest",
+    descriptionKey: "items.expScrollForest.desc",
+    icon: "scroll_forest_exp",
+    rarity: "common",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "gel", count: 4 },
+      { itemId: "forest_essence", count: 2 },
+      { itemId: "essence", count: 3 },
+    ],
+    effect: { type: "exp", value: 500, target: "selected_waifu" },
+  },
+  level_down_scroll_forest: {
+    id: "level_down_scroll_forest",
+    nameKey: "levelDownScrollForest",
+    descriptionKey: "items.levelDownScrollForest.desc",
+    icon: "scroll_forest_down",
+    rarity: "common",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [{ itemId: "essence", count: 3 }],
+    effect: { type: "level_down", value: 5, target: "current_location" },
+  },
+
+  affection_potion_desert: {
+    id: "affection_potion_desert",
+    nameKey: "affectionPotionDesert",
+    descriptionKey: "items.affectionPotionDesert.desc",
+    icon: "potion_desert",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "sand_stone", count: 4 },
+      { itemId: "ectoplasm", count: 2 },
+    ],
+    effect: { type: "affection", value: 100, target: "selected_waifu" },
+  },
+  exp_scroll_desert: {
+    id: "exp_scroll_desert",
+    nameKey: "expScrollDesert",
+    descriptionKey: "items.expScrollDesert.desc",
+    icon: "scroll_desert_exp",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "sand_stone", count: 3 },
+      { itemId: "ectoplasm", count: 3 },
+      { itemId: "essence", count: 5 },
+    ],
+    effect: { type: "exp", value: 3000, target: "selected_waifu" },
+  },
+  level_down_scroll_desert: {
+    id: "level_down_scroll_desert",
+    nameKey: "levelDownScrollDesert",
+    descriptionKey: "items.levelDownScrollDesert.desc",
+    icon: "scroll_desert_down",
+    rarity: "uncommon",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "sand_stone", count: 6 },
+      { itemId: "ectoplasm", count: 4 },
+    ],
+    effect: { type: "level_down", value: 10, target: "current_location" },
+  },
+
+  affection_potion_ice: {
+    id: "affection_potion_ice",
+    nameKey: "affectionPotionIce",
+    descriptionKey: "items.affectionPotionIce.desc",
+    icon: "potion_ice",
+    rarity: "rare",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "ice_crystal", count: 3 },
+      { itemId: "frost_fang", count: 2 },
+    ],
+    effect: { type: "affection", value: 200, target: "selected_waifu" },
+  },
+  exp_scroll_ice: {
+    id: "exp_scroll_ice",
+    nameKey: "expScrollIce",
+    descriptionKey: "items.expScrollIce.desc",
+    icon: "scroll_ice_exp",
+    rarity: "rare",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "ice_crystal", count: 4 },
+      { itemId: "frost_fang", count: 2 },
+      { itemId: "bone", count: 3 },
+      { itemId: "essence", count: 8 },
+    ],
+    effect: { type: "exp", value: 10000, target: "selected_waifu" },
+  },
+  level_down_scroll_ice: {
+    id: "level_down_scroll_ice",
+    nameKey: "levelDownScrollIce",
+    descriptionKey: "items.levelDownScrollIce.desc",
+    icon: "scroll_ice_down",
+    rarity: "rare",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "frost_fang", count: 4 },
+      { itemId: "ice_crystal", count: 2 },
+    ],
+    effect: { type: "level_down", value: 15, target: "current_location" },
+  },
+
+  affection_potion_volcano: {
+    id: "affection_potion_volcano",
+    nameKey: "affectionPotionVolcano",
+    descriptionKey: "items.affectionPotionVolcano.desc",
+    icon: "potion_volcano",
+    rarity: "epic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "imp_ash", count: 3 },
+      { itemId: "lava_chunk", count: 2 },
+    ],
+    effect: { type: "affection", value: 666, target: "selected_waifu" },
+  },
+  exp_scroll_volcano: {
+    id: "exp_scroll_volcano",
+    nameKey: "expScrollVolcano",
+    descriptionKey: "items.expScrollVolcano.desc",
+    icon: "scroll_volcano_exp",
+    rarity: "epic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "imp_ash", count: 4 },
+      { itemId: "lava_chunk", count: 3 },
+      { itemId: "demon_horn", count: 1 },
+      { itemId: "essence", count: 10 },
+    ],
+    effect: { type: "exp", value: 20000, target: "selected_waifu" },
+  },
+  level_down_scroll_volcano: {
+    id: "level_down_scroll_volcano",
+    nameKey: "levelDownScrollVolcano",
+    descriptionKey: "items.levelDownScrollVolcano.desc",
+    icon: "scroll_volcano_down",
+    rarity: "epic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "lava_chunk", count: 5 },
+      { itemId: "imp_ash", count: 3 },
+    ],
+    effect: { type: "level_down", value: 20, target: "current_location" },
+  },
+
+  affection_potion_castle: {
+    id: "affection_potion_castle",
+    nameKey: "affectionPotionCastle",
+    descriptionKey: "items.affectionPotionCastle.desc",
+    icon: "potion_castle",
+    rarity: "legendary",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "cursed_cloth", count: 3 },
+      { itemId: "ectoplasm", count: 3 },
+    ],
+    effect: { type: "affection", value: 1200, target: "selected_waifu" },
+  },
+  exp_scroll_castle: {
+    id: "exp_scroll_castle",
+    nameKey: "expScrollCastle",
+    descriptionKey: "items.expScrollCastle.desc",
+    icon: "scroll_castle_exp",
+    rarity: "legendary",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "cursed_cloth", count: 4 },
+      { itemId: "bone", count: 5 },
+      { itemId: "essence", count: 15 },
+    ],
+    effect: { type: "exp", value: 40000, target: "selected_waifu" },
+  },
+  level_down_scroll_castle: {
+    id: "level_down_scroll_castle",
+    nameKey: "levelDownScrollCastle",
+    descriptionKey: "items.levelDownScrollCastle.desc",
+    icon: "scroll_castle_down",
+    rarity: "legendary",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "cursed_cloth", count: 5 },
+      { itemId: "ectoplasm", count: 4 },
+    ],
+    effect: { type: "level_down", value: 30, target: "current_location" },
+  },
+
+  affection_potion_abyss: {
+    id: "affection_potion_abyss",
+    nameKey: "affectionPotionAbyss",
+    descriptionKey: "items.affectionPotionAbyss.desc",
+    icon: "potion_abyss",
+    rarity: "mythic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "void_essence", count: 2 },
+      { itemId: "ectoplasm", count: 4 },
+    ],
+    effect: { type: "affection", value: 3000, target: "selected_waifu" },
+  },
+  exp_scroll_abyss: {
+    id: "exp_scroll_abyss",
+    nameKey: "expScrollAbyss",
+    descriptionKey: "items.expScrollAbyss.desc",
+    icon: "scroll_abyss_exp",
+    rarity: "mythic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "void_essence", count: 3 },
+      { itemId: "ectoplasm", count: 5 },
+      { itemId: "essence", count: 20 },
+    ],
+    effect: { type: "exp", value: 80000, target: "selected_waifu" },
+  },
+  level_down_scroll_abyss: {
+    id: "level_down_scroll_abyss",
+    nameKey: "levelDownScrollAbyss",
+    descriptionKey: "items.levelDownScrollAbyss.desc",
+    icon: "scroll_abyss_down",
+    rarity: "mythic",
+    type: "consumable",
+    maxStack: 99,
+    canCraft: true,
+    ingredients: [
+      { itemId: "void_essence", count: 4 },
+      { itemId: "ectoplasm", count: 3 },
+    ],
+    effect: { type: "level_down", value: 50, target: "current_location" },
   },
 };
 
@@ -777,7 +890,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "forestGolem",
     baseHp: 200,
     sprite: "/assets/images/enemies/ForestGolem.png",
-    resistances: { earth: 0.3, fire: -0.4, physical: 0.2 }, // Земля +30% (резист), Огонь -40% (слабость)
+    resistances: { earth: 0.3, fire: -0.4, physical: 0.2 },
     isBoss: false,
     description: "monsters.forestGolem.desc",
     drops: [
@@ -790,7 +903,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "poisonSpider",
     baseHp: 110,
     sprite: "/assets/images/enemies/PoisonSpider.png",
-    resistances: { earth: 0.2, fire: -0.3, ice: 0.1 }, // Земля +20%, Огонь -30% (слабость)
+    resistances: { earth: 0.2, fire: -0.3, ice: 0.1 },
     isBoss: false,
     description: "monsters.poisonSpider.desc",
     drops: [
@@ -804,22 +917,18 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "forestGuardian",
     baseHp: 500,
     sprite: "/assets/images/enemies/ForestGuardian.png",
-    resistances: { earth: 0.5, fire: -0.5, light: 0.2, physical: 0.3 }, // Земля +50% (сильный резист), Огонь -50% (слабость)
+    resistances: { earth: 0.5, fire: -0.5, light: 0.2, physical: 0.3 },
     isBoss: true,
     description: "monsters.forestGuardian.desc",
-    drops: [
-      { id: "magic_scroll", nameKey: "magicScroll", chance: 0.5, minCount: 1, maxCount: 2, type: "material" },
-      { id: "golem_core", nameKey: "golemCore", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
-    ],
+    drops: [{ id: "magic_scroll", nameKey: "magicScroll", chance: 0.5, minCount: 1, maxCount: 2, type: "material" }],
   },
 
-  // ========== DESERT (исправлено: усилен огненный резист) ==========
   {
     id: "mummy",
     nameKey: "mummy",
     baseHp: 140,
     sprite: "/assets/images/enemies/Mummy.png",
-    resistances: { fire: 0.3, ice: -0.4, earth: 0.2 }, // Огонь +30% (резист к жаре), Лёд -40% (слабость)
+    resistances: { fire: 0.3, ice: -0.4, earth: 0.2 },
     isBoss: false,
     description: "monsters.mummy.desc",
     drops: [
@@ -831,7 +940,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "mimic",
     baseHp: 160,
     sprite: "/assets/images/enemies/Mimic.png",
-    resistances: { physical: -0.3, fire: 0.2, earth: 0.1 }, // Огонь +20% (дерево в пустыне высохло)
+    resistances: { physical: -0.3, fire: 0.2, earth: 0.1 },
     isBoss: false,
     description: "monsters.mimic.desc",
     drops: [{ id: "coin", nameKey: "coin", chance: 0.8, minCount: 10, maxCount: 30, type: "currency" }],
@@ -841,7 +950,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "sandWorm",
     baseHp: 180,
     sprite: "/assets/images/enemies/SandWorm.png",
-    resistances: { earth: 0.4, ice: -0.5, fire: 0.3 }, // Земля +40%, Огонь +30% (живёт в жаре)
+    resistances: { earth: 0.4, ice: -0.5, fire: 0.3 },
     isBoss: false,
     description: "monsters.sandWorm.desc",
     drops: [
@@ -855,13 +964,12 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "scarabBeetle",
     baseHp: 140,
     sprite: "/assets/images/enemies/ScarabBeetle.png",
-    resistances: { light: 0.3, physical: 0.2, fire: 0.2, earth: -0.2 }, // Огонь +20% (священный жук солнца)
+    resistances: { light: 0.3, physical: 0.2, fire: 0.2, earth: -0.2 },
     isBoss: false,
     description: "monsters.scarabBeetle.desc",
     drops: [
       { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.25, minCount: 1, maxCount: 2, type: "material" },
       { id: "soul_shard", nameKey: "soulShard", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "scarab_shell", nameKey: "scarabShell", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
     ],
   },
   {
@@ -869,19 +977,45 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "desertColossus",
     baseHp: 550,
     sprite: "/assets/images/enemies/DesertColossus.png",
-    resistances: { earth: 0.5, ice: -0.5, fire: 0.4, physical: 0.2 }, // Огонь +40% (голем пустыни)
+    resistances: { earth: 0.5, ice: -0.5, fire: 0.4, physical: 0.2 },
     isBoss: true,
     description: "monsters.desertColossus.desc",
     drops: [{ id: "dark_orb", nameKey: "darkOrb", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" }],
   },
 
-  // ========== ICE (исправлено: лёд это резист, не слабость!) ==========
+  // ========== ICE ==========
+  {
+    id: "ghost",
+    nameKey: "ghost",
+    baseHp: 120,
+    sprite: "/assets/images/enemies/Ghost.png",
+    resistances: { physical: 0.8, light: -0.5, dark: 0.3 },
+    isBoss: false,
+    description: "monsters.ghost.desc",
+    drops: [
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.5, minCount: 1, maxCount: 2, type: "material" },
+      { id: "soul_shard", nameKey: "soulShard", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
+    ],
+  },
+  {
+    id: "vampireThrall",
+    nameKey: "vampireThrall",
+    baseHp: 140,
+    sprite: "/assets/images/enemies/VampireThrall.png",
+    resistances: { dark: 0.3, light: -0.4, physical: -0.1 },
+    isBoss: false,
+    description: "monsters.vampireThrall.desc",
+    drops: [
+      { id: "bone", nameKey: "bone", chance: 0.3, minCount: 1, maxCount: 2, type: "material" },
+      { id: "ectoplasm", nameKey: "ectoplasm", chance: 0.2, minCount: 1, maxCount: 1, type: "material" },
+    ],
+  },
   {
     id: "ice_elemental",
     nameKey: "iceElemental",
     baseHp: 160,
     sprite: "/assets/images/enemies/IceElemental.png",
-    resistances: { ice: 0.6, fire: -0.5, water: 0.2 }, // Лёд +60% (иммунитет), Огонь -50% (слабость)
+    resistances: { ice: 0.6, fire: -0.5, water: 0.2 },
     isBoss: false,
     description: "monsters.iceElemental.desc",
     drops: [
@@ -894,7 +1028,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "frostWolf",
     baseHp: 175,
     sprite: "/assets/images/enemies/FrostWolf.png",
-    resistances: { ice: 0.4, fire: -0.5, physical: 0.1 }, // Лёд +40% (ледяная шерсть), Огонь -50%
+    resistances: { ice: 0.4, fire: -0.5, physical: 0.1 },
     isBoss: false,
     description: "monsters.frostWolf.desc",
     drops: [
@@ -908,7 +1042,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "iceQueen",
     baseHp: 600,
     sprite: "/assets/images/enemies/IceQueen.png",
-    resistances: { ice: 0.7, fire: -0.6, water: 0.3, light: 0.2 }, // Лёд +70% (богиня льда), Огонь -60%
+    resistances: { ice: 0.7, fire: -0.6, water: 0.3, light: 0.2 },
     isBoss: true,
     description: "monsters.iceQueen.desc",
     drops: [
@@ -923,13 +1057,13 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     ],
   },
 
-  // ========== VOLCANO (исправлено: ВСЕ имеют огненный резист) ==========
+  // ========== VOLCANO ==========
   {
     id: "lesserDemon",
     nameKey: "lesserDemon",
     baseHp: 315,
     sprite: "/assets/images/enemies/LesserDemon.png",
-    resistances: { fire: 0.6, ice: -0.5, water: -0.3, light: 0.2 }, // Огонь +60% (демон огня!)
+    resistances: { fire: 0.6, ice: -0.5, water: -0.3, light: 0.2 },
     isBoss: true,
     description: "monsters.lesserDemon.desc",
     drops: [
@@ -950,7 +1084,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "whelp",
     baseHp: 170,
     sprite: "/assets/images/enemies/Whelp.png",
-    resistances: { fire: 0.5, ice: -0.4, water: -0.2 }, // Огонь +50% (дракон!)
+    resistances: { fire: 0.5, ice: -0.4, water: -0.2 },
     isBoss: false,
     description: "monsters.whelp.desc",
     drops: [{ id: "demon_horn", nameKey: "demonHorn", chance: 0.15, minCount: 1, maxCount: 1, type: "material" }],
@@ -960,7 +1094,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "lavaSlime",
     baseHp: 190,
     sprite: "/assets/images/enemies/LavaSlime.png",
-    resistances: { fire: 0.7, ice: -0.6, water: -0.5 }, // Огонь +70% (лава!), Вода -50% (застывает)
+    resistances: { fire: 0.7, ice: -0.6, water: -0.5 },
     isBoss: false,
     description: "monsters.lavaSlime.desc",
     drops: [
@@ -981,7 +1115,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "fireImp",
     baseHp: 145,
     sprite: "/assets/images/enemies/FireImp.png",
-    resistances: { fire: 0.5, ice: -0.5, light: 0.1 }, // Огонь +50% (огненный имп!)
+    resistances: { fire: 0.5, ice: -0.5, light: 0.1 },
     isBoss: false,
     description: "monsters.fireImp.desc",
     drops: [
@@ -994,22 +1128,19 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "infernoDragon",
     baseHp: 650,
     sprite: "/assets/images/enemies/InfernoDragon.png",
-    resistances: { fire: 0.8, ice: -0.6, water: -0.5, physical: 0.3 }, // Огонь +80% (бог огня!)
+    resistances: { fire: 0.8, ice: -0.6, water: -0.5, physical: 0.3 },
     isBoss: true,
     description: "monsters.infernoDragon.desc",
-    drops: [
-      { id: "demon_wing", nameKey: "demonWing", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
-      { id: "dragon_scale", nameKey: "dragonScale", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
-    ],
+    drops: [{ id: "demon_wing", nameKey: "demonWing", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" }],
   },
 
-  // ========== CASTLE (исправлено: нежить = слабость к свету, резист к тьме) ==========
+  // ========== CASTLE ==========
   {
     id: "skeleton",
     nameKey: "skeleton",
     baseHp: 150,
     sprite: "/assets/images/enemies/Skeleton.png",
-    resistances: { light: -0.5, dark: 0.4, physical: 0.1 }, // Свет -50% (нежить!), Тьма +40%
+    resistances: { light: -0.5, dark: 0.4, physical: 0.1 },
     isBoss: false,
     description: "monsters.skeleton.desc",
     drops: [
@@ -1022,13 +1153,12 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "armoredKnight",
     baseHp: 220,
     sprite: "/assets/images/enemies/ArmoredKnight.png",
-    resistances: { physical: 0.3, light: -0.4, dark: 0.4 }, // Тяжёлая броня = физ резист, но святой свет пробивает
+    resistances: { physical: 0.3, light: -0.4, dark: 0.4 },
     isBoss: false,
     description: "monsters.armoredKnight.desc",
     drops: [
       { id: "bone", nameKey: "bone", chance: 0.4, minCount: 1, maxCount: 3, type: "material" },
       { id: "ancient_coin", nameKey: "ancientCoin", chance: 0.002, minCount: 1, maxCount: 3, type: "collection" },
-      { id: "knight_armor", nameKey: "knightArmor", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
     ],
   },
   {
@@ -1036,7 +1166,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "cursedBanner",
     baseHp: 135,
     sprite: "/assets/images/enemies/CursedBanner.png",
-    resistances: { dark: 0.4, light: -0.5, physical: 0.3 }, // Проклятие = тьма, свет очищает
+    resistances: { dark: 0.4, light: -0.5, physical: 0.3 },
     isBoss: false,
     description: "monsters.cursedBanner.desc",
     drops: [
@@ -1050,19 +1180,19 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "castleLord",
     baseHp: 700,
     sprite: "/assets/images/enemies/CastleLord.png",
-    resistances: { dark: 0.5, light: -0.6, physical: 0.3, earth: 0.2 }, // Лорд тьмы, боится света
+    resistances: { dark: 0.5, light: -0.6, physical: 0.3, earth: 0.2 },
     isBoss: true,
     description: "monsters.castleLord.desc",
     drops: [{ id: "mage_staff", nameKey: "mageStaff", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" }],
   },
 
-  // ========== ABYSS (исправлено: чистая тьма = иммунитет к тьме) ==========
+  // ========== ABYSS ==========
   {
     id: "dark_mage",
     nameKey: "darkMage",
     baseHp: 300,
     sprite: "/assets/images/enemies/DarkMage.png",
-    resistances: { dark: 0.5, light: -0.5, fire: 0.2 }, // Тьма +50% (маг тьмы)
+    resistances: { dark: 0.5, light: -0.5, fire: 0.2 },
     isBoss: true,
     description: "monsters.darkMage.desc",
     drops: [
@@ -1076,7 +1206,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "voidWalker",
     baseHp: 240,
     sprite: "/assets/images/enemies/VoidWalker.png",
-    resistances: { dark: 0.6, light: -0.6, physical: 0.5 }, // Тьма +60% (существо пустоты)
+    resistances: { dark: 0.6, light: -0.6, physical: 0.5 },
     isBoss: false,
     description: "monsters.voidWalker.desc",
     drops: [
@@ -1090,27 +1220,17 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     nameKey: "shadowTentacle",
     baseHp: 165,
     sprite: "/assets/images/enemies/ShadowTentacle.png",
-    resistances: { dark: 0.5, light: -0.5, water: 0.2, physical: 0.4 }, // Тьма +50% (чистая тень)
+    resistances: { dark: 0.5, light: -0.5, water: 0.2, physical: 0.4 },
     isBoss: false,
     description: "monsters.shadowTentacle.desc",
-    drops: [
-      { id: "dark_orb", nameKey: "darkOrb", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" },
-      {
-        id: "shadow_tentacle_item",
-        nameKey: "shadowTentacleItem",
-        chance: 0.002,
-        minCount: 1,
-        maxCount: 1,
-        type: "collection",
-      },
-    ],
+    drops: [{ id: "dark_orb", nameKey: "darkOrb", chance: 0.2, minCount: 1, maxCount: 1, type: "collection" }],
   },
   {
     id: "abyss_lord",
     nameKey: "abyssLord",
     baseHp: 800,
     sprite: "/assets/images/enemies/AbyssLord.png",
-    resistances: { dark: 0.8, light: -0.7, physical: 0.5 }, // Тьма +80% (бог бездны!), Свет -70%
+    resistances: { dark: 0.8, light: -0.7, physical: 0.5 },
     isBoss: true,
     description: "monsters.abyssLord.desc",
     drops: [
@@ -1123,37 +1243,10 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
         maxCount: 2,
         type: "collection",
       },
-      { id: "abyss_pearl", nameKey: "abyssPearl", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
     ],
   },
 ];
 
-export const CONSUMABLE_ITEMS: TConsumableItem[] = [
-  {
-    id: "exp_scroll_500",
-    nameKey: "expScroll500",
-    descriptionKey: "items.expScroll500.desc",
-    icon: "scroll",
-    effect: { type: "exp", value: 500, target: "selected_waifu" },
-    rarity: "uncommon",
-  },
-  {
-    id: "exp_scroll_1000",
-    nameKey: "expScroll1000",
-    descriptionKey: "items.expScroll1000.desc",
-    icon: "scroll",
-    effect: { type: "exp", value: 1000, target: "selected_waifu" },
-    rarity: "rare",
-  },
-  {
-    id: "affection_potion",
-    nameKey: "affectionPotion",
-    descriptionKey: "items.affectionPotion.desc",
-    icon: "potion",
-    effect: { type: "affection", value: 10, target: "selected_waifu" },
-    rarity: "common",
-  },
-];
 export const LOCATION_UNLOCK_REQUIREMENTS: Partial<Record<TLocation, { prevLocation: TLocation; killLevel: number }>> =
   {
     desert: { prevLocation: "forest", killLevel: 50 },
@@ -1167,7 +1260,6 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "forest",
     nameKey: "forest",
-    availableEnemies: ["slime", "goblin", "direWolf"],
     minLevel: 1,
     maxLevel: 999,
     levelScaling: 1,
@@ -1181,10 +1273,9 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "desert",
     nameKey: "desert",
-    availableEnemies: ["mummy", "mimic", "direWolf"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 2.5, // Увеличено с 1.3
+    levelScaling: 2.5,
     bonuses: {
       gemMultiplier: 1.8,
       essenceMultiplier: 1.4,
@@ -1195,10 +1286,9 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "ice",
     nameKey: "ice",
-    availableEnemies: ["ghost", "direWolf", "vampireThrall"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 4, // Увеличено с 1.4
+    levelScaling: 4,
     bonuses: {
       gemMultiplier: 2.5,
       essenceMultiplier: 1.8,
@@ -1209,10 +1299,9 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "volcano",
     nameKey: "volcano",
-    availableEnemies: ["lesserDemon", "whelp", "mimic"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 6, // Увеличено с 1.5
+    levelScaling: 6,
     bonuses: {
       gemMultiplier: 3.5,
       essenceMultiplier: 2.2,
@@ -1223,10 +1312,9 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "castle",
     nameKey: "castle",
-    availableEnemies: ["skeleton", "ghost", "mummy"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 9, // Увеличено с 1.6
+    levelScaling: 9,
     bonuses: {
       gemMultiplier: 4.5,
       essenceMultiplier: 2.8,
@@ -1237,10 +1325,9 @@ export const LOCATIONS: ILocationConfig[] = [
   {
     id: "abyss",
     nameKey: "abyss",
-    availableEnemies: ["dark_mage", "lesserDemon", "vampireThrall"],
     minLevel: 1,
     maxLevel: 999,
-    levelScaling: 15, // Увеличено с 2
+    levelScaling: 15,
     bonuses: {
       gemMultiplier: 7,
       essenceMultiplier: 4,
@@ -1249,6 +1336,7 @@ export const LOCATIONS: ILocationConfig[] = [
     },
   },
 ];
+
 export const LOCATION_ENEMIES: Record<TLocation, string[]> = {
   forest: ["slime", "goblin", "direWolf", "forest_golem", "poison_spider"],
   desert: ["mummy", "mimic", "direWolf", "sand_worm", "scarab_beetle"],
@@ -1257,6 +1345,7 @@ export const LOCATION_ENEMIES: Record<TLocation, string[]> = {
   castle: ["skeleton", "ghost", "mummy", "armored_knight", "cursed_banner"],
   abyss: ["lesserDemon", "vampireThrall", "void_walker", "shadow_tentacle"],
 };
+
 export const LOCATION_BOSSES: Record<TLocation, string[]> = {
   forest: ["dark_mage", "forest_guardian"],
   desert: ["lesser_demon", "desert_colossus"],
@@ -1317,7 +1406,6 @@ export const COLLECTION_BUFFS: Record<string, ICollectionBuff> = {
     value: 0.2,
     descriptionKey: "buffs.mageStaff",
   },
-
   hellfire_essence: {
     itemId: "hellfire_essence",
     buffType: "element_damage",
@@ -1339,140 +1427,6 @@ export const COLLECTION_BUFFS: Record<string, ICollectionBuff> = {
   },
 };
 
-export const CRAFT_ITEMS: TCraftItem[] = [
-  {
-    id: "exp_scroll_500",
-    nameKey: "expScroll500",
-    descriptionKey: "items.expScroll500.desc",
-    icon: "scroll",
-    rarity: "uncommon",
-    ingredients: [
-      { itemId: "gel", count: 5 },
-      { itemId: "essence", count: 3 },
-    ],
-    effect: {
-      type: "exp",
-      value: 500,
-      target: "selected_waifu",
-    },
-  },
-  {
-    id: "exp_scroll_1000",
-    nameKey: "expScroll1000",
-    descriptionKey: "items.expScroll1000.desc",
-    icon: "scroll",
-    rarity: "rare",
-    ingredients: [
-      { itemId: "ectoplasm", count: 3 },
-      { itemId: "essence", count: 5 },
-      { itemId: "magic_scroll", count: 1 },
-    ],
-    effect: {
-      type: "exp",
-      value: 1000,
-      target: "selected_waifu",
-    },
-  },
-  {
-    id: "exp_scroll_5000",
-    nameKey: "expScroll5000",
-    descriptionKey: "items.expScroll5000.desc",
-    icon: "scroll",
-    rarity: "epic",
-    ingredients: [
-      { itemId: "ectoplasm", count: 5 },
-      { itemId: "essence", count: 10 },
-      { itemId: "magic_scroll", count: 3 },
-    ],
-    effect: {
-      type: "exp",
-      value: 5000,
-      target: "selected_waifu",
-    },
-  },
-  {
-    id: "affection_potion",
-    nameKey: "affectionPotion",
-    descriptionKey: "items.affectionPotion.desc",
-    icon: "potion",
-    rarity: "common",
-    ingredients: [
-      { itemId: "gel", count: 3 },
-      { itemId: "goblin_ear", count: 2 },
-    ],
-    effect: {
-      type: "affection",
-      value: 10,
-      target: "selected_waifu",
-    },
-  },
-  {
-    id: "affection_potion_large",
-    nameKey: "affectionPotionLarge",
-    descriptionKey: "items.affectionPotionLarge.desc",
-    icon: "potion",
-    rarity: "uncommon",
-    ingredients: [
-      { itemId: "ectoplasm", count: 2 },
-      { itemId: "essence", count: 3 },
-      { itemId: "bone", count: 3 },
-    ],
-    effect: {
-      type: "affection",
-      value: 50,
-      target: "selected_waifu",
-    },
-  },
-  {
-    id: "level_down_scroll_10",
-    nameKey: "levelDownScroll10",
-    descriptionKey: "items.levelDownScroll10.desc",
-    icon: "scroll",
-    rarity: "uncommon",
-    ingredients: [{ itemId: "essence", count: 5 }],
-    effect: {
-      type: "level_down_10",
-      value: 10,
-      target: "current_location",
-    },
-  },
-  {
-    id: "level_down_scroll_20",
-    nameKey: "levelDownScroll20",
-    descriptionKey: "items.levelDownScroll20.desc",
-    icon: "scroll",
-    rarity: "rare",
-    ingredients: [
-      { itemId: "magic_scroll", count: 3 },
-      { itemId: "ectoplasm", count: 3 },
-      { itemId: "essence", count: 10 },
-      { itemId: "demon_horn", count: 1 },
-    ],
-    effect: {
-      type: "level_down_20",
-      value: 20,
-      target: "current_location",
-    },
-  },
-  {
-    id: "level_down_scroll_50",
-    nameKey: "levelDownScroll50",
-    descriptionKey: "items.levelDownScroll50.desc",
-    icon: "scroll",
-    rarity: "epic",
-    ingredients: [
-      { itemId: "magic_scroll", count: 5 },
-      { itemId: "ectoplasm", count: 5 },
-      { itemId: "demon_horn", count: 3 },
-      { itemId: "essence", count: 25 },
-    ],
-    effect: {
-      type: "level_down_50",
-      value: 50,
-      target: "current_location",
-    },
-  },
-];
 export const INITIAL_LOCATION_PROGRESS: TLocationProgress = {
   forest: { currentLevel: 1, maxLevelReached: 1, unlocked: true },
   desert: { currentLevel: 1, maxLevelReached: 1, unlocked: false },

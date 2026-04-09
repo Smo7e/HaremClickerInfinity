@@ -1,33 +1,48 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
-import { CRAFT_ITEMS, INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
-import type { TCraftItem } from "../../../../types";
+import { INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
+import type { TInventoryItem, TRarity } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
 import "./CraftPanel.css";
+
+export type TCraftableItem = TInventoryItem & {
+  canCraft: true;
+  ingredients: Array<{
+    itemId: string;
+    count: number;
+  }>;
+};
 
 interface CraftPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  onCraft: (item: TCraftItem) => void;
+  onCraft: (item: TCraftableItem, quantity: number) => void;
   onUseItem: (itemId: string) => void;
   selectedWaifuId?: string;
 }
 
 type CraftTab = "craft" | "use";
 type CraftFilter = "all" | "potion" | "scroll" | "available";
+const rarityOrder: TRarity[] = ["mythic", "legendary", "epic", "rare", "uncommon", "common"];
 
 export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuId }: CraftPanelProps) {
   const [activeTab, setActiveTab] = useState<CraftTab>("craft");
-  const [selectedCraftItem, setSelectedCraftItem] = useState<TCraftItem | null>(null);
+  const [selectedCraftItem, setSelectedCraftItem] = useState<TCraftableItem | null>(null);
+  const [craftQuantity, setCraftQuantity] = useState(1);
   const [craftFilter, setCraftFilter] = useState<CraftFilter>("all");
   const inventory = useGameStore((state) => state.inventory);
   const currentLocation = useGameStore((state) => state.currentLocation);
   const locationProgress = useGameStore((state) => state.locationProgress);
   const currentLevel = locationProgress[currentLocation]?.currentLevel ?? 1;
 
+  // Получаем все крафтовые предметы
   const craftableItems = useMemo(() => {
-    return CRAFT_ITEMS.map((item) => {
+    const items = Object.values(INVENTORY_ITEMS)
+      .filter((item): item is TCraftableItem => item.canCraft === true && !!item.ingredients)
+      .sort((a, b) => rarityOrder.indexOf(b.rarity) - rarityOrder.indexOf(a.rarity));
+
+    return items.map((item) => {
       const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
       return { ...item, canCraft };
     });
@@ -37,7 +52,7 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
     return inventory.getItemsByType("consumable");
   }, [inventory]);
 
-  // Фильтрация по подкатегориям
+  // Фильтрация
   const filteredCraftItems = useMemo(() => {
     return craftableItems.filter((item) => {
       if (craftFilter === "available") return item.canCraft;
@@ -47,15 +62,49 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
     });
   }, [craftableItems, craftFilter]);
 
-  const handleCraft = useCallback(
-    (item: TCraftItem) => {
-      const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
-      if (canCraft) {
-        onCraft(item);
+  // Расчет максимального количества для крафта
+  const getMaxCraftable = useCallback(
+    (item: TCraftableItem) => {
+      if (!item.ingredients || item.ingredients.length === 0) return 99;
+
+      const maxStack = item.maxStack || 1;
+      const currentCount = inventory.getItemCount(item.id);
+      const canFit = Math.max(0, maxStack - currentCount);
+
+      let max = Infinity;
+      for (const ing of item.ingredients) {
+        const has = inventory.getItemCount(ing.itemId);
+        const possible = Math.floor(has / ing.count);
+        if (possible < max) max = possible;
       }
+
+      return Math.max(0, Math.min(max, canFit));
     },
-    [inventory, onCraft],
+    [inventory],
   );
+
+  // Сбрасываем количество при открытии модалки
+  useEffect(() => {
+    if (selectedCraftItem) {
+      setCraftQuantity(1);
+    }
+  }, [selectedCraftItem?.id]);
+
+  const handleCraftClick = useCallback(() => {
+    if (!selectedCraftItem) return;
+    onCraft(selectedCraftItem, craftQuantity);
+    setSelectedCraftItem(null);
+    setCraftQuantity(1);
+  }, [selectedCraftItem, craftQuantity, onCraft]);
+
+  // Проверка возможности крафта выбранного количества
+  const canCraftAmount = useMemo(() => {
+    if (!selectedCraftItem) return false;
+    return selectedCraftItem.ingredients.every((ing) => {
+      const has = inventory.getItemCount(ing.itemId);
+      return has >= ing.count * craftQuantity;
+    });
+  }, [selectedCraftItem, craftQuantity, inventory]);
 
   if (!isOpen) return null;
 
@@ -87,7 +136,6 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
         <div className="panel-content">
           {activeTab === "craft" ? (
             <>
-              {/* Фильтры в стиле коллекции */}
               <div className="craft-filters">
                 <button
                   className={`craft-filter-btn ${craftFilter === "all" ? "active" : ""}`}
@@ -119,59 +167,60 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                 </button>
               </div>
 
-              {/* Список рецептов (скроллится вместе с панелью) */}
               <div className="craft-list">
                 {filteredCraftItems.length === 0 ? (
                   <p className="empty-message">{t("ui.noItems")}</p>
                 ) : (
-                  filteredCraftItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className={`craft-item-card ${item.canCraft ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
-                      onClick={() => setSelectedCraftItem(item)}
-                    >
-                      <div className="craft-item-header">
-                        <Icon name={item.icon} size="md" />
-                        <span className="craft-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
-                          {t(`items.${item.nameKey}.name`)}
-                        </span>
-                        <span className={`craft-status ${item.canCraft ? "ready" : "locked"}`}>
-                          {item.canCraft ? "✓" : "✕"}
-                        </span>
-                      </div>
-                      <p className="craft-item-desc">
-                        {t(item.descriptionKey).replace("{{level}}", currentLevel.toString())}
-                      </p>
-                      <div className="craft-ingredients">
-                        {item.ingredients.map((ing) => {
-                          const has = inventory.getItemCount(ing.itemId);
-                          const needed = ing.count;
-                          const template = INVENTORY_ITEMS[ing.itemId];
-                          return (
-                            <div key={ing.itemId} className={`ingredient ${has >= needed ? "has" : "missing"}`}>
-                              <Icon name={template?.icon || "unknown"} size="sm" />
-                              <span>
-                                {has}/{needed} {t(`items.${template?.nameKey || ing.itemId}.name`)}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                      {item.effect && (
-                        <div className="craft-effect">
-                          <Icon name="upgrades" size="sm" />
-                          <span>
-                            {item.effect.type === "level_down_10" && "-10 " + t("ui.levels")}
-                            {item.effect.type === "level_down_20" && "-20 " + t("ui.levels")}
-                            {item.effect.type === "level_down_50" && "-50 " + t("ui.levels")}
-                            {item.effect.type === "exp" && `+${item.effect.value} EXP`}
-                            {item.effect.type === "affection" && `+${item.effect.value} ${t("ui.affection")}`}
-                            {item.effect.type === "heal" && `+${item.effect.value} HP`}
+                  filteredCraftItems.map((item) => {
+                    const maxAmount = getMaxCraftable(item as TCraftableItem);
+                    return (
+                      <div
+                        key={item.id}
+                        className={`craft-item-card ${maxAmount > 0 ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
+                        onClick={() => setSelectedCraftItem(item as TCraftableItem)}
+                      >
+                        <div className="craft-item-header">
+                          <Icon name={item.icon} size="md" />
+                          <span className="craft-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
+                            {t(`items.${item.nameKey}.name`)}
+                          </span>
+                          <span className={`craft-status ${maxAmount > 0 ? "ready" : "locked"}`}>
+                            {maxAmount > 0 ? "✓" : "✕"}
                           </span>
                         </div>
-                      )}
-                    </div>
-                  ))
+                        <p className="craft-item-desc">
+                          {t(item.descriptionKey).replace("{{value}}", item.effect?.value.toString() || "0") +
+                            ` (${inventory.getItemCount(item.id)})`}
+                        </p>
+                        <div className="craft-ingredients">
+                          {item.ingredients.map((ing) => {
+                            const has = inventory.getItemCount(ing.itemId);
+                            const template = INVENTORY_ITEMS[ing.itemId];
+                            return (
+                              <div key={ing.itemId} className={`ingredient ${has >= ing.count ? "has" : "missing"}`}>
+                                <Icon name={template?.icon || "unknown"} size="sm" />
+                                <span>
+                                  {has}/{ing.count} {t(`items.${template?.nameKey || ing.itemId}.name`)}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        {item.effect && (
+                          <div className="craft-effect">
+                            {item.effect.type === "level_down" && <Icon name="scroll" size="sm" />}
+                            {item.effect.type === "exp" && <Icon name="exp" size="sm" />}
+                            {item.effect.type === "affection" && <Icon name="affection" size="sm" />}
+                            <span>
+                              {item.effect.type === "level_down" && -item.effect.value + " " + t("ui.levels")}
+                              {item.effect.type === "exp" && `+${item.effect.value} EXP`}
+                              {item.effect.type === "affection" && `+${item.effect.value} ${t("ui.affection")}`}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
                 )}
               </div>
             </>
@@ -189,7 +238,10 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                           {t(`items.${item.nameKey}.name`)}
                         </span>
                         <span className="use-item-count">x{item.count}</span>
-                        <p className="use-item-desc">{t(`items.${item.nameKey}.desc`)}</p>
+                        <p className="use-item-desc">
+                          {t(`items.${item.nameKey}.desc`) +
+                            (item.effect?.type === "level_down" ? ` (${currentLevel.toString()})` : "")}
+                        </p>
                       </div>
                     </div>
                     <button
@@ -213,11 +265,44 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                 {t(`items.${selectedCraftItem.nameKey}.name`)}
               </h3>
               <p>{t(selectedCraftItem.descriptionKey).replace("{{level}}", currentLevel.toString())}</p>
+
+              <div className="craft-quantity-selector">
+                <label>{t("ui.quantity") || "Количество"}:</label>
+                <div className="quantity-controls">
+                  <button
+                    className="qty-btn"
+                    onClick={() => setCraftQuantity((q) => Math.max(1, q - 1))}
+                    disabled={craftQuantity <= 1}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="range"
+                    min="1"
+                    max={getMaxCraftable(selectedCraftItem)}
+                    value={craftQuantity}
+                    onChange={(e) => setCraftQuantity(Number(e.target.value))}
+                    className="craft-quantity-slider"
+                  />
+                  <button
+                    className="qty-btn"
+                    onClick={() => setCraftQuantity((q) => Math.min(getMaxCraftable(selectedCraftItem), q + 1))}
+                    disabled={craftQuantity >= getMaxCraftable(selectedCraftItem)}
+                  >
+                    +
+                  </button>
+                  <span className="quantity-value">{craftQuantity}</span>
+                </div>
+                <small className="max-craft-hint">
+                  {t("ui.maxAvailable") || "Максимум"}: {getMaxCraftable(selectedCraftItem)}
+                </small>
+              </div>
+
               <div className="craft-modal-ingredients">
                 <h4>{t("ui.requiredMaterials")}</h4>
                 {selectedCraftItem.ingredients.map((ing) => {
                   const has = inventory.getItemCount(ing.itemId);
-                  const needed = ing.count;
+                  const needed = ing.count * craftQuantity;
                   const template = INVENTORY_ITEMS[ing.itemId];
                   return (
                     <div key={ing.itemId} className={`modal-ingredient ${has >= needed ? "has" : "missing"}`}>
@@ -234,14 +319,8 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                 <button className="btn-secondary" onClick={() => setSelectedCraftItem(null)}>
                   {t("ui.cancel")}
                 </button>
-                <button
-                  className="btn-primary"
-                  onClick={() => handleCraft(selectedCraftItem)}
-                  disabled={
-                    !selectedCraftItem.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count)
-                  }
-                >
-                  {t("ui.craft")}
+                <button className="btn-primary" onClick={handleCraftClick} disabled={!canCraftAmount}>
+                  {t("ui.craft")} {craftQuantity > 1 ? `x${craftQuantity}` : ""}
                 </button>
               </div>
             </div>

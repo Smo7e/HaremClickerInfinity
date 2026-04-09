@@ -1,4 +1,5 @@
 import { Component, ErrorInfo, ReactNode } from "react";
+import { t } from "../../locales/i18n";
 
 interface Props {
   children: ReactNode;
@@ -52,7 +53,7 @@ export class ErrorBoundary extends Component<Props, State> {
       };
 
       console.error("[ErrorBoundary] Error report:", errorData);
-      alert("Ошибка сохранена в консоли. Пожалуйста, отправьте скриншот разработчику.");
+      alert(t("errorBoundary.reportMessage"));
     }
   };
 
@@ -70,8 +71,8 @@ export class ErrorBoundary extends Component<Props, State> {
             fontFamily: "Arial, sans-serif",
           }}
         >
-          <h1 style={{ color: "#f44336" }}>⚠️ Произошла ошибка</h1>
-          <p>Игра столкнулась с непредвиденной ошибкой.</p>
+          <h1 style={{ color: "#f44336" }}>⚠️ {t("errorBoundary.title")}</h1>
+          <p>{t("errorBoundary.description")}</p>
           {this.state.error && (
             <details
               style={{
@@ -82,7 +83,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 textAlign: "left",
               }}
             >
-              <summary style={{ cursor: "pointer" }}>Детали ошибки</summary>
+              <summary style={{ cursor: "pointer" }}>{t("errorBoundary.details")}</summary>
               <pre
                 style={{
                   fontSize: "12px",
@@ -108,7 +109,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 cursor: "pointer",
               }}
             >
-              Сбросить прогресс
+              {t("errorBoundary.resetButton")}
             </button>
             <button
               onClick={this.handleReport}
@@ -121,7 +122,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 cursor: "pointer",
               }}
             >
-              Сообщить об ошибке
+              {t("errorBoundary.reportButton")}
             </button>
           </div>
         </div>

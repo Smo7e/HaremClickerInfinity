@@ -139,7 +139,6 @@ export class Enemy {
 
     const resistances: Partial<Record<TElementType, number>> = {};
 
-    // Рандомизируем базовые резисты из шаблона
     for (const [element, value] of Object.entries(template.resistances)) {
       if (value > 0) {
         resistances[element as TElementType] = Math.random() * value;
@@ -159,7 +158,6 @@ export class Enemy {
       }
     }
 
-    // Добавляем уязвимости
     const weakCount = isBoss ? 2 : 1;
     for (let i = 0; i < weakCount; i++) {
       const element = shuffled[shuffled.length - 1 - i]!;
@@ -173,6 +171,7 @@ export class Enemy {
     if (isBoss) {
       drops.push({ id: "gem", nameKey: "gem", chance: 1, minCount: 50, maxCount: 50, type: "currency" });
       drops.push({ id: "essence", nameKey: "essence", chance: 1, minCount: 1, maxCount: 5, type: "currency" });
+      drops.push({ id: "coin", nameKey: "coin", chance: 1, minCount: 1, maxCount: 5, type: "currency" });
     } else {
       drops.push({
         id: "gem",
@@ -183,6 +182,7 @@ export class Enemy {
         type: "currency",
       });
       drops.push({ id: "essence", nameKey: "essence", chance: 0.1, minCount: 1, maxCount: 1, type: "currency" });
+      drops.push({ id: "coin", nameKey: "coin", chance: 0.3, minCount: 1, maxCount: 1, type: "currency" });
     }
 
     return new Enemy({

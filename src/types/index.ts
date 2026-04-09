@@ -9,7 +9,6 @@ export type TItemType = "collection" | "consumable" | "material" | "currency";
 export interface ILocationConfig {
   id: TLocation;
   nameKey: string;
-  availableEnemies: string[];
   minLevel: number;
   maxLevel: number;
   levelScaling: number;
@@ -33,8 +32,54 @@ export type TWaifu = {
   critMultiplier: number;
 };
 export type TCollectionCategory = "weapon" | "accessory" | "memoria" | "outfit";
+export type TInventoryItemId =
+  | "gem"
+  | "essence"
+  | "coin"
+  | "gel"
+  | "slime_core"
+  | "goblin_dagger"
+  | "goblin_ear"
+  | "bone"
+  | "skull"
+  | "ectoplasm"
+  | "soul_shard"
+  | "magic_scroll"
+  | "dark_orb"
+  | "mage_staff"
+  | "demon_horn"
+  | "hellfire_essence"
+  | "demon_wing"
+  | "ancient_coin"
+  | "forest_essence"
+  | "spider_venom"
+  | "sand_stone"
+  | "ice_crystal"
+  | "frost_fang"
+  | "lava_chunk"
+  | "imp_ash"
+  | "cursed_cloth"
+  | "void_essence"
+  | "affection_potion_forest"
+  | "exp_scroll_forest"
+  | "level_down_scroll_forest"
+  | "affection_potion_desert"
+  | "exp_scroll_desert"
+  | "level_down_scroll_desert"
+  | "affection_potion_ice"
+  | "exp_scroll_ice"
+  | "level_down_scroll_ice"
+  | "affection_potion_volcano"
+  | "exp_scroll_volcano"
+  | "level_down_scroll_volcano"
+  | "affection_potion_castle"
+  | "exp_scroll_castle"
+  | "level_down_scroll_castle"
+  | "affection_potion_abyss"
+  | "exp_scroll_abyss"
+  | "level_down_scroll_abyss";
 export type TInventoryItem = {
-  id: string;
+  id: TInventoryItemId;
   nameKey: string;
   descriptionKey: LocaleKeys;
   icon: string;
@@ -42,25 +87,21 @@ export type TInventoryItem = {
   type: TItemType;
   count: number;
   maxStack?: number;
+  canCraft?: boolean;
+  ingredients?: Array<{
+    itemId: TInventoryItemId;
+    count: number;
+  }>;
   effect?: {
-    type:
-      | "exp"
-      | "affection"
-      | "crit_chance"
-      | "heal"
-      | "damage_boost"
-      | "level_down_10"
-      | "level_down_20"
-      | "level_down_50";
+    type: "exp" | "affection" | "level_down";
     value: number;
     target: "selected_waifu" | "global" | "current_location";
-    duration?: number;
   };
   collectionCategory?: TCollectionCategory;
 };
 
 export type TDropItem = {
-  id: string;
+  id: TInventoryItemId;
   nameKey: string;
   chance: number;
   minCount: number;
@@ -74,7 +115,7 @@ export interface IInventory {
 }
 
 export type TConsumableItem = {
-  id: string;
+  id: TInventoryItemId;
   nameKey: string;
   descriptionKey: LocaleKeys;
   icon: string;
@@ -106,22 +147,6 @@ export interface IGlobalUpgrades {
     expBonus: number;
   };
 }
-export type TCraftItem = {
-  id: string;
-  nameKey: string;
-  descriptionKey: LocaleKeys;
-  icon: string;
-  rarity: TRarity;
-  ingredients: Array<{
-    itemId: string;
-    count: number;
-  }>;
-  effect?: {
-    type: "exp" | "affection" | "heal" | "level_down_10" | "level_down_20" | "level_down_50";
-    value: number;
-    target: "selected_waifu" | "global" | "current_location";
-  };
-};
 
 export type TBestiaryEntry = {
   enemyId: string;

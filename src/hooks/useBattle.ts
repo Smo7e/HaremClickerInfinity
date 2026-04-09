@@ -27,7 +27,7 @@ export function useBattle() {
       if (now - lastAttackRef.current < 100) return;
       lastAttackRef.current = now;
       audioManager.playClick();
-      const calculation = BattleService.calculateDamage(activeWaifu, enemy, globalUpgrades);
+      const calculation = BattleService.calculateDamage(activeWaifu, enemy);
       const actualDamage = dealDamage(calculation.base, calculation.isCrit);
       let clientX: number;
       let clientY: number;

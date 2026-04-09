@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
-import { RARITY_COLORS } from "../../../../game/constant";
+import { INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
 import "./BackpackPanel.css";
 import { Icon } from "../../../Icon/Icon";
 
@@ -64,10 +64,14 @@ export function BackpackPanel({ isOpen, onClose, onUseItem, selectedWaifuId }: B
           ) : (
             <div className="item-grid">
               {filteredItems.map((item) => {
-                // Безопасная подстановка уровня только для свитков понижения
-                let itemDesc = t(`items.${item.nameKey}.desc`);
-                if (itemDesc.includes("{{level}}")) {
-                  itemDesc = itemDesc.replace("{{level}}", currentLevel.toString());
+                const template = INVENTORY_ITEMS[item.id];
+                const actualValue = template?.effect?.value ?? item.effect?.value ?? 0;
+                let itemDesc = t(`items.${item.nameKey}.desc`).replace("{{value}}", actualValue.toString());
+
+                // Для отображения эффекта тоже используйте шаблон:
+                const effectType = template?.effect?.type ?? item.effect?.type;
+                if (effectType === "level_down") {
+                  itemDesc = itemDesc + ` (${currentLevel.toString()})`;
                 }
 
                 return (

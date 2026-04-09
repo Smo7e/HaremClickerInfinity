@@ -1,5 +1,5 @@
 import { t } from "../../../../locales/i18n";
-import { LOCATIONS, LOCATION_ENEMIES, LOCATION_UNLOCK_REQUIREMENTS } from "../../../../game/constant";
+import { LOCATIONS, LOCATION_UNLOCK_REQUIREMENTS } from "../../../../game/constant";
 import type { TLocation } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
 import "./LocationSelector.css";
@@ -67,13 +67,7 @@ export function LocationSelector({
                 </div>
                 <div className="location-info">
                   <span className="location-name">{t(`ui.locations.${loc.id}`)}</span>
-                  <span className="location-enemies">
-                    {LOCATION_ENEMIES[loc.id]
-                      .slice(0, 2)
-                      .map((e) => t(`monsters.${e}.name`))
-                      .join(", ")}
-                    ...
-                  </span>
+
                   <div className="location-bonuses">
                     <span className="bonus-badge gem">💎 x{formatBonus(loc.bonuses.gemMultiplier)}</span>
                     <span className="bonus-badge essence">✨ x{formatBonus(loc.bonuses.essenceMultiplier)}</span>
