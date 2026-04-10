@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
 import { INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
-import type { TInventoryItem, TRarity } from "../../../../types";
+import type { TInventoryItem, TInventoryItemId, TRarity } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
 import "./CraftPanel.css";
 
@@ -18,7 +18,7 @@ interface CraftPanelProps {
   isOpen: boolean;
   onClose: () => void;
   onCraft: (item: TCraftableItem, quantity: number) => void;
-  onUseItem: (itemId: string) => void;
+  onUseItem: (itemId: TInventoryItemId) => void;
   selectedWaifuId?: string;
 }
 

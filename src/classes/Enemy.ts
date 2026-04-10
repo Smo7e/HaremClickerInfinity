@@ -1,4 +1,4 @@
-import type { TDropItem, TElementType, TLocation } from "../types";
+import type { TDropItem, TElementType, TInventoryItemId, TLocation } from "../types";
 import { t } from "../locales/i18n";
 import { LOCATION_BOSSES, LOCATION_ENEMIES, LOCATIONS, MONSTER_TEMPLATES } from "../game/constant";
 
@@ -97,8 +97,8 @@ export class Enemy {
     return "normal";
   }
 
-  rollDrops(bonusMultiplier: number = 1): Array<{ id: string; count: number }> {
-    const results: Array<{ id: string; count: number }> = [];
+  rollDrops(bonusMultiplier: number = 1): Array<{ id: TInventoryItemId; count: number }> {
+    const results: Array<{ id: TInventoryItemId; count: number }> = [];
 
     for (const drop of this.drops) {
       const roll = Math.random();

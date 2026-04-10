@@ -4,7 +4,7 @@ import type { Waifu } from "../../../../classes/Waifu";
 import type { Enemy } from "../../../../classes/Enemy";
 import "./EnemyComponent.css";
 import { ELEMENT_COLORS, ELEMENT_KEYS, INVENTORY_ITEMS } from "../../../../game/constant";
-import type { TElementType } from "../../../../types";
+import type { TElementType, TInventoryItemId } from "../../../../types";
 import { audioManager } from "../../../../audio/AudioManager";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
@@ -282,10 +282,10 @@ export function EnemyComponent({
       ))}
       {dropEffects.map((effect) => (
         <div key={effect.id} className="drop-effect" style={{ left: effect.x, top: effect.y }}>
-          <Icon name={INVENTORY_ITEMS[effect.itemId]?.icon || "unknown"} size="md" />
+          <Icon name={INVENTORY_ITEMS[effect.itemId as TInventoryItemId]?.icon || "unknown"} size="md" />
           <span className="drop-count">+{effect.count}</span>
           <span className="drop-name">
-            {t(`items.${INVENTORY_ITEMS[effect.itemId]?.nameKey || effect.itemId}.name`)}
+            {t(`items.${INVENTORY_ITEMS[effect.itemId as TInventoryItemId]?.nameKey || effect.itemId}.name`)}
           </span>
         </div>
       ))}

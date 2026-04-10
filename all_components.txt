@@ -1172,7 +1172,6 @@ export class Enemy {
 
     const resistances: Partial<Record<TElementType, number>> = {};
 
-    // Рандомизируем базовые резисты из шаблона
     for (const [element, value] of Object.entries(template.resistances)) {
       if (value > 0) {
         resistances[element as TElementType] = Math.random() * value;
@@ -1192,7 +1191,6 @@ export class Enemy {
       }
     }
 
-    // Добавляем уязвимости
     const weakCount = isBoss ? 2 : 1;
     for (let i = 0; i < weakCount; i++) {
       const element = shuffled[shuffled.length - 1 - i]!;
@@ -1206,6 +1204,7 @@ export class Enemy {
     if (isBoss) {
       drops.push({ id: "gem", nameKey: "gem", chance: 1, minCount: 50, maxCount: 50, type: "currency" });
       drops.push({ id: "essence", nameKey: "essence", chance: 1, minCount: 1, maxCount: 5, type: "currency" });
+      drops.push({ id: "coin", nameKey: "coin", chance: 1, minCount: 1, maxCount: 5, type: "currency" });
     } else {
       drops.push({
         id: "gem",
@@ -1216,6 +1215,7 @@ export class Enemy {
         type: "currency",
       });
       drops.push({ id: "essence", nameKey: "essence", chance: 0.1, minCount: 1, maxCount: 1, type: "currency" });
+      drops.push({ id: "coin", nameKey: "coin", chance: 0.3, minCount: 1, maxCount: 1, type: "currency" });
     }
 
     return new Enemy({
@@ -3984,6 +3984,7 @@ import "./GachaPanel.css";
 import { DropPoolPanel } from "./DropPoolPanel";
 import { Icon } from "../../../Icon/Icon";
 import { useGameStore } from "../../../../store/gameStore";
+import { audioManager } from "../../../../audio/AudioManager";
 
 interface GachaPanelProps {
   isOpen: boolean;
@@ -3991,21 +3992,31 @@ interface GachaPanelProps {
 }
 
 type Tab = "summon" | "pool";
+type SummonResult = {
+  waifu: Waifu;
+  isDuplicate: boolean;
+};
 
 export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
   const timeoutRef = useRef<number | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("summon");
   const [isAnimating, setIsAnimating] = useState(false);
-  const [result, setResult] = useState<{
-    waifu: Waifu;
-    isDuplicate: boolean;
-  } | null>(null);
+  const [results, setResults] = useState<SummonResult[]>([]);
+  const [currentResultIndex, setCurrentResultIndex] = useState(0);
   const [showPool, setShowPool] = useState(false);
 
   const essence = useGameStore((state) => state.inventory.getItemCount("essence"));
   const ownedWaifus = useGameStore((state) => state.ownedWaifus);
   const addWaifu = useGameStore((state) => state.addWaifu);
   const removeItem = useGameStore((state) => state.removeItem);
+
+  const sortedRarities: TRarity[] = ["mythic", "legendary", "epic", "rare", "uncommon", "common"];
+
+  const getActualRate = (rarity: TRarity, index: number): number => {
+    const cumulative = BASE_DROP_RATES[rarity];
+    const prevCumulative = index === 0 ? 0 : BASE_DROP_RATES[sortedRarities[index - 1]!];
+    return cumulative - prevCumulative;
+  };
 
   const getAvailablePool = useCallback(() => {
     const maxedIds = new Set(ownedWaifus.filter((w) => w.isMaxed()).map((w) => w.id));
@@ -4061,16 +4072,98 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
         waifu.duplicateCount = existing.duplicateCount + 1;
       }
 
-      setResult({ waifu, isDuplicate });
+      setResults([{ waifu, isDuplicate }]);
+      setCurrentResultIndex(0);
       setIsAnimating(false);
       removeItem("essence", 10);
       addWaifu(waifu);
+
+      audioManager.playGacha(waifu.rarity);
+
       timeoutRef.current = null;
     }, 1000);
   }, [essence, getAvailablePool, ownedWaifus, removeItem, addWaifu]);
 
+  const performSummon10 = useCallback(() => {
+    if (essence < 100) return;
+    const available = getAvailablePool();
+    if (available.length === 0) {
+      alert(t("ui.poolEmpty"));
+      return;
+    }
+
+    setIsAnimating(true);
+    removeItem("essence", 100);
+
+    const newResults: SummonResult[] = [];
+    let currentIndex = 0;
+
+    const summonNext = () => {
+      if (currentIndex >= 10) {
+        setIsAnimating(false);
+        setResults(newResults);
+        setCurrentResultIndex(0);
+        return;
+      }
+
+      const roll = Math.random();
+      let rarity: TRarity;
+      if (roll < BASE_DROP_RATES.mythic) rarity = "mythic";
+      else if (roll < BASE_DROP_RATES.legendary) rarity = "legendary";
+      else if (roll < BASE_DROP_RATES.epic) rarity = "epic";
+      else if (roll < BASE_DROP_RATES.rare) rarity = "rare";
+      else if (roll < BASE_DROP_RATES.uncommon) rarity = "uncommon";
+      else rarity = "common";
+
+      const candidates = available.filter((w) => w.rarity === rarity);
+      const selected =
+        candidates.length > 0
+          ? candidates[Math.floor(Math.random() * candidates.length)]!
+          : available[Math.floor(Math.random() * available.length)]!;
+
+      const waifu = Waifu.fromTemplate(selected);
+      const existing = ownedWaifus.find((w) => w.id === waifu.id);
+      const isDuplicate = !!existing;
+
+      if (isDuplicate && existing) {
+        waifu.duplicateCount = existing.duplicateCount + 1;
+      }
+
+      newResults.push({ waifu, isDuplicate });
+      addWaifu(waifu);
+
+      audioManager.playGacha(waifu.rarity);
+
+      currentIndex++;
+      if (currentIndex < 10) {
+        timeoutRef.current = window.setTimeout(summonNext, 400);
+      } else {
+        setIsAnimating(false);
+        setResults(newResults);
+        setCurrentResultIndex(0);
+      }
+    };
+
+    timeoutRef.current = window.setTimeout(summonNext, 500);
+  }, [essence, getAvailablePool, ownedWaifus, removeItem, addWaifu]);
+
+  const handleNextResult = () => {
+    if (currentResultIndex < results.length - 1) {
+      setCurrentResultIndex((prev) => prev + 1);
+    } else {
+      setResults([]);
+      setCurrentResultIndex(0);
+    }
+  };
+
+  const handleSkipAll = () => {
+    setResults([]);
+    setCurrentResultIndex(0);
+  };
+
   const handleClose = useCallback(() => {
-    setResult(null);
+    setResults([]);
+    setCurrentResultIndex(0);
     setActiveTab("summon");
     onClose();
   }, [onClose]);
@@ -4113,44 +4206,69 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                   <Icon name="summoning" size="lg" className="gacha-orb" />
                   <p>{t("ui.summoning")}...</p>
                 </div>
-              ) : result ? (
-                <div className={`gacha-result rarity-${result.waifu.rarity} ${result.isDuplicate ? "duplicate" : ""}`}>
-                  {result.isDuplicate && (
-                    <div className="duplicate-banner">
-                      <span>
-                        <Icon name="duplicate" size="sm" /> {t("ui.duplicate")}
-                      </span>
-                      <small>+30% {t("ui.stats")}</small>
+              ) : results.length > 0 ? (
+                (() => {
+                  const currentResult = results[currentResultIndex];
+                  if (!currentResult) return null;
+
+                  return (
+                    <div className="gacha-results-overlay" onClick={(e) => e.stopPropagation()}>
+                      <div className="gacha-result-multi">
+                        <div className="result-header">
+                          <span>
+                            {currentResultIndex + 1} / {results.length}
+                          </span>
+                          <button className="btn-skip" onClick={handleSkipAll}>
+                            Пропустить
+                          </button>
+                        </div>
+
+                        <div
+                          className={`gacha-result rarity-${currentResult.waifu.rarity} ${currentResult.isDuplicate ? "duplicate" : ""}`}
+                        >
+                          {currentResult.isDuplicate && (
+                            <div className="duplicate-banner">
+                              <span>
+                                <Icon name="duplicate" size="sm" /> {t("ui.duplicate")}
+                              </span>
+                              <small>+30% {t("ui.stats")}</small>
+                            </div>
+                          )}
+                          <div className="result-waifu">
+                            <img src={currentResult.waifu.image} alt={currentResult.waifu.name} />
+                            <h3>{currentResult.waifu.name}</h3>
+                            <span
+                              className="rarity-label"
+                              style={{
+                                color: RARITY_COLORS[currentResult.waifu.rarity],
+                              }}
+                            >
+                              {t(`ui.${RARITY_KEYS[currentResult.waifu.rarity]}`).toUpperCase()}
+                            </span>
+                            {currentResult.isDuplicate && (
+                              <span className="dup-count-badge">{currentResult.waifu.duplicateCount}/20</span>
+                            )}
+                          </div>
+                          <div className="waifu-stats-preview">
+                            <span>
+                              <Icon name="click" size="sm" /> {currentResult.waifu.getClickPower()}
+                            </span>
+                            <span>
+                              <Icon name="crit" size="sm" /> {(currentResult.waifu.getCritChance() * 100).toFixed(1)}%
+                            </span>
+                            <span>
+                              <Icon name="critPower" size="sm" /> {currentResult.waifu.getCritMultiplier().toFixed(1)}x
+                            </span>
+                          </div>
+                        </div>
+
+                        <button className="btn-primary btn-continue" onClick={handleNextResult}>
+                          {currentResultIndex < results.length - 1 ? "Далее" : t("ui.continue")}
+                        </button>
+                      </div>
                     </div>
-                  )}
-                  <div className="result-waifu">
-                    <img src={result.waifu.image} alt={result.waifu.name} />
-                    <h3>{result.waifu.name}</h3>
-                    <span
-                      className="rarity-label"
-                      style={{
-                        color: RARITY_COLORS[result.waifu.rarity],
-                      }}
-                    >
-                      {t(`ui.${RARITY_KEYS[result.waifu.rarity]}`).toUpperCase()}
-                    </span>
-                    {result.isDuplicate && <span className="dup-count-badge">{result.waifu.duplicateCount}/20</span>}
-                  </div>
-                  <div className="waifu-stats-preview">
-                    <span>
-                      <Icon name="click" size="sm" /> {result.waifu.getClickPower()}
-                    </span>
-                    <span>
-                      <Icon name="crit" size="sm" /> {(result.waifu.getCritChance() * 100).toFixed(1)}%
-                    </span>
-                    <span>
-                      <Icon name="critPower" size="sm" /> {result.waifu.getCritMultiplier().toFixed(1)}x
-                    </span>
-                  </div>
-                  <button className="btn-primary" onClick={() => setResult(null)}>
-                    {t("ui.continue")}
-                  </button>
-                </div>
+                  );
+                })()
               ) : (
                 <>
                   <p className="gacha-description">{t("gacha.desc")}</p>
@@ -4158,12 +4276,12 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                     <h4>{t("ui.dropRates")}</h4>
                     {dropInfo ? (
                       <>
-                        {Object.entries(BASE_DROP_RATES).map(([rarity, rate]) => (
+                        {sortedRarities.map((rarity, index) => (
                           <div key={rarity} className={`rate-row rarity-${rarity}`}>
-                            <span className="rarity-name">{t(`ui.${RARITY_KEYS[rarity as TRarity]}`)}</span>
-                            <span className="rate-value">{(rate * 100).toFixed(1)}%</span>
+                            <span className="rarity-name">{t(`ui.${RARITY_KEYS[rarity]}`)}</span>
+                            <span className="rate-value">{(getActualRate(rarity, index) * 100).toFixed(1)}%</span>
                             <span className="available-count">
-                              ({dropInfo.counts[rarity as TRarity]} {t("ui.available")})
+                              ({dropInfo.counts[rarity]} {t("ui.available")})
                             </span>
                           </div>
                         ))}
@@ -4174,20 +4292,37 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                   </div>
                   <div className="gacha-action">
                     <div className="cost-display">
-                      <span>
-                        <Icon name="essence" size="sm" /> 10 {t("ui.essence")}
-                      </span>
-                      <span className="player-essence">
-                        {t("ui.youHave")}: {essence} <Icon name="essence" size="sm" />
-                      </span>
+                      <div className="cost-row">
+                        <span>
+                          <Icon name="essence" size="sm" /> 10 {t("ui.essence")}
+                        </span>
+                        <span className="player-essence">
+                          {t("ui.youHave")}: {essence} <Icon name="essence" size="sm" />
+                        </span>
+                      </div>
+                      <div className="cost-row x10-row">
+                        <span>
+                          <Icon name="essence" size="sm" /> 100 {t("ui.essence")}
+                        </span>
+                        <span className="x10-badge">x10</span>
+                      </div>
                     </div>
-                    <button
-                      className="btn-primary btn-summon"
-                      onClick={performSummon}
-                      disabled={essence < 10 || !dropInfo}
-                    >
-                      {t("ui.summon")}
-                    </button>
+                    <div className="summon-buttons">
+                      <button
+                        className="btn-primary btn-summon"
+                        onClick={performSummon}
+                        disabled={essence < 10 || !dropInfo || isAnimating}
+                      >
+                        {t("ui.summon")} x1
+                      </button>
+                      <button
+                        className="btn-primary btn-summon x10"
+                        onClick={performSummon10}
+                        disabled={essence < 100 || !dropInfo || isAnimating}
+                      >
+                        {t("ui.summon")} x10
+                      </button>
+                    </div>
                   </div>
                 </>
               )}
@@ -7503,6 +7638,8 @@ export const locales = {
       reportMessage: "Ошибка сохранена в консоли. Пожалуйста, отправьте скриншот разработчику.",
     },
     ui: {
+      next: "Далее",
+      skip: "Пропустить",
       quantity: "Количество",
       maxAvailable: "Максимум",
       loading: "Загрузка...",
@@ -10958,6 +11095,146 @@ button {
 .btn-primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.craft-quantity-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  outline: none;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.craft-quantity-slider::-webkit-slider-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.craft-quantity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  transition: all 0.2s ease;
+  margin-top: -9px;
+}
+
+.craft-quantity-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.craft-quantity-slider::-webkit-slider-thumb:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.4);
+}
+
+/* Firefox */
+.craft-quantity-slider::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.craft-quantity-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  transition: all 0.2s ease;
+}
+
+.craft-quantity-slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6);
+}
+
+/* Стили для контейнера ползунка */
+.craft-quantity-selector {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 16px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.craft-quantity-selector label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.qty-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.qty-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.qty-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.quantity-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-primary);
+  min-width: 40px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.max-craft-hint {
+  display: block;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 8px;
 }
  
  

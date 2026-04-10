@@ -22,6 +22,8 @@ export const locales = {
       reportMessage: "Ошибка сохранена в консоли. Пожалуйста, отправьте скриншот разработчику.",
     },
     ui: {
+      next: "Далее",
+      skip: "Пропустить",
       quantity: "Количество",
       maxAvailable: "Максимум",
       loading: "Загрузка...",

@@ -21,6 +21,7 @@ import { CheatMenu } from "./components/CheatMenu/CheatMenu";
 import { CraftPanel, TCraftableItem } from "./components/CraftPanel/CraftPanel";
 import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
 import { useCPS } from "../../hooks/useCPS";
+import { TInventoryItemId } from "../../types";
 
 interface Props {
   onBack: () => void;
@@ -77,7 +78,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   );
 
   const handleUseItem = useCallback(
-    (itemId: string) => {
+    (itemId: TInventoryItemId) => {
       const item = inventory.getItem(itemId);
       if (!item || !item.effect) return;
       // Используем универсальный тип level_down

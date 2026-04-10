@@ -475,7 +475,6 @@ export type { GameState, GameActions, UseItemResult, PersistedGameState, Seriali
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts ===== 
-import { TInventoryItemId } from "../game/constant";
 import type { LocaleKeys } from "../locales/locales";
 
 export type TRarity = "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
@@ -510,6 +509,52 @@ export type TWaifu = {
   critMultiplier: number;
 };
 export type TCollectionCategory = "weapon" | "accessory" | "memoria" | "outfit";
+export type TInventoryItemId =
+  | "gem"
+  | "essence"
+  | "coin"
+  | "gel"
+  | "slime_core"
+  | "goblin_dagger"
+  | "goblin_ear"
+  | "bone"
+  | "skull"
+  | "ectoplasm"
+  | "soul_shard"
+  | "magic_scroll"
+  | "dark_orb"
+  | "mage_staff"
+  | "demon_horn"
+  | "hellfire_essence"
+  | "demon_wing"
+  | "ancient_coin"
+  | "forest_essence"
+  | "spider_venom"
+  | "sand_stone"
+  | "ice_crystal"
+  | "frost_fang"
+  | "lava_chunk"
+  | "imp_ash"
+  | "cursed_cloth"
+  | "void_essence"
+  | "affection_potion_forest"
+  | "exp_scroll_forest"
+  | "level_down_scroll_forest"
+  | "affection_potion_desert"
+  | "exp_scroll_desert"
+  | "level_down_scroll_desert"
+  | "affection_potion_ice"
+  | "exp_scroll_ice"
+  | "level_down_scroll_ice"
+  | "affection_potion_volcano"
+  | "exp_scroll_volcano"
+  | "level_down_scroll_volcano"
+  | "affection_potion_castle"
+  | "exp_scroll_castle"
+  | "level_down_scroll_castle"
+  | "affection_potion_abyss"
+  | "exp_scroll_abyss"
+  | "level_down_scroll_abyss";
 export type TInventoryItem = {
   id: TInventoryItemId;
   nameKey: string;
@@ -521,7 +566,7 @@ export type TInventoryItem = {
   maxStack?: number;
   canCraft?: boolean;
   ingredients?: Array<{
-    itemId: TInventoryItem["id"];
+    itemId: TInventoryItemId;
     count: number;
   }>;
   effect?: {
@@ -1127,7 +1172,6 @@ export class Enemy {
 
     const resistances: Partial<Record<TElementType, number>> = {};
 
-    // Рандомизируем базовые резисты из шаблона
     for (const [element, value] of Object.entries(template.resistances)) {
       if (value > 0) {
         resistances[element as TElementType] = Math.random() * value;
@@ -1147,7 +1191,6 @@ export class Enemy {
       }
     }
 
-    // Добавляем уязвимости
     const weakCount = isBoss ? 2 : 1;
     for (let i = 0; i < weakCount; i++) {
       const element = shuffled[shuffled.length - 1 - i]!;
@@ -1161,6 +1204,7 @@ export class Enemy {
     if (isBoss) {
       drops.push({ id: "gem", nameKey: "gem", chance: 1, minCount: 50, maxCount: 50, type: "currency" });
       drops.push({ id: "essence", nameKey: "essence", chance: 1, minCount: 1, maxCount: 5, type: "currency" });
+      drops.push({ id: "coin", nameKey: "coin", chance: 1, minCount: 1, maxCount: 5, type: "currency" });
     } else {
       drops.push({
         id: "gem",
@@ -1171,6 +1215,7 @@ export class Enemy {
         type: "currency",
       });
       drops.push({ id: "essence", nameKey: "essence", chance: 0.1, minCount: 1, maxCount: 1, type: "currency" });
+      drops.push({ id: "coin", nameKey: "coin", chance: 0.3, minCount: 1, maxCount: 1, type: "currency" });
     }
 
     return new Enemy({
@@ -1203,8 +1248,8 @@ export class Enemy {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Inventory.ts ===== 
-import type { TInventoryItem, TItemType, TCollectionCategory } from "../types";
-import { INVENTORY_ITEMS, TInventoryItemId } from "../game/constant";
+import type { TInventoryItem, TItemType, TCollectionCategory, TInventoryItemId } from "../types";
+import { INVENTORY_ITEMS } from "../game/constant";
 
 export class Inventory {
   items: Map<string, TInventoryItem>;
@@ -1220,7 +1265,7 @@ export class Inventory {
     this._collectionCache = null;
   }
 
-  addItem(itemId: string, count: number = 1): void {
+  addItem(itemId: TInventoryItemId, count: number = 1): void {
     const template = INVENTORY_ITEMS[itemId];
     if (!template) {
       console.warn(`Unknown item: ${itemId}`);
@@ -1261,7 +1306,7 @@ export class Inventory {
     return this.items.get(itemId);
   }
 
-  getItemCount(itemId: string): number {
+  getItemCount(itemId: TInventoryItemId): number {
     return this.items.get(itemId)?.count || 0;
   }
 
@@ -1273,12 +1318,12 @@ export class Inventory {
     return this.getAllItems().filter((item) => item.type === type);
   }
 
-  hasItem(itemId: string, count: number = 1): boolean {
+  hasItem(itemId: TInventoryItemId, count: number = 1): boolean {
     const item = this.items.get(itemId);
     return item ? item.count >= count : false;
   }
 
-  hasCollection(itemId: string): boolean {
+  hasCollection(itemId: TInventoryItemId): boolean {
     return this.collection.has(itemId);
   }
 
@@ -1295,7 +1340,10 @@ export class Inventory {
       .map(([id]) => id);
   }
 
-  useItem(itemId: string, waifuId?: string): { success: boolean; effect?: TInventoryItem["effect"]; message?: string } {
+  useItem(
+    itemId: TInventoryItemId,
+    waifuId?: string,
+  ): { success: boolean; effect?: TInventoryItem["effect"]; message?: string } {
     const item = this.items.get(itemId);
     if (!item) return { success: false, message: "Item not found" };
     if (item.type !== "consumable" || !item.effect) {
@@ -1734,6 +1782,7 @@ import { CheatMenu } from "./components/CheatMenu/CheatMenu";
 import { CraftPanel, TCraftableItem } from "./components/CraftPanel/CraftPanel";
 import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
 import { useCPS } from "../../hooks/useCPS";
+import { TInventoryItemId } from "../../types";
 
 interface Props {
   onBack: () => void;
@@ -1790,7 +1839,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   );
 
   const handleUseItem = useCallback(
-    (itemId: string) => {
+    (itemId: TInventoryItemId) => {
       const item = inventory.getItem(itemId);
       if (!item || !item.effect) return;
       // Используем универсальный тип level_down
@@ -1830,17 +1879,16 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   );
 
   const handleCraft = useCallback(
-    (item: TCraftableItem) => {
+    (item: TCraftableItem, quantity: number = 1) => {
       for (const ing of item.ingredients) {
-        if (!removeItem(ing.itemId, ing.count)) {
+        if (!removeItem(ing.itemId, ing.count * quantity)) {
           return;
         }
       }
-      addItem(item.id, 1);
+      addItem(item.id, quantity);
     },
     [addItem, removeItem],
   );
-
   const handleWaifuSelect = useCallback(
     (waifuId: string) => {
       setActiveWaifu(waifuId);
@@ -2078,14 +2126,15 @@ export function Background({ locationId = "forest" }: BackgroundProps) {
 import { useState } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
-import { RARITY_COLORS } from "../../../../game/constant";
+import { INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
 import "./BackpackPanel.css";
 import { Icon } from "../../../Icon/Icon";
+import { TInventoryItemId } from "../../../../types";
 
 interface BackpackPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  onUseItem: (itemId: string) => void;
+  onUseItem: (itemId: TInventoryItemId) => void;
   selectedWaifuId?: string;
 }
 
@@ -2141,15 +2190,13 @@ export function BackpackPanel({ isOpen, onClose, onUseItem, selectedWaifuId }: B
           ) : (
             <div className="item-grid">
               {filteredItems.map((item) => {
-                // Безопасная подстановка уровня только для свитков понижения
-                console.log(t(`items.${item.nameKey}.desc`));
+                const template = INVENTORY_ITEMS[item.id];
+                const actualValue = template?.effect?.value ?? item.effect?.value ?? 0;
+                let itemDesc = t(`items.${item.nameKey}.desc`).replace("{{value}}", actualValue.toString());
 
-                let itemDesc = t(`items.${item.nameKey}.desc`).replace(
-                  "{{value}}",
-                  item.effect?.value.toString() || "09999",
-                );
-                console.log(itemDesc);
-                if (item.effect?.type == "level_down") {
+                // Для отображения эффекта тоже используйте шаблон:
+                const effectType = template?.effect?.type ?? item.effect?.type;
+                if (effectType === "level_down") {
                   itemDesc = itemDesc + ` (${currentLevel.toString()})`;
                 }
 
@@ -2603,7 +2650,7 @@ import { useState, useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
 import { testWaifus, INVENTORY_ITEMS, COLLECTION_BUFFS, MONSTER_TEMPLATES } from "../../../../game/constant";
-import type { TWaifu } from "../../../../types";
+import type { TInventoryItemId, TWaifu } from "../../../../types";
 import { Waifu } from "../../../../classes/Waifu";
 import "./CheatMenu.css";
 
@@ -2620,7 +2667,7 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
   const [activeTab, setActiveTab] = useState<CheatTab>("resources");
   const [resourceAmount, setResourceAmount] = useState<string>("1000");
   const [selectedWaifuId, setSelectedWaifuId] = useState<string>("");
-  const [selectedItemId, setSelectedItemId] = useState<string>("");
+  const [selectedItemId, setSelectedItemId] = useState<TInventoryItemId>("gem");
   const [itemCount, setItemCount] = useState<string>("1");
 
   const store = useGameStore();
@@ -3140,15 +3187,14 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CraftPanel\CraftPanel.tsx ===== 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
 import { INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
-import type { TInventoryItem, TRarity } from "../../../../types";
+import type { TInventoryItem, TInventoryItemId, TRarity } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
 import "./CraftPanel.css";
 
-// Тип для крафтовых предметов (consumable с canCraft)
 export type TCraftableItem = TInventoryItem & {
   canCraft: true;
   ingredients: Array<{
@@ -3160,8 +3206,8 @@ export type TCraftableItem = TInventoryItem & {
 interface CraftPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  onCraft: (item: TCraftableItem) => void;
-  onUseItem: (itemId: string) => void;
+  onCraft: (item: TCraftableItem, quantity: number) => void;
+  onUseItem: (itemId: TInventoryItemId) => void;
   selectedWaifuId?: string;
 }
 
@@ -3172,13 +3218,14 @@ const rarityOrder: TRarity[] = ["mythic", "legendary", "epic", "rare", "uncommon
 export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuId }: CraftPanelProps) {
   const [activeTab, setActiveTab] = useState<CraftTab>("craft");
   const [selectedCraftItem, setSelectedCraftItem] = useState<TCraftableItem | null>(null);
+  const [craftQuantity, setCraftQuantity] = useState(1);
   const [craftFilter, setCraftFilter] = useState<CraftFilter>("all");
   const inventory = useGameStore((state) => state.inventory);
   const currentLocation = useGameStore((state) => state.currentLocation);
   const locationProgress = useGameStore((state) => state.locationProgress);
   const currentLevel = locationProgress[currentLocation]?.currentLevel ?? 1;
 
-  // Получаем все крафтовые предметы из INVENTORY_ITEMS (где canCraft: true)
+  // Получаем все крафтовые предметы
   const craftableItems = useMemo(() => {
     const items = Object.values(INVENTORY_ITEMS)
       .filter((item): item is TCraftableItem => item.canCraft === true && !!item.ingredients)
@@ -3194,7 +3241,7 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
     return inventory.getItemsByType("consumable");
   }, [inventory]);
 
-  // Фильтрация по подкатегориям
+  // Фильтрация
   const filteredCraftItems = useMemo(() => {
     return craftableItems.filter((item) => {
       if (craftFilter === "available") return item.canCraft;
@@ -3204,15 +3251,49 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
     });
   }, [craftableItems, craftFilter]);
 
-  const handleCraft = useCallback(
+  // Расчет максимального количества для крафта
+  const getMaxCraftable = useCallback(
     (item: TCraftableItem) => {
-      const canCraft = item.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count);
-      if (canCraft) {
-        onCraft(item);
+      if (!item.ingredients || item.ingredients.length === 0) return 99;
+
+      const maxStack = item.maxStack || 1;
+      const currentCount = inventory.getItemCount(item.id);
+      const canFit = Math.max(0, maxStack - currentCount);
+
+      let max = Infinity;
+      for (const ing of item.ingredients) {
+        const has = inventory.getItemCount(ing.itemId);
+        const possible = Math.floor(has / ing.count);
+        if (possible < max) max = possible;
       }
+
+      return Math.max(0, Math.min(max, canFit));
     },
-    [inventory, onCraft],
+    [inventory],
   );
+
+  // Сбрасываем количество при открытии модалки
+  useEffect(() => {
+    if (selectedCraftItem) {
+      setCraftQuantity(1);
+    }
+  }, [selectedCraftItem?.id]);
+
+  const handleCraftClick = useCallback(() => {
+    if (!selectedCraftItem) return;
+    onCraft(selectedCraftItem, craftQuantity);
+    setSelectedCraftItem(null);
+    setCraftQuantity(1);
+  }, [selectedCraftItem, craftQuantity, onCraft]);
+
+  // Проверка возможности крафта выбранного количества
+  const canCraftAmount = useMemo(() => {
+    if (!selectedCraftItem) return false;
+    return selectedCraftItem.ingredients.every((ing) => {
+      const has = inventory.getItemCount(ing.itemId);
+      return has >= ing.count * craftQuantity;
+    });
+  }, [selectedCraftItem, craftQuantity, inventory]);
 
   if (!isOpen) return null;
 
@@ -3244,7 +3325,6 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
         <div className="panel-content">
           {activeTab === "craft" ? (
             <>
-              {/* Фильтры в стиле коллекции */}
               <div className="craft-filters">
                 <button
                   className={`craft-filter-btn ${craftFilter === "all" ? "active" : ""}`}
@@ -3276,16 +3356,16 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                 </button>
               </div>
 
-              {/* Список рецептов (скроллится вместе с панелью) */}
               <div className="craft-list">
                 {filteredCraftItems.length === 0 ? (
                   <p className="empty-message">{t("ui.noItems")}</p>
                 ) : (
                   filteredCraftItems.map((item) => {
+                    const maxAmount = getMaxCraftable(item as TCraftableItem);
                     return (
                       <div
                         key={item.id}
-                        className={`craft-item-card ${item.canCraft ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
+                        className={`craft-item-card ${maxAmount > 0 ? "can-craft" : "cannot-craft"} rarity-${item.rarity}`}
                         onClick={() => setSelectedCraftItem(item as TCraftableItem)}
                       >
                         <div className="craft-item-header">
@@ -3293,8 +3373,8 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                           <span className="craft-item-name" style={{ color: RARITY_COLORS[item.rarity] }}>
                             {t(`items.${item.nameKey}.name`)}
                           </span>
-                          <span className={`craft-status ${item.canCraft ? "ready" : "locked"}`}>
-                            {item.canCraft ? "✓" : "✕"}
+                          <span className={`craft-status ${maxAmount > 0 ? "ready" : "locked"}`}>
+                            {maxAmount > 0 ? "✓" : "✕"}
                           </span>
                         </div>
                         <p className="craft-item-desc">
@@ -3304,13 +3384,12 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                         <div className="craft-ingredients">
                           {item.ingredients.map((ing) => {
                             const has = inventory.getItemCount(ing.itemId);
-                            const needed = ing.count;
                             const template = INVENTORY_ITEMS[ing.itemId];
                             return (
-                              <div key={ing.itemId} className={`ingredient ${has >= needed ? "has" : "missing"}`}>
+                              <div key={ing.itemId} className={`ingredient ${has >= ing.count ? "has" : "missing"}`}>
                                 <Icon name={template?.icon || "unknown"} size="sm" />
                                 <span>
-                                  {has}/{needed} {t(`items.${template?.nameKey || ing.itemId}.name`)}
+                                  {has}/{ing.count} {t(`items.${template?.nameKey || ing.itemId}.name`)}
                                 </span>
                               </div>
                             );
@@ -3375,11 +3454,44 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                 {t(`items.${selectedCraftItem.nameKey}.name`)}
               </h3>
               <p>{t(selectedCraftItem.descriptionKey).replace("{{level}}", currentLevel.toString())}</p>
+
+              <div className="craft-quantity-selector">
+                <label>{t("ui.quantity") || "Количество"}:</label>
+                <div className="quantity-controls">
+                  <button
+                    className="qty-btn"
+                    onClick={() => setCraftQuantity((q) => Math.max(1, q - 1))}
+                    disabled={craftQuantity <= 1}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="range"
+                    min="1"
+                    max={getMaxCraftable(selectedCraftItem)}
+                    value={craftQuantity}
+                    onChange={(e) => setCraftQuantity(Number(e.target.value))}
+                    className="craft-quantity-slider"
+                  />
+                  <button
+                    className="qty-btn"
+                    onClick={() => setCraftQuantity((q) => Math.min(getMaxCraftable(selectedCraftItem), q + 1))}
+                    disabled={craftQuantity >= getMaxCraftable(selectedCraftItem)}
+                  >
+                    +
+                  </button>
+                  <span className="quantity-value">{craftQuantity}</span>
+                </div>
+                <small className="max-craft-hint">
+                  {t("ui.maxAvailable") || "Максимум"}: {getMaxCraftable(selectedCraftItem)}
+                </small>
+              </div>
+
               <div className="craft-modal-ingredients">
                 <h4>{t("ui.requiredMaterials")}</h4>
                 {selectedCraftItem.ingredients.map((ing) => {
                   const has = inventory.getItemCount(ing.itemId);
-                  const needed = ing.count;
+                  const needed = ing.count * craftQuantity;
                   const template = INVENTORY_ITEMS[ing.itemId];
                   return (
                     <div key={ing.itemId} className={`modal-ingredient ${has >= needed ? "has" : "missing"}`}>
@@ -3396,14 +3508,8 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                 <button className="btn-secondary" onClick={() => setSelectedCraftItem(null)}>
                   {t("ui.cancel")}
                 </button>
-                <button
-                  className="btn-primary"
-                  onClick={() => handleCraft(selectedCraftItem)}
-                  disabled={
-                    !selectedCraftItem.ingredients.every((ing) => inventory.getItemCount(ing.itemId) >= ing.count)
-                  }
-                >
-                  {t("ui.craft")}
+                <button className="btn-primary" onClick={handleCraftClick} disabled={!canCraftAmount}>
+                  {t("ui.craft")} {craftQuantity > 1 ? `x${craftQuantity}` : ""}
                 </button>
               </div>
             </div>
@@ -3883,6 +3989,7 @@ import "./GachaPanel.css";
 import { DropPoolPanel } from "./DropPoolPanel";
 import { Icon } from "../../../Icon/Icon";
 import { useGameStore } from "../../../../store/gameStore";
+import { audioManager } from "../../../../audio/AudioManager";
 
 interface GachaPanelProps {
   isOpen: boolean;
@@ -3891,20 +3998,32 @@ interface GachaPanelProps {
 
 type Tab = "summon" | "pool";
 
+type SummonResult = {
+  waifu: Waifu;
+  isDuplicate: boolean;
+};
+
 export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
   const timeoutRef = useRef<number | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("summon");
   const [isAnimating, setIsAnimating] = useState(false);
-  const [result, setResult] = useState<{
-    waifu: Waifu;
-    isDuplicate: boolean;
-  } | null>(null);
+  const [results, setResults] = useState<SummonResult[]>([]);
+  const [currentResultIndex, setCurrentResultIndex] = useState(0);
   const [showPool, setShowPool] = useState(false);
+  const [isSkipping, setIsSkipping] = useState(false); // Флаг процесса пропуска
 
   const essence = useGameStore((state) => state.inventory.getItemCount("essence"));
   const ownedWaifus = useGameStore((state) => state.ownedWaifus);
   const addWaifu = useGameStore((state) => state.addWaifu);
   const removeItem = useGameStore((state) => state.removeItem);
+
+  const sortedRarities: TRarity[] = ["mythic", "legendary", "epic", "rare", "uncommon", "common"];
+
+  const getActualRate = (rarity: TRarity, index: number): number => {
+    const cumulative = BASE_DROP_RATES[rarity];
+    const prevCumulative = index === 0 ? 0 : BASE_DROP_RATES[sortedRarities[index - 1]!];
+    return cumulative - prevCumulative;
+  };
 
   const getAvailablePool = useCallback(() => {
     const maxedIds = new Set(ownedWaifus.filter((w) => w.isMaxed()).map((w) => w.id));
@@ -3923,6 +4042,7 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
     };
     const total = Object.values(counts).reduce((a, b) => a + b, 0);
     if (total === 0) return null;
+
     return {
       counts,
       rates: BASE_DROP_RATES,
@@ -3936,6 +4056,7 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
       alert(t("ui.poolEmpty"));
       return;
     }
+
     setIsAnimating(true);
     timeoutRef.current = window.setTimeout(() => {
       const roll = Math.random();
@@ -3946,6 +4067,7 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
       else if (roll < BASE_DROP_RATES.rare) rarity = "rare";
       else if (roll < BASE_DROP_RATES.uncommon) rarity = "uncommon";
       else rarity = "common";
+
       const candidates = available.filter((w) => w.rarity === rarity);
       const selected =
         candidates.length > 0
@@ -3960,17 +4082,145 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
         waifu.duplicateCount = existing.duplicateCount + 1;
       }
 
-      setResult({ waifu, isDuplicate });
+      setResults([{ waifu, isDuplicate }]);
+      setCurrentResultIndex(0);
       setIsAnimating(false);
       removeItem("essence", 10);
       addWaifu(waifu);
+      audioManager.playGacha(waifu.rarity);
       timeoutRef.current = null;
     }, 1000);
   }, [essence, getAvailablePool, ownedWaifus, removeItem, addWaifu]);
 
+  const performSummon10 = useCallback(() => {
+    if (essence < 100) return;
+    const available = getAvailablePool();
+    if (available.length === 0) {
+      alert(t("ui.poolEmpty"));
+      return;
+    }
+
+    setIsAnimating(true);
+    removeItem("essence", 100);
+
+    const newResults: SummonResult[] = [];
+    let currentIndex = 0;
+
+    const summonNext = () => {
+      if (currentIndex >= 10) {
+        setIsAnimating(false);
+        setResults(newResults);
+        setCurrentResultIndex(0);
+        return;
+      }
+
+      const roll = Math.random();
+      let rarity: TRarity;
+      if (roll < BASE_DROP_RATES.mythic) rarity = "mythic";
+      else if (roll < BASE_DROP_RATES.legendary) rarity = "legendary";
+      else if (roll < BASE_DROP_RATES.epic) rarity = "epic";
+      else if (roll < BASE_DROP_RATES.rare) rarity = "rare";
+      else if (roll < BASE_DROP_RATES.uncommon) rarity = "uncommon";
+      else rarity = "common";
+
+      const candidates = available.filter((w) => w.rarity === rarity);
+      const selected =
+        candidates.length > 0
+          ? candidates[Math.floor(Math.random() * candidates.length)]!
+          : available[Math.floor(Math.random() * available.length)]!;
+
+      const waifu = Waifu.fromTemplate(selected);
+      const existing = ownedWaifus.find((w) => w.id === waifu.id);
+      const isDuplicate = !!existing;
+
+      if (isDuplicate && existing) {
+        waifu.duplicateCount = existing.duplicateCount + 1;
+      }
+
+      newResults.push({ waifu, isDuplicate });
+      addWaifu(waifu);
+      audioManager.playGacha(waifu.rarity);
+
+      currentIndex++;
+      if (currentIndex < 10) {
+        timeoutRef.current = window.setTimeout(summonNext, 400);
+      } else {
+        setIsAnimating(false);
+        setResults(newResults);
+        setCurrentResultIndex(0);
+      }
+    };
+
+    timeoutRef.current = window.setTimeout(summonNext, 500);
+  }, [essence, getAvailablePool, ownedWaifus, removeItem, addWaifu]);
+
+  const handleNextResult = () => {
+    if (currentResultIndex < results.length - 1) {
+      setCurrentResultIndex((prev) => prev + 1);
+    } else {
+      // Если это последняя карточка, мы НЕ закрываем окно автоматически,
+      // чтобы пользователь мог осмотреть результат.
+      // Закрытие происходит только по кнопке "Продолжить" (которая меняет текст на последней карточке)
+      // Или можно оставить как есть, если кнопка "Далее" на последней карточке называется "Продолжить"
+      // В текущей реализации ниже кнопка "btn-continue" вызывает handleNextResult.
+      // Если мы на последнем элементе, handleNextResult сбросит результаты.
+      setResults([]);
+      setCurrentResultIndex(0);
+    }
+  };
+
+  // Новая логика умного пропуска
+  // ГАРАНТИЯ: Никогда не закрывает панель сама. Только листает.
+  const handleSmartSkip = useCallback(() => {
+    if (isSkipping || results.length === 0) return;
+    setIsSkipping(true);
+
+    // Очищаем предыдущие таймеры, если были
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    let targetIndex = -1;
+
+    // Ищем индекс цели (Новая или Легендарная/Мифическая)
+    for (let i = currentResultIndex + 1; i < results.length; i++) {
+      const res = results[i]!;
+      const isNew = !res.isDuplicate;
+      const isHighRarity = res.waifu.rarity === "legendary" || res.waifu.rarity === "mythic";
+
+      if (isNew || isHighRarity) {
+        targetIndex = i;
+        break;
+      }
+    }
+
+    // Если цель не найдена, листаем до самого конца
+    if (targetIndex === -1) {
+      targetIndex = results.length - 1;
+    }
+
+    let step = currentResultIndex;
+
+    const stepThrough = () => {
+      if (step < targetIndex) {
+        step++;
+        setCurrentResultIndex(step);
+        // Быстрая задержка 200мс для эффекта пролистывания
+        timeoutRef.current = window.setTimeout(stepThrough, 200);
+      } else {
+        // Дошли до цели или конца списка.
+        // Останавливаемся. Панель НЕ закрывается.
+        setIsSkipping(false);
+      }
+    };
+
+    stepThrough();
+  }, [currentResultIndex, results, isSkipping]);
+
   const handleClose = useCallback(() => {
-    setResult(null);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setResults([]);
+    setCurrentResultIndex(0);
     setActiveTab("summon");
+    setIsSkipping(false);
     onClose();
   }, [onClose]);
 
@@ -3993,6 +4243,7 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
             ✕
           </button>
         </div>
+
         <div className="gacha-tabs">
           <button
             className={`gacha-tab ${activeTab === "summon" ? "active" : ""}`}
@@ -4004,6 +4255,7 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
             {t("ui.dropPool")}
           </button>
         </div>
+
         <div className="panel-content">
           {activeTab === "summon" ? (
             <>
@@ -4012,44 +4264,86 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                   <Icon name="summoning" size="lg" className="gacha-orb" />
                   <p>{t("ui.summoning")}...</p>
                 </div>
-              ) : result ? (
-                <div className={`gacha-result rarity-${result.waifu.rarity} ${result.isDuplicate ? "duplicate" : ""}`}>
-                  {result.isDuplicate && (
-                    <div className="duplicate-banner">
-                      <span>
-                        <Icon name="duplicate" size="sm" /> {t("ui.duplicate")}
-                      </span>
-                      <small>+30% {t("ui.stats")}</small>
+              ) : results.length > 0 ? (
+                (() => {
+                  const currentResult = results[currentResultIndex];
+                  if (!currentResult) return null;
+
+                  return (
+                    <div className="gacha-results-overlay" onClick={(e) => e.stopPropagation()}>
+                      <div className="result-counter">
+                        {currentResultIndex + 1} / {results.length}
+                      </div>
+
+                      <div
+                        className={`gacha-result-card rarity-${currentResult.waifu.rarity} ${
+                          currentResult.isDuplicate ? "duplicate" : "new-waifu"
+                        }`}
+                      >
+                        {currentResult.isDuplicate && (
+                          <div className="duplicate-banner">
+                            <span>
+                              <Icon name="duplicate" size="sm" /> {t("ui.duplicate")}
+                            </span>
+                            <small>+30% {t("ui.stats")}</small>
+                          </div>
+                        )}
+
+                        {!currentResult.isDuplicate && (
+                          <div className="new-waifu-banner">
+                            <span>✨ NEW ✨</span>
+                          </div>
+                        )}
+
+                        <div className="result-waifu-visual">
+                          <img src={currentResult.waifu.image} alt={currentResult.waifu.name} />
+                        </div>
+
+                        <div className="result-info">
+                          <h3>{currentResult.waifu.name}</h3>
+                          <span
+                            className="rarity-label"
+                            style={{
+                              color: RARITY_COLORS[currentResult.waifu.rarity],
+                            }}
+                          >
+                            {t(`ui.${RARITY_KEYS[currentResult.waifu.rarity]}`).toUpperCase()}
+                          </span>
+                          {currentResult.isDuplicate && (
+                            <span className="dup-count-badge">{currentResult.waifu.duplicateCount}/20</span>
+                          )}
+                        </div>
+
+                        <div className="waifu-stats-preview">
+                          <span>
+                            <Icon name="click" size="sm" /> {currentResult.waifu.getClickPower()}
+                          </span>
+                          <span>
+                            <Icon name="crit" size="sm" /> {(currentResult.waifu.getCritChance() * 100).toFixed(1)}%
+                          </span>
+                          <span>
+                            <Icon name="critPower" size="sm" /> {currentResult.waifu.getCritMultiplier().toFixed(1)}x
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Блок управления кнопками */}
+                      <div className="gacha-controls">
+                        <button
+                          className="btn-secondary btn-skip-fast"
+                          onClick={handleSmartSkip}
+                          disabled={isSkipping || currentResultIndex === results.length - 1}
+                        >
+                          {isSkipping ? "..." : t("ui.skip")}
+                        </button>
+
+                        <button className="btn-primary btn-continue" onClick={handleNextResult} disabled={isSkipping}>
+                          {currentResultIndex < results.length - 1 ? t("ui.next") : t("ui.continue")}
+                        </button>
+                      </div>
                     </div>
-                  )}
-                  <div className="result-waifu">
-                    <img src={result.waifu.image} alt={result.waifu.name} />
-                    <h3>{result.waifu.name}</h3>
-                    <span
-                      className="rarity-label"
-                      style={{
-                        color: RARITY_COLORS[result.waifu.rarity],
-                      }}
-                    >
-                      {t(`ui.${RARITY_KEYS[result.waifu.rarity]}`).toUpperCase()}
-                    </span>
-                    {result.isDuplicate && <span className="dup-count-badge">{result.waifu.duplicateCount}/20</span>}
-                  </div>
-                  <div className="waifu-stats-preview">
-                    <span>
-                      <Icon name="click" size="sm" /> {result.waifu.getClickPower()}
-                    </span>
-                    <span>
-                      <Icon name="crit" size="sm" /> {(result.waifu.getCritChance() * 100).toFixed(1)}%
-                    </span>
-                    <span>
-                      <Icon name="critPower" size="sm" /> {result.waifu.getCritMultiplier().toFixed(1)}x
-                    </span>
-                  </div>
-                  <button className="btn-primary" onClick={() => setResult(null)}>
-                    {t("ui.continue")}
-                  </button>
-                </div>
+                  );
+                })()
               ) : (
                 <>
                   <p className="gacha-description">{t("gacha.desc")}</p>
@@ -4057,12 +4351,12 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                     <h4>{t("ui.dropRates")}</h4>
                     {dropInfo ? (
                       <>
-                        {Object.entries(BASE_DROP_RATES).map(([rarity, rate]) => (
+                        {sortedRarities.map((rarity, index) => (
                           <div key={rarity} className={`rate-row rarity-${rarity}`}>
-                            <span className="rarity-name">{t(`ui.${RARITY_KEYS[rarity as TRarity]}`)}</span>
-                            <span className="rate-value">{(rate * 100).toFixed(1)}%</span>
+                            <span className="rarity-name">{t(`ui.${RARITY_KEYS[rarity]}`)}</span>
+                            <span className="rate-value">{(getActualRate(rarity, index) * 100).toFixed(1)}%</span>
                             <span className="available-count">
-                              ({dropInfo.counts[rarity as TRarity]} {t("ui.available")})
+                              ({dropInfo.counts[rarity]} {t("ui.available")})
                             </span>
                           </div>
                         ))}
@@ -4073,20 +4367,37 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                   </div>
                   <div className="gacha-action">
                     <div className="cost-display">
-                      <span>
-                        <Icon name="essence" size="sm" /> 10 {t("ui.essence")}
-                      </span>
-                      <span className="player-essence">
-                        {t("ui.youHave")}: {essence} <Icon name="essence" size="sm" />
-                      </span>
+                      <div className="cost-row">
+                        <span>
+                          <Icon name="essence" size="sm" /> 10 {t("ui.essence")}
+                        </span>
+                        <span className="player-essence">
+                          {t("ui.youHave")}: {essence} <Icon name="essence" size="sm" />
+                        </span>
+                      </div>
+                      <div className="cost-row x10-row">
+                        <span>
+                          <Icon name="essence" size="sm" /> 100 {t("ui.essence")}
+                        </span>
+                        <span className="x10-badge">x10</span>
+                      </div>
                     </div>
-                    <button
-                      className="btn-primary btn-summon"
-                      onClick={performSummon}
-                      disabled={essence < 10 || !dropInfo}
-                    >
-                      {t("ui.summon")}
-                    </button>
+                    <div className="summon-buttons">
+                      <button
+                        className="btn-primary btn-summon"
+                        onClick={performSummon}
+                        disabled={essence < 10 || !dropInfo || isAnimating}
+                      >
+                        {t("ui.summon")} x1
+                      </button>
+                      <button
+                        className="btn-primary btn-summon x10"
+                        onClick={performSummon10}
+                        disabled={essence < 100 || !dropInfo || isAnimating}
+                      >
+                        {t("ui.summon")} x10
+                      </button>
+                    </div>
                   </div>
                 </>
               )}
@@ -4128,7 +4439,7 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\LocationSelector\LocationSelector.tsx ===== 
 import { t } from "../../../../locales/i18n";
-import { LOCATIONS, LOCATION_ENEMIES, LOCATION_UNLOCK_REQUIREMENTS } from "../../../../game/constant";
+import { LOCATIONS, LOCATION_UNLOCK_REQUIREMENTS } from "../../../../game/constant";
 import type { TLocation } from "../../../../types";
 import { Icon } from "../../../Icon/Icon";
 import "./LocationSelector.css";
@@ -4196,13 +4507,7 @@ export function LocationSelector({
                 </div>
                 <div className="location-info">
                   <span className="location-name">{t(`ui.locations.${loc.id}`)}</span>
-                  <span className="location-enemies">
-                    {LOCATION_ENEMIES[loc.id]
-                      .slice(0, 2)
-                      .map((e) => t(`monsters.${e}.name`))
-                      .join(", ")}
-                    ...
-                  </span>
+
                   <div className="location-bonuses">
                     <span className="bonus-badge gem">💎 x{formatBonus(loc.bonuses.gemMultiplier)}</span>
                     <span className="bonus-badge essence">✨ x{formatBonus(loc.bonuses.essenceMultiplier)}</span>
@@ -5569,6 +5874,7 @@ import type {
   ILocationConfig,
   IGlobalUpgrades,
   TLocationProgress,
+  TInventoryItemId,
 } from "../types";
 
 export const BASE_DROP_RATES: Record<TRarity, number> = {
@@ -5618,7 +5924,7 @@ export const ELEMENT_KEYS: Record<TElementType, string> = {
   physical: "physical",
 };
 
-export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
+export const INVENTORY_ITEMS: Record<TInventoryItemId, Omit<TInventoryItem, "count">> = {
   gem: {
     id: "gem",
     nameKey: "gem",
@@ -5627,15 +5933,26 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
     rarity: "common",
     type: "currency",
     maxStack: 999999999,
+    canCraft: true,
+    ingredients: [
+      { itemId: "coin", count: 1 },
+      { itemId: "essence", count: 1 },
+    ],
   },
   essence: {
     id: "essence",
     nameKey: "essence",
     descriptionKey: "items.essence.desc",
     icon: "essence",
-    rarity: "uncommon",
+    rarity: "common",
     type: "currency",
     maxStack: 999999999,
+    canCraft: true,
+
+    ingredients: [
+      { itemId: "coin", count: 5 },
+      { itemId: "gem", count: 100 },
+    ],
   },
   coin: {
     id: "coin",
@@ -6150,8 +6467,6 @@ export const INVENTORY_ITEMS: Record<string, Omit<TInventoryItem, "count">> = {
   },
 };
 
-export type TInventoryItemId = keyof typeof INVENTORY_ITEMS;
-
 export const testWaifus: TWaifu[] = [
   {
     id: "wf_tiamat_001",
@@ -6470,10 +6785,7 @@ export const MONSTER_TEMPLATES: MonsterTemplate[] = [
     resistances: { earth: 0.5, fire: -0.5, light: 0.2, physical: 0.3 },
     isBoss: true,
     description: "monsters.forestGuardian.desc",
-    drops: [
-      { id: "magic_scroll", nameKey: "magicScroll", chance: 0.5, minCount: 1, maxCount: 2, type: "material" },
-      { id: "golem_core", nameKey: "golemCore", chance: 0.002, minCount: 1, maxCount: 1, type: "collection" },
-    ],
+    drops: [{ id: "magic_scroll", nameKey: "magicScroll", chance: 0.5, minCount: 1, maxCount: 2, type: "material" }],
   },
 
   {
@@ -6909,14 +7221,14 @@ export const LOCATION_BOSSES: Record<TLocation, string[]> = {
 };
 
 export interface ICollectionBuff {
-  itemId: string;
+  itemId: TInventoryItemId;
   buffType: "element_damage" | "enemy_type_damage" | "crit_power" | "click_power" | "gem_bonus" | "exp_bonus";
   target?: TElementType | string;
   value: number;
   descriptionKey: string;
 }
 
-export const COLLECTION_BUFFS: Record<string, ICollectionBuff> = {
+export const COLLECTION_BUFFS: Record<TInventoryItemId, ICollectionBuff> = {
   slime_core: {
     itemId: "slime_core",
     buffType: "enemy_type_damage",
@@ -7401,6 +7713,10 @@ export const locales = {
       reportMessage: "Ошибка сохранена в консоли. Пожалуйста, отправьте скриншот разработчику.",
     },
     ui: {
+      next: "Далее",
+      skip: "Пропустить",
+      quantity: "Количество",
+      maxAvailable: "Максимум",
       loading: "Загрузка...",
       cps: "Кликов/сек",
       location: "Локация",
@@ -8180,7 +8496,14 @@ import {
   INITIAL_LOCATION_PROGRESS,
   INITIAL_GLOBAL_UPGRADES,
 } from "../game/constant";
-import type { TLocation, TElementType, TLocationProgress, IGlobalUpgrades, TBestiaryProgress } from "../types";
+import type {
+  TLocation,
+  TElementType,
+  TLocationProgress,
+  IGlobalUpgrades,
+  TBestiaryProgress,
+  TInventoryItemId,
+} from "../types";
 
 const createInitialState = (): GameState => ({
   inventory: new Inventory(),
@@ -8211,7 +8534,7 @@ export const useGameStore = create<GameState & GameActions>()(
   persist(
     (set, get) => ({
       ...createInitialState(),
-      addItem: (itemId: string, count: number) => {
+      addItem: (itemId: TInventoryItemId, count: number) => {
         const current = get().inventory.clone();
         current.addItem(itemId, count);
         set({ inventory: current });
@@ -8224,7 +8547,7 @@ export const useGameStore = create<GameState & GameActions>()(
         }
         return success;
       },
-      useItem: (itemId: string, waifuId?: string) => {
+      useItem: (itemId: TInventoryItemId, waifuId?: string) => {
         const current = get().inventory;
         const result = current.useItem(itemId, waifuId);
         if (result.success) {
@@ -8646,6 +8969,7 @@ import type {
   TElementType,
   TBestiaryProgress,
   TDropItem,
+  TInventoryItemId,
 } from "../types";
 
 export interface GameState {
@@ -8674,9 +8998,9 @@ export interface GameState {
 }
 
 export interface GameActions {
-  addItem: (itemId: string, count: number) => void;
-  removeItem: (itemId: string, count: number) => boolean;
-  useItem: (itemId: string, waifuId?: string) => UseItemResult;
+  addItem: (itemId: TInventoryItemId, count: number) => void;
+  removeItem: (itemId: TInventoryItemId, count: number) => boolean;
+  useItem: (itemId: TInventoryItemId, waifuId?: string) => UseItemResult;
   refreshInventory: () => void;
   addWaifu: (waifu: Waifu) => void;
   setActiveWaifu: (waifuId: string) => void;

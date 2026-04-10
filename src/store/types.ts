@@ -8,6 +8,7 @@ import type {
   TElementType,
   TBestiaryProgress,
   TDropItem,
+  TInventoryItemId,
 } from "../types";
 
 export interface GameState {
@@ -36,9 +37,9 @@ export interface GameState {
 }
 
 export interface GameActions {
-  addItem: (itemId: string, count: number) => void;
-  removeItem: (itemId: string, count: number) => boolean;
-  useItem: (itemId: string, waifuId?: string) => UseItemResult;
+  addItem: (itemId: TInventoryItemId, count: number) => void;
+  removeItem: (itemId: TInventoryItemId, count: number) => boolean;
+  useItem: (itemId: TInventoryItemId, waifuId?: string) => UseItemResult;
   refreshInventory: () => void;
   addWaifu: (waifu: Waifu) => void;
   setActiveWaifu: (waifuId: string) => void;

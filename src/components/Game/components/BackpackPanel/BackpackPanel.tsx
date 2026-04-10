@@ -4,11 +4,12 @@ import { useGameStore } from "../../../../store/gameStore";
 import { INVENTORY_ITEMS, RARITY_COLORS } from "../../../../game/constant";
 import "./BackpackPanel.css";
 import { Icon } from "../../../Icon/Icon";
+import { TInventoryItemId } from "../../../../types";
 
 interface BackpackPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  onUseItem: (itemId: string) => void;
+  onUseItem: (itemId: TInventoryItemId) => void;
   selectedWaifuId?: string;
 }
 

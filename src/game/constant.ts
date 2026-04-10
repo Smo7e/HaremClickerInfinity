@@ -1356,14 +1356,14 @@ export const LOCATION_BOSSES: Record<TLocation, string[]> = {
 };
 
 export interface ICollectionBuff {
-  itemId: string;
+  itemId: TInventoryItemId;
   buffType: "element_damage" | "enemy_type_damage" | "crit_power" | "click_power" | "gem_bonus" | "exp_bonus";
   target?: TElementType | string;
   value: number;
   descriptionKey: string;
 }
 
-export const COLLECTION_BUFFS: Record<string, ICollectionBuff> = {
+export const COLLECTION_BUFFS: Partial<Record<TInventoryItemId, ICollectionBuff>> = {
   slime_core: {
     itemId: "slime_core",
     buffType: "enemy_type_damage",

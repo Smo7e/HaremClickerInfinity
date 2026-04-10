@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { useGameStore } from "../../../../store/gameStore";
 import { testWaifus, INVENTORY_ITEMS, COLLECTION_BUFFS, MONSTER_TEMPLATES } from "../../../../game/constant";
-import type { TWaifu } from "../../../../types";
+import type { TInventoryItemId, TWaifu } from "../../../../types";
 import { Waifu } from "../../../../classes/Waifu";
 import "./CheatMenu.css";
 
@@ -19,7 +19,7 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
   const [activeTab, setActiveTab] = useState<CheatTab>("resources");
   const [resourceAmount, setResourceAmount] = useState<string>("1000");
   const [selectedWaifuId, setSelectedWaifuId] = useState<string>("");
-  const [selectedItemId, setSelectedItemId] = useState<string>("");
+  const [selectedItemId, setSelectedItemId] = useState<TInventoryItemId>("gem");
   const [itemCount, setItemCount] = useState<string>("1");
 
   const store = useGameStore();
@@ -52,12 +52,12 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
 
   const handleGetAllItems = () => {
     Object.keys(INVENTORY_ITEMS).forEach((itemId) => {
-      const item = INVENTORY_ITEMS[itemId];
+      const item = INVENTORY_ITEMS[itemId as TInventoryItemId];
       if (item) {
         if (item.type === "collection") {
-          store.addItem(itemId, 1);
+          store.addItem(itemId as TInventoryItemId, 1);
         } else {
-          store.addItem(itemId, item.maxStack || 99);
+          store.addItem(itemId as TInventoryItemId, item.maxStack || 99);
         }
       }
     });
@@ -279,7 +279,7 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
                 <label>Выбрать предмет:</label>
                 <select
                   value={selectedItemId}
-                  onChange={(e) => setSelectedItemId(e.target.value)}
+                  onChange={(e) => setSelectedItemId(e.target.value as TInventoryItemId)}
                   className="cheat-select"
                 >
                   <option value="">-- Выберите --</option>
@@ -316,11 +316,11 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
           )}
           {activeTab === "buffs" && (
             <div className="cheat-section">
-              <h3>Коллекционные баффы</h3>
+              {t("collectionBuf")}
               <div className="cheat-buffs-list">
                 {Object.entries(COLLECTION_BUFFS).map(([itemId, buff]) => {
-                  const item = INVENTORY_ITEMS[itemId];
-                  const hasItem = store.inventory.hasCollection(itemId);
+                  const item = INVENTORY_ITEMS[itemId as TInventoryItemId];
+                  const hasItem = store.inventory.hasCollection(itemId as TInventoryItemId);
                   return (
                     <div key={itemId} className={`cheat-buff-item ${hasItem ? "owned" : ""}`}>
                       <span className="cheat-buff-name">{item ? t(`items.${item.nameKey}.name`) : itemId}</span>

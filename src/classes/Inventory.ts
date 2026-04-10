@@ -1,5 +1,5 @@
-import type { TInventoryItem, TItemType, TCollectionCategory } from "../types";
-import { INVENTORY_ITEMS, TInventoryItemId } from "../game/constant";
+import type { TInventoryItem, TItemType, TCollectionCategory, TInventoryItemId } from "../types";
+import { INVENTORY_ITEMS } from "../game/constant";
 
 export class Inventory {
   items: Map<string, TInventoryItem>;
@@ -15,7 +15,7 @@ export class Inventory {
     this._collectionCache = null;
   }
 
-  addItem(itemId: string, count: number = 1): void {
+  addItem(itemId: TInventoryItemId, count: number = 1): void {
     const template = INVENTORY_ITEMS[itemId];
     if (!template) {
       console.warn(`Unknown item: ${itemId}`);
@@ -56,7 +56,7 @@ export class Inventory {
     return this.items.get(itemId);
   }
 
-  getItemCount(itemId: string): number {
+  getItemCount(itemId: TInventoryItemId): number {
     return this.items.get(itemId)?.count || 0;
   }
 
@@ -68,12 +68,12 @@ export class Inventory {
     return this.getAllItems().filter((item) => item.type === type);
   }
 
-  hasItem(itemId: string, count: number = 1): boolean {
+  hasItem(itemId: TInventoryItemId, count: number = 1): boolean {
     const item = this.items.get(itemId);
     return item ? item.count >= count : false;
   }
 
-  hasCollection(itemId: string): boolean {
+  hasCollection(itemId: TInventoryItemId): boolean {
     return this.collection.has(itemId);
   }
 
@@ -90,7 +90,10 @@ export class Inventory {
       .map(([id]) => id);
   }
 
-  useItem(itemId: string, waifuId?: string): { success: boolean; effect?: TInventoryItem["effect"]; message?: string } {
+  useItem(
+    itemId: TInventoryItemId,
+    waifuId?: string,
+  ): { success: boolean; effect?: TInventoryItem["effect"]; message?: string } {
     const item = this.items.get(itemId);
     if (!item) return { success: false, message: "Item not found" };
     if (item.type !== "consumable" || !item.effect) {

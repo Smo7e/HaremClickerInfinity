@@ -11,7 +11,14 @@ import {
   INITIAL_LOCATION_PROGRESS,
   INITIAL_GLOBAL_UPGRADES,
 } from "../game/constant";
-import type { TLocation, TElementType, TLocationProgress, IGlobalUpgrades, TBestiaryProgress } from "../types";
+import type {
+  TLocation,
+  TElementType,
+  TLocationProgress,
+  IGlobalUpgrades,
+  TBestiaryProgress,
+  TInventoryItemId,
+} from "../types";
 
 const createInitialState = (): GameState => ({
   inventory: new Inventory(),
@@ -42,7 +49,7 @@ export const useGameStore = create<GameState & GameActions>()(
   persist(
     (set, get) => ({
       ...createInitialState(),
-      addItem: (itemId: string, count: number) => {
+      addItem: (itemId: TInventoryItemId, count: number) => {
         const current = get().inventory.clone();
         current.addItem(itemId, count);
         set({ inventory: current });
@@ -55,7 +62,7 @@ export const useGameStore = create<GameState & GameActions>()(
         }
         return success;
       },
-      useItem: (itemId: string, waifuId?: string) => {
+      useItem: (itemId: TInventoryItemId, waifuId?: string) => {
         const current = get().inventory;
         const result = current.useItem(itemId, waifuId);
         if (result.success) {
@@ -406,7 +413,7 @@ export const useGameStore = create<GameState & GameActions>()(
           isBoss: boolean;
           resistances: Record<TElementType, number>;
           drops: Array<{
-            id: string;
+            id: TInventoryItemId;
             nameKey: string;
             chance: number;
             minCount: number;

@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { t } from "../../../../locales/i18n";
-import type { TCollectionCategory } from "../../../../types";
+import type { TCollectionCategory, TInventoryItemId } from "../../../../types";
 import { COLLECTION_BUFFS, INVENTORY_ITEMS } from "../../../../game/constant";
 import "./CollectionPanel.css";
 import { Icon } from "../../../Icon/Icon";
@@ -20,7 +20,7 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
   const collectedItems = useMemo(() => {
     const entries = Array.from(inventory.getCollection().entries());
     return entries.map(([id, category]) => {
-      const template = INVENTORY_ITEMS[id];
+      const template = INVENTORY_ITEMS[id as TInventoryItemId];
       return {
         id,
         category,
@@ -32,7 +32,7 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
     });
   }, [inventory]);
 
-  const getItemBuff = (itemId: string) => {
+  const getItemBuff = (itemId: TInventoryItemId) => {
     return COLLECTION_BUFFS[itemId];
   };
 
@@ -97,7 +97,7 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
               </div>
             ) : (
               filteredItems.map((item) => {
-                const buff = getItemBuff(item.id);
+                const buff = getItemBuff(item.id as TInventoryItemId);
                 return (
                   <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
                     <div className="item-icon">

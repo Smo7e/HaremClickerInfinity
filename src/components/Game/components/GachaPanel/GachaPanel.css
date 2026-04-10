@@ -2,6 +2,8 @@
   width: 95vw;
   max-width: 550px;
   max-height: 95vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .gacha-animation {
@@ -11,6 +13,7 @@
   justify-content: center;
   padding: 40px 20px;
   gap: 20px;
+  flex: 1;
 }
 
 .gacha-orb {
@@ -20,45 +23,112 @@
     glow 1.5s ease-in-out infinite alternate;
 }
 
-.gacha-result {
+/* --- Стили для результатов призыва --- */
+.gacha-results-overlay {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px 15px;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.result-header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 0 10px;
+}
+
+.result-counter {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--text-secondary);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.btn-skip {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-secondary);
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-skip:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+.btn-skip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.gacha-result-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
   text-align: center;
   width: 100%;
+  max-width: 400px;
   position: relative;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
 }
 
-.result-waifu {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+.result-waifu-visual {
+  position: relative;
   width: 100%;
-  position: relative;
+  display: flex;
+  justify-content: center;
 }
 
-.result-waifu img {
+.result-waifu-visual img {
   width: 180px;
   height: 250px;
   border-radius: 16px;
   object-fit: cover;
   border: 4px solid;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
   animation: resultBreathe 3s ease-in-out infinite;
   transform-origin: center center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  background: #000;
 }
 
-.result-waifu h3 {
-  font-size: 20px;
+.result-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.result-info h3 {
+  font-size: 22px;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 90%;
   line-height: 1.2;
+  color: var(--text-primary);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes resultBreathe {
@@ -71,6 +141,7 @@
   }
 }
 
+/* Цвета редкостей для рамок */
 .rarity-common {
   color: var(--rarity-common);
   border-color: var(--rarity-common);
@@ -90,26 +161,34 @@
 .rarity-legendary {
   color: var(--rarity-legendary);
   border-color: var(--rarity-legendary);
+  box-shadow: 0 0 20px rgba(255, 152, 0, 0.2);
 }
 .rarity-mythic {
   color: var(--rarity-mythic);
   border-color: var(--rarity-mythic);
+  box-shadow: 0 0 25px rgba(244, 67, 54, 0.3);
 }
 
 .rarity-label {
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 5px;
 }
 
 .waifu-stats-preview {
   display: flex;
   gap: 15px;
-  margin: 5px 0;
-  font-size: 13px;
+  margin: 10px 0;
+  font-size: 14px;
   color: var(--text-secondary);
   flex-wrap: wrap;
   justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px 15px;
+  border-radius: 12px;
+  width: 100%;
 }
 
 .waifu-stats-preview span {
@@ -118,125 +197,43 @@
   gap: 4px;
 }
 
-.gacha-rates {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 15px;
-  border-radius: var(--border-radius);
-  margin: 15px 0;
-}
-
-.rate-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.rate-row:last-child {
-  border-bottom: none;
-}
-
-.rarity-name {
-  text-transform: capitalize;
-  font-weight: 600;
-}
-
-.rate-value {
-  font-family: monospace;
-}
-
-.luck-bonus {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  color: #51cf66;
-  font-weight: bold;
-  text-align: center;
-}
-
-.gacha-action {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.cost-display {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 15px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: var(--border-radius);
-  font-size: 14px;
-}
-
-.player-essence {
-  color: var(--text-secondary);
-}
-
-.gacha-tabs {
-  display: flex;
-  gap: 0;
-  padding: 0 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.gacha-tab {
-  flex: 1;
-  padding: 12px;
-  background: transparent;
-  border-bottom: 3px solid transparent;
-  color: var(--text-secondary);
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.gacha-tab.active {
-  color: var(--text-primary);
-  border-bottom-color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
-}
-
+/* Баннеры */
 .duplicate-banner {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
   background: linear-gradient(135deg, #ffd43b 0%, #fab005 100%);
   color: #000;
-  padding: 6px 12px;
-  border-radius: 12px 0 12px 0;
+  padding: 6px 16px;
+  border-radius: 20px;
   font-weight: bold;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   animation: slideDown 0.3s ease;
   font-size: 12px;
   z-index: 10;
   box-shadow: 0 4px 15px rgba(255, 212, 59, 0.4);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: none;
-  border-left: none;
+  border: 2px solid #fff;
+  min-width: 120px;
 }
 
-.duplicate-banner span {
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.duplicate-banner small {
-  font-size: 10px;
-  opacity: 0.9;
-  font-weight: 600;
-}
-
-.gacha-result.duplicate .result-waifu img {
-  box-shadow: 0 0 30px rgba(255, 212, 59, 0.5);
-  animation:
-    glow 2s infinite alternate,
-    resultBreathe 3s ease-in-out infinite;
+.new-waifu-banner {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(81, 207, 102, 0.4);
+  border: 2px solid #fff;
+  animation: slideDown 0.3s ease;
 }
 
 .dup-count-badge {
@@ -247,20 +244,119 @@
   font-size: 11px;
   font-weight: bold;
   border: 1px solid #ffd43b;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
-.btn-primary {
-  padding: 12px 30px;
+/* --- Кнопки управления результатами --- */
+.gacha-controls {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin-top: auto;
+  padding-bottom: 10px;
+}
+
+.btn-continue {
+  flex: 2;
+  padding: 12px;
   font-size: 16px;
-  min-height: 44px;
-  margin-top: 5px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
-.available-count {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-left: auto;
+.btn-continue:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.btn-skip-fast {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-skip-fast:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+.btn-continue:disabled,
+.btn-skip-fast:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+/* --- Вкладки (Summon / Pool) --- */
+.gacha-tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.gacha-tab {
+  flex: 1;
+  padding: 15px;
+  background: transparent;
+  border-bottom: 3px solid transparent;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.gacha-tab.active {
+  color: var(--text-primary);
+  border-bottom-color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.gacha-tab:hover:not(.active) {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- Основной контент панели --- */
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.gacha-description {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* --- Таблица шансов --- */
+.gacha-rates {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  margin: 15px 0;
 }
 
 .rate-row {
@@ -270,6 +366,22 @@
   padding: 6px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
+.rate-row:last-child {
+  border-bottom: none;
+}
+
+.rarity-name {
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.rate-value {
+  font-family: monospace;
+}
+.available-count {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
 
 .empty-pool-warning {
   color: #ff6b6b;
@@ -278,18 +390,114 @@
   font-weight: 600;
 }
 
+/* --- Секция действий (Кнопки призыва) --- */
+.gacha-action {
+  margin-top: auto; /* Прижимаем к низу, если контента мало */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 10px;
+}
+
+.cost-display {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cost-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.player-essence {
+  color: var(--text-secondary);
+}
+.x10-badge {
+  background: #667eea;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+}
+
+.summon-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+/* СТИЛИ ДЛЯ КНОПОК ПРИЗЫВА */
+.btn-summon {
+  flex: 1;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  min-height: 50px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+  /* Градиент по умолчанию (для x1) */
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: #000;
+}
+
+.btn-summon:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(79, 172, 254, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-summon:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* Стиль для кнопки x10 */
+.btn-summon.x10 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-summon.x10:hover:not(:disabled) {
+  box-shadow: 0 6px 15px rgba(118, 75, 162, 0.4);
+}
+
+.btn-summon:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.8);
+  transform: none;
+  box-shadow: none;
+}
+
+/* --- Вкладка предпросмотра пула --- */
 .pool-preview-tab {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
   padding: 20px 0;
+  height: 100%;
 }
 
 .pool-preview-hint {
   text-align: center;
   color: var(--text-secondary);
   font-size: 14px;
+  line-height: 1.5;
 }
 
 .quick-pool-stats {
@@ -298,6 +506,7 @@
   padding: 20px;
   border-radius: var(--border-radius);
   text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .quick-pool-stats h4 {
@@ -340,14 +549,15 @@
   font-weight: 600;
 }
 
+/* Анимации */
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translate(-50%, -20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
 }
 
@@ -360,99 +570,62 @@
   }
 }
 
-.btn-summon:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  filter: grayscale(1);
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
+/* Адаптивность */
 @media (max-width: 480px) {
   .gacha-panel {
     width: 98vw;
     max-height: 98vh;
   }
 
-  .duplicate-banner {
-    padding: 5px 10px;
-    font-size: 11px;
-    border-radius: 10px 0 10px 0;
-  }
-
-  .duplicate-banner span {
-    font-size: 11px;
-  }
-
-  .duplicate-banner small {
-    font-size: 9px;
-  }
-
-  .result-waifu img {
+  .result-waifu-visual img {
     width: 150px;
     height: 210px;
   }
 
-  .result-waifu h3 {
-    font-size: 16px;
+  .result-info h3 {
+    font-size: 18px;
   }
 
-  .gacha-result {
-    padding: 8px 15px 12px;
-    gap: 6px;
-  }
-
-  .waifu-stats-preview {
-    font-size: 11px;
-    gap: 12px;
-    margin: 3px 0;
-  }
-
-  .rarity-label {
-    font-size: 12px;
-  }
-
-  .dup-count-badge {
-    font-size: 10px;
-    padding: 2px 6px;
-  }
-
-  .btn-primary {
-    padding: 10px 25px;
-    font-size: 14px;
-    min-height: 40px;
-    margin-top: 3px;
-  }
-
-  .gacha-animation {
-    padding: 30px 15px;
-  }
-
-  .gacha-orb {
-    font-size: 70px;
-  }
-}
-
-@media (max-width: 360px) {
-  .result-waifu img {
-    width: 130px;
-    height: 180px;
-  }
-
-  .result-waifu h3 {
-    font-size: 14px;
-  }
-
-  .waifu-stats-preview {
+  .gacha-result-card {
+    padding: 15px 10px;
     gap: 8px;
-    font-size: 10px;
   }
 
-  .btn-primary {
-    padding: 8px 20px;
-    font-size: 13px;
-    min-height: 36px;
+  .waifu-stats-preview {
+    font-size: 12px;
+    gap: 10px;
+    padding: 6px 10px;
   }
 
-  .gacha-result {
-    padding: 6px 12px 10px;
+  .btn-continue,
+  .btn-skip-fast {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .duplicate-banner,
+  .new-waifu-banner {
+    font-size: 11px;
+    padding: 4px 12px;
+    min-width: 100px;
+  }
+
+  /* На мобильных кнопки друг под другом */
+  .summon-buttons {
+    flex-direction: column;
+  }
+
+  .btn-summon {
+    width: 100%;
   }
 }
