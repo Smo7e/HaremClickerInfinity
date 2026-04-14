@@ -11,29 +11,9 @@ const sizeMap = {
   lg: 48,
 };
 
-const EMOJI_FALLBACK: Record<string, string> = {};
 export function Icon({ name, size = "md", className = "" }: IconProps) {
   const px = sizeMap[size];
 
-  if (EMOJI_FALLBACK[name]) {
-    return (
-      <span
-        className={`icon icon-emoji ${className}`}
-        style={{
-          fontSize: px,
-          width: px,
-          height: px,
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          lineHeight: 1,
-        }}
-        title={`Missing icon: ${name}`}
-      >
-        {EMOJI_FALLBACK[name]}
-      </span>
-    );
-  }
   return (
     <img
       src={`/assets/images/icons/${name}.png`}

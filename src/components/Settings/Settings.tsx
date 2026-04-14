@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { t } from "../../locales/i18n";
 import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
 import type { Lang } from "../../locales/locales";
@@ -14,9 +14,8 @@ interface Props {
 }
 
 export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPauseToggle }: Props) {
-  const audioConfig = audioManager.getState();
-  const [globalMusicVol, setGlobalMusicVol] = useState(audioConfig.musicVolume);
-  const [globalSfxVol, setGlobalSfxVol] = useState(audioConfig.sfxVolume);
+  const [globalMusicVol, setGlobalMusicVol] = useState(0);
+  const [globalSfxVol, setGlobalSfxVol] = useState(0);
   const [showCredits, setShowCredits] = useState(false);
 
   const handleMusicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +23,11 @@ export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPa
     setGlobalMusicVol(value);
     audioManager.setMusicVolume(value);
   };
+  useEffect(() => {
+    const state = audioManager.getState();
+    setGlobalMusicVol(state.musicVolume);
+    setGlobalSfxVol(state.sfxVolume);
+  }, []);
 
   const handleSfxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);

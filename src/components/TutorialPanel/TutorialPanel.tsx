@@ -124,16 +124,13 @@ export function TutorialPanel({ isOpen, onClose }: TutorialPanelProps) {
                 <p>{t("tutorial.scrollsDesc")}</p>
                 <div className="scrolls-list">
                   <div className="scroll-item">
-                    <span className="scroll-name">{t("items.levelDownScroll10.name")}</span>
-                    <span className="scroll-effect">-10 {t("ui.levels")}</span>
+                    <span className="scroll-name">{t("items.levelDownScrollForest.name")}</span>
                   </div>
                   <div className="scroll-item">
-                    <span className="scroll-name">{t("items.levelDownScroll20.name")}</span>
-                    <span className="scroll-effect">-20 {t("ui.levels")}</span>
+                    <span className="scroll-name">{t("items.levelDownScrollDesert.name")}</span>
                   </div>
                   <div className="scroll-item">
-                    <span className="scroll-name">{t("items.levelDownScroll50.name")}</span>
-                    <span className="scroll-effect">-50 {t("ui.levels")}</span>
+                    <span className="scroll-name">{t("items.levelDownScrollIce.name")}</span>
                   </div>
                 </div>
                 <p className="tutorial-hint">{t("tutorial.scrollsHint")}</p>
@@ -250,15 +247,15 @@ export function TutorialPanel({ isOpen, onClose }: TutorialPanelProps) {
             <div className="tutorial-grid">
               <div className="tutorial-mini-card">
                 <Icon name="scroll" size="md" />
-                <span>{t("items.expScroll500.name")}</span>
+                <span>{t("items.expScrollForest.name")}</span>
               </div>
               <div className="tutorial-mini-card">
                 <Icon name="potion" size="md" />
-                <span>{t("items.affectionPotion.name")}</span>
+                <span>{t("items.affectionPotionForest.name")}</span>
               </div>
               <div className="tutorial-mini-card highlight">
                 <Icon name="scroll" size="md" />
-                <span>{t("items.levelDownScroll10.name")}</span>
+                <span>{t("items.levelDownScrollForest.name")}</span>
               </div>
             </div>
 

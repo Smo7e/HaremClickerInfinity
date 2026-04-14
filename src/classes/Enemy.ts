@@ -97,15 +97,16 @@ export class Enemy {
     return "normal";
   }
 
-  rollDrops(bonusMultiplier: number = 1): Array<{ id: TInventoryItemId; count: number }> {
+  rollDrops(quantityMultiplier: number = 1): Array<{ id: TInventoryItemId; count: number }> {
     const results: Array<{ id: TInventoryItemId; count: number }> = [];
 
     for (const drop of this.drops) {
       const roll = Math.random();
-      const adjustedChance = Math.min(1, drop.chance * bonusMultiplier);
-      if (roll <= adjustedChance) {
-        const count = Math.floor(Math.random() * (drop.maxCount - drop.minCount + 1)) + drop.minCount;
-        results.push({ id: drop.id, count });
+      if (roll <= drop.chance) {
+        const count = Math.floor(
+          (Math.random() * (drop.maxCount - drop.minCount + 1) + drop.minCount) * quantityMultiplier,
+        );
+        results.push({ id: drop.id, count: Math.max(1, count) });
       }
     }
 

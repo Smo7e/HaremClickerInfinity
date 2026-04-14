@@ -32,6 +32,7 @@ export interface GameState {
     locationSelector: boolean;
     waifuDetail: string | null;
     bestiary: boolean;
+    ads: boolean;
   };
   bestiary: TBestiaryProgress;
 }
@@ -60,6 +61,8 @@ export interface GameActions {
   loadGame: (savedState: Partial<GameState>) => void;
   recordEnemyKill: (enemyNameKey: string) => void;
   getBestiaryEntry: (enemyId: string) => { killCount: number; unlocked: boolean } | undefined;
+  applyCollectionBuff: (itemId: TInventoryItemId) => void;
+  recalculateCollectionBuffs: () => void;
 }
 
 export interface UseItemResult {

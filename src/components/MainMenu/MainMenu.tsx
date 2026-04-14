@@ -4,6 +4,7 @@ import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
 import type { Lang } from "../../locales/locales";
 import "./MainMenu.css";
 import { TutorialPanel } from "../TutorialPanel/TutorialPanel";
+import { audioManager } from "../../audio/AudioManager";
 
 interface Props {
   onPlay: () => void;
@@ -33,7 +34,13 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
             {t("ui.play")}
           </button>
 
-          <button className="btn-secondary btn-tutorial" onClick={() => setIsTutorialOpen(true)}>
+          <button
+            className="btn-secondary btn-tutorial"
+            onClick={() => {
+              setIsTutorialOpen(true);
+              audioManager.playSFX("panel_click");
+            }}
+          >
             <span className="btn-icon">📖</span>
             {t("tutorial.title")}
           </button>

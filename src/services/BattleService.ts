@@ -1,6 +1,7 @@
 import type { Waifu } from "../classes/Waifu";
 import type { Enemy } from "../classes/Enemy";
 import type { IGlobalUpgrades } from "../types";
+import { useAdStore } from "../store/adStore";
 
 export interface DamageCalculation {
   base: number;
@@ -30,8 +31,8 @@ export const BattleService = {
     } else if (elementMultiplier < 0.7) {
       effectiveness = "resist";
     }
-
-    const base = Math.floor(clickPower * elementMultiplier);
+    const adMultiplier = useAdStore.getState().getDamageMultiplier();
+    const base = Math.floor(clickPower * elementMultiplier * adMultiplier);
 
     return {
       base,
@@ -47,7 +48,6 @@ export const BattleService = {
       gemMultiplier: number;
       essenceMultiplier: number;
       expMultiplier: number;
-      dropChanceMultiplier: number;
     },
     globalUpgrades: IGlobalUpgrades,
     currentLevel: number,
@@ -63,7 +63,7 @@ export const BattleService = {
     const baseEssence = 1;
     const essence = Math.floor(baseEssence * locationBonus.essenceMultiplier);
 
-    const drops = enemy.rollDrops(locationBonus.dropChanceMultiplier);
+    const drops = enemy.rollDrops();
 
     return { exp, gems, essence, drops };
   },

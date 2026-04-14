@@ -7,6 +7,7 @@
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\all_components.txt
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\collect.bat
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\collectNonCSS.bat
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\eslint.config.js
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\index.html
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\package-lock.json
@@ -19,11 +20,182 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.json
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.node.json
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.tsbuildinfo
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\vite.config.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\favicon.svg
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\icons.svg
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\index.html
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-DMjJvPX2.js
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-qg7DqpNj.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\1.ogg
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\background.ogg
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\click.mp3
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\enemy_defeat.mp3
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\panel_click.mp3
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\abyss.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\castle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\desert.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\forest.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\ice.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\backgrounds\volcano.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\AbyssLord.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\ArmoredKnight.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\CastleLord.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\CursedBanner.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\DarkMage.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\DesertColossus.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\DireWolf.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\FireImp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\ForestGolem.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\ForestGuardian.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\FrostWolf.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Ghost.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Goblin.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\IceElemental.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\IceQueen.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\InfernoDragon.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\LavaSlime.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\LesserDemon.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Mimic.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Mummy.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\PoisonSpider.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\SandWorm.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\ScarabBeetle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\ShadowTentacle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Skeleton.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Slime.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\VampireThrall.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\VoidWalker.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\enemies\Whelp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\abyss.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\accessory.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\affection.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\all.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\auto.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\back.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\backpack.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\bone.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\book.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\castle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\check.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\click.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\close.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\coin.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\coin_old.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\collection.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\common.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\craft.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\crit.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\critPower.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\cursed_cloth.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\dagger.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\dark.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\desert.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\duplicate.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\ear.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\earth.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\ectoplasm.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\epic.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\essence.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\essence_fire.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\fire.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\forest.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\forest_essence.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\frost_fang.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\gacha.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\gel.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\gem.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\home.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\horn.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\ice.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\ice_crystal.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\imp_ash.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\lava_chunk.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\legendary.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\level.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\light.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\max.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\memoria.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\mythic.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\orb_dark.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\outfit.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\pause.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\physical.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\play.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\pool.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\potion.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\potion_abyss.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\potion_castle.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\potion_desert.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\potion_forest.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\potion_ice.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\potion_volcano.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\rare.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\sand_stone.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_abyss_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_abyss_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_castle_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_castle_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_desert_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_desert_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_forest_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_forest_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_ice_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_ice_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_volcano_down.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\scroll_volcano_exp.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\settings.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\shield.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\skull.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\slime_core.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\soul_shard.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\spider_venom.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\staff.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\summoning.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\uncommon.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\unknown.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\upgrades.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\void_essence.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\volcano.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\waifus.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\water.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\weak.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\weapon.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\icons\wing.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Aqua.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Cerberus.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Emerald.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Frost.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Gaia.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Hana.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Ignis.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Leviathan.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Lux.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Momo.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Phoenix.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Rin.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Ruby.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Sakura.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Sapphire.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Sora.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Terra.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Tiamat.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Umbra.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Yui.png
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\YukiOnna.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\favicon.svg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\icons.svg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio\1.ogg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio\background.ogg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio\click.mp3
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio\enemy_defeat.mp3
@@ -214,6 +386,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\ErrorBoundary\E
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\AdPanel
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BestiaryPanel
@@ -228,6 +401,8 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuComponent
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuDetailPanel
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\WaifuSelectPanel
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\AdPanel\AdPanel.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\AdPanel\AdPanel.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\Background.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\Background.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\BackpackPanel\BackpackPanel.css
@@ -267,6 +442,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settin
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settings.tsx
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\TutorialPanel\TutorialPanel.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\TutorialPanel\TutorialPanel.tsx
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\adConstants.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\constant.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\index.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useBattle.ts
@@ -274,11 +450,14 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useCPS.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useSave.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\i18n.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\locales\locales.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\AdService.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\BattleService.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\index.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\adStore.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\gameStore.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\index.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\types.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\ads.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
  
  
@@ -324,6 +503,12 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\index.tsx ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\AdPanel\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\AdPanel\index.tsx ===== 
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\index.ts ===== 
@@ -493,7 +678,6 @@ export interface ILocationConfig {
     gemMultiplier: number;
     essenceMultiplier: number;
     expMultiplier: number;
-    dropChanceMultiplier: number;
   };
 }
 
@@ -665,6 +849,8 @@ import { getLang, setLang } from "./locales/i18n";
 import { audioManager } from "./audio/AudioManager";
 import { useAutoSave } from "./hooks/useSave";
 import { useGameStore } from "./store/gameStore";
+import { adService } from "./services/AdService";
+import { SDK } from "ysdk";
 
 export type TScreen = "menu" | "game";
 
@@ -680,6 +866,7 @@ function AppContent() {
   const hasRehydrated = useGameStore.persist.hasHydrated();
 
   const initAudio = useCallback(async () => {
+    await adService.init();
     if (!audioInitialized) {
       await audioManager.init();
       audioManager.setMusicVolume(0);
@@ -744,7 +931,7 @@ function AppContent() {
 
     try {
       //@ts-ignore
-      const ysdk = window.YaGames.ysdk;
+      const ysdk: SDK = window.YaGames.ysdk;
 
       const handlePause = () => {
         setIsPaused(true);
@@ -789,7 +976,10 @@ function AppContent() {
             setScreen("game");
             audioManager.playMusic();
           }}
-          onSettings={() => setIsSettings(true)}
+          onSettings={() => {
+            setIsSettings(true);
+            audioManager.playSFX("panel_click");
+          }}
           onLanguageChange={handleLanguageChange}
         />
       ) : (
@@ -832,9 +1022,7 @@ createRoot(document.getElementById('root')!).render(
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\AudioManager.ts ===== 
-import type { TRarity } from "../types";
-
-type SFXType = "click" | "enemy_defeat" | "gacha_summon" | "gacha_rare" | "gacha_mythic" | "panel_click";
+type SFXType = "click" | "enemy_defeat" | "panel_click";
 
 interface AudioConfig {
   musicVolume: number;
@@ -861,10 +1049,6 @@ class AudioManager {
     click: "/assets/audio/click.mp3",
     enemy_defeat: "/assets/audio/enemy_defeat.mp3",
     panel_click: "/assets/audio/panel_click.mp3",
-
-    gacha_summon: "/assets/audio/gacha_summon.wav",
-    gacha_rare: "/assets/audio/gacha_rare.wav",
-    gacha_mythic: "/assets/audio/gacha_mythic.wav",
   };
 
   private constructor() {}
@@ -984,16 +1168,6 @@ class AudioManager {
     this.playSFX("enemy_defeat");
   }
 
-  playGacha(rarity: TRarity): void {
-    if (rarity === "mythic") {
-      this.playSFX("gacha_mythic");
-    } else if (rarity === "legendary" || rarity === "epic") {
-      this.playSFX("gacha_rare");
-    } else {
-      this.playSFX("gacha_summon");
-    }
-  }
-
   setMusicVolume(volume: number): void {
     this.config.musicVolume = Math.max(0, Math.min(1, volume));
     if (this.music) {
@@ -1031,7 +1205,7 @@ export type { SFXType };
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Enemy.ts ===== 
-import type { TDropItem, TElementType, TLocation } from "../types";
+import type { TDropItem, TElementType, TInventoryItemId, TLocation } from "../types";
 import { t } from "../locales/i18n";
 import { LOCATION_BOSSES, LOCATION_ENEMIES, LOCATIONS, MONSTER_TEMPLATES } from "../game/constant";
 
@@ -1130,15 +1304,16 @@ export class Enemy {
     return "normal";
   }
 
-  rollDrops(bonusMultiplier: number = 1): Array<{ id: string; count: number }> {
-    const results: Array<{ id: string; count: number }> = [];
+  rollDrops(quantityMultiplier: number = 1): Array<{ id: TInventoryItemId; count: number }> {
+    const results: Array<{ id: TInventoryItemId; count: number }> = [];
 
     for (const drop of this.drops) {
       const roll = Math.random();
-      const adjustedChance = Math.min(1, drop.chance * bonusMultiplier);
-      if (roll <= adjustedChance) {
-        const count = Math.floor(Math.random() * (drop.maxCount - drop.minCount + 1)) + drop.minCount;
-        results.push({ id: drop.id, count });
+      if (roll <= drop.chance) {
+        const count = Math.floor(
+          (Math.random() * (drop.maxCount - drop.minCount + 1) + drop.minCount) * quantityMultiplier,
+        );
+        results.push({ id: drop.id, count: Math.max(1, count) });
       }
     }
 
@@ -1759,7 +1934,7 @@ export class ErrorBoundary extends Component<Props, State> {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\Game.tsx ===== 
-import { useCallback, memo } from "react";
+import { useCallback, memo, useEffect } from "react";
 import { useShallow } from "zustand/shallow";
 import { t } from "../../locales/i18n";
 import { useGameStore } from "../../store/gameStore";
@@ -1783,6 +1958,9 @@ import { CraftPanel, TCraftableItem } from "./components/CraftPanel/CraftPanel";
 import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
 import { useCPS } from "../../hooks/useCPS";
 import { TInventoryItemId } from "../../types";
+import { audioManager } from "../../audio/AudioManager";
+import { AdPanel } from "./components/AdPanel/AdPanel";
+import { adService } from "../../services/AdService";
 
 interface Props {
   onBack: () => void;
@@ -1814,6 +1992,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   const openPanel = useGameStore((state) => state.openPanel);
   const changeLocation = useGameStore((state) => state.changeLocation);
   const dealDamage = useGameStore((state) => state.dealDamage);
+  const setPaused = useGameStore((state) => state.setPaused);
 
   const { handleClick, currentLevel, locationConfig } = useBattle();
   const { cps, isWarning, recordClick } = useCPS();
@@ -1829,6 +2008,9 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     },
     [handleClick],
   );
+  useEffect(() => {
+    setPaused(panels.pause);
+  }, [panels.pause, setPaused]);
 
   const handleLocationChange = useCallback(
     (location: typeof currentLocation) => {
@@ -1842,7 +2024,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     (itemId: TInventoryItemId) => {
       const item = inventory.getItem(itemId);
       if (!item || !item.effect) return;
-      // Используем универсальный тип level_down
       if (item.effect.type === "level_down") {
         const levelsToReduce = item.effect.value;
         const newLevel = Math.max(1, locationProgress[currentLocation].currentLevel - levelsToReduce);
@@ -1903,6 +2084,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   }, [closePanel, openPanel]);
 
   const handlePauseMenu = useCallback(() => {
+    adService.showFullscreenAd();
     closePanel("pause");
     onBack();
   }, [closePanel, onBack]);
@@ -1940,6 +2122,16 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
 
       <header className="game-header">
         <div className="currency-display">
+          <button
+            className="side-btn"
+            onClick={() => {
+              openPanel("ads");
+              audioManager.playSFX("panel_click");
+            }}
+          >
+            <Icon name="play" size="lg" />
+            <span>{t("ui.ads")}</span>
+          </button>
           <div className="currency-item">
             <Icon name="gem" size="md" />
             <span className="currency-value">{Math.floor(gems)}</span>
@@ -1961,12 +2153,26 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
       </header>
 
       <nav className="game-sidebar">
-        <button className="side-btn" onClick={() => openPanel("locationSelector")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("locationSelector");
+            audioManager.playSFX("panel_click");
+            adService.showFullscreenAd();
+          }}
+        >
           <Icon name={currentLocation} size="lg" />
           <span>{t("ui.location")}</span>
           <span className="side-badge">{currentLevel}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("gacha")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("gacha");
+            adService.showFullscreenAd();
+            audioManager.playSFX("panel_click");
+          }}
+        >
           <Icon name="gacha" size="lg" />
           <span>{t("ui.gacha")}</span>
           <span className="side-btn-cost">
@@ -1974,28 +2180,66 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
             <Icon name="essence" size="vsm" />
           </span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("collection")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("collection");
+            audioManager.playSFX("panel_click");
+            adService.showFullscreenAd();
+          }}
+        >
           <Icon name="collection" size="lg" />
           <span>{t("ui.collection")}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("waifuSelect")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("waifuSelect");
+            audioManager.playSFX("panel_click");
+          }}
+        >
           <Icon name="waifus" size="lg" />
           <span>{t("ui.waifus")}</span>
           <span className="side-badge">{ownedWaifus.length}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("upgrades")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("upgrades");
+            audioManager.playSFX("panel_click");
+          }}
+        >
           <Icon name="upgrades" size="lg" />
           <span>{t("ui.upgrades")}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("backpack")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("backpack");
+            audioManager.playSFX("panel_click");
+          }}
+        >
           <Icon name="backpack" size="lg" />
           <span>{t("ui.backpack")}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("craft")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("craft");
+            audioManager.playSFX("panel_click");
+          }}
+        >
           <Icon name="craft" size="lg" />
           <span>{t("ui.craft")}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("bestiary")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("bestiary");
+            audioManager.playSFX("panel_click");
+            adService.showFullscreenAd();
+          }}
+        >
           <Icon name="book" size="lg" />
           <span>{t("ui.bestiary")}</span>
         </button>
@@ -2010,7 +2254,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
             enemy={enemy}
             activeWaifu={activeWaifu}
             isPaused={isGlobalPaused || isPaused}
-            dropChanceMultiplier={locationConfig?.bonuses.dropChanceMultiplier ?? 1}
             onClick={handleEnemyClick}
           />
         </div>
@@ -2073,7 +2316,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
       />
 
       <BestiaryPanel isOpen={panels.bestiary} onClose={() => closePanel("bestiary")} />
-
+      <AdPanel isOpen={panels.ads} onClose={() => closePanel("ads")} />
       <CheatMenu
         onSetGems={(amount) => {
           const current = inventory.getItemCount("gem");
@@ -2101,6 +2344,153 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     </div>
   );
 });
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\AdPanel\AdPanel.tsx ===== 
+// src/components/Game/components/AdPanel/AdPanel.tsx
+import { useState, useEffect, useCallback } from "react";
+import { useAdStore } from "../../../../store/adStore";
+import { adService } from "../../../../services/AdService";
+import { AD_REWARDS, AD_REWARD_LIST } from "../../../../game/adConstants";
+import { t } from "../../../../locales/i18n";
+import { Icon } from "../../../Icon/Icon";
+import "./AdPanel.css";
+
+interface AdPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function formatTime(seconds: number): string {
+  if (seconds <= 0) return "00:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+}
+
+export function AdPanel({ isOpen, onClose }: AdPanelProps) {
+  const [watching, setWatching] = useState<string | null>(null);
+  const [timers, setTimers] = useState<Record<string, number>>({});
+
+  const isRewardAvailable = useAdStore((state) => state.isRewardAvailable);
+  const getCooldownSeconds = useAdStore((state) => state.getCooldownSeconds);
+  const applyReward = useAdStore((state) => state.applyReward);
+
+  // Обновление таймеров каждую секунду
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const interval = setInterval(() => {
+      const newTimers: Record<string, number> = {};
+      AD_REWARD_LIST.forEach((type) => {
+        newTimers[type] = getCooldownSeconds(type);
+      });
+      setTimers(newTimers);
+    }, 1000);
+
+    // Первый запуск
+    const initialTimers: Record<string, number> = {};
+    AD_REWARD_LIST.forEach((type) => {
+      initialTimers[type] = getCooldownSeconds(type);
+    });
+    setTimers(initialTimers);
+
+    return () => clearInterval(interval);
+  }, [isOpen, getCooldownSeconds]);
+
+  const handleWatchAd = useCallback(
+    (type: string) => {
+      if (!isRewardAvailable(type as any)) return;
+
+      setWatching(type);
+      adService.showRewardedAd((success) => {
+        setWatching(null);
+        if (success) {
+          applyReward(type as any);
+          // Обновим таймеры сразу
+          const newTimers: Record<string, number> = {};
+          AD_REWARD_LIST.forEach((t) => {
+            newTimers[t] = getCooldownSeconds(t);
+          });
+          setTimers(newTimers);
+        }
+      });
+    },
+    [isRewardAvailable, applyReward, getCooldownSeconds],
+  );
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel ad-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>
+            <Icon name="play" size="md" /> {t("ads.title")}
+          </h2>
+          <button className="btn-close" onClick={onClose}>
+            <Icon name="close" size="md" />
+          </button>
+        </div>
+
+        <div className="ad-rewards-grid">
+          {AD_REWARD_LIST.map((type) => {
+            const config = AD_REWARDS[type];
+            if (!config) return null; // Защита от undefined
+
+            const cooldown = timers[type] || 0;
+            const available = cooldown <= 0 && !watching;
+            const isBuff = !!config.durationSeconds;
+
+            return (
+              <div key={type} className={`ad-reward-card ${!available ? "cooldown" : ""} ${isBuff ? "buff" : ""}`}>
+                <div className="reward-icon">
+                  <Icon name={config.icon} size="lg" />
+                  {isBuff && <span className="buff-badge">2x</span>}
+                </div>
+
+                <div className="reward-info">
+                  <h3>{t(config.titleKey)}</h3>
+                  <p>{t(config.descriptionKey)}</p>
+
+                  {isBuff && (
+                    <span className="duration-badge">
+                      {t("ads.duration")}: 5 {t("ui.minutes")}
+                    </span>
+                  )}
+                </div>
+
+                <div className="reward-action">
+                  {!available ? (
+                    <div className="cooldown-timer">
+                      <Icon name="pause" size="sm" />
+                      <span>{formatTime(cooldown)}</span>
+                    </div>
+                  ) : (
+                    <button className="btn-watch-ad" onClick={() => handleWatchAd(type)} disabled={watching === type}>
+                      {watching === type ? (
+                        <span className="loading-dots">{t("ads.loading")}</span>
+                      ) : (
+                        <>
+                          <Icon name="play" size="sm" />
+                          {t("ads.watch")}
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="ad-footer">
+          <p>{t("ads.hint")}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Background\Background.tsx ===== 
@@ -2700,12 +3090,12 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
 
   const handleGetAllItems = () => {
     Object.keys(INVENTORY_ITEMS).forEach((itemId) => {
-      const item = INVENTORY_ITEMS[itemId];
+      const item = INVENTORY_ITEMS[itemId as TInventoryItemId];
       if (item) {
         if (item.type === "collection") {
-          store.addItem(itemId, 1);
+          store.addItem(itemId as TInventoryItemId, 1);
         } else {
-          store.addItem(itemId, item.maxStack || 99);
+          store.addItem(itemId as TInventoryItemId, item.maxStack || 99);
         }
       }
     });
@@ -2927,7 +3317,7 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
                 <label>Выбрать предмет:</label>
                 <select
                   value={selectedItemId}
-                  onChange={(e) => setSelectedItemId(e.target.value)}
+                  onChange={(e) => setSelectedItemId(e.target.value as TInventoryItemId)}
                   className="cheat-select"
                 >
                   <option value="">-- Выберите --</option>
@@ -2964,11 +3354,11 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
           )}
           {activeTab === "buffs" && (
             <div className="cheat-section">
-              <h3>Коллекционные баффы</h3>
+              {t("collectionBuf")}
               <div className="cheat-buffs-list">
                 {Object.entries(COLLECTION_BUFFS).map(([itemId, buff]) => {
-                  const item = INVENTORY_ITEMS[itemId];
-                  const hasItem = store.inventory.hasCollection(itemId);
+                  const item = INVENTORY_ITEMS[itemId as TInventoryItemId];
+                  const hasItem = store.inventory.hasCollection(itemId as TInventoryItemId);
                   return (
                     <div key={itemId} className={`cheat-buff-item ${hasItem ? "owned" : ""}`}>
                       <span className="cheat-buff-name">{item ? t(`items.${item.nameKey}.name`) : itemId}</span>
@@ -3046,7 +3436,7 @@ export function CheatMenu({ onSetGems, onSetEssence, onKillEnemy }: CheatMenuPro
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\CollectionPanel\CollectionPanel.tsx ===== 
 import { useState, useMemo } from "react";
 import { t } from "../../../../locales/i18n";
-import type { TCollectionCategory } from "../../../../types";
+import type { TCollectionCategory, TInventoryItemId } from "../../../../types";
 import { COLLECTION_BUFFS, INVENTORY_ITEMS } from "../../../../game/constant";
 import "./CollectionPanel.css";
 import { Icon } from "../../../Icon/Icon";
@@ -3066,7 +3456,7 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
   const collectedItems = useMemo(() => {
     const entries = Array.from(inventory.getCollection().entries());
     return entries.map(([id, category]) => {
-      const template = INVENTORY_ITEMS[id];
+      const template = INVENTORY_ITEMS[id as TInventoryItemId];
       return {
         id,
         category,
@@ -3078,7 +3468,7 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
     });
   }, [inventory]);
 
-  const getItemBuff = (itemId: string) => {
+  const getItemBuff = (itemId: TInventoryItemId) => {
     return COLLECTION_BUFFS[itemId];
   };
 
@@ -3143,7 +3533,7 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
               </div>
             ) : (
               filteredItems.map((item) => {
-                const buff = getItemBuff(item.id);
+                const buff = getItemBuff(item.id as TInventoryItemId);
                 return (
                   <div key={item.id} className={`collection-item obtained rarity-${item.rarity}`}>
                     <div className="item-icon">
@@ -3198,7 +3588,7 @@ import "./CraftPanel.css";
 export type TCraftableItem = TInventoryItem & {
   canCraft: true;
   ingredients: Array<{
-    itemId: string;
+    itemId: TInventoryItemId;
     count: number;
   }>;
 };
@@ -3428,7 +3818,7 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                         </span>
                         <span className="use-item-count">x{item.count}</span>
                         <p className="use-item-desc">
-                          {t(`items.${item.nameKey}.desc`) +
+                          {t(`items.${item.nameKey}.desc`).replace("{{value}}", `${item.effect?.value}`) +
                             (item.effect?.type === "level_down" ? ` (${currentLevel.toString()})` : "")}
                         </p>
                       </div>
@@ -3451,9 +3841,16 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
           <div className="craft-modal-overlay" onClick={() => setSelectedCraftItem(null)}>
             <div className="craft-modal" onClick={(e) => e.stopPropagation()}>
               <h3 style={{ color: RARITY_COLORS[selectedCraftItem.rarity] }}>
-                {t(`items.${selectedCraftItem.nameKey}.name`)}
+                {t(`items.${selectedCraftItem.nameKey}.name`).replace(
+                  "{{value}}",
+                  `${selectedCraftItem.effect?.value})`,
+                )}
               </h3>
-              <p>{t(selectedCraftItem.descriptionKey).replace("{{level}}", currentLevel.toString())}</p>
+              <p>
+                {t(selectedCraftItem.descriptionKey)
+                  .replace("{{level}}", currentLevel.toString())
+                  .replace("{{value}}", `${selectedCraftItem.effect?.value}`)}
+              </p>
 
               <div className="craft-quantity-selector">
                 <label>{t("ui.quantity") || "Количество"}:</label>
@@ -3527,13 +3924,14 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import type { Waifu } from "../../../../classes/Waifu";
 import type { Enemy } from "../../../../classes/Enemy";
 import "./EnemyComponent.css";
-import { ELEMENT_COLORS, ELEMENT_KEYS, INVENTORY_ITEMS } from "../../../../game/constant";
-import type { TElementType } from "../../../../types";
+import { ELEMENT_COLORS, INVENTORY_ITEMS } from "../../../../game/constant";
+import type { TElementType, TInventoryItemId } from "../../../../types";
 import { audioManager } from "../../../../audio/AudioManager";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
 import { BattleService } from "../../../../services/BattleService";
 import { useGameStore } from "../../../../store/gameStore";
+import { useAdStore } from "../../../../store/adStore";
 
 interface DropEffect {
   id: number;
@@ -3557,7 +3955,6 @@ interface EnemyComponentProps {
   enemy: Enemy;
   activeWaifu: Waifu | null;
   isPaused: boolean;
-  dropChanceMultiplier?: number;
   onClick?: (e: React.MouseEvent | React.TouchEvent) => void;
 }
 
@@ -3565,13 +3962,7 @@ const clickIdRef = { current: 0 };
 let dropIdCounter = 0;
 const AUTO_ATTACK_INTERVAL = 1000;
 
-export function EnemyComponent({
-  enemy,
-  activeWaifu,
-  isPaused,
-  dropChanceMultiplier = 1,
-  onClick,
-}: EnemyComponentProps) {
+export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyComponentProps) {
   const [clickEffects, setClickEffects] = useState<ClickEffect[]>([]);
   const [dropEffects, setDropEffects] = useState<DropEffect[]>([]);
   const [hpPercent, setHpPercent] = useState(() => enemy.getHpPercent());
@@ -3581,6 +3972,7 @@ export function EnemyComponent({
   const autoAttackIntervalRef = useRef<number | null>(null);
   const enemyContainerRef = useRef<HTMLDivElement>(null);
   const touchHandledRef = useRef(false);
+  const isProcessingKill = useRef(false);
 
   const globalUpgrades = useGameStore((state) => state.globalUpgrades);
   const dealDamage = useGameStore((state) => state.dealDamage);
@@ -3589,6 +3981,7 @@ export function EnemyComponent({
     enemyRef.current = enemy;
     setHpPercent(enemy.getHpPercent());
     setCurrentHp(enemy.currentHp);
+    isProcessingKill.current = false;
   }, [enemy]);
 
   useEffect(() => {
@@ -3626,10 +4019,35 @@ export function EnemyComponent({
     },
     [],
   );
+  const handleEnemyDeath = useCallback(
+    (x: number, y: number, currentEnemy: Enemy, _isAuto: boolean = false) => {
+      if (isProcessingKill.current) return;
+      isProcessingKill.current = true;
+
+      audioManager.playEnemyDefeat();
+
+      const dropMultiplier = useAdStore.getState().getDropMultiplier();
+      const drops = currentEnemy.rollDrops();
+
+      drops.forEach((drop, index) => {
+        const finalCount = Math.floor(drop.count * dropMultiplier);
+        setTimeout(() => {
+          addDropEffect(
+            drop.id,
+            finalCount > 0 ? finalCount : drop.count,
+            x + (Math.random() - 0.5) * 100,
+            y + (Math.random() - 0.5) * 50,
+          );
+        }, index * 200);
+      });
+    },
+    [addDropEffect],
+  );
 
   const performAttack = useCallback(
     (isAuto: boolean = false) => {
       if (!enemy || !activeWaifu) return;
+      if (!enemy.isAlive()) return;
 
       const calculation = BattleService.calculateDamage(activeWaifu, enemy);
       const actualDamage = dealDamage(calculation.base, calculation.isCrit);
@@ -3647,16 +4065,11 @@ export function EnemyComponent({
       addClickEffect(x, y, actualDamage, calculation.isCrit, activeWaifu.element, calculation.effectiveness);
 
       const newHp = enemy.currentHp - actualDamage;
-      if (newHp <= 0) {
-        const drops = enemy.rollDrops(dropChanceMultiplier);
-        drops.forEach((drop, index) => {
-          setTimeout(() => {
-            addDropEffect(drop.id, drop.count, x + (Math.random() - 0.5) * 100, y + (Math.random() - 0.5) * 50);
-          }, index * 200);
-        });
+      if (newHp <= 0 && !isProcessingKill.current) {
+        handleEnemyDeath(x, y, enemy, isAuto);
       }
     },
-    [enemy, activeWaifu, globalUpgrades, dealDamage, dropChanceMultiplier, addClickEffect, addDropEffect],
+    [enemy, activeWaifu, globalUpgrades, dealDamage, addClickEffect, handleEnemyDeath],
   );
 
   useEffect(() => {
@@ -3692,6 +4105,7 @@ export function EnemyComponent({
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
       if (isPaused || !activeWaifu) return;
+      if (!enemy.isAlive()) return;
 
       e.preventDefault();
 
@@ -3716,28 +4130,23 @@ export function EnemyComponent({
       const elementMultiplier = activeWaifu.getElementMultiplier(enemy.resistances);
       const isCrit = Math.random() < activeWaifu.getCritChance();
       const critMultiplier = isCrit ? activeWaifu.getCritMultiplier() : 1;
+      const adMultiplier = useAdStore.getState().getDamageMultiplier();
 
-      const finalDamage = Math.floor(clickPower * elementMultiplier * critMultiplier);
+      const finalDamage = Math.floor(clickPower * elementMultiplier * critMultiplier * adMultiplier);
 
       const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
       addClickEffect(clientX, clientY, finalDamage, isCrit, activeWaifu.element, effectiveness);
 
-      const newHp = enemy.currentHp - finalDamage;
-      if (newHp <= 0) {
-        const drops = enemy.rollDrops(dropChanceMultiplier);
-        drops.forEach((drop, index) => {
-          setTimeout(() => {
-            addDropEffect(
-              drop.id,
-              drop.count,
-              clientX + (Math.random() - 0.5) * 100,
-              clientY + (Math.random() - 0.5) * 50,
-            );
-          }, index * 200);
-        });
+      // Наносим урон
+      const actualDamage = dealDamage(finalDamage, isCrit);
+
+      // Проверяем смерть
+      const newHp = enemy.currentHp - actualDamage;
+      if (newHp <= 0 && !isProcessingKill.current) {
+        handleEnemyDeath(clientX, clientY, enemy, false);
       }
     },
-    [isPaused, activeWaifu, enemy, dropChanceMultiplier, onClick, addClickEffect, addDropEffect],
+    [isPaused, activeWaifu, enemy, onClick, addClickEffect, handleEnemyDeath, dealDamage],
   );
 
   const getResistanceTooltip = (value: number): string => {
@@ -3782,7 +4191,7 @@ export function EnemyComponent({
               title={getResistanceTooltip(value)}
             >
               <Icon name={element} size="md" />
-              {t(`ui.${ELEMENT_KEYS[element as TElementType]}`)}
+              {value > 0 ? "▼" : "▲"}
             </span>
           ))}
       </div>
@@ -3806,10 +4215,10 @@ export function EnemyComponent({
       ))}
       {dropEffects.map((effect) => (
         <div key={effect.id} className="drop-effect" style={{ left: effect.x, top: effect.y }}>
-          <Icon name={INVENTORY_ITEMS[effect.itemId]?.icon || "unknown"} size="md" />
+          <Icon name={INVENTORY_ITEMS[effect.itemId as TInventoryItemId]?.icon || "unknown"} size="md" />
           <span className="drop-count">+{effect.count}</span>
           <span className="drop-name">
-            {t(`items.${INVENTORY_ITEMS[effect.itemId]?.nameKey || effect.itemId}.name`)}
+            {t(`items.${INVENTORY_ITEMS[effect.itemId as TInventoryItemId]?.nameKey || effect.itemId}.name`)}
           </span>
         </div>
       ))}
@@ -3989,7 +4398,6 @@ import "./GachaPanel.css";
 import { DropPoolPanel } from "./DropPoolPanel";
 import { Icon } from "../../../Icon/Icon";
 import { useGameStore } from "../../../../store/gameStore";
-import { audioManager } from "../../../../audio/AudioManager";
 
 interface GachaPanelProps {
   isOpen: boolean;
@@ -4087,7 +4495,6 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
       setIsAnimating(false);
       removeItem("essence", 10);
       addWaifu(waifu);
-      audioManager.playGacha(waifu.rarity);
       timeoutRef.current = null;
     }, 1000);
   }, [essence, getAvailablePool, ownedWaifus, removeItem, addWaifu]);
@@ -4139,7 +4546,6 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
 
       newResults.push({ waifu, isDuplicate });
       addWaifu(waifu);
-      audioManager.playGacha(waifu.rarity);
 
       currentIndex++;
       if (currentIndex < 10) {
@@ -4542,6 +4948,7 @@ export function LocationSelector({
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\Pause\Pause.tsx ===== 
+import { useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
 import "./Pause.css";
@@ -4554,6 +4961,13 @@ interface PauseProps {
 }
 
 export function Pause({ isOpen, onClose, onSettings, onMenu }: PauseProps) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
   if (!isOpen) return null;
 
   return (
@@ -5067,29 +5481,9 @@ const sizeMap = {
   lg: 48,
 };
 
-const EMOJI_FALLBACK: Record<string, string> = {};
 export function Icon({ name, size = "md", className = "" }: IconProps) {
   const px = sizeMap[size];
 
-  if (EMOJI_FALLBACK[name]) {
-    return (
-      <span
-        className={`icon icon-emoji ${className}`}
-        style={{
-          fontSize: px,
-          width: px,
-          height: px,
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          lineHeight: 1,
-        }}
-        title={`Missing icon: ${name}`}
-      >
-        {EMOJI_FALLBACK[name]}
-      </span>
-    );
-  }
   return (
     <img
       src={`/assets/images/icons/${name}.png`}
@@ -5267,6 +5661,7 @@ import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
 import type { Lang } from "../../locales/locales";
 import "./MainMenu.css";
 import { TutorialPanel } from "../TutorialPanel/TutorialPanel";
+import { audioManager } from "../../audio/AudioManager";
 
 interface Props {
   onPlay: () => void;
@@ -5296,7 +5691,13 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
             {t("ui.play")}
           </button>
 
-          <button className="btn-secondary btn-tutorial" onClick={() => setIsTutorialOpen(true)}>
+          <button
+            className="btn-secondary btn-tutorial"
+            onClick={() => {
+              setIsTutorialOpen(true);
+              audioManager.playSFX("panel_click");
+            }}
+          >
             <span className="btn-icon">📖</span>
             {t("tutorial.title")}
           </button>
@@ -5319,7 +5720,7 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Settings\Settings.tsx ===== 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { t } from "../../locales/i18n";
 import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
 import type { Lang } from "../../locales/locales";
@@ -5335,9 +5736,8 @@ interface Props {
 }
 
 export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPauseToggle }: Props) {
-  const audioConfig = audioManager.getState();
-  const [globalMusicVol, setGlobalMusicVol] = useState(audioConfig.musicVolume);
-  const [globalSfxVol, setGlobalSfxVol] = useState(audioConfig.sfxVolume);
+  const [globalMusicVol, setGlobalMusicVol] = useState(0);
+  const [globalSfxVol, setGlobalSfxVol] = useState(0);
   const [showCredits, setShowCredits] = useState(false);
 
   const handleMusicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -5345,6 +5745,11 @@ export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPa
     setGlobalMusicVol(value);
     audioManager.setMusicVolume(value);
   };
+  useEffect(() => {
+    const state = audioManager.getState();
+    setGlobalMusicVol(state.musicVolume);
+    setGlobalSfxVol(state.sfxVolume);
+  }, []);
 
   const handleSfxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
@@ -5643,16 +6048,13 @@ export function TutorialPanel({ isOpen, onClose }: TutorialPanelProps) {
                 <p>{t("tutorial.scrollsDesc")}</p>
                 <div className="scrolls-list">
                   <div className="scroll-item">
-                    <span className="scroll-name">{t("items.levelDownScroll10.name")}</span>
-                    <span className="scroll-effect">-10 {t("ui.levels")}</span>
+                    <span className="scroll-name">{t("items.levelDownScrollForest.name")}</span>
                   </div>
                   <div className="scroll-item">
-                    <span className="scroll-name">{t("items.levelDownScroll20.name")}</span>
-                    <span className="scroll-effect">-20 {t("ui.levels")}</span>
+                    <span className="scroll-name">{t("items.levelDownScrollDesert.name")}</span>
                   </div>
                   <div className="scroll-item">
-                    <span className="scroll-name">{t("items.levelDownScroll50.name")}</span>
-                    <span className="scroll-effect">-50 {t("ui.levels")}</span>
+                    <span className="scroll-name">{t("items.levelDownScrollIce.name")}</span>
                   </div>
                 </div>
                 <p className="tutorial-hint">{t("tutorial.scrollsHint")}</p>
@@ -5769,15 +6171,15 @@ export function TutorialPanel({ isOpen, onClose }: TutorialPanelProps) {
             <div className="tutorial-grid">
               <div className="tutorial-mini-card">
                 <Icon name="scroll" size="md" />
-                <span>{t("items.expScroll500.name")}</span>
+                <span>{t("items.expScrollForest.name")}</span>
               </div>
               <div className="tutorial-mini-card">
                 <Icon name="potion" size="md" />
-                <span>{t("items.affectionPotion.name")}</span>
+                <span>{t("items.affectionPotionForest.name")}</span>
               </div>
               <div className="tutorial-mini-card highlight">
                 <Icon name="scroll" size="md" />
-                <span>{t("items.levelDownScroll10.name")}</span>
+                <span>{t("items.levelDownScrollForest.name")}</span>
               </div>
             </div>
 
@@ -5860,6 +6262,67 @@ export function TutorialPanel({ isOpen, onClose }: TutorialPanelProps) {
     </div>
   );
 }
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\adConstants.ts ===== 
+// src/game/adConstants.ts
+import type { AdRewardConfig, AdRewardType } from "../types/ads";
+
+export const AD_REWARDS: Record<string, AdRewardConfig> = {
+  essence_100: {
+    id: "essence_100",
+    titleKey: "ads.reward.essence100.title",
+    descriptionKey: "ads.reward.essence100.desc",
+    icon: "essence",
+    cooldownSeconds: 60, // 1 минута
+  },
+  gems_10000: {
+    id: "gems_10000",
+    titleKey: "ads.reward.gems10000.title",
+    descriptionKey: "ads.reward.gems10000.desc",
+    icon: "gem",
+    cooldownSeconds: 60, // 1 минута
+  },
+  damage_2x: {
+    id: "damage_2x",
+    titleKey: "ads.reward.damage2x.title",
+    descriptionKey: "ads.reward.damage2x.desc",
+    icon: "crit", // или создайте иконку "buff_damage"
+    cooldownSeconds: 360, // 6 минут
+    durationSeconds: 300, // 5 минут действия
+  },
+  drop_2x: {
+    id: "drop_2x",
+    titleKey: "ads.reward.drop2x.title",
+    descriptionKey: "ads.reward.drop2x.desc",
+    icon: "collection", // или "buff_drop"
+    cooldownSeconds: 360, // 6 минут
+    durationSeconds: 300, // 5 минут действия
+  },
+  scroll_forest_40: {
+    id: "scroll_forest_40",
+    titleKey: "ads.reward.scrollForest.title",
+    descriptionKey: "ads.reward.scrollForest.desc",
+    icon: "scroll_forest_down",
+    cooldownSeconds: 60, // 1 минута
+  },
+  scroll_abyss_bundle: {
+    id: "scroll_abyss_bundle",
+    titleKey: "ads.reward.abyssBundle.title",
+    descriptionKey: "ads.reward.abyssBundle.desc",
+    icon: "scroll_abyss_down",
+    cooldownSeconds: 1200, // 20 минут
+  },
+};
+
+export const AD_REWARD_LIST: AdRewardType[] = [
+  "essence_100",
+  "gems_10000",
+  "damage_2x",
+  "drop_2x",
+  "scroll_forest_40",
+  "scroll_abyss_bundle",
+];
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\game\constant.ts ===== 
@@ -7132,7 +7595,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 1,
       essenceMultiplier: 1,
       expMultiplier: 1,
-      dropChanceMultiplier: 1,
     },
   },
   {
@@ -7145,7 +7607,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 1.8,
       essenceMultiplier: 1.4,
       expMultiplier: 1.5,
-      dropChanceMultiplier: 1.2,
     },
   },
   {
@@ -7158,7 +7619,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 2.5,
       essenceMultiplier: 1.8,
       expMultiplier: 1.8,
-      dropChanceMultiplier: 1.4,
     },
   },
   {
@@ -7171,7 +7631,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 3.5,
       essenceMultiplier: 2.2,
       expMultiplier: 2.2,
-      dropChanceMultiplier: 1.6,
     },
   },
   {
@@ -7184,7 +7643,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 4.5,
       essenceMultiplier: 2.8,
       expMultiplier: 2.8,
-      dropChanceMultiplier: 1.8,
     },
   },
   {
@@ -7197,7 +7655,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 7,
       essenceMultiplier: 4,
       expMultiplier: 4,
-      dropChanceMultiplier: 2.5,
     },
   },
 ];
@@ -7228,7 +7685,7 @@ export interface ICollectionBuff {
   descriptionKey: string;
 }
 
-export const COLLECTION_BUFFS: Record<TInventoryItemId, ICollectionBuff> = {
+export const COLLECTION_BUFFS: Partial<Record<TInventoryItemId, ICollectionBuff>> = {
   slime_core: {
     itemId: "slime_core",
     buffType: "enemy_type_damage",
@@ -7456,7 +7913,7 @@ export function useCPS() {
         warningTimeLeft = Math.max(0, WARNING_DURATION - Math.floor(totalMs / 1000));
 
         if (warningTimeLeft <= 0) {
-          resetGame();
+          setTimeout(() => resetGame(), 0);
           window.location.reload();
           return prev;
         }
@@ -7640,51 +8097,66 @@ export function useSaveStatus() {
 import { locales, type Lang } from "./locales";
 
 declare global {
-    interface Window {
-        YaGames?: {
-            init(): Promise<{
-                environment: { i18n: { lang: string } };
-            }>;
+  interface Window {
+    YaGames?: {
+      init(): Promise<{
+        environment: { i18n: { lang: string } };
+        adv: {
+          showFullscreenAdv(params: {
+            callbacks: {
+              onClose?: () => void;
+              onError?: (error: any) => void;
+            };
+          }): void;
+          showRewardedVideo(params: {
+            callbacks: {
+              onRewarded?: () => void;
+              onClose?: () => void;
+              onError?: (error: any) => void;
+            };
+          }): void;
         };
-    }
+      }>;
+    };
+  }
 }
 
 let currentLang: Lang = "ru";
 
 export async function initI18n() {
-    if (window.YaGames) {
-        const ysdk = await window.YaGames.init();
-        const lang = ysdk.environment.i18n.lang as Lang;
-        if (locales[lang]) currentLang = lang;
-    }
+  if (window.YaGames) {
+    const ysdk = await window.YaGames.init();
+    const lang = ysdk.environment.i18n.lang as Lang;
+    if (locales[lang]) currentLang = lang;
+  }
 }
 
 export function t(key: string): string {
-    const keys = key.split(".");
-    let value: any = locales[currentLang];
+  const keys = key.split(".");
+  let value: any = locales[currentLang];
 
+  for (const k of keys) {
+    if (value === undefined) break;
+    value = value[k];
+  }
+
+  if (value === undefined) {
+    value = locales.ru;
     for (const k of keys) {
-        if (value === undefined) break;
-        value = value[k];
+      if (value === undefined) return key;
+      value = value[k];
     }
+  }
 
-    if (value === undefined) {
-        value = locales.ru;
-        for (const k of keys) {
-            if (value === undefined) return key;
-            value = value[k];
-        }
-    }
-
-    return value ?? key;
+  return value ?? key;
 }
 
 export function setLang(lang: Lang) {
-    currentLang = lang;
+  currentLang = lang;
 }
 
 export function getLang(): Lang {
-    return currentLang;
+  return currentLang;
 }
  
  
@@ -7713,6 +8185,8 @@ export const locales = {
       reportMessage: "Ошибка сохранена в консоли. Пожалуйста, отправьте скриншот разработчику.",
     },
     ui: {
+      minutes: "Минут",
+      ads: "Награды",
       next: "Далее",
       skip: "Пропустить",
       quantity: "Количество",
@@ -8226,11 +8700,6 @@ export const locales = {
         desc: "Крыло демона. Редчайший трофей охотника.",
       },
 
-      ironSword: {
-        name: "Железный меч",
-        desc: "Базовое оружие начинающего искателя приключений.",
-      },
-
       forestEssence: {
         name: "Лесная эссенция",
         desc: "Концентрированная жизненная сила леса.",
@@ -8239,18 +8708,12 @@ export const locales = {
         name: "Паучий яд",
         desc: "Смертельный яд из желез гигантского паука.",
       },
-      golemCore: {
-        name: "Ядро голема",
-        desc: "Сердце лесного голема, пульсирующее магической энергией.",
-      },
+
       sandStone: {
         name: "Песчаник",
         desc: "Закалённый пустынным солнцем камень.",
       },
-      scarabShell: {
-        name: "Панцирь скарабея",
-        desc: "Священный панцирь с магическими иероглифами.",
-      },
+
       iceCrystal: {
         name: "Ледяной кристалл",
         desc: "Кристалл вечного льда, не тающий даже в жару.",
@@ -8267,14 +8730,7 @@ export const locales = {
         name: "Пепел импа",
         desc: "Останки огненного демона. Используется в пиромантии.",
       },
-      dragonScale: {
-        name: "Чешуя дракона",
-        desc: "Невероятно прочная чешуя дракона преисподней.",
-      },
-      knightArmor: {
-        name: "Доспех рыцаря",
-        desc: "Тяжёлые доспехи падшего рыцаря.",
-      },
+
       cursedCloth: {
         name: "Проклятая ткань",
         desc: "Ткань, пропитанная тёмной магией.",
@@ -8282,14 +8738,6 @@ export const locales = {
       voidEssence: {
         name: "Эссенция пустоты",
         desc: "Субстанция из пространства между мирами.",
-      },
-      shadowTentacleItem: {
-        name: "Теневое щупальце",
-        desc: "Отрезанное щупальце теневого монстра.",
-      },
-      abyssPearl: {
-        name: "Жемчужина бездны",
-        desc: "Сфера чистой тьмы, образовавшаяся в глубинах.",
       },
 
       affectionPotionForest: { name: "Лесной нектар", desc: "Увеличивает привязанность на {{value}}" },
@@ -8349,7 +8797,7 @@ export const locales = {
       scrollsTitle: "Свитки понижения уровня",
       scrollsDesc:
         "Если враги стали слишком сильными и вы не можете их победить — используйте свитки понижения уровня! Они уменьшают текущий уровень локации, делая врагов слабее.",
-      scrollsHint: "Совет: Свитки можно создать в меню Крафта или получить из сундуков.",
+      scrollsHint: "Совет: Свитки можно создать в меню Крафта.",
       locationBonusTitle: "Бонусы локаций",
       locationBonusDesc:
         "Пустыня дает больше кристаллов, Ледяные пики — эссенции, Вулкан — опыта. Выбирайте локацию в зависимости от того, что вам нужно.",
@@ -8376,20 +8824,20 @@ export const locales = {
       elementUpgradesTitle: "Стихийный урон",
       elementUpgradesDesc:
         "Увеличивает урон вайфу определенной стихии. Если у вас много вайфу огненной стихии — качайте огонь!",
-      upgradeCostTip: "Стоимость улучшений растет с каждым уровнем, но и бонус тоже увеличивается.",
+      upgradeCostTip: "Стоимость улучшений растет с каждым уровнем",
 
       // Craft
       craftTitle: "Крафт и предметы",
       craftingTitle: "Создание предметов",
       craftingDesc:
-        "В меню Крафта можно создавать полезные предметы: свитки опыта (+EXP), зелья привязанности (+бонус к характеристикам) и свитки понижения уровня.",
+        "В меню Крафта можно создавать полезные предметы: свитки опыта, зелья привязанности (+бонус к характеристикам) и свитки понижения уровня.",
       materialsTip: "Материалы выпадают из врагов. Боссы дают больше материалов и редкие предметы.",
 
       // Collection
       collectionTitle: "Коллекция и бестиарий",
       collectionItemsTitle: "Коллекционные предметы",
       collectionItemsDesc:
-        "Враги могут выпадать редкие коллекционные предметы (оружие, аксессуары). Они дают пассивные бонусы ко всему аккаунту.",
+        "C Врагов могут выпадать редкие коллекционные предметы (оружие, аксессуары). Они дают пассивные бонусы ко всему аккаунту.",
       buffsTitle: "Бонусы коллекции",
       buffsDesc:
         "Собранные предметы дают постоянные бонусы: +урон против определенных типов врагов, +сила крита, +кристаллы с врагов.",
@@ -8399,16 +8847,168 @@ export const locales = {
       bestiaryDesc:
         "В разделе Бестиарий отслеживается статистика убитых врагов. Чем больше убиваете — тем больше информации открывается (сопротивления, дроп).",
     },
+    ads: {
+      title: "Награды за рекламу",
+      watch: "Смотреть",
+      loading: "Загрузка",
+      duration: "Длительность",
+      minutes: "мин",
+      hint: "Смотрите рекламу, чтобы получить ценные награды. Каждая награда имеет свое время перезарядки.",
+      reward: {
+        essence100: {
+          title: "100 Эссенции",
+          desc: "Основная валюта для призыва",
+        },
+        gems10000: {
+          title: "10000 Кристаллов",
+          desc: "Для улучшений",
+        },
+        damage2x: {
+          title: "Урон x2",
+          desc: "Удвоенный урон на 5 минут",
+        },
+        drop2x: {
+          title: "Дроп x2",
+          desc: "Удвоенный дроп на 5 минут",
+        },
+        scrollForest: {
+          title: "40 Свитков укрытия",
+          desc: "Понижают уровень леса(-5)",
+        },
+        abyssBundle: {
+          title: "Набор Бездны",
+          desc: "Свиток бездны(80000 опыта) + Настой пустоты(3000 привязанности)",
+        },
+      },
+    },
   },
 } as const;
 
 export type Lang = keyof typeof locales;
  
  
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\AdService.ts ===== 
+// src/services/AdService.ts - полный исправленный файл
+
+import { SDK } from "ysdk";
+import { audioManager } from "../audio/AudioManager";
+
+type AdCallback = (success: boolean) => void;
+
+class AdService {
+  private ysdk: SDK | null = null;
+  private initialized = false;
+
+  async init(): Promise<void> {
+    if (this.initialized) return;
+
+    try {
+      const yaGames = (window as any).YaGames;
+      if (!yaGames || window.self === window.top) {
+        console.log("[AdService] Dev mode");
+        this.initialized = true;
+        return;
+      }
+
+      this.ysdk = await yaGames.init();
+      this.initialized = true;
+
+      // ✅ ДОБАВИТЬ: Сообщаем SDK что игра загружена
+      if (this.ysdk && this.ysdk.features?.LoadingAPI?.ready) {
+        this.ysdk.features.LoadingAPI.ready();
+        console.log("[AdService] LoadingAPI.ready() called");
+      }
+    } catch (error) {
+      console.error("[AdService] Init failed:", error);
+    }
+  }
+  startGameplay(): void {
+    if (this.ysdk?.features?.GameplayAPI?.start) {
+      this.ysdk.features.GameplayAPI.start();
+      console.log("[AdService] Gameplay started");
+    }
+  }
+
+  stopGameplay(): void {
+    if (this.ysdk?.features?.GameplayAPI?.stop) {
+      this.ysdk.features.GameplayAPI.stop();
+      console.log("[AdService] Gameplay stopped");
+    }
+  }
+  showFullscreenAd(onClose?: () => void): void {
+    // Обязательно ставим звук на паузу (требование п. 4.7)
+    audioManager.setMuted(true);
+
+    if (!this.ysdk?.adv) {
+      // Для локальной разработки
+      console.log("[AdService] Dev mode");
+      setTimeout(() => {
+        audioManager.setMuted(false);
+        onClose?.();
+      }, 1000);
+      return;
+    }
+
+    this.ysdk.adv.showFullscreenAdv({
+      callbacks: {
+        onClose: () => {
+          audioManager.setMuted(false); // Возвращаем звук
+          onClose?.();
+        },
+        onError: (error: any) => {
+          audioManager.setMuted(false);
+          console.error("Ad error:", error);
+          onClose?.();
+        },
+      },
+    });
+  }
+
+  showRewardedAd(callback: AdCallback): void {
+    audioManager.setMuted(true);
+    if (!this.ysdk?.adv) {
+      console.log("[AdService] Rewarded ad (dev mode)");
+      audioManager.setMuted(true);
+      callback(true);
+      return;
+    }
+
+    let rewarded = false;
+
+    this.ysdk.adv.showRewardedVideo({
+      callbacks: {
+        onRewarded: () => {
+          console.log("[AdService] User rewarded");
+          audioManager.setMuted(false);
+          rewarded = true;
+        },
+        onClose: () => {
+          console.log("[AdService] Rewarded video closed, rewarded:", rewarded);
+          audioManager.setMuted(false);
+          callback(rewarded);
+        },
+        onError: (error: any) => {
+          console.error("[AdService] Rewarded video error:", error);
+          audioManager.setMuted(false);
+          callback(false);
+        },
+      },
+    });
+  }
+
+  get isAvailable(): boolean {
+    return this.initialized && !!this.ysdk?.adv;
+  }
+}
+
+export const adService = new AdService();
+ 
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\BattleService.ts ===== 
 import type { Waifu } from "../classes/Waifu";
 import type { Enemy } from "../classes/Enemy";
 import type { IGlobalUpgrades } from "../types";
+import { useAdStore } from "../store/adStore";
 
 export interface DamageCalculation {
   base: number;
@@ -8438,8 +9038,8 @@ export const BattleService = {
     } else if (elementMultiplier < 0.7) {
       effectiveness = "resist";
     }
-
-    const base = Math.floor(clickPower * elementMultiplier);
+    const adMultiplier = useAdStore.getState().getDamageMultiplier();
+    const base = Math.floor(clickPower * elementMultiplier * adMultiplier);
 
     return {
       base,
@@ -8455,7 +9055,6 @@ export const BattleService = {
       gemMultiplier: number;
       essenceMultiplier: number;
       expMultiplier: number;
-      dropChanceMultiplier: number;
     },
     globalUpgrades: IGlobalUpgrades,
     currentLevel: number,
@@ -8471,7 +9070,7 @@ export const BattleService = {
     const baseEssence = 1;
     const essence = Math.floor(baseEssence * locationBonus.essenceMultiplier);
 
-    const drops = enemy.rollDrops(locationBonus.dropChanceMultiplier);
+    const drops = enemy.rollDrops();
 
     return { exp, gems, essence, drops };
   },
@@ -8480,6 +9079,169 @@ export const BattleService = {
     return !isPaused && enemyAlive && waifuExists;
   },
 };
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\adStore.ts ===== 
+// src/store/adStore.ts
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import type { AdRewardType, AdCooldownState, ActiveAdBuff } from "../types/ads";
+import { useGameStore } from "./gameStore";
+import { AD_REWARDS } from "../game/adConstants";
+
+interface AdState {
+  // Перезарядки (timestamp когда доступно)
+  cooldowns: AdCooldownState;
+  // Активные баффы
+  activeBuffs: {
+    damage?: ActiveAdBuff;
+    drop?: ActiveAdBuff;
+  };
+}
+
+interface AdActions {
+  // Проверить доступность награды
+  isRewardAvailable: (type: AdRewardType) => boolean;
+  // Получить оставшееся время перезарядки в секундах
+  getCooldownSeconds: (type: AdRewardType) => number;
+  // Применить награду (вызывается после просмотра рекламы)
+  applyReward: (type: AdRewardType) => void;
+  // Проверить и очистить истекшие баффы
+  checkBuffsExpiration: () => void;
+  // Получить текущий множитель урона (1 если нет баффа)
+  getDamageMultiplier: () => number;
+  // Получить текущий множитель дропа (1 если нет баффа)
+  getDropMultiplier: () => number;
+}
+
+export const useAdStore = create<AdState & AdActions>()(
+  persist(
+    (set, get) => ({
+      cooldowns: {},
+      activeBuffs: {},
+
+      isRewardAvailable: (type) => {
+        const now = Date.now();
+        const availableAt = get().cooldowns[type] || 0;
+        return now >= availableAt;
+      },
+
+      getCooldownSeconds: (type) => {
+        const now = Date.now();
+        const availableAt = get().cooldowns[type] || 0;
+        const diff = Math.ceil((availableAt - now) / 1000);
+        return Math.max(0, diff);
+      },
+
+      applyReward: (type) => {
+        const now = Date.now();
+        const config = AD_REWARDS[type];
+        const gameStore = useGameStore.getState();
+
+        if (!config) {
+          console.error(`[AdStore] Unknown reward type: ${type}`);
+          return;
+        }
+        set((state) => ({
+          cooldowns: {
+            ...state.cooldowns,
+            [type]: now + config.cooldownSeconds * 1000,
+          },
+        }));
+
+        // Выдаем награды
+        switch (type) {
+          case "essence_100":
+            gameStore.addItem("essence", 100);
+            break;
+
+          case "gems_10000":
+            gameStore.addItem("gem", 10000);
+            break;
+
+          case "damage_2x":
+            set((state) => ({
+              activeBuffs: {
+                ...state.activeBuffs,
+                damage: {
+                  type: "damage",
+                  multiplier: 2,
+                  expiresAt: now + (config.durationSeconds || 300) * 1000,
+                },
+              },
+            }));
+            break;
+
+          case "drop_2x":
+            set((state) => ({
+              activeBuffs: {
+                ...state.activeBuffs,
+                drop: {
+                  type: "drop",
+                  multiplier: 2,
+                  expiresAt: now + (config.durationSeconds || 300) * 1000,
+                },
+              },
+            }));
+            break;
+
+          case "scroll_forest_40":
+            gameStore.addItem("level_down_scroll_forest", 40);
+            break;
+
+          case "scroll_abyss_bundle":
+            gameStore.addItem("exp_scroll_abyss", 1);
+            gameStore.addItem("affection_potion_abyss", 1);
+            break;
+        }
+      },
+
+      checkBuffsExpiration: () => {
+        const now = Date.now();
+        set((state) => {
+          const newBuffs = { ...state.activeBuffs };
+
+          if (newBuffs.damage && newBuffs.damage.expiresAt <= now) {
+            delete newBuffs.damage;
+          }
+          if (newBuffs.drop && newBuffs.drop.expiresAt <= now) {
+            delete newBuffs.drop;
+          }
+
+          return { activeBuffs: newBuffs };
+        });
+      },
+
+      getDamageMultiplier: () => {
+        const buff = get().activeBuffs.damage;
+        if (!buff) return 1;
+        // Проверяем не истек ли
+        if (buff.expiresAt <= Date.now()) {
+          get().checkBuffsExpiration();
+          return 1;
+        }
+        return buff.multiplier;
+      },
+
+      getDropMultiplier: () => {
+        const buff = get().activeBuffs.drop;
+        if (!buff) return 1;
+        if (buff.expiresAt <= Date.now()) {
+          get().checkBuffsExpiration();
+          return 1;
+        }
+        return buff.multiplier;
+      },
+    }),
+    {
+      name: "harem-clicker-ads-v1",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        cooldowns: state.cooldowns,
+      }),
+    },
+  ),
+);
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store\gameStore.ts ===== 
@@ -8495,6 +9257,8 @@ import {
   LOCATION_UNLOCK_REQUIREMENTS,
   INITIAL_LOCATION_PROGRESS,
   INITIAL_GLOBAL_UPGRADES,
+  COLLECTION_BUFFS,
+  INVENTORY_ITEMS,
 } from "../game/constant";
 import type {
   TLocation,
@@ -8502,8 +9266,10 @@ import type {
   TLocationProgress,
   IGlobalUpgrades,
   TBestiaryProgress,
+  TDropItem,
   TInventoryItemId,
 } from "../types";
+import { useAdStore } from "./adStore";
 
 const createInitialState = (): GameState => ({
   inventory: new Inventory(),
@@ -8526,6 +9292,7 @@ const createInitialState = (): GameState => ({
     locationSelector: false,
     waifuDetail: null,
     bestiary: false,
+    ads: false,
   },
   bestiary: {},
 });
@@ -8534,11 +9301,29 @@ export const useGameStore = create<GameState & GameActions>()(
   persist(
     (set, get) => ({
       ...createInitialState(),
+
       addItem: (itemId: TInventoryItemId, count: number) => {
-        const current = get().inventory.clone();
-        current.addItem(itemId, count);
-        set({ inventory: current });
+        const state = get();
+        const current = state.inventory.clone();
+        const template = INVENTORY_ITEMS[itemId];
+
+        if (template?.type === "collection") {
+          // Проверяем, есть ли уже в коллекции (чтобы не дублировать бафф)
+          const alreadyHas = current.hasCollection(itemId);
+
+          current.addItem(itemId, count);
+          set({ inventory: current });
+
+          // Применяем бафф только при первом получении
+          if (!alreadyHas) {
+            get().applyCollectionBuff(itemId);
+          }
+        } else {
+          current.addItem(itemId, count);
+          set({ inventory: current });
+        }
       },
+
       removeItem: (itemId: string, count: number): boolean => {
         const current = get().inventory.clone();
         const success = current.removeItem(itemId, count);
@@ -8547,6 +9332,7 @@ export const useGameStore = create<GameState & GameActions>()(
         }
         return success;
       },
+
       useItem: (itemId: TInventoryItemId, waifuId?: string) => {
         const current = get().inventory;
         const result = current.useItem(itemId, waifuId);
@@ -8556,10 +9342,12 @@ export const useGameStore = create<GameState & GameActions>()(
         }
         return result;
       },
+
       refreshInventory: () => {
         const current = get().inventory.clone();
         set({ inventory: current });
       },
+
       addWaifu: (waifu: Waifu) => {
         const state = get();
         const existing = state.ownedWaifus.find((w) => w.id === waifu.id);
@@ -8582,9 +9370,11 @@ export const useGameStore = create<GameState & GameActions>()(
           });
         }
       },
+
       setActiveWaifu: (waifuId: string) => {
         set({ activeWaifuId: waifuId });
       },
+
       removeWaifu: (waifuId: string) => {
         set((state) => {
           const newWaifus = state.ownedWaifus.filter((w) => w.id !== waifuId);
@@ -8598,6 +9388,7 @@ export const useGameStore = create<GameState & GameActions>()(
           };
         });
       },
+
       refreshWaifus: () => {
         const state = get();
         const updatedWaifus = state.ownedWaifus.map((w) => {
@@ -8607,16 +9398,20 @@ export const useGameStore = create<GameState & GameActions>()(
         });
         set({ ownedWaifus: updatedWaifus });
       },
+
       spawnEnemy: () => {
         const state = get();
         const level = state.locationProgress[state.currentLocation].currentLevel;
         set({ enemy: Enemy.spawn(level, state.currentLocation) });
       },
+
       dealDamage: (damage: number, isCrit: boolean): number => {
         const state = get();
         const enemy = state.enemy;
         const activeWaifu = state.ownedWaifus.find((w) => w.id === state.activeWaifuId);
-        if (!enemy || !activeWaifu) return 0;
+
+        if (!enemy || !activeWaifu || enemy.currentHp <= 0) return 0;
+
         const enemyTypeDamageBonus = state.globalUpgrades.collectionBuffs.enemyTypeDamage[enemy.nameKey] || 0;
         const actualDamage = enemy.takeDamage(
           {
@@ -8643,6 +9438,7 @@ export const useGameStore = create<GameState & GameActions>()(
 
         return actualDamage;
       },
+
       defeatEnemy: () => {
         const state = get();
         const enemy = state.enemy;
@@ -8670,33 +9466,37 @@ export const useGameStore = create<GameState & GameActions>()(
         const baseEssence = 1;
         const boostedEssence = Math.floor(baseEssence * bonuses.essenceMultiplier);
         state.addItem("essence", Math.max(1, boostedEssence));
-        const baseDrops = enemy.rollDrops(bonuses.dropChanceMultiplier);
+
+        const dropMultiplier = useAdStore.getState().getDropMultiplier();
+        const baseDrops = enemy.rollDrops();
+
         for (const drop of baseDrops) {
-          const boostedCount = Math.floor(drop.count * bonuses.dropChanceMultiplier);
+          const boostedCount = Math.floor(drop.count * dropMultiplier);
           state.addItem(drop.id, Math.max(1, boostedCount));
         }
 
-        set((currentState) => {
-          const newProgress = {
-            ...currentState.locationProgress,
-            [currentState.currentLocation]: {
-              ...currentState.locationProgress[currentState.currentLocation],
-              currentLevel: currentState.locationProgress[currentState.currentLocation].currentLevel + 1,
-              maxLevelReached: Math.max(
-                currentState.locationProgress[currentState.currentLocation].maxLevelReached,
-                currentState.locationProgress[currentState.currentLocation].currentLevel + 1,
-              ),
-            },
-          };
+        const newProgress = {
+          ...state.locationProgress,
+          [state.currentLocation]: {
+            ...state.locationProgress[state.currentLocation],
+            currentLevel: state.locationProgress[state.currentLocation].currentLevel + 1,
+            maxLevelReached: Math.max(
+              state.locationProgress[state.currentLocation].maxLevelReached,
+              state.locationProgress[state.currentLocation].currentLevel + 1,
+            ),
+          },
+        };
 
-          setTimeout(() => {
-            const finalState = get();
-            finalState.checkLocationUnlocks();
-            finalState.spawnEnemy();
-          }, 0);
+        const newEnemy = Enemy.spawn(newProgress[state.currentLocation].currentLevel, state.currentLocation);
 
-          return { locationProgress: newProgress };
+        set({
+          locationProgress: newProgress,
+          enemy: newEnemy,
         });
+
+        setTimeout(() => {
+          get().checkLocationUnlocks();
+        }, 0);
       },
       changeLocation: (location: TLocation) => {
         set({ currentLocation: location });
@@ -8704,9 +9504,11 @@ export const useGameStore = create<GameState & GameActions>()(
           get().spawnEnemy();
         }, 0);
       },
+
       setPaused: (paused: boolean) => {
         set({ isPaused: paused });
       },
+
       checkLocationUnlocks: () => {
         const state = get();
         const newProgress = { ...state.locationProgress };
@@ -8725,21 +9527,25 @@ export const useGameStore = create<GameState & GameActions>()(
           set({ locationProgress: newProgress });
         }
       },
+
       openPanel: (panel: keyof GameState["panels"]) => {
         set((state) => ({
           panels: { ...state.panels, [panel]: true },
         }));
       },
+
       closePanel: (panel: keyof GameState["panels"]) => {
         set((state) => ({
           panels: { ...state.panels, [panel]: false },
         }));
       },
+
       togglePanel: (panel: keyof GameState["panels"]) => {
         set((state) => ({
           panels: { ...state.panels, [panel]: !state.panels[panel] },
         }));
       },
+
       upgradeClickPower: (): boolean => {
         const state = get();
         const currentLevel = state.globalUpgrades.clickPowerBonus;
@@ -8759,6 +9565,7 @@ export const useGameStore = create<GameState & GameActions>()(
         get().refreshWaifus();
         return true;
       },
+
       upgradeElement: (element: TElementType): boolean => {
         const state = get();
         const currentLevel = state.globalUpgrades.elementDamage[element];
@@ -8780,13 +9587,16 @@ export const useGameStore = create<GameState & GameActions>()(
         get().refreshWaifus();
         return true;
       },
+
       resetGame: () => {
         localStorage.removeItem("harem-clicker-save-v2");
         window.location.reload();
       },
+
       loadGame: (_savedState: Partial<GameState>) => {
         console.log("[Store] Load game");
       },
+
       recordEnemyKill: (enemyNameKey: string) => {
         set((state) => {
           const currentEntry = state.bestiary[enemyNameKey];
@@ -8802,9 +9612,122 @@ export const useGameStore = create<GameState & GameActions>()(
           return { bestiary: newBestiary };
         });
       },
+
       getBestiaryEntry: (enemyId: string) => {
         const state = get();
         return state.bestiary[enemyId];
+      },
+
+      // НОВЫЕ МЕТОДЫ ДЛЯ БАФФОВ КОЛЛЕКЦИИ
+      applyCollectionBuff: (itemId: TInventoryItemId) => {
+        const buff = COLLECTION_BUFFS[itemId];
+        if (!buff) return;
+
+        set((state) => {
+          const newGlobalUpgrades = { ...state.globalUpgrades };
+          const newCollectionBuffs = { ...newGlobalUpgrades.collectionBuffs };
+
+          switch (buff.buffType) {
+            case "enemy_type_damage":
+              if (buff.target) {
+                newCollectionBuffs.enemyTypeDamage = {
+                  ...newCollectionBuffs.enemyTypeDamage,
+                  [buff.target]: (newCollectionBuffs.enemyTypeDamage[buff.target] || 0) + buff.value,
+                };
+              }
+              break;
+            case "element_damage":
+              if (buff.target) {
+                newCollectionBuffs.elementDamage = {
+                  ...newCollectionBuffs.elementDamage,
+                  [buff.target as TElementType]:
+                    (newCollectionBuffs.elementDamage[buff.target as TElementType] || 0) + buff.value,
+                };
+              }
+              break;
+            case "crit_power":
+              newCollectionBuffs.critPowerBonus += buff.value;
+              break;
+            case "gem_bonus":
+              newCollectionBuffs.gemBonus += buff.value;
+              break;
+            case "exp_bonus":
+              newCollectionBuffs.expBonus += buff.value;
+              break;
+          }
+
+          newGlobalUpgrades.collectionBuffs = newCollectionBuffs;
+
+          const updatedWaifus = state.ownedWaifus.map((w) => {
+            const newWaifu = w.clone();
+            newWaifu.setGlobalUpgrades(newGlobalUpgrades);
+            return newWaifu;
+          });
+
+          return {
+            globalUpgrades: newGlobalUpgrades,
+            ownedWaifus: updatedWaifus,
+          };
+        });
+      },
+
+      recalculateCollectionBuffs: () => {
+        const state = get();
+        const collection = state.inventory.getCollection();
+
+        const newCollectionBuffs = {
+          elementDamage: { water: 0, fire: 0, earth: 0, ice: 0, light: 0, dark: 0, physical: 0 },
+          enemyTypeDamage: {} as Record<string, number>,
+          critPowerBonus: 0,
+          gemBonus: 0,
+          expBonus: 0,
+        };
+
+        collection.forEach((_, itemId) => {
+          const buff = COLLECTION_BUFFS[itemId as TInventoryItemId];
+          if (buff) {
+            switch (buff.buffType) {
+              case "enemy_type_damage":
+                if (buff.target) {
+                  newCollectionBuffs.enemyTypeDamage[buff.target] =
+                    (newCollectionBuffs.enemyTypeDamage[buff.target] || 0) + buff.value;
+                }
+                break;
+              case "element_damage":
+                if (buff.target) {
+                  newCollectionBuffs.elementDamage[buff.target as TElementType] += buff.value;
+                }
+                break;
+              case "crit_power":
+                newCollectionBuffs.critPowerBonus += buff.value;
+                break;
+              case "gem_bonus":
+                newCollectionBuffs.gemBonus += buff.value;
+                break;
+              case "exp_bonus":
+                newCollectionBuffs.expBonus += buff.value;
+                break;
+            }
+          }
+        });
+
+        set((state) => {
+          const newGlobalUpgrades = {
+            ...state.globalUpgrades,
+            collectionBuffs: newCollectionBuffs,
+          };
+
+          const updatedWaifus = state.ownedWaifus.map((w) => {
+            const newWaifu = w.clone();
+            newWaifu.setGlobalUpgrades(newGlobalUpgrades);
+            return newWaifu;
+          });
+
+          return {
+            globalUpgrades: newGlobalUpgrades,
+            ownedWaifus: updatedWaifus,
+          };
+        });
       },
     }),
     {
@@ -8825,7 +9748,6 @@ export const useGameStore = create<GameState & GameActions>()(
           locationProgress: state.locationProgress,
           globalUpgrades: state.globalUpgrades,
           bestiary: state.bestiary,
-          // Сохраняем текущего врага
           enemy: state.enemy
             ? {
                 id: state.enemy.id,
@@ -8886,7 +9808,6 @@ export const useGameStore = create<GameState & GameActions>()(
           });
         }
 
-        // Восстанавливаем врага из сохранения или создаём нового
         let enemy: Enemy | null = null;
         const savedEnemy = saved.enemy as {
           id: string;
@@ -8897,14 +9818,7 @@ export const useGameStore = create<GameState & GameActions>()(
           sprite: string;
           isBoss: boolean;
           resistances: Record<TElementType, number>;
-          drops: Array<{
-            id: string;
-            nameKey: string;
-            chance: number;
-            minCount: number;
-            maxCount: number;
-            type: "collection" | "consumable" | "material" | "currency";
-          }>;
+          drops: TDropItem[];
         } | null;
 
         if (savedEnemy) {
@@ -8926,7 +9840,6 @@ export const useGameStore = create<GameState & GameActions>()(
           }
         }
 
-        // Если враг не восстановился, создаём нового
         if (!enemy) {
           const savedLocation = (saved.currentLocation as TLocation) ?? currentState.currentLocation;
           const savedProgress = (saved.locationProgress as TLocationProgress) ?? currentState.locationProgress;
@@ -8934,7 +9847,8 @@ export const useGameStore = create<GameState & GameActions>()(
           enemy = Enemy.spawn(level, savedLocation);
         }
 
-        return {
+        // Пересчитываем баффы коллекции при загрузке
+        const finalState = {
           ...currentState,
           inventory,
           ownedWaifus,
@@ -8945,6 +9859,13 @@ export const useGameStore = create<GameState & GameActions>()(
           bestiary: mergedBestiary,
           enemy,
         };
+
+        // Отложенный пересчет баффов после восстановления состояния
+        setTimeout(() => {
+          useGameStore.getState().recalculateCollectionBuffs();
+        }, 0);
+
+        return finalState;
       },
       onRehydrateStorage: () => (_state, _error) => {
         if (_error) {
@@ -8993,6 +9914,7 @@ export interface GameState {
     locationSelector: boolean;
     waifuDetail: string | null;
     bestiary: boolean;
+    ads: boolean;
   };
   bestiary: TBestiaryProgress;
 }
@@ -9021,6 +9943,8 @@ export interface GameActions {
   loadGame: (savedState: Partial<GameState>) => void;
   recordEnemyKill: (enemyNameKey: string) => void;
   getBestiaryEntry: (enemyId: string) => { killCount: number; unlocked: boolean } | undefined;
+  applyCollectionBuff: (itemId: TInventoryItemId) => void;
+  recalculateCollectionBuffs: () => void;
 }
 
 export interface UseItemResult {
@@ -9069,6 +9993,36 @@ export interface PersistedGameState {
   globalUpgrades: IGlobalUpgrades;
   bestiary: TBestiaryProgress;
   enemy: SerializedEnemy | null;
+}
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\ads.ts ===== 
+// src/types/ads.ts
+export type AdRewardType =
+  | "essence_100"
+  | "gems_10000"
+  | "damage_2x"
+  | "drop_2x"
+  | "scroll_forest_40"
+  | "scroll_abyss_bundle";
+
+export interface AdRewardConfig {
+  id: AdRewardType;
+  titleKey: string; // ключ для i18n
+  descriptionKey: string;
+  icon: string;
+  cooldownSeconds: number;
+  durationSeconds?: number; // для временных баффов
+}
+
+export interface AdCooldownState {
+  [key: string]: number; // timestamp когда будет доступно
+}
+
+export interface ActiveAdBuff {
+  type: "damage" | "drop";
+  multiplier: number;
+  expiresAt: number;
 }
  
  

@@ -7,7 +7,6 @@ import "./GachaPanel.css";
 import { DropPoolPanel } from "./DropPoolPanel";
 import { Icon } from "../../../Icon/Icon";
 import { useGameStore } from "../../../../store/gameStore";
-import { audioManager } from "../../../../audio/AudioManager";
 
 interface GachaPanelProps {
   isOpen: boolean;
@@ -105,7 +104,6 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
       setIsAnimating(false);
       removeItem("essence", 10);
       addWaifu(waifu);
-      audioManager.playGacha(waifu.rarity);
       timeoutRef.current = null;
     }, 1000);
   }, [essence, getAvailablePool, ownedWaifus, removeItem, addWaifu]);
@@ -157,7 +155,6 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
 
       newResults.push({ waifu, isDuplicate });
       addWaifu(waifu);
-      audioManager.playGacha(waifu.rarity);
 
       currentIndex++;
       if (currentIndex < 10) {

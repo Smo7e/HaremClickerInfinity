@@ -16,7 +16,6 @@ export interface ILocationConfig {
     gemMultiplier: number;
     essenceMultiplier: number;
     expMultiplier: number;
-    dropChanceMultiplier: number;
   };
 }
 

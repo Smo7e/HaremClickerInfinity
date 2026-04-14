@@ -10,6 +10,8 @@ import {
   LOCATION_UNLOCK_REQUIREMENTS,
   INITIAL_LOCATION_PROGRESS,
   INITIAL_GLOBAL_UPGRADES,
+  COLLECTION_BUFFS,
+  INVENTORY_ITEMS,
 } from "../game/constant";
 import type {
   TLocation,
@@ -17,8 +19,10 @@ import type {
   TLocationProgress,
   IGlobalUpgrades,
   TBestiaryProgress,
+  TDropItem,
   TInventoryItemId,
 } from "../types";
+import { useAdStore } from "./adStore";
 
 const createInitialState = (): GameState => ({
   inventory: new Inventory(),
@@ -41,6 +45,7 @@ const createInitialState = (): GameState => ({
     locationSelector: false,
     waifuDetail: null,
     bestiary: false,
+    ads: false,
   },
   bestiary: {},
 });
@@ -49,11 +54,29 @@ export const useGameStore = create<GameState & GameActions>()(
   persist(
     (set, get) => ({
       ...createInitialState(),
+
       addItem: (itemId: TInventoryItemId, count: number) => {
-        const current = get().inventory.clone();
-        current.addItem(itemId, count);
-        set({ inventory: current });
+        const state = get();
+        const current = state.inventory.clone();
+        const template = INVENTORY_ITEMS[itemId];
+
+        if (template?.type === "collection") {
+          // Проверяем, есть ли уже в коллекции (чтобы не дублировать бафф)
+          const alreadyHas = current.hasCollection(itemId);
+
+          current.addItem(itemId, count);
+          set({ inventory: current });
+
+          // Применяем бафф только при первом получении
+          if (!alreadyHas) {
+            get().applyCollectionBuff(itemId);
+          }
+        } else {
+          current.addItem(itemId, count);
+          set({ inventory: current });
+        }
       },
+
       removeItem: (itemId: string, count: number): boolean => {
         const current = get().inventory.clone();
         const success = current.removeItem(itemId, count);
@@ -62,6 +85,7 @@ export const useGameStore = create<GameState & GameActions>()(
         }
         return success;
       },
+
       useItem: (itemId: TInventoryItemId, waifuId?: string) => {
         const current = get().inventory;
         const result = current.useItem(itemId, waifuId);
@@ -71,10 +95,12 @@ export const useGameStore = create<GameState & GameActions>()(
         }
         return result;
       },
+
       refreshInventory: () => {
         const current = get().inventory.clone();
         set({ inventory: current });
       },
+
       addWaifu: (waifu: Waifu) => {
         const state = get();
         const existing = state.ownedWaifus.find((w) => w.id === waifu.id);
@@ -97,9 +123,11 @@ export const useGameStore = create<GameState & GameActions>()(
           });
         }
       },
+
       setActiveWaifu: (waifuId: string) => {
         set({ activeWaifuId: waifuId });
       },
+
       removeWaifu: (waifuId: string) => {
         set((state) => {
           const newWaifus = state.ownedWaifus.filter((w) => w.id !== waifuId);
@@ -113,6 +141,7 @@ export const useGameStore = create<GameState & GameActions>()(
           };
         });
       },
+
       refreshWaifus: () => {
         const state = get();
         const updatedWaifus = state.ownedWaifus.map((w) => {
@@ -122,16 +151,20 @@ export const useGameStore = create<GameState & GameActions>()(
         });
         set({ ownedWaifus: updatedWaifus });
       },
+
       spawnEnemy: () => {
         const state = get();
         const level = state.locationProgress[state.currentLocation].currentLevel;
         set({ enemy: Enemy.spawn(level, state.currentLocation) });
       },
+
       dealDamage: (damage: number, isCrit: boolean): number => {
         const state = get();
         const enemy = state.enemy;
         const activeWaifu = state.ownedWaifus.find((w) => w.id === state.activeWaifuId);
-        if (!enemy || !activeWaifu) return 0;
+
+        if (!enemy || !activeWaifu || enemy.currentHp <= 0) return 0;
+
         const enemyTypeDamageBonus = state.globalUpgrades.collectionBuffs.enemyTypeDamage[enemy.nameKey] || 0;
         const actualDamage = enemy.takeDamage(
           {
@@ -158,6 +191,7 @@ export const useGameStore = create<GameState & GameActions>()(
 
         return actualDamage;
       },
+
       defeatEnemy: () => {
         const state = get();
         const enemy = state.enemy;
@@ -185,33 +219,37 @@ export const useGameStore = create<GameState & GameActions>()(
         const baseEssence = 1;
         const boostedEssence = Math.floor(baseEssence * bonuses.essenceMultiplier);
         state.addItem("essence", Math.max(1, boostedEssence));
-        const baseDrops = enemy.rollDrops(bonuses.dropChanceMultiplier);
+
+        const dropMultiplier = useAdStore.getState().getDropMultiplier();
+        const baseDrops = enemy.rollDrops();
+
         for (const drop of baseDrops) {
-          const boostedCount = Math.floor(drop.count * bonuses.dropChanceMultiplier);
+          const boostedCount = Math.floor(drop.count * dropMultiplier);
           state.addItem(drop.id, Math.max(1, boostedCount));
         }
 
-        set((currentState) => {
-          const newProgress = {
-            ...currentState.locationProgress,
-            [currentState.currentLocation]: {
-              ...currentState.locationProgress[currentState.currentLocation],
-              currentLevel: currentState.locationProgress[currentState.currentLocation].currentLevel + 1,
-              maxLevelReached: Math.max(
-                currentState.locationProgress[currentState.currentLocation].maxLevelReached,
-                currentState.locationProgress[currentState.currentLocation].currentLevel + 1,
-              ),
-            },
-          };
+        const newProgress = {
+          ...state.locationProgress,
+          [state.currentLocation]: {
+            ...state.locationProgress[state.currentLocation],
+            currentLevel: state.locationProgress[state.currentLocation].currentLevel + 1,
+            maxLevelReached: Math.max(
+              state.locationProgress[state.currentLocation].maxLevelReached,
+              state.locationProgress[state.currentLocation].currentLevel + 1,
+            ),
+          },
+        };
 
-          setTimeout(() => {
-            const finalState = get();
-            finalState.checkLocationUnlocks();
-            finalState.spawnEnemy();
-          }, 0);
+        const newEnemy = Enemy.spawn(newProgress[state.currentLocation].currentLevel, state.currentLocation);
 
-          return { locationProgress: newProgress };
+        set({
+          locationProgress: newProgress,
+          enemy: newEnemy,
         });
+
+        setTimeout(() => {
+          get().checkLocationUnlocks();
+        }, 0);
       },
       changeLocation: (location: TLocation) => {
         set({ currentLocation: location });
@@ -219,9 +257,11 @@ export const useGameStore = create<GameState & GameActions>()(
           get().spawnEnemy();
         }, 0);
       },
+
       setPaused: (paused: boolean) => {
         set({ isPaused: paused });
       },
+
       checkLocationUnlocks: () => {
         const state = get();
         const newProgress = { ...state.locationProgress };
@@ -240,21 +280,25 @@ export const useGameStore = create<GameState & GameActions>()(
           set({ locationProgress: newProgress });
         }
       },
+
       openPanel: (panel: keyof GameState["panels"]) => {
         set((state) => ({
           panels: { ...state.panels, [panel]: true },
         }));
       },
+
       closePanel: (panel: keyof GameState["panels"]) => {
         set((state) => ({
           panels: { ...state.panels, [panel]: false },
         }));
       },
+
       togglePanel: (panel: keyof GameState["panels"]) => {
         set((state) => ({
           panels: { ...state.panels, [panel]: !state.panels[panel] },
         }));
       },
+
       upgradeClickPower: (): boolean => {
         const state = get();
         const currentLevel = state.globalUpgrades.clickPowerBonus;
@@ -274,6 +318,7 @@ export const useGameStore = create<GameState & GameActions>()(
         get().refreshWaifus();
         return true;
       },
+
       upgradeElement: (element: TElementType): boolean => {
         const state = get();
         const currentLevel = state.globalUpgrades.elementDamage[element];
@@ -295,13 +340,16 @@ export const useGameStore = create<GameState & GameActions>()(
         get().refreshWaifus();
         return true;
       },
+
       resetGame: () => {
         localStorage.removeItem("harem-clicker-save-v2");
         window.location.reload();
       },
+
       loadGame: (_savedState: Partial<GameState>) => {
         console.log("[Store] Load game");
       },
+
       recordEnemyKill: (enemyNameKey: string) => {
         set((state) => {
           const currentEntry = state.bestiary[enemyNameKey];
@@ -317,9 +365,122 @@ export const useGameStore = create<GameState & GameActions>()(
           return { bestiary: newBestiary };
         });
       },
+
       getBestiaryEntry: (enemyId: string) => {
         const state = get();
         return state.bestiary[enemyId];
+      },
+
+      // НОВЫЕ МЕТОДЫ ДЛЯ БАФФОВ КОЛЛЕКЦИИ
+      applyCollectionBuff: (itemId: TInventoryItemId) => {
+        const buff = COLLECTION_BUFFS[itemId];
+        if (!buff) return;
+
+        set((state) => {
+          const newGlobalUpgrades = { ...state.globalUpgrades };
+          const newCollectionBuffs = { ...newGlobalUpgrades.collectionBuffs };
+
+          switch (buff.buffType) {
+            case "enemy_type_damage":
+              if (buff.target) {
+                newCollectionBuffs.enemyTypeDamage = {
+                  ...newCollectionBuffs.enemyTypeDamage,
+                  [buff.target]: (newCollectionBuffs.enemyTypeDamage[buff.target] || 0) + buff.value,
+                };
+              }
+              break;
+            case "element_damage":
+              if (buff.target) {
+                newCollectionBuffs.elementDamage = {
+                  ...newCollectionBuffs.elementDamage,
+                  [buff.target as TElementType]:
+                    (newCollectionBuffs.elementDamage[buff.target as TElementType] || 0) + buff.value,
+                };
+              }
+              break;
+            case "crit_power":
+              newCollectionBuffs.critPowerBonus += buff.value;
+              break;
+            case "gem_bonus":
+              newCollectionBuffs.gemBonus += buff.value;
+              break;
+            case "exp_bonus":
+              newCollectionBuffs.expBonus += buff.value;
+              break;
+          }
+
+          newGlobalUpgrades.collectionBuffs = newCollectionBuffs;
+
+          const updatedWaifus = state.ownedWaifus.map((w) => {
+            const newWaifu = w.clone();
+            newWaifu.setGlobalUpgrades(newGlobalUpgrades);
+            return newWaifu;
+          });
+
+          return {
+            globalUpgrades: newGlobalUpgrades,
+            ownedWaifus: updatedWaifus,
+          };
+        });
+      },
+
+      recalculateCollectionBuffs: () => {
+        const state = get();
+        const collection = state.inventory.getCollection();
+
+        const newCollectionBuffs = {
+          elementDamage: { water: 0, fire: 0, earth: 0, ice: 0, light: 0, dark: 0, physical: 0 },
+          enemyTypeDamage: {} as Record<string, number>,
+          critPowerBonus: 0,
+          gemBonus: 0,
+          expBonus: 0,
+        };
+
+        collection.forEach((_, itemId) => {
+          const buff = COLLECTION_BUFFS[itemId as TInventoryItemId];
+          if (buff) {
+            switch (buff.buffType) {
+              case "enemy_type_damage":
+                if (buff.target) {
+                  newCollectionBuffs.enemyTypeDamage[buff.target] =
+                    (newCollectionBuffs.enemyTypeDamage[buff.target] || 0) + buff.value;
+                }
+                break;
+              case "element_damage":
+                if (buff.target) {
+                  newCollectionBuffs.elementDamage[buff.target as TElementType] += buff.value;
+                }
+                break;
+              case "crit_power":
+                newCollectionBuffs.critPowerBonus += buff.value;
+                break;
+              case "gem_bonus":
+                newCollectionBuffs.gemBonus += buff.value;
+                break;
+              case "exp_bonus":
+                newCollectionBuffs.expBonus += buff.value;
+                break;
+            }
+          }
+        });
+
+        set((state) => {
+          const newGlobalUpgrades = {
+            ...state.globalUpgrades,
+            collectionBuffs: newCollectionBuffs,
+          };
+
+          const updatedWaifus = state.ownedWaifus.map((w) => {
+            const newWaifu = w.clone();
+            newWaifu.setGlobalUpgrades(newGlobalUpgrades);
+            return newWaifu;
+          });
+
+          return {
+            globalUpgrades: newGlobalUpgrades,
+            ownedWaifus: updatedWaifus,
+          };
+        });
       },
     }),
     {
@@ -340,7 +501,6 @@ export const useGameStore = create<GameState & GameActions>()(
           locationProgress: state.locationProgress,
           globalUpgrades: state.globalUpgrades,
           bestiary: state.bestiary,
-          // Сохраняем текущего врага
           enemy: state.enemy
             ? {
                 id: state.enemy.id,
@@ -401,7 +561,6 @@ export const useGameStore = create<GameState & GameActions>()(
           });
         }
 
-        // Восстанавливаем врага из сохранения или создаём нового
         let enemy: Enemy | null = null;
         const savedEnemy = saved.enemy as {
           id: string;
@@ -412,14 +571,7 @@ export const useGameStore = create<GameState & GameActions>()(
           sprite: string;
           isBoss: boolean;
           resistances: Record<TElementType, number>;
-          drops: Array<{
-            id: TInventoryItemId;
-            nameKey: string;
-            chance: number;
-            minCount: number;
-            maxCount: number;
-            type: "collection" | "consumable" | "material" | "currency";
-          }>;
+          drops: TDropItem[];
         } | null;
 
         if (savedEnemy) {
@@ -441,7 +593,6 @@ export const useGameStore = create<GameState & GameActions>()(
           }
         }
 
-        // Если враг не восстановился, создаём нового
         if (!enemy) {
           const savedLocation = (saved.currentLocation as TLocation) ?? currentState.currentLocation;
           const savedProgress = (saved.locationProgress as TLocationProgress) ?? currentState.locationProgress;
@@ -449,7 +600,8 @@ export const useGameStore = create<GameState & GameActions>()(
           enemy = Enemy.spawn(level, savedLocation);
         }
 
-        return {
+        // Пересчитываем баффы коллекции при загрузке
+        const finalState = {
           ...currentState,
           inventory,
           ownedWaifus,
@@ -460,6 +612,13 @@ export const useGameStore = create<GameState & GameActions>()(
           bestiary: mergedBestiary,
           enemy,
         };
+
+        // Отложенный пересчет баффов после восстановления состояния
+        setTimeout(() => {
+          useGameStore.getState().recalculateCollectionBuffs();
+        }, 0);
+
+        return finalState;
       },
       onRehydrateStorage: () => (_state, _error) => {
         if (_error) {

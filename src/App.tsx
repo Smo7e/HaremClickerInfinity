@@ -8,6 +8,8 @@ import { getLang, setLang } from "./locales/i18n";
 import { audioManager } from "./audio/AudioManager";
 import { useAutoSave } from "./hooks/useSave";
 import { useGameStore } from "./store/gameStore";
+import { adService } from "./services/AdService";
+import { SDK } from "ysdk";
 
 export type TScreen = "menu" | "game";
 
@@ -23,6 +25,7 @@ function AppContent() {
   const hasRehydrated = useGameStore.persist.hasHydrated();
 
   const initAudio = useCallback(async () => {
+    await adService.init();
     if (!audioInitialized) {
       await audioManager.init();
       audioManager.setMusicVolume(0);
@@ -87,7 +90,7 @@ function AppContent() {
 
     try {
       //@ts-ignore
-      const ysdk = window.YaGames.ysdk;
+      const ysdk: SDK = window.YaGames.ysdk;
 
       const handlePause = () => {
         setIsPaused(true);
@@ -132,7 +135,10 @@ function AppContent() {
             setScreen("game");
             audioManager.playMusic();
           }}
-          onSettings={() => setIsSettings(true)}
+          onSettings={() => {
+            setIsSettings(true);
+            audioManager.playSFX("panel_click");
+          }}
           onLanguageChange={handleLanguageChange}
         />
       ) : (

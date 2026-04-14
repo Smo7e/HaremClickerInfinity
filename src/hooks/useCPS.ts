@@ -59,7 +59,7 @@ export function useCPS() {
         warningTimeLeft = Math.max(0, WARNING_DURATION - Math.floor(totalMs / 1000));
 
         if (warningTimeLeft <= 0) {
-          resetGame();
+          setTimeout(() => resetGame(), 0);
           window.location.reload();
           return prev;
         }

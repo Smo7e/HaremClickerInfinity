@@ -1,6 +1,4 @@
-import type { TRarity } from "../types";
-
-type SFXType = "click" | "enemy_defeat" | "gacha_summon" | "gacha_rare" | "gacha_mythic" | "panel_click";
+type SFXType = "click" | "enemy_defeat" | "panel_click";
 
 interface AudioConfig {
   musicVolume: number;
@@ -27,10 +25,6 @@ class AudioManager {
     click: "/assets/audio/click.mp3",
     enemy_defeat: "/assets/audio/enemy_defeat.mp3",
     panel_click: "/assets/audio/panel_click.mp3",
-
-    gacha_summon: "/assets/audio/gacha_summon.wav",
-    gacha_rare: "/assets/audio/gacha_rare.wav",
-    gacha_mythic: "/assets/audio/gacha_mythic.wav",
   };
 
   private constructor() {}
@@ -148,16 +142,6 @@ class AudioManager {
 
   playEnemyDefeat(): void {
     this.playSFX("enemy_defeat");
-  }
-
-  playGacha(rarity: TRarity): void {
-    if (rarity === "mythic") {
-      this.playSFX("gacha_mythic");
-    } else if (rarity === "legendary" || rarity === "epic") {
-      this.playSFX("gacha_rare");
-    } else {
-      this.playSFX("gacha_summon");
-    }
   }
 
   setMusicVolume(volume: number): void {

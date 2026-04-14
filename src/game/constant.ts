@@ -1267,7 +1267,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 1,
       essenceMultiplier: 1,
       expMultiplier: 1,
-      dropChanceMultiplier: 1,
     },
   },
   {
@@ -1280,7 +1279,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 1.8,
       essenceMultiplier: 1.4,
       expMultiplier: 1.5,
-      dropChanceMultiplier: 1.2,
     },
   },
   {
@@ -1293,7 +1291,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 2.5,
       essenceMultiplier: 1.8,
       expMultiplier: 1.8,
-      dropChanceMultiplier: 1.4,
     },
   },
   {
@@ -1306,7 +1303,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 3.5,
       essenceMultiplier: 2.2,
       expMultiplier: 2.2,
-      dropChanceMultiplier: 1.6,
     },
   },
   {
@@ -1319,7 +1315,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 4.5,
       essenceMultiplier: 2.8,
       expMultiplier: 2.8,
-      dropChanceMultiplier: 1.8,
     },
   },
   {
@@ -1332,7 +1327,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 7,
       essenceMultiplier: 4,
       expMultiplier: 4,
-      dropChanceMultiplier: 2.5,
     },
   },
 ];

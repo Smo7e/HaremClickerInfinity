@@ -9,7 +9,7 @@ import "./CraftPanel.css";
 export type TCraftableItem = TInventoryItem & {
   canCraft: true;
   ingredients: Array<{
-    itemId: string;
+    itemId: TInventoryItemId;
     count: number;
   }>;
 };
@@ -239,7 +239,7 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
                         </span>
                         <span className="use-item-count">x{item.count}</span>
                         <p className="use-item-desc">
-                          {t(`items.${item.nameKey}.desc`) +
+                          {t(`items.${item.nameKey}.desc`).replace("{{value}}", `${item.effect?.value}`) +
                             (item.effect?.type === "level_down" ? ` (${currentLevel.toString()})` : "")}
                         </p>
                       </div>
@@ -262,9 +262,16 @@ export function CraftPanel({ isOpen, onClose, onCraft, onUseItem, selectedWaifuI
           <div className="craft-modal-overlay" onClick={() => setSelectedCraftItem(null)}>
             <div className="craft-modal" onClick={(e) => e.stopPropagation()}>
               <h3 style={{ color: RARITY_COLORS[selectedCraftItem.rarity] }}>
-                {t(`items.${selectedCraftItem.nameKey}.name`)}
+                {t(`items.${selectedCraftItem.nameKey}.name`).replace(
+                  "{{value}}",
+                  `${selectedCraftItem.effect?.value})`,
+                )}
               </h3>
-              <p>{t(selectedCraftItem.descriptionKey).replace("{{level}}", currentLevel.toString())}</p>
+              <p>
+                {t(selectedCraftItem.descriptionKey)
+                  .replace("{{level}}", currentLevel.toString())
+                  .replace("{{value}}", `${selectedCraftItem.effect?.value}`)}
+              </p>
 
               <div className="craft-quantity-selector">
                 <label>{t("ui.quantity") || "Количество"}:</label>

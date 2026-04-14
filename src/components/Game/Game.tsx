@@ -1,4 +1,4 @@
-import { useCallback, memo } from "react";
+import { useCallback, memo, useEffect } from "react";
 import { useShallow } from "zustand/shallow";
 import { t } from "../../locales/i18n";
 import { useGameStore } from "../../store/gameStore";
@@ -22,6 +22,9 @@ import { CraftPanel, TCraftableItem } from "./components/CraftPanel/CraftPanel";
 import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
 import { useCPS } from "../../hooks/useCPS";
 import { TInventoryItemId } from "../../types";
+import { audioManager } from "../../audio/AudioManager";
+import { AdPanel } from "./components/AdPanel/AdPanel";
+import { adService } from "../../services/AdService";
 
 interface Props {
   onBack: () => void;
@@ -53,6 +56,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   const openPanel = useGameStore((state) => state.openPanel);
   const changeLocation = useGameStore((state) => state.changeLocation);
   const dealDamage = useGameStore((state) => state.dealDamage);
+  const setPaused = useGameStore((state) => state.setPaused);
 
   const { handleClick, currentLevel, locationConfig } = useBattle();
   const { cps, isWarning, recordClick } = useCPS();
@@ -68,6 +72,9 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     },
     [handleClick],
   );
+  useEffect(() => {
+    setPaused(panels.pause);
+  }, [panels.pause, setPaused]);
 
   const handleLocationChange = useCallback(
     (location: typeof currentLocation) => {
@@ -81,7 +88,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     (itemId: TInventoryItemId) => {
       const item = inventory.getItem(itemId);
       if (!item || !item.effect) return;
-      // Используем универсальный тип level_down
       if (item.effect.type === "level_down") {
         const levelsToReduce = item.effect.value;
         const newLevel = Math.max(1, locationProgress[currentLocation].currentLevel - levelsToReduce);
@@ -142,6 +148,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   }, [closePanel, openPanel]);
 
   const handlePauseMenu = useCallback(() => {
+    adService.showFullscreenAd();
     closePanel("pause");
     onBack();
   }, [closePanel, onBack]);
@@ -179,6 +186,16 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
 
       <header className="game-header">
         <div className="currency-display">
+          <button
+            className="side-btn"
+            onClick={() => {
+              openPanel("ads");
+              audioManager.playSFX("panel_click");
+            }}
+          >
+            <Icon name="play" size="lg" />
+            <span>{t("ui.ads")}</span>
+          </button>
           <div className="currency-item">
             <Icon name="gem" size="md" />
             <span className="currency-value">{Math.floor(gems)}</span>
@@ -200,12 +217,26 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
       </header>
 
       <nav className="game-sidebar">
-        <button className="side-btn" onClick={() => openPanel("locationSelector")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("locationSelector");
+            audioManager.playSFX("panel_click");
+            adService.showFullscreenAd();
+          }}
+        >
           <Icon name={currentLocation} size="lg" />
           <span>{t("ui.location")}</span>
           <span className="side-badge">{currentLevel}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("gacha")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("gacha");
+            adService.showFullscreenAd();
+            audioManager.playSFX("panel_click");
+          }}
+        >
           <Icon name="gacha" size="lg" />
           <span>{t("ui.gacha")}</span>
           <span className="side-btn-cost">
@@ -213,28 +244,66 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
             <Icon name="essence" size="vsm" />
           </span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("collection")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("collection");
+            audioManager.playSFX("panel_click");
+            adService.showFullscreenAd();
+          }}
+        >
           <Icon name="collection" size="lg" />
           <span>{t("ui.collection")}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("waifuSelect")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("waifuSelect");
+            audioManager.playSFX("panel_click");
+          }}
+        >
           <Icon name="waifus" size="lg" />
           <span>{t("ui.waifus")}</span>
           <span className="side-badge">{ownedWaifus.length}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("upgrades")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("upgrades");
+            audioManager.playSFX("panel_click");
+          }}
+        >
           <Icon name="upgrades" size="lg" />
           <span>{t("ui.upgrades")}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("backpack")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("backpack");
+            audioManager.playSFX("panel_click");
+          }}
+        >
           <Icon name="backpack" size="lg" />
           <span>{t("ui.backpack")}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("craft")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("craft");
+            audioManager.playSFX("panel_click");
+          }}
+        >
           <Icon name="craft" size="lg" />
           <span>{t("ui.craft")}</span>
         </button>
-        <button className="side-btn" onClick={() => openPanel("bestiary")}>
+        <button
+          className="side-btn"
+          onClick={() => {
+            openPanel("bestiary");
+            audioManager.playSFX("panel_click");
+            adService.showFullscreenAd();
+          }}
+        >
           <Icon name="book" size="lg" />
           <span>{t("ui.bestiary")}</span>
         </button>
@@ -249,7 +318,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
             enemy={enemy}
             activeWaifu={activeWaifu}
             isPaused={isGlobalPaused || isPaused}
-            dropChanceMultiplier={locationConfig?.bonuses.dropChanceMultiplier ?? 1}
             onClick={handleEnemyClick}
           />
         </div>
@@ -312,7 +380,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
       />
 
       <BestiaryPanel isOpen={panels.bestiary} onClose={() => closePanel("bestiary")} />
-
+      <AdPanel isOpen={panels.ads} onClose={() => closePanel("ads")} />
       <CheatMenu
         onSetGems={(amount) => {
           const current = inventory.getItemCount("gem");
