@@ -155,21 +155,6 @@ export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPa
           )}
 
           <section className="settings-section">
-            <div className="section-icon">✉</div>
-            <div className="section-content">
-              <h3>{t("ui.support")}</h3>
-              <a
-                href="mailto:support@haremclicker.com"
-                className="support-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                support@haremclicker.com
-              </a>
-            </div>
-          </section>
-
-          <section className="settings-section">
             <div className="section-icon">ℹ</div>
             <div className="section-content">
               <h3>{t("ui.about")}</h3>

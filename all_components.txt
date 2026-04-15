@@ -678,7 +678,6 @@ export interface ILocationConfig {
     gemMultiplier: number;
     essenceMultiplier: number;
     expMultiplier: number;
-    dropChanceMultiplier: number;
   };
 }
 
@@ -840,6 +839,7 @@ interface ImportMeta {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\App.tsx ===== 
+// src/App.tsx
 import { useState, useEffect, useCallback } from "react";
 import { MainMenu } from "./components/MainMenu/MainMenu";
 import { Settings } from "./components/Settings/Settings";
@@ -851,7 +851,6 @@ import { audioManager } from "./audio/AudioManager";
 import { useAutoSave } from "./hooks/useSave";
 import { useGameStore } from "./store/gameStore";
 import { adService } from "./services/AdService";
-import { SDK } from "ysdk";
 
 export type TScreen = "menu" | "game";
 
@@ -863,10 +862,11 @@ function AppContent() {
   const [audioInitialized, setAudioInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { loadGame } = useAutoSave();
+  const { loadGame, migrateSaveToCloud } = useAutoSave();
   const hasRehydrated = useGameStore.persist.hasHydrated();
 
   const initAudio = useCallback(async () => {
+    // Инициализация SDK и аудио
     await adService.init();
     if (!audioInitialized) {
       await audioManager.init();
@@ -885,11 +885,15 @@ function AppContent() {
     setIsPaused((prev) => !prev);
   }, []);
 
+  // Загрузка игры при старте
   useEffect(() => {
     const init = async () => {
       try {
-        await useGameStore.persist.rehydrate();
-        const hasSave = loadGame();
+        // Ждем инициализации аудио и SDK
+        await initAudio();
+
+        // Пробуем загрузить сохранение (из облака или LS)
+        const hasSave = await loadGame();
         if (hasSave) {
           console.log("[App] Save loaded successfully");
         }
@@ -899,26 +903,27 @@ function AppContent() {
         setIsLoading(false);
       }
     };
-
     init();
-    initAudio().catch(console.error);
   }, [loadGame, initAudio]);
 
+  // Обработка видимости страницы
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
         setIsPaused(true);
         audioManager.pauseMusic();
+        adService.stopGameplay();
       } else {
         setIsPaused(false);
         audioManager.playMusic();
+        adService.startGameplay();
       }
     };
-
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
 
+  // Обработка событий Яндекс.Игр (пауза при сворачивании)
   useEffect(() => {
     const isYaGamesAvailable = () => {
       try {
@@ -932,13 +937,11 @@ function AppContent() {
 
     try {
       //@ts-ignore
-      const ysdk: SDK = window.YaGames.ysdk;
-
+      const ysdk = window.YaGames.ysdk;
       const handlePause = () => {
         setIsPaused(true);
         audioManager.setMuted(true);
       };
-
       const handleResume = () => {
         setIsPaused(false);
         audioManager.setMuted(false);
@@ -948,7 +951,6 @@ function AppContent() {
         ysdk.on("game_api_pause", handlePause);
         ysdk.on("game_api_resume", handleResume);
       }
-
       return () => {
         if (ysdk?.off) {
           ysdk.off("game_api_pause", handlePause);
@@ -982,6 +984,17 @@ function AppContent() {
             audioManager.playSFX("panel_click");
           }}
           onLanguageChange={handleLanguageChange}
+          // Передаем функцию для миграции и обновления UI
+          onAuthorize={async () => {
+            const success = await adService.authorize();
+            if (success) {
+              // Если авторизация прошла успешно, мигрируем сейв
+              await migrateSaveToCloud();
+              // Можно показать уведомление "Прогресс сохранен в облако"
+              alert("Вы вошли! Ваш прогресс теперь синхронизируется с облаком.");
+            }
+          }}
+          isAuthorized={adService.getIsAuthorized()}
         />
       ) : (
         <Game onBack={() => setScreen("menu")} isPaused={isPaused} />
@@ -1052,7 +1065,24 @@ class AudioManager {
     panel_click: "/assets/audio/panel_click.mp3",
   };
 
-  private constructor() {}
+  private constructor() {
+    if (typeof window !== "undefined") {
+      const resumeAudio = () => {
+        if (this.audioContext && this.audioContext.state === "suspended") {
+          this.audioContext.resume().then(() => {
+            console.log("[AudioManager] AudioContext resumed");
+          });
+        }
+      };
+
+      const events = ["touchstart", "touchend", "mousedown", "keydown"];
+      const handler = () => {
+        resumeAudio();
+        events.forEach((e) => document.removeEventListener(e, handler));
+      };
+      events.forEach((e) => document.addEventListener(e, handler, { once: true }));
+    }
+  }
 
   static getInstance(): AudioManager {
     if (!AudioManager.instance) {
@@ -1064,12 +1094,17 @@ class AudioManager {
   async init(): Promise<void> {
     if (this.isInitialized) return;
     try {
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      // Создаем AudioContext с учетом префиксов для Safari
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      this.audioContext = new AudioContextClass();
 
       this.music = new Audio(this.MUSIC_PATH);
       this.music.loop = true;
       this.music.volume = this.config.musicVolume;
       this.music.preload = "auto";
+
+      this.music.setAttribute("playsinline", "true");
+      this.music.setAttribute("webkit-playsinline", "true");
 
       await this.preloadSFX();
 
@@ -1086,6 +1121,8 @@ class AudioManager {
         const audio = new Audio(path);
         audio.preload = "auto";
         audio.volume = this.config.sfxVolume;
+        audio.setAttribute("playsinline", "true");
+        audio.setAttribute("webkit-playsinline", "true");
 
         audio.addEventListener(
           "canplaythrough",
@@ -1109,6 +1146,11 @@ class AudioManager {
   playMusic(): void {
     if (!this.isInitialized || !this.music) return;
     if (this.config.isMuted || !this.config.isMusicEnabled) return;
+
+    // Резюмируем AudioContext если нужно (iOS требование)
+    if (this.audioContext?.state === "suspended") {
+      this.audioContext.resume();
+    }
 
     if (this.music.paused) {
       const playPromise = this.music.play();
@@ -1305,15 +1347,16 @@ export class Enemy {
     return "normal";
   }
 
-  rollDrops(bonusMultiplier: number = 1): Array<{ id: TInventoryItemId; count: number }> {
+  rollDrops(quantityMultiplier: number = 1): Array<{ id: TInventoryItemId; count: number }> {
     const results: Array<{ id: TInventoryItemId; count: number }> = [];
 
     for (const drop of this.drops) {
       const roll = Math.random();
-      const adjustedChance = Math.min(1, drop.chance * bonusMultiplier);
-      if (roll <= adjustedChance) {
-        const count = Math.floor(Math.random() * (drop.maxCount - drop.minCount + 1)) + drop.minCount;
-        results.push({ id: drop.id, count });
+      if (roll <= drop.chance) {
+        const count = Math.floor(
+          (Math.random() * (drop.maxCount - drop.minCount + 1) + drop.minCount) * quantityMultiplier,
+        );
+        results.push({ id: drop.id, count: Math.max(1, count) });
       }
     }
 
@@ -1960,6 +2003,7 @@ import { useCPS } from "../../hooks/useCPS";
 import { TInventoryItemId } from "../../types";
 import { audioManager } from "../../audio/AudioManager";
 import { AdPanel } from "./components/AdPanel/AdPanel";
+import { adService } from "../../services/AdService";
 
 interface Props {
   onBack: () => void;
@@ -2057,6 +2101,42 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     },
     [inventory, currentLocation, locationProgress, activeWaifu, removeItem, useItem, refreshWaifus],
   );
+  useEffect(() => {
+    if (!isPaused) {
+      adService.startGameplay();
+    } else {
+      adService.stopGameplay();
+    }
+  }, [isPaused]);
+  useEffect(() => {
+    // Предотвращает масштабирование двойным тапом на iOS/Android
+    let lastTouchEnd = 0;
+    const handleTouchEnd = (e: TouchEvent) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    };
+    document.addEventListener("touchend", handleTouchEnd, { passive: false });
+
+    // Предотвращает жест "pull-to-refresh" на мобильных
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches[0] && e.touches[0].clientY > 0) {
+        // Разрешаем скролл только внутри панелей
+        const target = e.target as HTMLElement;
+        if (!target.closest(".panel-scroll-content") && !target.closest(".tutorial-scroll-content")) {
+          e.preventDefault();
+        }
+      }
+    };
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      document.removeEventListener("touchend", handleTouchEnd);
+      document.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, []);
 
   const handleCraft = useCallback(
     (item: TCraftableItem, quantity: number = 1) => {
@@ -2083,6 +2163,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   }, [closePanel, openPanel]);
 
   const handlePauseMenu = useCallback(() => {
+    adService.showFullscreenAd();
     closePanel("pause");
     onBack();
   }, [closePanel, onBack]);
@@ -2156,6 +2237,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
           onClick={() => {
             openPanel("locationSelector");
             audioManager.playSFX("panel_click");
+            adService.showFullscreenAd();
           }}
         >
           <Icon name={currentLocation} size="lg" />
@@ -2166,6 +2248,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
           className="side-btn"
           onClick={() => {
             openPanel("gacha");
+            adService.showFullscreenAd();
             audioManager.playSFX("panel_click");
           }}
         >
@@ -2181,6 +2264,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
           onClick={() => {
             openPanel("collection");
             audioManager.playSFX("panel_click");
+            adService.showFullscreenAd();
           }}
         >
           <Icon name="collection" size="lg" />
@@ -2232,6 +2316,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
           onClick={() => {
             openPanel("bestiary");
             audioManager.playSFX("panel_click");
+            adService.showFullscreenAd();
           }}
         >
           <Icon name="book" size="lg" />
@@ -2248,7 +2333,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
             enemy={enemy}
             activeWaifu={activeWaifu}
             isPaused={isGlobalPaused || isPaused}
-            dropChanceMultiplier={locationConfig?.bonuses.dropChanceMultiplier ?? 1}
             onClick={handleEnemyClick}
           />
         </div>
@@ -3919,13 +4003,14 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import type { Waifu } from "../../../../classes/Waifu";
 import type { Enemy } from "../../../../classes/Enemy";
 import "./EnemyComponent.css";
-import { ELEMENT_COLORS, ELEMENT_KEYS, INVENTORY_ITEMS } from "../../../../game/constant";
+import { ELEMENT_COLORS, INVENTORY_ITEMS } from "../../../../game/constant";
 import type { TElementType, TInventoryItemId } from "../../../../types";
 import { audioManager } from "../../../../audio/AudioManager";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
 import { BattleService } from "../../../../services/BattleService";
 import { useGameStore } from "../../../../store/gameStore";
+import { useAdStore } from "../../../../store/adStore";
 
 interface DropEffect {
   id: number;
@@ -3949,7 +4034,6 @@ interface EnemyComponentProps {
   enemy: Enemy;
   activeWaifu: Waifu | null;
   isPaused: boolean;
-  dropChanceMultiplier?: number;
   onClick?: (e: React.MouseEvent | React.TouchEvent) => void;
 }
 
@@ -3957,13 +4041,7 @@ const clickIdRef = { current: 0 };
 let dropIdCounter = 0;
 const AUTO_ATTACK_INTERVAL = 1000;
 
-export function EnemyComponent({
-  enemy,
-  activeWaifu,
-  isPaused,
-  dropChanceMultiplier = 1,
-  onClick,
-}: EnemyComponentProps) {
+export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyComponentProps) {
   const [clickEffects, setClickEffects] = useState<ClickEffect[]>([]);
   const [dropEffects, setDropEffects] = useState<DropEffect[]>([]);
   const [hpPercent, setHpPercent] = useState(() => enemy.getHpPercent());
@@ -3973,14 +4051,17 @@ export function EnemyComponent({
   const autoAttackIntervalRef = useRef<number | null>(null);
   const enemyContainerRef = useRef<HTMLDivElement>(null);
   const touchHandledRef = useRef(false);
+  const isProcessingKill = useRef(false);
 
   const globalUpgrades = useGameStore((state) => state.globalUpgrades);
   const dealDamage = useGameStore((state) => state.dealDamage);
+  const lastDrops = useGameStore((state) => state.lastDrops);
 
   useEffect(() => {
     enemyRef.current = enemy;
     setHpPercent(enemy.getHpPercent());
     setCurrentHp(enemy.currentHp);
+    isProcessingKill.current = false;
   }, [enemy]);
 
   useEffect(() => {
@@ -4018,11 +4099,33 @@ export function EnemyComponent({
     },
     [],
   );
+  const handleEnemyDeath = useCallback(() => {
+    if (isProcessingKill.current) return;
+    isProcessingKill.current = true;
+
+    audioManager.playEnemyDefeat();
+  }, []);
+
+  useEffect(() => {
+    if (lastDrops && lastDrops.length > 0) {
+      lastDrops.forEach((drop, index) => {
+        const x = window.innerWidth / 2 + (Math.random() - 0.5) * 100;
+        const y = window.innerHeight / 2 + (Math.random() - 0.5) * 50;
+
+        setTimeout(() => {
+          addDropEffect(drop.id, drop.count, x, y);
+        }, index * 200);
+      });
+
+      setTimeout(() => {
+        useGameStore.setState({ lastDrops: null });
+      }, 2000);
+    }
+  }, [lastDrops, addDropEffect]);
 
   const performAttack = useCallback(
     (isAuto: boolean = false) => {
       if (!enemy || !activeWaifu) return;
-
       if (!enemy.isAlive()) return;
 
       const calculation = BattleService.calculateDamage(activeWaifu, enemy);
@@ -4041,17 +4144,11 @@ export function EnemyComponent({
       addClickEffect(x, y, actualDamage, calculation.isCrit, activeWaifu.element, calculation.effectiveness);
 
       const newHp = enemy.currentHp - actualDamage;
-      if (newHp <= 0) {
-        audioManager.playEnemyDefeat();
-        const drops = enemy.rollDrops(dropChanceMultiplier);
-        drops.forEach((drop, index) => {
-          setTimeout(() => {
-            addDropEffect(drop.id, drop.count, x + (Math.random() - 0.5) * 100, y + (Math.random() - 0.5) * 50);
-          }, index * 200);
-        });
+      if (newHp <= 0 && !isProcessingKill.current) {
+        handleEnemyDeath();
       }
     },
-    [enemy, activeWaifu, globalUpgrades, dealDamage, dropChanceMultiplier, addClickEffect, addDropEffect],
+    [enemy, activeWaifu, globalUpgrades, dealDamage, addClickEffect, handleEnemyDeath],
   );
 
   useEffect(() => {
@@ -4087,7 +4184,6 @@ export function EnemyComponent({
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
       if (isPaused || !activeWaifu) return;
-
       if (!enemy.isAlive()) return;
 
       e.preventDefault();
@@ -4113,29 +4209,23 @@ export function EnemyComponent({
       const elementMultiplier = activeWaifu.getElementMultiplier(enemy.resistances);
       const isCrit = Math.random() < activeWaifu.getCritChance();
       const critMultiplier = isCrit ? activeWaifu.getCritMultiplier() : 1;
+      const adMultiplier = useAdStore.getState().getDamageMultiplier();
 
-      const finalDamage = Math.floor(clickPower * elementMultiplier * critMultiplier);
+      const finalDamage = Math.floor(clickPower * elementMultiplier * critMultiplier * adMultiplier);
 
       const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
       addClickEffect(clientX, clientY, finalDamage, isCrit, activeWaifu.element, effectiveness);
 
-      const newHp = enemy.currentHp - finalDamage;
-      if (newHp <= 0) {
-        audioManager.playEnemyDefeat();
-        const drops = enemy.rollDrops(dropChanceMultiplier);
-        drops.forEach((drop, index) => {
-          setTimeout(() => {
-            addDropEffect(
-              drop.id,
-              drop.count,
-              clientX + (Math.random() - 0.5) * 100,
-              clientY + (Math.random() - 0.5) * 50,
-            );
-          }, index * 200);
-        });
+      // Наносим урон
+      const actualDamage = dealDamage(finalDamage, isCrit);
+
+      // Проверяем смерть
+      const newHp = enemy.currentHp - actualDamage;
+      if (newHp <= 0 && !isProcessingKill.current) {
+        handleEnemyDeath();
       }
     },
-    [isPaused, activeWaifu, enemy, dropChanceMultiplier, onClick, addClickEffect, addDropEffect],
+    [isPaused, activeWaifu, enemy, onClick, addClickEffect, handleEnemyDeath, dealDamage],
   );
 
   const getResistanceTooltip = (value: number): string => {
@@ -4180,7 +4270,7 @@ export function EnemyComponent({
               title={getResistanceTooltip(value)}
             >
               <Icon name={element} size="md" />
-              {t(`ui.${ELEMENT_KEYS[element as TElementType]}`)}
+              {value > 0 ? "▼" : "▲"}
             </span>
           ))}
       </div>
@@ -5644,6 +5734,7 @@ export function LanguageSelector({
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\MainMenu\MainMenu.tsx ===== 
+// src/components/MainMenu/MainMenu.tsx
 import { useState } from "react";
 import { t } from "../../locales/i18n";
 import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
@@ -5651,14 +5742,17 @@ import type { Lang } from "../../locales/locales";
 import "./MainMenu.css";
 import { TutorialPanel } from "../TutorialPanel/TutorialPanel";
 import { audioManager } from "../../audio/AudioManager";
+import { Icon } from "../Icon/Icon";
 
 interface Props {
   onPlay: () => void;
   onSettings: () => void;
   onLanguageChange?: (lang: Lang) => void;
+  onAuthorize?: () => void;
+  isAuthorized?: boolean;
 }
 
-export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
+export function MainMenu({ onPlay, onSettings, onLanguageChange, onAuthorize, isAuthorized }: Props) {
   const [isTutorialOpen, setIsTutorialOpen] = useState(false);
 
   return (
@@ -5666,7 +5760,6 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
       <div className="main-menu-header">
         <LanguageSelector variant="icon" onLanguageChange={onLanguageChange} className="main-menu-lang" />
       </div>
-
       <div className="main-menu-content">
         <h1 className="game-title">
           <span className="title-accent">{t("title.accent")}</span>
@@ -5674,7 +5767,31 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange }: Props) {
           <span className="title-sub">{t("title.sub")}</span>
         </h1>
 
+        {/* ВСЕ кнопки теперь внутри одного контейнера */}
         <div className="menu-buttons">
+          {/* Кнопка авторизации - теперь внутри menu-buttons для центрирования */}
+          {!isAuthorized && onAuthorize && (
+            <div className="auth-section">
+              <button
+                className="btn-secondary btn-auth"
+                onClick={() => {
+                  onAuthorize();
+                  audioManager.playSFX("panel_click");
+                }}
+              >
+                <Icon name="settings" size="sm" />
+                {t("ui.login")}
+              </button>
+              <p className="auth-hint">{t("ui.loginHint")}</p>
+            </div>
+          )}
+
+          {isAuthorized && (
+            <div className="auth-section">
+              <span className="status-badge">✅ {t("ui.loggedin")}</span>
+            </div>
+          )}
+
           <button className="btn-primary btn-play" onClick={onPlay}>
             <span className="btn-icon">▶</span>
             {t("ui.play")}
@@ -5864,21 +5981,6 @@ export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPa
               </div>
             </section>
           )}
-
-          <section className="settings-section">
-            <div className="section-icon">✉</div>
-            <div className="section-content">
-              <h3>{t("ui.support")}</h3>
-              <a
-                href="mailto:support@haremclicker.com"
-                className="support-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                support@haremclicker.com
-              </a>
-            </div>
-          </section>
 
           <section className="settings-section">
             <div className="section-icon">ℹ</div>
@@ -7584,7 +7686,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 1,
       essenceMultiplier: 1,
       expMultiplier: 1,
-      dropChanceMultiplier: 1,
     },
   },
   {
@@ -7597,7 +7698,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 1.8,
       essenceMultiplier: 1.4,
       expMultiplier: 1.5,
-      dropChanceMultiplier: 1.2,
     },
   },
   {
@@ -7610,7 +7710,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 2.5,
       essenceMultiplier: 1.8,
       expMultiplier: 1.8,
-      dropChanceMultiplier: 1.4,
     },
   },
   {
@@ -7623,7 +7722,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 3.5,
       essenceMultiplier: 2.2,
       expMultiplier: 2.2,
-      dropChanceMultiplier: 1.6,
     },
   },
   {
@@ -7636,7 +7734,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 4.5,
       essenceMultiplier: 2.8,
       expMultiplier: 2.8,
-      dropChanceMultiplier: 1.8,
     },
   },
   {
@@ -7649,7 +7746,6 @@ export const LOCATIONS: ILocationConfig[] = [
       gemMultiplier: 7,
       essenceMultiplier: 4,
       expMultiplier: 4,
-      dropChanceMultiplier: 2.5,
     },
   },
 ];
@@ -7949,34 +8045,99 @@ export function useCPS() {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useSave.ts ===== 
+// src/hooks/useSave.ts
 import { useEffect, useCallback, useRef } from "react";
 import { useGameStore } from "../store/gameStore";
+import { adService } from "../services/AdService";
 
 const SAVE_KEY = "harem-clicker-save-v2";
 const BACKUP_KEY = "harem-clicker-backup-v2";
-const AUTO_SAVE_INTERVAL = 30000;
+const CLOUD_SAVE_KEY = "cloud_save_v1"; // Ключ для Яндекс.Облака
 
 export function useAutoSave() {
   const saveTimeoutRef = useRef<number | null>(null);
+  const isSavingRef = useRef(false);
 
-  const saveGame = useCallback(() => {
+  // Основная функция сохранения
+  const saveGame = useCallback(async () => {
+    if (isSavingRef.current) return;
+    isSavingRef.current = true;
+
     try {
-      useGameStore.persist.rehydrate();
-      console.log("[useSave] Game saved via persist");
+      // Zustand persist делает это автоматически, но нам нужно получить данные для облака
+      // Просто берем из localStorage, так как persist уже записал туда актуальное состояние
+      const localData = localStorage.getItem(SAVE_KEY);
+
+      if (!localData) {
+        isSavingRef.current = false;
+        return;
+      }
+
+      // 1. Сохраняем в LocalStorage (как бэкап и для скорости)
+      localStorage.setItem(SAVE_KEY, localData);
+      localStorage.setItem("harem-clicker-last-save", JSON.stringify({ timestamp: Date.now() }));
+
+      // 2. Если авторизованы, сохраняем в Облако
+      if (adService.getIsAuthorized()) {
+        await adService.setData({ [CLOUD_SAVE_KEY]: localData });
+        console.log("[useSave] Saved to Cloud");
+      } else {
+        console.log("[useSave] Saved to LocalStorage only (not authorized)");
+      }
     } catch (error) {
       console.error("[useSave] Save failed:", error);
+    } finally {
+      isSavingRef.current = false;
     }
   }, []);
 
-  const loadGame = useCallback(() => {
+  // Функция загрузки
+  const loadGame = useCallback(async (): Promise<boolean> => {
     try {
-      const saved = localStorage.getItem(SAVE_KEY);
-      const hasSave = saved !== null;
-      console.log("[useSave] Save check:", hasSave ? "found" : "not found");
-      return hasSave;
+      // 1. Пробуем загрузить из Облака, если авторизованы
+      if (adService.getIsAuthorized()) {
+        const cloudData = await adService.getData([CLOUD_SAVE_KEY]);
+        if (cloudData && cloudData[CLOUD_SAVE_KEY]) {
+          console.log("[useSave] Loaded from Cloud");
+          localStorage.setItem(SAVE_KEY, cloudData[CLOUD_SAVE_KEY]);
+          // Триггерим реайдрацию стора
+          await useGameStore.persist.rehydrate();
+          return true;
+        }
+      }
+
+      // 2. Если не авторизованы или в облаке пусто, грузим из LocalStorage
+      const localData = localStorage.getItem(SAVE_KEY);
+      if (localData) {
+        console.log("[useSave] Loaded from LocalStorage");
+        await useGameStore.persist.rehydrate();
+        return true;
+      }
+
+      return false;
     } catch (error) {
       console.error("[useSave] Load check failed:", error);
       return false;
+    }
+  }, []);
+
+  // Функция миграции: вызывается при успешной авторизации, если в LocalStorage есть сейв, а в Облаке нет
+  const migrateSaveToCloud = useCallback(async () => {
+    const localData = localStorage.getItem(SAVE_KEY);
+    if (!localData) return;
+
+    console.log("[useSave] Migrating save to Cloud...");
+    try {
+      // Проверяем, нет ли уже данных в облаке (чтобы не перезаписать более новый сейв, если пользователь зашел с другого устройства)
+      const cloudData = await adService.getData([CLOUD_SAVE_KEY]);
+      if (!cloudData || !cloudData[CLOUD_SAVE_KEY]) {
+        await adService.setData({ [CLOUD_SAVE_KEY]: localData });
+        console.log("[useSave] Migration successful");
+      } else {
+        console.log("[useSave] Cloud save already exists, skipping migration");
+      }
+    } catch (err) {
+      console.error("[useSave] Migration failed", err);
     }
   }, []);
 
@@ -7985,7 +8146,6 @@ export function useAutoSave() {
       const current = localStorage.getItem(SAVE_KEY);
       if (current) {
         localStorage.setItem(BACKUP_KEY, current);
-        console.log("[useSave] Backup created");
       }
     } catch (error) {
       console.error("[useSave] Backup failed:", error);
@@ -7996,38 +8156,19 @@ export function useAutoSave() {
     localStorage.removeItem(SAVE_KEY);
     localStorage.removeItem(BACKUP_KEY);
     localStorage.removeItem("harem-clicker-last-save");
+    // Если авторизован, чистим и облако
+    if (adService.getIsAuthorized()) {
+      adService.setData({ [CLOUD_SAVE_KEY]: null });
+    }
     window.location.reload();
-  }, []);
-
-  const exportSave = useCallback((): string | null => {
-    try {
-      const saved = localStorage.getItem(SAVE_KEY);
-      return saved ? btoa(saved) : null;
-    } catch {
-      return null;
-    }
-  }, []);
-
-  const importSave = useCallback((encoded: string): boolean => {
-    try {
-      const decoded = atob(encoded);
-      JSON.parse(decoded);
-      localStorage.setItem(SAVE_KEY, decoded);
-      return true;
-    } catch {
-      return false;
-    }
   }, []);
 
   useEffect(() => {
     saveTimeoutRef.current = window.setInterval(() => {
       saveGame();
-    }, AUTO_SAVE_INTERVAL);
-
+    }, 30000); // Автосохранение каждые 30 сек
     return () => {
-      if (saveTimeoutRef.current) {
-        clearInterval(saveTimeoutRef.current);
-      }
+      if (saveTimeoutRef.current) clearInterval(saveTimeoutRef.current);
     };
   }, [saveGame]);
 
@@ -8035,24 +8176,20 @@ export function useAutoSave() {
     const handleBeforeUnload = () => {
       saveGame();
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [saveGame]);
 
   return {
     saveGame,
     loadGame,
+    migrateSaveToCloud,
     createBackup,
     resetGame,
-    exportSave,
-    importSave,
   };
 }
 
+// ✅ ДОБАВИТЬ: Экспорт хука статуса, который отсутствовал
 export function useSaveStatus() {
   const getLastSaveTime = useCallback(() => {
     try {
@@ -8180,6 +8317,9 @@ export const locales = {
       reportMessage: "Ошибка сохранена в консоли. Пожалуйста, отправьте скриншот разработчику.",
     },
     ui: {
+      login: "Войти",
+      loginHint: "Войдите, чтобы сохранять прогресс в облаке и играть с разных устройств!",
+      loggedin: "Вы вошли",
       minutes: "Минут",
       ads: "Награды",
       next: "Далее",
@@ -8883,102 +9023,185 @@ export type Lang = keyof typeof locales;
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\AdService.ts ===== 
-// src/services/AdService.ts - полный исправленный файл
-
-import { SDK } from "ysdk";
+// src/services/AdService.ts
+import { SDK, Player } from "ysdk";
 import { audioManager } from "../audio/AudioManager";
 
 type AdCallback = (success: boolean) => void;
 
 class AdService {
   private ysdk: SDK | null = null;
+  private player: Player | null = null;
   private initialized = false;
+  private isAuthorized = false;
+  private lastFullscreenAdTime: number = 0;
+  private readonly MIN_AD_INTERVAL = 30000;
 
   async init(): Promise<void> {
     if (this.initialized) return;
-
     try {
       const yaGames = (window as any).YaGames;
       if (!yaGames || window.self === window.top) {
-        console.log("[AdService] Dev mode");
+        console.log("[AdService] Dev mode or not in iframe");
         this.initialized = true;
         return;
       }
 
       this.ysdk = await yaGames.init();
-      this.initialized = true;
 
-      // ✅ ДОБАВИТЬ: Сообщаем SDK что игра загружена
-      if (this.ysdk && this.ysdk.features?.LoadingAPI?.ready) {
+      if (!this.ysdk) {
+        console.log("[AdService] yaGames.init() error");
+        return;
+      }
+
+      if (this.ysdk.features?.LoadingAPI?.ready) {
         this.ysdk.features.LoadingAPI.ready();
         console.log("[AdService] LoadingAPI.ready() called");
       }
+
+      try {
+        this.player = await this.ysdk.getPlayer();
+        this.isAuthorized = true;
+        console.log("[AdService] Player authorized:", this.player.getName());
+      } catch (err) {
+        console.log("[AdService] Player not authorized yet");
+        this.isAuthorized = false;
+      }
+
+      this.initialized = true;
     } catch (error) {
       console.error("[AdService] Init failed:", error);
     }
   }
+
+  // Метод для проверки авторизации
+  getIsAuthorized(): boolean {
+    return this.isAuthorized;
+  }
+
+  // Метод для показа окна авторизации
+  async authorize(): Promise<boolean> {
+    if (!this.ysdk) return false;
+    try {
+      // Если уже авторизован, возвращаем true
+      if (this.isAuthorized) return true;
+
+      // Показываем окно авторизации
+      // ✅ ИСПРАВЛЕНИЕ: openAuthDialog может возвращать void или Player.
+      // Обрабатываем оба случая.
+      const result: any = await this.ysdk.auth.openAuthDialog();
+
+      if (result && typeof result === "object") {
+        this.player = result as Player;
+        this.isAuthorized = true;
+        console.log("[AdService] User authorized successfully");
+        return true;
+      }
+
+      return false;
+    } catch (err) {
+      console.error("[AdService] Auth failed", err);
+      return false;
+    }
+  }
+
+  // Получение данных из облака Яндекса
+  async getData(keys: string[]): Promise<any> {
+    if (!this.player || !this.isAuthorized) return null;
+    try {
+      const data = await this.player.getData(keys);
+      return data;
+    } catch (err) {
+      console.error("[AdService] Get data failed", err);
+      return null;
+    }
+  }
+
+  // Сохранение данных в облако Яндекса
+  async setData(data: any): Promise<void> {
+    if (!this.player || !this.isAuthorized) {
+      console.warn("[AdService] Cannot save to cloud: not authorized");
+      return;
+    }
+    try {
+      await this.player.setData(data);
+      console.log("[AdService] Data saved to cloud");
+    } catch (err) {
+      console.error("[AdService] Set data failed", err);
+    }
+  }
+
   startGameplay(): void {
     if (this.ysdk?.features?.GameplayAPI?.start) {
       this.ysdk.features.GameplayAPI.start();
-      console.log("[AdService] Gameplay started");
     }
   }
 
   stopGameplay(): void {
     if (this.ysdk?.features?.GameplayAPI?.stop) {
       this.ysdk.features.GameplayAPI.stop();
-      console.log("[AdService] Gameplay stopped");
     }
   }
-  showFullscreenAd(onClose?: () => void): void {
-    // Обязательно ставим звук на паузу (требование п. 4.7)
+
+  showFullscreenAd(onClose?: (wasShown: boolean) => void): void {
+    const now = Date.now();
+
+    // Проверяем, прошло ли 30 секунд с последнего показа
+    if (now - this.lastFullscreenAdTime < this.MIN_AD_INTERVAL) {
+      console.log("[AdService] Fullscreen ad skipped: too soon");
+      onClose?.(false); // Вызываем callback с false (реклама не показана)
+      return;
+    }
+
     audioManager.setMuted(true);
 
     if (!this.ysdk?.adv) {
-      // Для локальной разработки
+      // Dev режим - показываем фейковую рекламу с задержкой
       setTimeout(() => {
         audioManager.setMuted(false);
-        onClose?.();
+        onClose?.(true);
       }, 1000);
       return;
     }
 
+    // Обновляем время последнего показа
+    this.lastFullscreenAdTime = now;
+
     this.ysdk.adv.showFullscreenAdv({
       callbacks: {
-        onClose: () => {
-          audioManager.setMuted(false); // Возвращаем звук
-          onClose?.();
-        },
-        onError: (error: any) => {
+        onClose: (wasShown: boolean) => {
           audioManager.setMuted(false);
-          console.error("Ad error:", error);
-          onClose?.();
+          onClose?.(wasShown);
+          // Сбрасываем таймер при успешном показе
+          this.lastFullscreenAdTime = Date.now();
+        },
+        onError: () => {
+          audioManager.setMuted(false);
+          onClose?.(false);
         },
       },
     });
   }
 
   showRewardedAd(callback: AdCallback): void {
+    audioManager.setMuted(true);
     if (!this.ysdk?.adv) {
-      console.log("[AdService] Rewarded ad (dev mode)");
-      callback(true);
+      audioManager.setMuted(false);
+      callback(true); // В дев режиме всегда успех
       return;
     }
-
     let rewarded = false;
-
     this.ysdk.adv.showRewardedVideo({
       callbacks: {
         onRewarded: () => {
-          console.log("[AdService] User rewarded");
           rewarded = true;
         },
         onClose: () => {
-          console.log("[AdService] Rewarded video closed, rewarded:", rewarded);
+          audioManager.setMuted(false);
           callback(rewarded);
         },
-        onError: (error: any) => {
-          console.error("[AdService] Rewarded video error:", error);
+        onError: () => {
+          audioManager.setMuted(false);
           callback(false);
         },
       },
@@ -9044,7 +9267,6 @@ export const BattleService = {
       gemMultiplier: number;
       essenceMultiplier: number;
       expMultiplier: number;
-      dropChanceMultiplier: number;
     },
     globalUpgrades: IGlobalUpgrades,
     currentLevel: number,
@@ -9060,7 +9282,7 @@ export const BattleService = {
     const baseEssence = 1;
     const essence = Math.floor(baseEssence * locationBonus.essenceMultiplier);
 
-    const drops = enemy.rollDrops(locationBonus.dropChanceMultiplier);
+    const drops = enemy.rollDrops();
 
     return { exp, gems, essence, drops };
   },
@@ -9285,6 +9507,7 @@ const createInitialState = (): GameState => ({
     ads: false,
   },
   bestiary: {},
+  lastDrops: null,
 });
 
 export const useGameStore = create<GameState & GameActions>()(
@@ -9456,36 +9679,42 @@ export const useGameStore = create<GameState & GameActions>()(
         const baseEssence = 1;
         const boostedEssence = Math.floor(baseEssence * bonuses.essenceMultiplier);
         state.addItem("essence", Math.max(1, boostedEssence));
+
         const dropMultiplier = useAdStore.getState().getDropMultiplier();
-        const baseDrops = enemy.rollDrops(bonuses.dropChanceMultiplier * dropMultiplier);
+        const baseDrops = enemy.rollDrops();
+        const finalDrops: Array<{ id: string; count: number }> = [];
+
         for (const drop of baseDrops) {
-          const boostedCount = Math.floor(drop.count * bonuses.dropChanceMultiplier * dropMultiplier);
-          state.addItem(drop.id, Math.max(1, boostedCount));
+          const boostedCount = Math.floor(drop.count * dropMultiplier);
+          const countToAdd = Math.max(1, boostedCount);
+          state.addItem(drop.id, countToAdd);
+          finalDrops.push({ id: drop.id, count: countToAdd });
         }
 
-        set((currentState) => {
-          const newProgress = {
-            ...currentState.locationProgress,
-            [currentState.currentLocation]: {
-              ...currentState.locationProgress[currentState.currentLocation],
-              currentLevel: currentState.locationProgress[currentState.currentLocation].currentLevel + 1,
-              maxLevelReached: Math.max(
-                currentState.locationProgress[currentState.currentLocation].maxLevelReached,
-                currentState.locationProgress[currentState.currentLocation].currentLevel + 1,
-              ),
-            },
-          };
+        const newProgress = {
+          ...state.locationProgress,
+          [state.currentLocation]: {
+            ...state.locationProgress[state.currentLocation],
+            currentLevel: state.locationProgress[state.currentLocation].currentLevel + 1,
+            maxLevelReached: Math.max(
+              state.locationProgress[state.currentLocation].maxLevelReached,
+              state.locationProgress[state.currentLocation].currentLevel + 1,
+            ),
+          },
+        };
 
-          setTimeout(() => {
-            const finalState = get();
-            finalState.checkLocationUnlocks();
-            finalState.spawnEnemy();
-          }, 0);
+        const newEnemy = Enemy.spawn(newProgress[state.currentLocation].currentLevel, state.currentLocation);
 
-          return { locationProgress: newProgress };
+        set({
+          locationProgress: newProgress,
+          enemy: newEnemy,
+          lastDrops: finalDrops,
         });
-      },
 
+        setTimeout(() => {
+          get().checkLocationUnlocks();
+        }, 0);
+      },
       changeLocation: (location: TLocation) => {
         set({ currentLocation: location });
         setTimeout(() => {
@@ -9905,6 +10134,7 @@ export interface GameState {
     ads: boolean;
   };
   bestiary: TBestiaryProgress;
+  lastDrops: Array<{ id: string; count: number }> | null;
 }
 
 export interface GameActions {
@@ -10290,6 +10520,84 @@ button {
   object-fit: contain;
   /* Убран тяжелый filter */
   /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)); */
+}
+
+/* ===== Базовые кроссплатформенные стили ===== */
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent; /* Убирает синюю подсветку на мобильных */
+  touch-action: manipulation; /* Оптимизация для тач-взаимодействий */
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Предотвращает скролл на мобильных */
+  position: fixed; /* Фиксация для iOS Safari */
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #1a1a2e;
+  color: #fff;
+  /* Предотвращает "отскок" на iOS */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===== Адаптация для iPhone с челкой (notch) ===== */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .game-header {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .main-menu {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ===== Размеры шрифтов для разных экранов ===== */
+@media (max-width: 360px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 361px) and (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 769px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* ===== Предотвращение двойного тапа на мобильных ===== */
+@media (pointer: coarse) {
+  button,
+  .clickable {
+    min-height: 44px; /* Минимальный размер для тач-целей Apple */
+    min-width: 44px;
+  }
+}
+
+/* ===== Курсор для десктопа ===== */
+@media (pointer: fine) {
+  button,
+  .clickable {
+    cursor: pointer;
+  }
+
+  button:hover {
+    opacity: 0.9;
+  }
 }
  
  
@@ -12717,6 +13025,19 @@ button {
     height: 16px;
   }
 }
+.enemy-sprite-container {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+@media (pointer: coarse) {
+  .enemy-sprite-container {
+    min-height: 120px;
+    min-width: 120px;
+  }
+}
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\GachaPanel\DropPoolPanel.css ===== 
@@ -15078,6 +15399,7 @@ button {
   font-weight: 900;
   background: linear-gradient(45deg, #ff6b6b, #feca57);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
 }
@@ -15107,6 +15429,47 @@ button {
   .title-main {
     font-size: 48px;
   }
+}
+
+/* Добавить/обновить в MainMenu.css */
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Центрирование по горизонтали */
+  gap: 12px;
+  width: 100%;
+  max-width: 300px; /* Ограничение ширины для лучшего вида */
+  margin: 0 auto; /* Центрирование контейнера */
+}
+
+.auth-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.btn-auth {
+  width: 100%;
+  justify-content: center;
+}
+
+.auth-hint {
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  margin-top: 4px;
+  max-width: 280px;
+}
+
+.status-badge {
+  padding: 8px 16px;
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border-radius: 4px;
+  font-size: 14px;
 }
  
  

@@ -303,3 +303,16 @@
     height: 16px;
   }
 }
+.enemy-sprite-container {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+@media (pointer: coarse) {
+  .enemy-sprite-container {
+    min-height: 120px;
+    min-width: 120px;
+  }
+}

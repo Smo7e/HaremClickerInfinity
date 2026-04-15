@@ -35,6 +35,7 @@ export interface GameState {
     ads: boolean;
   };
   bestiary: TBestiaryProgress;
+  lastDrops: Array<{ id: string; count: number }> | null;
 }
 
 export interface GameActions {

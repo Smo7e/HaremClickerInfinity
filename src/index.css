@@ -271,3 +271,81 @@ button {
   /* Убран тяжелый filter */
   /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)); */
 }
+
+/* ===== Базовые кроссплатформенные стили ===== */
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent; /* Убирает синюю подсветку на мобильных */
+  touch-action: manipulation; /* Оптимизация для тач-взаимодействий */
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Предотвращает скролл на мобильных */
+  position: fixed; /* Фиксация для iOS Safari */
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #1a1a2e;
+  color: #fff;
+  /* Предотвращает "отскок" на iOS */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===== Адаптация для iPhone с челкой (notch) ===== */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .game-header {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .main-menu {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ===== Размеры шрифтов для разных экранов ===== */
+@media (max-width: 360px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 361px) and (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 769px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* ===== Предотвращение двойного тапа на мобильных ===== */
+@media (pointer: coarse) {
+  button,
+  .clickable {
+    min-height: 44px; /* Минимальный размер для тач-целей Apple */
+    min-width: 44px;
+  }
+}
+
+/* ===== Курсор для десктопа ===== */
+@media (pointer: fine) {
+  button,
+  .clickable {
+    cursor: pointer;
+  }
+
+  button:hover {
+    opacity: 0.9;
+  }
+}

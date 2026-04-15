@@ -48,6 +48,7 @@ const createInitialState = (): GameState => ({
     ads: false,
   },
   bestiary: {},
+  lastDrops: null,
 });
 
 export const useGameStore = create<GameState & GameActions>()(
@@ -222,10 +223,13 @@ export const useGameStore = create<GameState & GameActions>()(
 
         const dropMultiplier = useAdStore.getState().getDropMultiplier();
         const baseDrops = enemy.rollDrops();
+        const finalDrops: Array<{ id: string; count: number }> = [];
 
         for (const drop of baseDrops) {
           const boostedCount = Math.floor(drop.count * dropMultiplier);
-          state.addItem(drop.id, Math.max(1, boostedCount));
+          const countToAdd = Math.max(1, boostedCount);
+          state.addItem(drop.id, countToAdd);
+          finalDrops.push({ id: drop.id, count: countToAdd });
         }
 
         const newProgress = {
@@ -245,6 +249,7 @@ export const useGameStore = create<GameState & GameActions>()(
         set({
           locationProgress: newProgress,
           enemy: newEnemy,
+          lastDrops: finalDrops,
         });
 
         setTimeout(() => {

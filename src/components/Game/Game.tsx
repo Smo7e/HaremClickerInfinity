@@ -122,6 +122,42 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     },
     [inventory, currentLocation, locationProgress, activeWaifu, removeItem, useItem, refreshWaifus],
   );
+  useEffect(() => {
+    if (!isPaused) {
+      adService.startGameplay();
+    } else {
+      adService.stopGameplay();
+    }
+  }, [isPaused]);
+  useEffect(() => {
+    // Предотвращает масштабирование двойным тапом на iOS/Android
+    let lastTouchEnd = 0;
+    const handleTouchEnd = (e: TouchEvent) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    };
+    document.addEventListener("touchend", handleTouchEnd, { passive: false });
+
+    // Предотвращает жест "pull-to-refresh" на мобильных
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches[0] && e.touches[0].clientY > 0) {
+        // Разрешаем скролл только внутри панелей
+        const target = e.target as HTMLElement;
+        if (!target.closest(".panel-scroll-content") && !target.closest(".tutorial-scroll-content")) {
+          e.preventDefault();
+        }
+      }
+    };
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      document.removeEventListener("touchend", handleTouchEnd);
+      document.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, []);
 
   const handleCraft = useCallback(
     (item: TCraftableItem, quantity: number = 1) => {

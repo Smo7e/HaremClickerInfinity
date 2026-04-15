@@ -27,7 +27,24 @@ class AudioManager {
     panel_click: "/assets/audio/panel_click.mp3",
   };
 
-  private constructor() {}
+  private constructor() {
+    if (typeof window !== "undefined") {
+      const resumeAudio = () => {
+        if (this.audioContext && this.audioContext.state === "suspended") {
+          this.audioContext.resume().then(() => {
+            console.log("[AudioManager] AudioContext resumed");
+          });
+        }
+      };
+
+      const events = ["touchstart", "touchend", "mousedown", "keydown"];
+      const handler = () => {
+        resumeAudio();
+        events.forEach((e) => document.removeEventListener(e, handler));
+      };
+      events.forEach((e) => document.addEventListener(e, handler, { once: true }));
+    }
+  }
 
   static getInstance(): AudioManager {
     if (!AudioManager.instance) {
@@ -39,12 +56,17 @@ class AudioManager {
   async init(): Promise<void> {
     if (this.isInitialized) return;
     try {
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      // Создаем AudioContext с учетом префиксов для Safari
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      this.audioContext = new AudioContextClass();
 
       this.music = new Audio(this.MUSIC_PATH);
       this.music.loop = true;
       this.music.volume = this.config.musicVolume;
       this.music.preload = "auto";
+
+      this.music.setAttribute("playsinline", "true");
+      this.music.setAttribute("webkit-playsinline", "true");
 
       await this.preloadSFX();
 
@@ -61,6 +83,8 @@ class AudioManager {
         const audio = new Audio(path);
         audio.preload = "auto";
         audio.volume = this.config.sfxVolume;
+        audio.setAttribute("playsinline", "true");
+        audio.setAttribute("webkit-playsinline", "true");
 
         audio.addEventListener(
           "canplaythrough",
@@ -84,6 +108,11 @@ class AudioManager {
   playMusic(): void {
     if (!this.isInitialized || !this.music) return;
     if (this.config.isMuted || !this.config.isMusicEnabled) return;
+
+    // Резюмируем AudioContext если нужно (iOS требование)
+    if (this.audioContext?.state === "suspended") {
+      this.audioContext.resume();
+    }
 
     if (this.music.paused) {
       const playPromise = this.music.play();

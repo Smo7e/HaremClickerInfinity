@@ -1,3 +1,4 @@
+// src/App.tsx
 import { useState, useEffect, useCallback } from "react";
 import { MainMenu } from "./components/MainMenu/MainMenu";
 import { Settings } from "./components/Settings/Settings";
@@ -9,7 +10,6 @@ import { audioManager } from "./audio/AudioManager";
 import { useAutoSave } from "./hooks/useSave";
 import { useGameStore } from "./store/gameStore";
 import { adService } from "./services/AdService";
-import { SDK } from "ysdk";
 
 export type TScreen = "menu" | "game";
 
@@ -21,10 +21,11 @@ function AppContent() {
   const [audioInitialized, setAudioInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { loadGame } = useAutoSave();
+  const { loadGame, migrateSaveToCloud } = useAutoSave();
   const hasRehydrated = useGameStore.persist.hasHydrated();
 
   const initAudio = useCallback(async () => {
+    // Инициализация SDK и аудио
     await adService.init();
     if (!audioInitialized) {
       await audioManager.init();
@@ -43,11 +44,15 @@ function AppContent() {
     setIsPaused((prev) => !prev);
   }, []);
 
+  // Загрузка игры при старте
   useEffect(() => {
     const init = async () => {
       try {
-        await useGameStore.persist.rehydrate();
-        const hasSave = loadGame();
+        // Ждем инициализации аудио и SDK
+        await initAudio();
+
+        // Пробуем загрузить сохранение (из облака или LS)
+        const hasSave = await loadGame();
         if (hasSave) {
           console.log("[App] Save loaded successfully");
         }
@@ -57,26 +62,27 @@ function AppContent() {
         setIsLoading(false);
       }
     };
-
     init();
-    initAudio().catch(console.error);
   }, [loadGame, initAudio]);
 
+  // Обработка видимости страницы
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
         setIsPaused(true);
         audioManager.pauseMusic();
+        adService.stopGameplay();
       } else {
         setIsPaused(false);
         audioManager.playMusic();
+        adService.startGameplay();
       }
     };
-
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
 
+  // Обработка событий Яндекс.Игр (пауза при сворачивании)
   useEffect(() => {
     const isYaGamesAvailable = () => {
       try {
@@ -90,13 +96,11 @@ function AppContent() {
 
     try {
       //@ts-ignore
-      const ysdk: SDK = window.YaGames.ysdk;
-
+      const ysdk = window.YaGames.ysdk;
       const handlePause = () => {
         setIsPaused(true);
         audioManager.setMuted(true);
       };
-
       const handleResume = () => {
         setIsPaused(false);
         audioManager.setMuted(false);
@@ -106,7 +110,6 @@ function AppContent() {
         ysdk.on("game_api_pause", handlePause);
         ysdk.on("game_api_resume", handleResume);
       }
-
       return () => {
         if (ysdk?.off) {
           ysdk.off("game_api_pause", handlePause);
@@ -140,6 +143,17 @@ function AppContent() {
             audioManager.playSFX("panel_click");
           }}
           onLanguageChange={handleLanguageChange}
+          // Передаем функцию для миграции и обновления UI
+          onAuthorize={async () => {
+            const success = await adService.authorize();
+            if (success) {
+              // Если авторизация прошла успешно, мигрируем сейв
+              await migrateSaveToCloud();
+              // Можно показать уведомление "Прогресс сохранен в облако"
+              alert("Вы вошли! Ваш прогресс теперь синхронизируется с облаком.");
+            }
+          }}
+          isAuthorized={adService.getIsAuthorized()}
         />
       ) : (
         <Game onBack={() => setScreen("menu")} isPaused={isPaused} />

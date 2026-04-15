@@ -55,6 +55,7 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
   const globalUpgrades = useGameStore((state) => state.globalUpgrades);
   const dealDamage = useGameStore((state) => state.dealDamage);
+  const lastDrops = useGameStore((state) => state.lastDrops);
 
   useEffect(() => {
     enemyRef.current = enemy;
@@ -98,30 +99,29 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
     },
     [],
   );
-  const handleEnemyDeath = useCallback(
-    (x: number, y: number, currentEnemy: Enemy, _isAuto: boolean = false) => {
-      if (isProcessingKill.current) return;
-      isProcessingKill.current = true;
+  const handleEnemyDeath = useCallback(() => {
+    if (isProcessingKill.current) return;
+    isProcessingKill.current = true;
 
-      audioManager.playEnemyDefeat();
+    audioManager.playEnemyDefeat();
+  }, []);
 
-      const dropMultiplier = useAdStore.getState().getDropMultiplier();
-      const drops = currentEnemy.rollDrops();
+  useEffect(() => {
+    if (lastDrops && lastDrops.length > 0) {
+      lastDrops.forEach((drop, index) => {
+        const x = window.innerWidth / 2 + (Math.random() - 0.5) * 100;
+        const y = window.innerHeight / 2 + (Math.random() - 0.5) * 50;
 
-      drops.forEach((drop, index) => {
-        const finalCount = Math.floor(drop.count * dropMultiplier);
         setTimeout(() => {
-          addDropEffect(
-            drop.id,
-            finalCount > 0 ? finalCount : drop.count,
-            x + (Math.random() - 0.5) * 100,
-            y + (Math.random() - 0.5) * 50,
-          );
+          addDropEffect(drop.id, drop.count, x, y);
         }, index * 200);
       });
-    },
-    [addDropEffect],
-  );
+
+      setTimeout(() => {
+        useGameStore.setState({ lastDrops: null });
+      }, 2000);
+    }
+  }, [lastDrops, addDropEffect]);
 
   const performAttack = useCallback(
     (isAuto: boolean = false) => {
@@ -145,7 +145,7 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       const newHp = enemy.currentHp - actualDamage;
       if (newHp <= 0 && !isProcessingKill.current) {
-        handleEnemyDeath(x, y, enemy, isAuto);
+        handleEnemyDeath();
       }
     },
     [enemy, activeWaifu, globalUpgrades, dealDamage, addClickEffect, handleEnemyDeath],
@@ -222,7 +222,7 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
       // Проверяем смерть
       const newHp = enemy.currentHp - actualDamage;
       if (newHp <= 0 && !isProcessingKill.current) {
-        handleEnemyDeath(clientX, clientY, enemy, false);
+        handleEnemyDeath();
       }
     },
     [isPaused, activeWaifu, enemy, onClick, addClickEffect, handleEnemyDeath, dealDamage],
