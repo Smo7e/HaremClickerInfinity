@@ -1,0 +1,176 @@
+/* ============================================
+   HAREM CLICKER INFINITY - MIXINS & UTILS
+   ============================================ */
+
+/* --- Медиа-запросы (mobile-first) --- */
+/* Использование: @media (--tablet-up) { ... } */
+
+/* --- CSS Custom Properties как "миксины" --- */
+/* Safe area helper */
+.safe-area-top {
+  padding-top: var(--safe-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: var(--safe-bottom);
+}
+
+.safe-area-x {
+  padding-left: var(--safe-area-left);
+  padding-right: var(--safe-area-right);
+}
+
+/* Yandex Games banner compensation */
+.yg-compensate-top {
+  margin-top: var(--yg-banner-top);
+}
+
+.yg-compensate-bottom {
+  margin-bottom: var(--yg-banner-bottom);
+}
+
+/* --- Утилиты для скрытия/показа --- */
+.hide-mobile {
+  display: none;
+}
+
+@media (--tablet-up) {
+  .hide-mobile {
+    display: initial;
+  }
+  .hide-tablet-up {
+    display: none;
+  }
+}
+
+@media (--desktop-up) {
+  .hide-tablet {
+    display: none;
+  }
+  .show-desktop {
+    display: initial;
+  }
+}
+
+/* --- Touch target утилиты --- */
+.touch-target {
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.touch-target-lg {
+  min-width: var(--touch-target-lg);
+  min-height: var(--touch-target-lg);
+}
+
+/* --- Scroll утилиты --- */
+.scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE */
+}
+
+.scroll-x::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.scroll-y {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Snap scroll для каруселей */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.scroll-snap-item {
+  scroll-snap-align: start;
+}
+
+/* --- Container queries fallback --- */
+/* Используем пока широкая поддержка не появится */
+@supports (container-type: inline-size) {
+  .container-query {
+    container-type: inline-size;
+  }
+}
+
+/* --- GPU acceleration --- */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* --- Text truncation --- */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --- Aspect ratio fallback --- */
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+@supports not (aspect-ratio: 16 / 9) {
+  .aspect-video::before {
+    content: "";
+    float: left;
+    padding-top: 56.25%;
+  }
+  .aspect-video::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+/* --- Фокус стили для accessibility --- */
+.focus-visible:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Убираем outline только для мыши */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* --- Reduced motion --- */
+/* @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+} */

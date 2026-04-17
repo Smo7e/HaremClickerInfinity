@@ -1,117 +1,149 @@
+/* ============================================
+LOCATION SELECTOR PANEL - ADAPTIVE STYLES
+============================================ */
+
 .location-selector-panel {
   width: 95vw;
-  max-width: 550px;
+  max-width: 600px;
   max-height: 90vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Список локаций */
 .location-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 20px;
+  padding: 16px;
   overflow-y: auto;
-  max-height: 70vh;
+  -webkit-overflow-scrolling: touch;
 }
 
+/* Карточка локации */
 .location-card {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 15px;
+  gap: 16px;
+  padding: 16px;
   background: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
+  border-radius: var(--rounded-lg);
   border: 2px solid transparent;
   transition: all 0.2s ease;
   text-align: left;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Состояния карточки */
 .location-card:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(4px);
 }
 
 .location-card.active {
-  background: rgba(102, 126, 234, 0.2);
+  background: rgba(102, 126, 234, 0.15);
   border-color: #667eea;
+  box-shadow: 0 0 15px rgba(102, 126, 234, 0.1);
 }
 
 .location-card.locked {
-  opacity: 0.5;
-  filter: grayscale(0.7);
+  height: min-content;
+  opacity: 0.6;
+  filter: grayscale(0.8);
   cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.2);
 }
 
+/* Иконка локации */
 .location-icon {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+  border-radius: var(--rounded-lg);
   flex-shrink: 0;
+  font-size: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Информация */
 .location-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  min-width: 0; /* Важно для text-overflow */
 }
 
 .location-name {
   font-weight: 700;
-  font-size: 16px;
+  font-size: var(--text-base);
   color: var(--text-primary);
-}
-
-.location-enemies {
-  font-size: 12px;
-  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .location-bonuses {
   display: flex;
-  gap: 8px;
-  margin-top: 6px;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
+/* Бейджи бонусов */
 .bonus-badge {
-  font-size: 11px;
+  font-size: 10px;
   padding: 3px 8px;
-  border-radius: 10px;
-  font-weight: 600;
+  border-radius: 8px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
 }
 
 .bonus-badge.gem {
   background: rgba(102, 126, 234, 0.2);
   color: #a78bfa;
+  border: 1px solid rgba(102, 126, 234, 0.3);
 }
 
 .bonus-badge.essence {
   background: rgba(168, 85, 247, 0.2);
   color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
 .bonus-badge.exp {
   background: rgba(251, 191, 36, 0.2);
   color: #fcd34d;
+  border: 1px solid rgba(251, 191, 36, 0.3);
 }
 
+/* Мета-информация (справа) */
 .location-meta {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
+  gap: 6px;
+  flex-shrink: 0;
+  text-align: right;
+  min-width: 80px;
 }
 
 .current-badge {
   background: #51cf66;
   color: #000;
   padding: 4px 10px;
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(81, 207, 102, 0.3);
 }
 
 .progress-info {
@@ -125,8 +157,8 @@
   background: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
   padding: 3px 8px;
-  border-radius: 10px;
-  font-size: 12px;
+  border-radius: 6px;
+  font-size: 11px;
   font-weight: 600;
 }
 
@@ -135,16 +167,35 @@
   color: var(--text-muted);
 }
 
+/* Блокировка */
 .lock-badge {
   color: #ff6b6b;
   font-size: 10px;
   font-weight: 600;
-  text-align: right;
+  line-height: 1.3;
+  background: rgba(255, 107, 107, 0.1);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 107, 107, 0.2);
   max-width: 120px;
-  line-height: 1.4;
 }
 
-@media (max-width: 480px) {
+/* ============================================
+RESPONSIVE ADAPTATIONS
+============================================ */
+
+/* --- Mobile Small (< 480px) --- */
+@media (max-width: 479px) {
+  .location-selector-panel {
+    width: 98vw;
+    max-height: 95vh;
+  }
+
+  .location-list {
+    padding: 12px;
+    gap: 10px;
+  }
+
   .location-card {
     padding: 12px;
     gap: 12px;
@@ -153,14 +204,95 @@
   .location-icon {
     width: 50px;
     height: 50px;
+    font-size: 24px;
   }
 
   .location-name {
     font-size: 14px;
   }
 
+  .bonus-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .location-meta {
+    min-width: 60px;
+  }
+
   .lock-badge {
     font-size: 9px;
-    max-width: 100px;
+    max-width: 90px;
+    padding: 3px 6px;
+  }
+
+  .current-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+}
+
+/* --- Tablet Landscape / Desktop (Grid Layout) --- */
+@media (min-width: 768px) and (orientation: landscape), (min-width: 1024px) {
+  .location-selector-panel {
+    max-width: 900px; /* Увеличиваем максимальную ширину панели */
+  }
+
+  .location-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Две колонки */
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .location-card {
+    flex-direction: column; /* Вертикальное расположение */
+    align-items: center;
+    text-align: center;
+    height: auto;
+    min-height: 200px;
+    padding: 20px;
+  }
+
+  .location-icon {
+    width: 80px;
+    height: 80px;
+    font-size: 40px;
+    margin: 0 auto;
+  }
+
+  .location-info {
+    align-items: center;
+    margin: 10px 0;
+    width: 100%; /* Растягиваем на всю ширину */
+  }
+
+  .location-name {
+    white-space: normal; /* Разрешаем перенос текста */
+    overflow: visible;
+    text-overflow: clip;
+    font-size: 16px;
+  }
+
+  .location-bonuses {
+    justify-content: center;
+  }
+
+  .location-meta {
+    align-items: center;
+    width: 100%;
+    min-width: auto; /* Сбрасываем фиксированную ширину */
+  }
+
+  .lock-badge {
+    max-width: 100%;
+    text-align: center;
+  }
+}
+
+/* Портретный режим планшетов — остаётся списком */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .location-list {
+    display: flex;
   }
 }

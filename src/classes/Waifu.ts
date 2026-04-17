@@ -204,7 +204,7 @@ export class Waifu {
       nameKey: "Sakura",
       rarity: "common",
       element: "physical",
-      image: "/assets/images/waifus/Sakura.png",
+      image: "assets/images/waifus/Sakura.png",
       description: "waifus.Sakura.desc",
       baseStats: {
         clickPower: 100,

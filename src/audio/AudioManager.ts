@@ -9,22 +9,25 @@ interface AudioConfig {
 
 class AudioManager {
   private static instance: AudioManager;
-  private music: HTMLAudioElement | null = null;
   private sfxCache: Map<SFXType, HTMLAudioElement> = new Map();
   private config: AudioConfig = {
-    musicVolume: 1,
-    sfxVolume: 1,
+    musicVolume: 0.2,
+    sfxVolume: 0.2,
     isMuted: false,
     isMusicEnabled: true,
   };
   private isInitialized = false;
   audioContext: AudioContext | null = null;
 
-  private readonly MUSIC_PATH = "/assets/audio/background.ogg";
+  private musicSource: AudioBufferSourceNode | null = null;
+  private musicBuffer: AudioBuffer | null = null;
+  private musicGainNode: GainNode | null = null;
+
+  private readonly MUSIC_PATH = "assets/audio/background.ogg";
   private readonly SFX_PATHS: Record<SFXType, string> = {
-    click: "/assets/audio/click.mp3",
-    enemy_defeat: "/assets/audio/enemy_defeat.mp3",
-    panel_click: "/assets/audio/panel_click.mp3",
+    click: "assets/audio/click.mp3",
+    enemy_defeat: "assets/audio/enemy_defeat.mp3",
+    panel_click: "assets/audio/panel_click.mp3",
   };
 
   private constructor() {
@@ -56,22 +59,21 @@ class AudioManager {
   async init(): Promise<void> {
     if (this.isInitialized) return;
     try {
-      // Создаем AudioContext с учетом префиксов для Safari
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
       this.audioContext = new AudioContextClass();
 
-      this.music = new Audio(this.MUSIC_PATH);
-      this.music.loop = true;
-      this.music.volume = this.config.musicVolume;
-      this.music.preload = "auto";
+      // Загружаем музыку в буфер
+      const response = await fetch(this.MUSIC_PATH);
+      const arrayBuffer = await response.arrayBuffer();
+      this.musicBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
 
-      this.music.setAttribute("playsinline", "true");
-      this.music.setAttribute("webkit-playsinline", "true");
+      this.musicGainNode = this.audioContext.createGain();
+      this.musicGainNode.connect(this.audioContext.destination);
+      this.musicGainNode.gain.value = this.config.musicVolume;
 
       await this.preloadSFX();
-
       this.isInitialized = true;
-      console.log("[AudioManager] Initialized successfully");
+      console.log("[AudioManager] Initialized successfully with Web Audio API for music");
     } catch (error) {
       console.error("[AudioManager] Initialization failed:", error);
     }
@@ -106,35 +108,36 @@ class AudioManager {
   }
 
   playMusic(): void {
-    if (!this.isInitialized || !this.music) return;
+    if (!this.isInitialized || !this.musicBuffer) return;
     if (this.config.isMuted || !this.config.isMusicEnabled) return;
 
-    // Резюмируем AudioContext если нужно (iOS требование)
+    // Если уже играет, не запускаем повторно
+    if (this.musicSource) return;
+
     if (this.audioContext?.state === "suspended") {
       this.audioContext.resume();
     }
 
-    if (this.music.paused) {
-      const playPromise = this.music.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((err) => {
-          console.warn("[AudioManager] Music play prevented:", err);
-        });
-      }
-    }
+    this.musicSource = this.audioContext!.createBufferSource();
+    this.musicSource.buffer = this.musicBuffer;
+    this.musicSource.loop = true;
+    this.musicSource.connect(this.musicGainNode!);
+    this.musicSource.start(0);
   }
 
   pauseMusic(): void {
-    if (this.music && !this.music.paused) {
-      this.music.pause();
+    if (this.musicSource) {
+      try {
+        this.musicSource.stop();
+      } catch (e) {
+        // Игнорируем ошибку, если уже остановлен
+      }
+      this.musicSource = null;
     }
   }
 
   stopMusic(): void {
-    if (this.music) {
-      this.music.pause();
-      this.music.currentTime = 0;
-    }
+    this.pauseMusic();
   }
 
   playSFX(type: SFXType): void {
@@ -175,8 +178,8 @@ class AudioManager {
 
   setMusicVolume(volume: number): void {
     this.config.musicVolume = Math.max(0, Math.min(1, volume));
-    if (this.music) {
-      this.music.volume = this.config.musicVolume;
+    if (this.musicGainNode) {
+      this.musicGainNode.gain.value = this.config.musicVolume;
     }
   }
 

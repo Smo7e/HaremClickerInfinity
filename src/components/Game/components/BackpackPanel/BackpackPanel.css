@@ -1,74 +1,93 @@
+/* ============================================
+BACKPACK PANEL - ADAPTIVE STYLES
+============================================ */
+
 .backpack-panel {
   width: 95vw;
-  max-width: 800px;
+  max-width: 900px; /* Чуть шире для удобства чтения описаний */
   max-height: 90vh;
-}
-
-.currency-bar {
   display: flex;
-  gap: 20px;
-  padding: 15px 20px;
-  background: rgba(0, 0, 0, 0.3);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-direction: column;
 }
 
-.currency-bar .currency-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
+/* Контейнер контента */
+.backpack-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+  min-height: 0; /* Важно для скролла внутри flex */
 }
 
+/* Табы фильтров (горизонтальный скролл на мобильных) */
 .backpack-tabs {
   display: flex;
-  gap: 10px;
-  padding: 15px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
   overflow-x: auto;
   flex-shrink: 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.backpack-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .backpack-tab {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  background: rgba(255, 255, 255, 0.1);
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 20px;
   white-space: nowrap;
   transition: all 0.2s ease;
   flex-shrink: 0;
-  min-height: 40px;
+  font-size: var(--text-sm);
+  border: 1px solid transparent;
 }
 
 .backpack-tab.active {
-  background: var(--rarity-epic);
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
 }
 
-.backpack-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-}
+/* ============================================
+ITEM GRID - RESPONSIVE
+============================================ */
 
 .item-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 15px;
+  gap: var(--space-3);
+  /* Базовая настройка: автозаполнение, минимум 100px */
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  padding-bottom: var(--space-4);
 }
 
+/* Карточка предмета */
 .item-card {
   background: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
-  padding: 15px;
+  border-radius: var(--rounded-lg);
+  padding: var(--space-3);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-2);
   border: 2px solid transparent;
   transition: all 0.2s ease;
+  position: relative;
+  min-height: 140px; /* Фиксированная минимальная высота для ровности */
+  justify-content: space-between;
 }
 
+.item-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Цвета редкостей */
 .item-card.rarity-common {
   border-color: var(--rarity-common);
 }
@@ -80,14 +99,18 @@
 }
 .item-card.rarity-epic {
   border-color: var(--rarity-epic);
+  box-shadow: 0 0 10px rgba(156, 39, 176, 0.2);
 }
 .item-card.rarity-legendary {
   border-color: var(--rarity-legendary);
+  box-shadow: 0 0 15px rgba(255, 152, 0, 0.3);
 }
 .item-card.rarity-mythic {
   border-color: var(--rarity-mythic);
+  box-shadow: 0 0 20px rgba(244, 67, 54, 0.4);
 }
 
+/* Иконка предмета */
 .item-icon-container {
   position: relative;
   width: 64px;
@@ -96,59 +119,169 @@
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+  border-radius: var(--rounded);
+  margin-bottom: 4px;
 }
 
 .item-count {
   position: absolute;
   bottom: -5px;
   right: -5px;
-  background: var(--rarity-epic);
+  background: var(--color-accent);
   color: white;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
-  padding: 2px 8px;
+  padding: 2px 6px;
   border-radius: 10px;
-  min-width: 24px;
+  min-width: 20px;
   text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
+/* Информация о предмете */
 .item-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 4px;
+  gap: 2px;
+  flex: 1;
+  width: 100%;
 }
 
 .item-name {
   font-weight: 600;
-  font-size: 14px;
+  font-size: var(--text-xs);
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 2.4em; /* Ограничение высоты текста */
 }
 
 .item-desc {
-  font-size: 11px;
-  color: var(--text-secondary);
-  line-height: 1.3;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 2.4em;
 }
 
+/* Кнопка использования */
 .btn-use-item {
-  margin-top: 5px;
-  padding: 8px 16px;
+  width: 100%;
+  margin-top: auto;
+  padding: 6px 12px;
   background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
-  border-radius: 8px;
-  font-size: 12px;
+  border-radius: var(--rounded);
+  font-size: 11px;
   font-weight: 600;
   color: white;
   transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  min-height: 32px; /* Touch target */
 }
 
 .btn-use-item:disabled {
   background: rgba(255, 255, 255, 0.1);
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   cursor: not-allowed;
+  transform: none;
 }
 
 .btn-use-item:not(:disabled):hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+/* ============================================
+RESPONSIVE BREAKPOINTS FOR GRID
+============================================ */
+
+/* Mobile Small (< 480px): 3 колонки */
+@media (max-width: 479px) {
+  .item-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+  }
+
+  .item-card {
+    padding: var(--space-2);
+    min-height: 120px;
+  }
+
+  .item-icon-container {
+    width: 48px;
+    height: 48px;
+  }
+
+  .item-name {
+    font-size: 10px;
+  }
+}
+
+/* Mobile Large / Small Tablet (480px - 767px): 4 колонки */
+@media (min-width: 480px) and (max-width: 767px) {
+  .item-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet (768px - 1023px): 5-6 колонок */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .item-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: var(--space-3);
+  }
+}
+
+/* Desktop (1024px - 1439px): 6-7 колонок */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .item-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
+
+/* Wide Desktop (1440px - 1919px): 7-8 колонок */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .item-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
+/* Ultra Wide / 4K (>= 1920px): Много колонок */
+@media (min-width: 1920px) {
+  .item-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .item-card {
+    padding: var(--space-4);
+  }
+
+  .item-icon-container {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+/* Landscape Mobile Fix: Уменьшаем высоту карточек если места мало по вертикали */
+@media (max-height: 500px) and (orientation: landscape) {
+  .item-card {
+    min-height: 100px;
+    padding: 8px;
+  }
+  .item-icon-container {
+    width: 40px;
+    height: 40px;
+  }
+  .item-desc {
+    display: none; /* Скрываем описание в очень узком ландшафте */
+  }
 }

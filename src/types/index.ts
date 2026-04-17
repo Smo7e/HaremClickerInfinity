@@ -30,7 +30,7 @@ export type TWaifu = {
   critChance: number;
   critMultiplier: number;
 };
-export type TCollectionCategory = "weapon" | "accessory" | "memoria" | "outfit";
+export type TCollectionCategory = "weapon" | "accessory";
 export type TInventoryItemId =
   | "gem"
   | "essence"

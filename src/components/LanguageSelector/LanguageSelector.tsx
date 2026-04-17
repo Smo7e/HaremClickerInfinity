@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { t, setLang, getLang } from "../../locales/i18n";
-import type { Lang } from "../../locales/locales";
+import { LANGUAGE_CONFIG, type Lang } from "../../locales/locales";
 
 import "./LanguageSelector.css";
 
@@ -11,12 +11,10 @@ interface LanguageSelectorProps {
   className?: string;
 }
 
-const languages: {
-  code: Lang;
-  flag: string;
-  name: string;
-  nativeName: string;
-}[] = [{ code: "ru", flag: "🇷🇺", name: "Russian", nativeName: "Русский" }];
+const languages = Object.entries(LANGUAGE_CONFIG).map(([code, config]) => ({
+  code: code as Lang,
+  ...config,
+}));
 
 export function LanguageSelector({
   variant = "icon",

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
-import "./Pause.css";
+import "./Pause.css"; // Оставим локальные стили для специфичных кнопок, если нужно, или удалим их позже
 
 interface PauseProps {
   isOpen: boolean;
@@ -18,30 +18,38 @@ export function Pause({ isOpen, onClose, onSettings, onMenu }: PauseProps) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="pause-overlay" onClick={onClose}>
-      <div className="pause-modal" onClick={(e) => e.stopPropagation()}>
-        <h2 className="pause-title">
-          <Icon name="pause" size="lg" /> {t("ui.pause")}
-        </h2>
-
-        <div className="pause-buttons">
-          <button className="btn-pause btn-resume" onClick={onClose}>
-            <Icon name="play" size="md" />
-            {t("ui.resume")}
+    <div className="panel-overlay" onClick={onClose}>
+      <div className="panel pause-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-header">
+          <h2>
+            <Icon name="pause" size="md" /> {t("ui.pause")}
+          </h2>
+          <button className="btn-close" onClick={onClose}>
+            <Icon name="close" size="md" />
           </button>
+        </div>
 
-          <button className="btn-pause btn-pause-settings" onClick={onSettings}>
-            <Icon name="settings" size="md" />
-            {t("ui.settings")}
-          </button>
+        <div className="panel-content pause-content">
+          <div className="pause-buttons-grid">
+            <button className="btn-pause btn-resume" onClick={onClose}>
+              <Icon name="play" size="md" />
+              <span>{t("ui.resume")}</span>
+            </button>
 
-          <button className="btn-pause btn-exit" onClick={onMenu}>
-            <Icon name="home" size="md" />
-            {t("ui.exitToMenu")}
-          </button>
+            <button className="btn-pause btn-settings" onClick={onSettings}>
+              <Icon name="settings" size="md" />
+              <span>{t("ui.settings")}</span>
+            </button>
+
+            <button className="btn-pause btn-exit" onClick={onMenu}>
+              <Icon name="home" size="md" />
+              <span>{t("ui.exitToMenu")}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ import "./MainMenu.css";
 import { TutorialPanel } from "../TutorialPanel/TutorialPanel";
 import { audioManager } from "../../audio/AudioManager";
 import { Icon } from "../Icon/Icon";
+import { adService } from "../../services/AdService";
 
 interface Props {
   onPlay: () => void;
@@ -53,11 +54,11 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange, onAuthorize, is
           {isAuthorized && (
             <div className="auth-section">
               <span className="status-badge">✅ {t("ui.loggedin")}</span>
+              <span> {adService.getPlayerName()}</span>
             </div>
           )}
 
           <button className="btn-primary btn-play" onClick={onPlay}>
-            <span className="btn-icon">▶</span>
             {t("ui.play")}
           </button>
 
@@ -68,12 +69,10 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange, onAuthorize, is
               audioManager.playSFX("panel_click");
             }}
           >
-            <span className="btn-icon">📖</span>
             {t("tutorial.title")}
           </button>
 
           <button className="btn-secondary btn-settings" onClick={onSettings}>
-            <span className="btn-icon">⚙</span>
             {t("ui.settings")}
           </button>
         </div>

@@ -14,8 +14,8 @@ interface Props {
 }
 
 export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPauseToggle }: Props) {
-  const [globalMusicVol, setGlobalMusicVol] = useState(0);
-  const [globalSfxVol, setGlobalSfxVol] = useState(0);
+  const [globalMusicVol, setGlobalMusicVol] = useState(0.2);
+  const [globalSfxVol, setGlobalSfxVol] = useState(0.2);
   const [showCredits, setShowCredits] = useState(false);
 
   const handleMusicChange = (e: React.ChangeEvent<HTMLInputElement>) => {

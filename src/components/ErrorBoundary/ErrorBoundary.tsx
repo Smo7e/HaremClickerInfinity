@@ -1,6 +1,8 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import { t } from "../../locales/i18n";
 
+import "./ErrorBoundary.css";
+
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
@@ -62,73 +64,33 @@ export class ErrorBoundary extends Component<Props, State> {
       if (this.props.fallback) {
         return this.props.fallback;
       }
-
       return (
-        <div
-          style={{
-            padding: "20px",
-            textAlign: "center",
-            fontFamily: "Arial, sans-serif",
-          }}
-        >
-          <h1 style={{ color: "#f44336" }}>⚠️ {t("errorBoundary.title")}</h1>
-          <p>{t("errorBoundary.description")}</p>
-          {this.state.error && (
-            <details
-              style={{
-                margin: "20px 0",
-                padding: "10px",
-                background: "#f5f5f5",
-                borderRadius: "4px",
-                textAlign: "left",
-              }}
-            >
-              <summary style={{ cursor: "pointer" }}>{t("errorBoundary.details")}</summary>
-              <pre
-                style={{
-                  fontSize: "12px",
-                  overflow: "auto",
-                  maxHeight: "200px",
-                }}
-              >
-                {this.state.error.message}
-                {"\n"}
-                {this.state.error.stack}
-              </pre>
-            </details>
-          )}
-          <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-            <button
-              onClick={this.handleReset}
-              style={{
-                padding: "10px 20px",
-                background: "#f44336",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-            >
-              {t("errorBoundary.resetButton")}
-            </button>
-            <button
-              onClick={this.handleReport}
-              style={{
-                padding: "10px 20px",
-                background: "#2196f3",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-            >
-              {t("errorBoundary.reportButton")}
-            </button>
+        <div className="error-boundary-container">
+          <div className="error-card">
+            <h1 className="error-title">⚠️ {t("errorBoundary.title")}</h1>
+            <p className="error-description">{t("errorBoundary.description")}</p>
+
+            {this.state.error && (
+              <details className="error-details">
+                <summary className="error-summary">{t("errorBoundary.details")}</summary>
+                <pre className="error-stack">
+                  {this.state.error.message}\n{this.state.error.stack}
+                </pre>
+              </details>
+            )}
+
+            <div className="error-actions">
+              <button className="btn btn-danger" onClick={this.handleReset}>
+                {t("errorBoundary.resetButton")}
+              </button>
+              <button className="btn btn-secondary" onClick={this.handleReport}>
+                {t("errorBoundary.reportButton")}
+              </button>
+            </div>
           </div>
         </div>
       );
     }
-
     return this.props.children;
   }
 }

@@ -153,7 +153,8 @@
 .damage-effect {
   position: fixed;
   pointer-events: none;
-  animation: damageFloat 0.6s ease-out forwards;
+
+  animation: damageFloat 1s ease-out forwards;
   font-weight: bold;
   font-size: 28px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -174,9 +175,10 @@
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+
   100% {
     opacity: 0;
-    transform: translateY(-100px) scale(1.5);
+    transform: translateY(20px) scale(0.5);
   }
 }
 
@@ -314,5 +316,39 @@
   .enemy-sprite-container {
     min-height: 120px;
     min-width: 120px;
+  }
+}
+
+/* Добавь это в конец EnemyComponent.css */
+
+.enemy-component {
+  /* Делаем ширину зависимой от родителя, но с ограничениями */
+  width: clamp(120px, 25vh, 350px);
+  max-width: 40vw; /* Не больше 40% ширины экрана на мобильных */
+  flex-shrink: 0;
+}
+
+/* Адаптация спрайта внутри компонента */
+.enemy-sprite-container {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1; /* Квадратная область под спрайт */
+}
+
+/* На мобильных ландшафтных экранах уменьшаем врага сильнее */
+@media (max-width: 767px) and (orientation: landscape) {
+  .enemy-component {
+    height: 80vh; /* Ограничиваем по высоте */
+    width: auto;
+    max-width: 40vw;
+  }
+
+  .enemy-header {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+
+  .enemy-hp-bar {
+    height: 14px;
   }
 }

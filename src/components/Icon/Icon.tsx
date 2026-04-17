@@ -16,7 +16,7 @@ export function Icon({ name, size = "md", className = "" }: IconProps) {
 
   return (
     <img
-      src={`/assets/images/icons/${name}.png`}
+      src={`assets/images/icons/${name}.png`}
       alt=""
       width={px}
       height={px}

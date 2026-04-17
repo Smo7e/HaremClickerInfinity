@@ -1,219 +1,157 @@
-.waifu-detail-panel {
-  width: 90vw;
-  max-width: 450px;
-  max-height: 85vh;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
+/* ============================================
+WAIFU DETAIL PANEL - ADAPTIVE STYLES
+============================================ */
 
-.waifu-detail-content {
+.waifu-detail-panel {
+  width: 95vw;
+  max-width: 900px; /* Шире для двухколоночного режима */
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 20px;
+}
+
+/* Контент с скроллом */
+.waifu-detail-content {
+  flex: 1;
   overflow-y: auto;
+  padding: var(--space-4);
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-  will-change: scroll-position;
-  transform: translateZ(0);
+}
+
+/* Сетка макета: Портрет + Инфо */
+.detail-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Блок портрета */
+.waifu-detail-portrait-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
 }
 
 .waifu-detail-portrait {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin: 0 auto;
-  width: 280px;
-  height: 390px;
-  transform: translateZ(0);
-  will-change: transform;
+  width: 200px;
+  height: 280px;
+  border-radius: var(--rounded-xl);
+  overflow: hidden;
+  border: 3px solid currentColor;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .waifu-detail-portrait img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 16px;
-  border: 4px solid;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   display: block;
-  animation: detailBreathe 4s ease-in-out infinite;
-  transform-origin: center center;
-}
-
-@keyframes detailBreathe {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.01);
-  }
 }
 
 .waifu-detail-element {
   position: absolute;
-  bottom: -10px;
-  right: -10px;
-  width: 48px;
-  height: 48px;
+  bottom: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: var(--bg-panel);
+  background: var(--color-bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  flex-shrink: 0;
-  transform: translateZ(0);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.waifu-detail-element .icon {
-  width: 32px !important;
-  height: 32px !important;
-  max-width: 32px !important;
-  max-height: 32px !important;
+/* Блок информации (Имя, Редкость, Описание) */
+.waifu-detail-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .waifu-detail-rarity {
-  font-size: 14px;
+  font-size: var(--text-sm);
   font-weight: bold;
-  letter-spacing: 2px;
-  padding: 6px 16px;
+  letter-spacing: 1px;
+  padding: 4px 12px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 20px;
   border: 1px solid currentColor;
-  display: flex;
+  text-transform: uppercase;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin: 0 auto;
-  flex-shrink: 0;
+  gap: 6px;
 }
 
 .waifu-description {
   text-align: center;
-  color: var(--text-secondary);
-  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
   font-style: italic;
-  padding: 0 10px;
-  margin: 0;
   line-height: 1.5;
-  flex-shrink: 0;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.waifu-stats-detail {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  border-radius: var(--border-radius);
-  flex-shrink: 0;
+/* Блок статистики */
+.waifu-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  background: rgba(0, 0, 0, 0.2);
+  padding: var(--space-4);
+  border-radius: var(--rounded-lg);
+  margin-top: var(--space-4);
 }
 
-.stat-row-detail {
+.stat-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 15px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.stat-row-detail .stat-label {
-  color: var(--text-secondary);
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: var(--text-sm);
 }
 
-.stat-row-detail .stat-value {
+.stat-value {
   font-weight: bold;
-  color: var(--text-primary);
-  font-size: 16px;
+  color: var(--color-text-primary);
+  font-size: var(--text-base);
 }
 
-.waifu-stats-total {
-  background: rgba(102, 126, 234, 0.1);
-  border: 1px solid rgba(102, 126, 234, 0.3);
-  padding: 15px;
-  border-radius: var(--border-radius);
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.waifu-stats-total h4 {
-  margin: 0 0 10px 0;
-  color: #667eea;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.waifu-stats-total p {
-  margin: 5px 0;
-  font-size: 14px;
-  color: var(--text-secondary);
-}
-
-@media (max-width: 480px) {
-  .waifu-detail-portrait {
-    width: 220px;
-    height: 310px;
-  }
-
-  .waifu-detail-element {
-    width: 40px;
-    height: 40px;
-    bottom: -8px;
-    right: -8px;
-  }
-
-  .waifu-detail-element .icon {
-    width: 26px !important;
-    height: 26px !important;
-  }
-
-  .waifu-detail-rarity {
-    font-size: 12px;
-    padding: 5px 12px;
-  }
-
-  .waifu-description {
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 360px) {
-  .waifu-detail-portrait {
-    width: 180px;
-    height: 250px;
-  }
-
-  .waifu-detail-element {
-    width: 36px;
-    height: 36px;
-  }
-
-  .waifu-detail-element .icon {
-    width: 22px !important;
-    height: 22px !important;
-  }
-}
-.stat-row-detail.exp-row {
+/* Прогресс бар опыта */
+.exp-row {
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 6px;
+  padding: 12px 0;
 }
 
 .exp-bar-container {
   width: 100%;
-  height: 24px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -221,9 +159,8 @@
 
 .exp-bar-fill {
   height: 100%;
-  border-radius: 12px;
-  transition: width 0.3s ease;
-  box-shadow: 0 0 10px currentColor;
+  background: linear-gradient(90deg, #ffd43b, #fab005);
+  transition: width 0.5s ease;
 }
 
 .exp-text {
@@ -231,9 +168,445 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 12px;
+  font-size: 9px;
   font-weight: bold;
   color: #fff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   white-space: nowrap;
+}
+
+/* Общая статистика (внизу) */
+.waifu-stats-total {
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  padding: var(--space-3);
+  border-radius: var(--rounded-lg);
+  text-align: center;
+  margin-top: var(--space-4);
+}
+
+.waifu-stats-total h4 {
+  margin: 0 0 10px 0;
+  color: #a78bfa;
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.total-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+DESKTOP / TABLET LANDSCAPE LAYOUT
+============================================ */
+
+@media (min-width: 768px) {
+  .detail-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .waifu-detail-portrait-block {
+    width: 300px;
+    flex-shrink: 0;
+    position: sticky;
+    top: var(--space-4);
+  }
+
+  .waifu-detail-portrait {
+    width: 100%;
+    height: 420px;
+  }
+
+  .waifu-detail-header {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .waifu-description {
+    text-align: left;
+  }
+
+  .waifu-stats-grid {
+    flex: 1;
+    grid-template-columns: repeat(2, 1fr); /* Две колонки статов */
+    background: transparent;
+    padding: 0;
+    margin-top: 0;
+    gap: var(--space-4);
+  }
+
+  .stat-card {
+    background: rgba(0, 0, 0, 0.2);
+    padding: var(--space-3);
+    border-radius: var(--rounded);
+  }
+
+  .waifu-stats-total {
+    grid-column: 1 / -1;
+    margin-top: var(--space-4);
+  }
+}
+
+/* ============================================
+MOBILE SMALL FIXES
+============================================ */
+
+@media (max-width: 479px) {
+  .waifu-detail-panel {
+    width: 98vw;
+    max-height: 95vh;
+  }
+
+  .waifu-detail-portrait {
+    width: 160px;
+    height: 220px;
+  }
+
+  .waifu-detail-element {
+    width: 32px;
+    height: 32px;
+  }
+
+  .waifu-stats-grid {
+    padding: var(--space-3);
+  }
+
+  .stat-label,
+  .stat-value {
+    font-size: 12px;
+  }
+
+  .total-stats-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+/* ============================================
+WAIFU DETAIL PANEL - ADAPTIVE STYLES
+============================================ */
+
+.waifu-detail-panel {
+  width: 95vw;
+  max-width: 900px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Контент с скроллом */
+.waifu-detail-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+/* === ГЛАВНАЯ СЕТКА: Портрет | Инфо === */
+.detail-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Левая колонка: Портрет */
+.waifu-detail-portrait-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.waifu-detail-portrait {
+  position: relative;
+  width: 200px;
+  height: 280px;
+  border-radius: var(--rounded-xl);
+  overflow: hidden;
+  border: 3px solid currentColor;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.waifu-detail-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.waifu-detail-element {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Заголовок под портретом */
+.waifu-detail-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.waifu-detail-rarity {
+  font-size: var(--text-sm);
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 4px 12px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  border: 1px solid currentColor;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.waifu-description {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-style: italic;
+  line-height: 1.5;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Правая колонка: Статистика */
+.waifu-stats-wrapper {
+  flex: 1;
+}
+
+.waifu-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+.stat-card {
+  background: rgba(0, 0, 0, 0.2);
+  padding: var(--space-3);
+  border-radius: var(--rounded-lg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-sm);
+}
+
+.stat-value {
+  font-weight: bold;
+  color: var(--color-text-primary);
+  font-size: var(--text-base);
+}
+
+/* Прогресс бар опыта */
+.exp-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.exp-row .stat-label {
+  margin-bottom: 4px;
+}
+
+.exp-bar-container {
+  width: 100%;
+  height: 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.exp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd43b, #fab005);
+  transition: width 0.5s ease;
+  border-radius: 8px;
+}
+
+.exp-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+}
+
+/* Общая статистика */
+.waifu-stats-total {
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  padding: var(--space-3);
+  border-radius: var(--rounded-lg);
+  text-align: center;
+  margin-top: var(--space-2);
+}
+
+.waifu-stats-total h4 {
+  margin: 0 0 10px 0;
+  color: #a78bfa;
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.total-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+DESKTOP / TABLET LANDSCAPE (≥768px)
+============================================ */
+
+@media (min-width: 768px) {
+  .detail-layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+
+  .waifu-detail-portrait-block {
+    width: 280px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+  }
+
+  .waifu-detail-portrait {
+    width: 100%;
+    height: 380px;
+  }
+
+  .waifu-detail-header {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .waifu-description {
+    text-align: left;
+    margin: 0;
+  }
+
+  .waifu-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  /* Опыт на всю ширину */
+  .stat-card:has(.exp-row) {
+    grid-column: 1 / -1;
+  }
+
+  .waifu-stats-total {
+    grid-column: 1 / -1;
+    margin-top: 0;
+  }
+}
+
+/* ============================================
+TABLET (768px - 1024px)
+============================================ */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .waifu-detail-panel {
+    max-width: 700px;
+  }
+
+  .waifu-detail-portrait-block {
+    width: 240px;
+  }
+
+  .waifu-detail-portrait {
+    height: 320px;
+  }
+}
+
+/* ============================================
+MOBILE SMALL (<480px)
+============================================ */
+
+@media (max-width: 479px) {
+  .waifu-detail-panel {
+    width: 98vw;
+    max-height: 95vh;
+  }
+
+  .waifu-detail-content {
+    padding: var(--space-3);
+  }
+
+  .waifu-detail-portrait {
+    width: 160px;
+    height: 220px;
+  }
+
+  .waifu-detail-element {
+    width: 32px;
+    height: 32px;
+  }
+
+  .waifu-detail-element svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .stat-card {
+    padding: var(--space-2);
+  }
+
+  .stat-label,
+  .stat-value {
+    font-size: 13px;
+  }
+
+  .exp-bar-container {
+    height: 14px;
+  }
+
+  .total-stats-row {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
 }

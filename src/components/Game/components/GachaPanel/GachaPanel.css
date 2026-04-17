@@ -1,11 +1,12 @@
 .gacha-panel {
   width: 95vw;
-  max-width: 550px;
+  max-width: 600px; /* Чуть шире для удобства */
   max-height: 95vh;
   display: flex;
   flex-direction: column;
 }
 
+/* --- Анимация призыва --- */
 .gacha-animation {
   display: flex;
   flex-direction: column;
@@ -14,81 +15,55 @@
   padding: 40px 20px;
   gap: 20px;
   flex: 1;
+  min-height: 300px;
 }
 
 .gacha-orb {
-  font-size: 100px;
+  font-size: 80px;
   animation:
     float 2s ease-in-out infinite,
     glow 1.5s ease-in-out infinite alternate;
 }
 
-/* --- Стили для результатов призыва --- */
+/* --- Результаты призыва --- */
 .gacha-results-overlay {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center; /* Центрируем карточку по вертикали */
   height: 100%;
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
-}
-
-.result-header-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 0 10px;
+  position: relative;
 }
 
 .result-counter {
-  font-size: 16px;
+  position: absolute;
+  top: 10px;
+  font-size: 14px;
   font-weight: bold;
   color: var(--text-secondary);
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.6);
   padding: 4px 12px;
   border-radius: 12px;
-}
-
-.btn-skip {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--text-secondary);
-  padding: 6px 16px;
-  border-radius: 16px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-skip:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text-primary);
-}
-
-.btn-skip:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 .gacha-result-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 20px;
+  gap: 15px;
+  padding: 25px;
   text-align: center;
   width: 100%;
   max-width: 400px;
   position: relative;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease;
 }
 
 .result-waifu-visual {
@@ -103,92 +78,39 @@
   height: 250px;
   border-radius: 16px;
   object-fit: cover;
-  border: 4px solid;
-  margin-bottom: 5px;
-  animation: resultBreathe 3s ease-in-out infinite;
-  transform-origin: center center;
+  border: 4px solid currentColor; /* Цвет берется от rarity */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   background: #000;
-}
-
-.result-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  width: 100%;
+  animation: resultBreathe 3s ease-in-out infinite;
 }
 
 .result-info h3 {
   font-size: 22px;
   margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 90%;
-  line-height: 1.2;
   color: var(--text-primary);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-@keyframes resultBreathe {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-}
-
-/* Цвета редкостей для рамок */
-.rarity-common {
-  color: var(--rarity-common);
-  border-color: var(--rarity-common);
-}
-.rarity-uncommon {
-  color: var(--rarity-uncommon);
-  border-color: var(--rarity-uncommon);
-}
-.rarity-rare {
-  color: var(--rarity-rare);
-  border-color: var(--rarity-rare);
-}
-.rarity-epic {
-  color: var(--rarity-epic);
-  border-color: var(--rarity-epic);
-}
-.rarity-legendary {
-  color: var(--rarity-legendary);
-  border-color: var(--rarity-legendary);
-  box-shadow: 0 0 20px rgba(255, 152, 0, 0.2);
-}
-.rarity-mythic {
-  color: var(--rarity-mythic);
-  border-color: var(--rarity-mythic);
-  box-shadow: 0 0 25px rgba(244, 67, 54, 0.3);
 }
 
 .rarity-label {
   font-size: 14px;
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   margin-top: 5px;
+  display: block;
 }
 
 .waifu-stats-preview {
   display: flex;
   gap: 15px;
-  margin: 10px 0;
-  font-size: 14px;
-  color: var(--text-secondary);
-  flex-wrap: wrap;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.2);
+  flex-wrap: wrap;
+  background: rgba(0, 0, 0, 0.4);
   padding: 8px 15px;
   border-radius: 12px;
   width: 100%;
+  font-size: 14px;
+  color: var(--text-secondary);
 }
 
 .waifu-stats-preview span {
@@ -197,43 +119,35 @@
   gap: 4px;
 }
 
-/* Баннеры */
-.duplicate-banner {
+/* Баннеры NEW / DUPLICATE */
+.duplicate-banner,
+.new-waifu-banner {
   position: absolute;
-  top: -10px;
+  top: -15px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #ffd43b 0%, #fab005 100%);
-  color: #000;
   padding: 6px 16px;
   border-radius: 20px;
   font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: slideDown 0.3s ease;
   font-size: 12px;
   z-index: 10;
-  box-shadow: 0 4px 15px rgba(255, 212, 59, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   border: 2px solid #fff;
+  text-align: center;
   min-width: 120px;
+  animation: slideDown 0.3s ease;
+}
+
+.duplicate-banner {
+  background: linear-gradient(135deg, #ffd43b 0%, #fab005 100%);
+  color: #000;
+  flex-direction: column;
+  line-height: 1.2;
 }
 
 .new-waifu-banner {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
   background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
   color: #fff;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 14px;
-  z-index: 10;
-  box-shadow: 0 4px 15px rgba(81, 207, 102, 0.4);
-  border: 2px solid #fff;
-  animation: slideDown 0.3s ease;
 }
 
 .dup-count-badge {
@@ -244,32 +158,53 @@
   font-size: 11px;
   font-weight: bold;
   border: 1px solid #ffd43b;
-  margin-top: 4px;
+  margin-top: 5px;
+  display: inline-block;
 }
 
 /* --- Кнопки управления результатами --- */
 .gacha-controls {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
   max-width: 400px;
-  margin-top: auto;
-  padding-bottom: 10px;
+  margin-top: 20px;
 }
 
+.btn-skip-fast,
 .btn-continue {
-  flex: 2;
-  padding: 12px;
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 12px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px; /* Touch target */
+}
+
+/* Стиль кнопки "Пропустить" (вторичная) */
+.btn-skip-fast {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-skip-fast:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+/* Стиль кнопки "Далее/Продолжить" (акцентная) */
+.btn-continue {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
@@ -278,29 +213,12 @@
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
 }
 
-.btn-skip-fast {
-  flex: 1;
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-skip-fast:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text-primary);
-}
-
-.btn-continue:disabled,
-.btn-skip-fast:disabled {
+.btn-skip-fast:disabled,
+.btn-continue:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   filter: grayscale(0.5);
+  transform: none;
 }
 
 /* --- Вкладки (Summon / Pool) --- */
@@ -310,6 +228,7 @@
   padding: 0 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .gacha-tab {
@@ -322,6 +241,7 @@
   font-size: 16px;
   transition: all 0.2s ease;
   cursor: pointer;
+  text-align: center;
 }
 
 .gacha-tab.active {
@@ -342,6 +262,8 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+  /* Важно для центрирования контента если его мало */
+  justify-content: flex-start;
 }
 
 .gacha-description {
@@ -355,8 +277,9 @@
 .gacha-rates {
   background: rgba(0, 0, 0, 0.3);
   padding: 15px;
-  border-radius: var(--border-radius);
+  border-radius: 12px;
   margin: 15px 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .rate-row {
@@ -366,6 +289,7 @@
   padding: 6px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 .rate-row:last-child {
   border-bottom: none;
 }
@@ -373,10 +297,15 @@
 .rarity-name {
   text-transform: capitalize;
   font-weight: 600;
+  flex: 1;
 }
+
 .rate-value {
   font-family: monospace;
+  font-weight: bold;
+  color: var(--text-primary);
 }
+
 .available-count {
   font-size: 11px;
   color: var(--text-muted);
@@ -392,11 +321,15 @@
 
 /* --- Секция действий (Кнопки призыва) --- */
 .gacha-action {
-  margin-top: auto; /* Прижимаем к низу, если контента мало */
+  margin-top: auto; /* Прижимает к низу если контента мало, но внутри flex колонки */
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding-top: 10px;
+  padding-top: 20px;
+  width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto; /* Центрируем блок кнопок */
 }
 
 .cost-display {
@@ -405,7 +338,7 @@
   gap: 8px;
   padding: 12px 15px;
   background: rgba(0, 0, 0, 0.3);
-  border-radius: var(--border-radius);
+  border-radius: 12px;
   font-size: 14px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -418,7 +351,9 @@
 
 .player-essence {
   color: var(--text-secondary);
+  font-size: 13px;
 }
+
 .x10-badge {
   background: #667eea;
   padding: 2px 6px;
@@ -431,9 +366,10 @@
 .summon-buttons {
   display: flex;
   gap: 15px;
+  width: 100%;
 }
 
-/* СТИЛИ ДЛЯ КНОПОК ПРИЗЫВА */
+/* СТИЛИ ДЛЯ КНОПОК ПРИЗЫВА (Единый стиль с другими кнопками игры) */
 .btn-summon {
   flex: 1;
   padding: 14px;
@@ -449,15 +385,14 @@
   justify-content: center;
   gap: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-
-  /* Градиент по умолчанию (для x1) */
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  color: #000;
+  color: white;
+  /* Градиент по умолчанию как у акцентных кнопок */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .btn-summon:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(79, 172, 254, 0.4);
+  box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
   filter: brightness(1.1);
 }
 
@@ -465,14 +400,9 @@
   transform: translateY(1px);
 }
 
-/* Стиль для кнопки x10 */
+/* Вариант для x10 (можно сделать чуть темнее или оставить таким же) */
 .btn-summon.x10 {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.btn-summon.x10:hover:not(:disabled) {
-  box-shadow: 0 6px 15px rgba(118, 75, 162, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #533483 100%);
 }
 
 .btn-summon:disabled {
@@ -491,6 +421,7 @@
   align-items: center;
   padding: 20px 0;
   height: 100%;
+  justify-content: center;
 }
 
 .pool-preview-hint {
@@ -498,13 +429,15 @@
   color: var(--text-secondary);
   font-size: 14px;
   line-height: 1.5;
+  max-width: 400px;
 }
 
 .quick-pool-stats {
   width: 100%;
+  max-width: 400px;
   background: rgba(0, 0, 0, 0.2);
   padding: 20px;
-  border-radius: var(--border-radius);
+  border-radius: 12px;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -550,6 +483,16 @@
 }
 
 /* Анимации */
+@keyframes resultBreathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -563,10 +506,10 @@
 
 @keyframes glow {
   from {
-    filter: brightness(1) drop-shadow(0 0 10px rgba(255, 212, 59, 0.3));
+    filter: brightness(1) drop-shadow(0 0 10px rgba(102, 126, 234, 0.3));
   }
   to {
-    filter: brightness(1.1) drop-shadow(0 0 20px rgba(255, 212, 59, 0.6));
+    filter: brightness(1.1) drop-shadow(0 0 20px rgba(102, 126, 234, 0.6));
   }
 }
 
@@ -580,6 +523,17 @@
   }
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Адаптивность */
 @media (max-width: 480px) {
   .gacha-panel {
@@ -588,8 +542,8 @@
   }
 
   .result-waifu-visual img {
-    width: 150px;
-    height: 210px;
+    width: 140px;
+    height: 200px;
   }
 
   .result-info h3 {
@@ -598,29 +552,29 @@
 
   .gacha-result-card {
     padding: 15px 10px;
-    gap: 8px;
+    gap: 10px;
   }
 
   .waifu-stats-preview {
     font-size: 12px;
-    gap: 10px;
+    gap: 8px;
     padding: 6px 10px;
   }
 
-  .btn-continue,
-  .btn-skip-fast {
+  .btn-skip-fast,
+  .btn-continue {
     padding: 10px;
     font-size: 14px;
   }
 
   .duplicate-banner,
   .new-waifu-banner {
-    font-size: 11px;
-    padding: 4px 12px;
+    font-size: 10px;
+    padding: 4px 10px;
     min-width: 100px;
   }
 
-  /* На мобильных кнопки друг под другом */
+  /* На мобильных кнопки друг под другом для удобства */
   .summon-buttons {
     flex-direction: column;
   }
@@ -628,4 +582,17 @@
   .btn-summon {
     width: 100%;
   }
+}
+
+.summon-buttons-grid {
+  display: flex;
+}
+
+.gacha-result-card-wrapper {
+  text-align: center;
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  flex-direction: column;
+  align-items: center;
 }

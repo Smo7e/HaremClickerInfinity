@@ -1,44 +1,54 @@
-.game {
+/* ============================================
+   GAME LAYOUT - ADAPTIVE GRID
+   ============================================ */
+
+.game-layout {
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  height: 100dvh; /* Dynamic Viewport Height for mobile browsers */
+  height: 100vh; /* Fallback */
+  display: grid;
   position: relative;
   overflow: hidden;
-  transform: translateZ(0);
+
+  /* Default Mobile Portrait Layout */
+  grid-template-areas:
+    "header"
+    "main"
+    "sidebar";
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
+
+  background-color: var(--color-bg-primary, #1a1a2e);
 }
 
+/* --- Header Area --- */
 .game-header {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  grid-area: header;
   z-index: 100;
   display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: space-between;
+  padding: 10px 15px;
   background: rgba(0, 0, 0, 0.6);
-  padding: 12px 20px;
-  border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  will-change: transform;
-  flex-wrap: wrap;
-  justify-content: center;
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 10px;
 }
 
 .currency-display {
   display: flex;
-  gap: 30px;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 .currency-item {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
-  position: relative;
+  color: var(--text-primary, #fff);
 }
 
 .currency-item.essence {
@@ -46,7 +56,7 @@
 }
 
 .currency-value {
-  min-width: 60px;
+  min-width: 40px;
   text-align: left;
 }
 
@@ -69,6 +79,7 @@
   justify-content: center;
   background: rgba(255, 255, 255, 0.1);
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .btn-icon-only:hover {
@@ -76,45 +87,28 @@
   transform: scale(1.1);
 }
 
-.game-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 20px;
-  padding-left: 100px;
-  transform: translateZ(0);
-}
-
-.battle-arena {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 60px;
-  width: 100%;
-  max-width: 1200px;
-  padding: 20px;
-  flex-wrap: nowrap;
-}
-
+/* --- Sidebar Area --- */
 .game-sidebar {
-  position: fixed;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  grid-area: sidebar;
+  z-index: 90;
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  z-index: 50;
-  will-change: transform;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  overflow-x: auto; /* Horizontal scroll on mobile */
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+
+.game-sidebar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .side-btn {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
+  min-width: 60px;
+  height: 60px;
+  border-radius: 12px;
   background: rgba(0, 0, 0, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
@@ -123,14 +117,13 @@
   justify-content: center;
   gap: 4px;
   position: relative;
-  transition: all 0.3s ease;
-  color: var(--text-primary);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  will-change: transform;
+  transition: all 0.2s ease;
+  color: var(--text-primary, #fff);
+  flex-shrink: 0;
 }
 
 .side-btn:hover {
-  transform: scale(1.08);
+  transform: scale(1.05);
   background: rgba(0, 0, 0, 0.8);
   border-color: rgba(255, 255, 255, 0.3);
 }
@@ -139,45 +132,73 @@
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  padding: 0 2px;
 }
 
 .side-btn-cost {
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -5px;
+  right: -5px;
   background: #ef4444;
   color: white;
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 10px;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 8px;
   font-weight: bold;
-  border: 2px solid var(--bg-primary);
+  border: 1px solid var(--bg-primary, #1a1a2e);
 }
 
 .side-badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -5px;
+  right: -5px;
   background: #8b5cf6;
   color: white;
-  font-size: 11px;
-  min-width: 24px;
-  height: 24px;
+  font-size: 10px;
+  min-width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   font-weight: bold;
-  border: 2px solid var(--bg-primary);
+  border: 1px solid var(--bg-primary, #1a1a2e);
+}
+
+/* --- Main Area (Battle Arena) --- */
+.game-main {
+  grid-area: main;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.battle-arena {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+  position: relative;
 }
 
 .waifu-clickable {
   cursor: pointer;
   transition: transform 0.2s ease;
   filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
-  will-change: transform;
-  order: -1;
-  flex-shrink: 0;
+  z-index: 10;
 }
 
 .waifu-clickable:hover {
@@ -188,116 +209,33 @@
   transform: scale(0.98);
 }
 
-.game-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 24px;
-  color: var(--text-secondary);
-}
-
-@media (max-width: 1200px) {
-  .battle-arena {
-    gap: 40px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .battle-arena {
-    gap: 30px;
-  }
-}
-
-@media (max-width: 768px) {
-  .game-header {
-    top: 10px;
-    padding: 10px 15px;
-    gap: 10px;
-  }
-
-  .currency-item {
-    font-size: 16px;
-    gap: 4px;
-  }
-
-  .bonus-indicator {
-    font-size: 9px;
-    padding: 1px 4px;
-  }
-
-  .game-sidebar {
-    left: 10px;
-    gap: 10px;
-  }
-
-  .side-btn {
-    width: 60px;
-    height: 60px;
-  }
-
-  .game-main {
-    padding-left: 80px;
-    padding-right: 10px;
-  }
-
-  .battle-arena {
-    flex-direction: row;
-    gap: 20px;
-    padding: 10px;
-    flex-wrap: nowrap;
-  }
-}
-
-@media (max-width: 480px) {
-  .battle-arena {
-    gap: 15px;
-  }
-
-  .game-main {
-    padding-left: 75px;
-    padding-right: 5px;
-  }
-
-  .game-header {
-    padding: 8px 12px;
-  }
-}
+/* --- CPS Display --- */
 .cps-display {
-  position: fixed;
-  top: 20px;
-  right: 20px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
   background: rgba(0, 0, 0, 0.6);
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 100;
-  min-width: 70px;
-}
-
-.cps-display.warning {
-  background: rgba(244, 67, 54, 0.3);
-  border-color: #f44336;
-  animation: pulseWarning 1s infinite;
+  z-index: 50;
+  min-width: 60px;
+  pointer-events: none; /* Let clicks pass through to arena if needed */
 }
 
 .cps-value {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
-  color: var(--text-primary);
-}
-
-.cps-display.warning .cps-value {
-  color: #ffeb3b;
+  color: var(--text-primary, #fff);
 }
 
 .cps-label {
-  font-size: 10px;
-  color: var(--text-secondary);
+  font-size: 9px;
+  color: var(--text-secondary, #aaa);
   text-transform: uppercase;
 }
 
@@ -305,44 +243,28 @@
   position: absolute;
   top: 100%;
   right: 0;
-  margin-top: 10px;
+  margin-top: 5px;
   background: rgba(244, 67, 54, 0.95);
-  padding: 12px 16px;
-  border-radius: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-width: 200px;
+  gap: 2px;
+  min-width: 150px;
   box-shadow: 0 4px 20px rgba(244, 67, 54, 0.4);
   animation: slideDown 0.3s ease;
+  pointer-events: auto;
 }
 
 .warning-title {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 12px;
   color: white;
 }
 
 .warning-subtitle {
-  font-size: 12px;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.9);
-}
-
-.warning-timer {
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffeb3b;
-  margin-top: 4px;
-}
-
-@keyframes pulseWarning {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
-  }
 }
 
 @keyframes slideDown {
@@ -356,36 +278,1002 @@
   }
 }
 
-@media (max-width: 768px) {
+.game-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 24px;
+  color: var(--text-secondary, #aaa);
+}
+
+/* ============================================
+   MEDIA QUERIES FOR ADAPTIVE LAYOUT
+   ============================================ */
+
+/* --- Mobile Landscape & Small Tablets (Portrait) --- */
+@media (min-width: 480px) and (orientation: portrait), (max-width: 767px) and (orientation: landscape) {
+  @media (orientation: landscape) {
+    .game-layout {
+      grid-template-areas:
+        "header header"
+        "sidebar main";
+      grid-template-rows: auto 1fr;
+      grid-template-columns: 80px 1fr;
+    }
+
+    .game-sidebar {
+      flex-direction: column;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: 10px 5px;
+    }
+
+    .side-btn {
+      width: 60px;
+      height: 60px;
+    }
+  }
+}
+
+/* --- Tablets (Portrait & Landscape) --- */
+@media (min-width: 768px) {
+  .game-layout {
+    grid-template-areas:
+      "header header"
+      "sidebar main";
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 80px 1fr;
+  }
+
+  .game-sidebar {
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 15px 10px;
+    gap: 15px;
+  }
+
+  .side-btn {
+    width: 70px;
+    height: 70px;
+  }
+
+  .battle-arena {
+    gap: 40px;
+  }
+}
+
+/* --- Desktop --- */
+@media (min-width: 1024px) {
+  .game-layout {
+    grid-template-columns: 100px 1fr;
+  }
+
+  .game-sidebar {
+    padding: 20px 10px;
+    gap: 20px;
+  }
+
+  .side-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+  }
+
+  .side-btn span:nth-child(2) {
+    font-size: 11px;
+  }
+
+  .battle-arena {
+    gap: 60px;
+  }
+
   .cps-display {
-    top: 10px;
-    right: 10px;
-    padding: 6px 12px;
-    min-width: 60px;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
   }
 
   .cps-value {
-    font-size: 14px;
+    font-size: 18px;
+  }
+}
+
+/* --- Wide Desktop / UltraWide --- */
+@media (min-width: 1440px) {
+  .game-layout {
+    grid-template-columns: 120px 1fr;
+    max-width: 1920px;
+    margin: 0 auto;
   }
 
-  .cps-label {
-    font-size: 9px;
+  .side-btn {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+/* --- Yandex Games Iframe Specifics --- */
+.yandex-games-frame .game-layout {
+  max-width: 100%;
+  max-height: 100vh;
+}
+
+/* Safe Area Support for iPhone X+ */
+@supports (padding: max(0px)) {
+  .game-header {
+    padding-top: max(10px, env(safe-area-inset-top));
   }
 
-  .cps-warning-popup {
-    min-width: 160px;
-    padding: 10px 12px;
+  .game-sidebar {
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
   }
 
-  .warning-title {
+  .game-main {
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+}
+/* ============================================
+GAME HEADER - ADAPTIVE TOP BAR
+============================================ */
+
+.game-header {
+  grid-area: header;
+  z-index: var(--z-sticky, 200);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* Отступы с учетом Safe Area (iPhone notch) и баннеров Яндекса */
+  padding-top: max(var(--space-2, 10px), var(--safe-top, 0px));
+  padding-bottom: var(--space-2, 10px);
+  padding-left: var(--space-3, 15px);
+  padding-right: var(--space-3, 15px);
+
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  gap: var(--space-2, 10px);
+
+  /* Фиксируем высоту для стабильности layout, но позволяем расти при необходимости */
+  min-height: 60px;
+}
+
+/* Левая и правая части для баланса */
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Центральная часть с валютами */
+.currency-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3, 15px);
+
+  flex: 1; /* Занимает все доступное пространство */
+  overflow-x: auto; /* Скролл если не влезает на очень узких экранах */
+  padding: 0 var(--space-1, 5px);
+
+  /* Скрываем скроллбар */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.currency-display::-webkit-scrollbar {
+  display: none;
+}
+
+/* Отдельная валюта */
+.currency-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  font-size: var(--text-sm, 14px);
+  font-weight: 700;
+  color: var(--color-text-primary, #fff);
+
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.currency-item.gem {
+  color: #ffd43b;
+  border-color: rgba(255, 212, 59, 0.3);
+  background: rgba(255, 212, 59, 0.1);
+}
+
+.currency-item.essence {
+  color: #c084fc;
+  border-color: rgba(192, 132, 252, 0.3);
+  background: rgba(192, 132, 252, 0.1);
+}
+
+.currency-value {
+  min-width: 30px;
+  text-align: right;
+  font-variant-numeric: tabular-nums; /* Чтобы цифры не прыгали */
+}
+
+/* Индикатор бонуса (x1.5 и т.д.) */
+.bonus-indicator {
+  font-size: 10px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+/* Кнопки-иконки (Пауза, Реклама) */
+.btn-icon-only {
+  width: 44px; /* Минимальный тач-таргет */
+  height: 44px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text-primary, #fff);
+
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  /* Убираем стандартные стили кнопки */
+  padding: 0;
+  margin: 0;
+}
+
+.btn-icon-only:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-icon-only:active {
+  transform: scale(0.95);
+}
+
+/* Специфичные стили для кнопки ADS, если нужно выделить */
+.ads-btn {
+  background: rgba(81, 207, 102, 0.2);
+  border-color: rgba(81, 207, 102, 0.3);
+  color: #51cf66;
+}
+
+.ads-btn:hover {
+  background: rgba(81, 207, 102, 0.3);
+}
+
+/* ============================================
+RESPONSIVE ADJUSTMENTS FOR HEADER
+============================================ */
+
+/* --- Mobile Small (< 480px) --- */
+@media (max-width: 479px) {
+  .game-header {
+    padding-left: var(--space-2, 10px);
+    padding-right: var(--space-2, 10px);
+    min-height: 50px;
+  }
+
+  .currency-item {
+    padding: 4px 8px;
     font-size: 12px;
+    gap: 4px;
   }
 
-  .warning-subtitle {
+  .currency-value {
+    min-width: 25px;
+  }
+
+  .btn-icon-only {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Если места совсем мало, можно скрыть текст "ADS" если он есть, или уменьшить иконки */
+  .bonus-indicator {
+    display: none; /* Скрываем бонусы на самых маленьких экранах для экономии места */
+  }
+}
+
+/* --- Tablet & Desktop (> 768px) --- */
+@media (min-width: 768px) {
+  .game-header {
+    padding-top: max(var(--space-3, 15px), var(--safe-top, 0px));
+    padding-left: var(--space-4, 20px);
+    padding-right: var(--space-4, 20px);
+  }
+
+  .currency-item {
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+
+  .btn-icon-only {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* --- Yandex Games Specific --- */
+/* Если игра в iframe, убедимся, что header не перекрывается системными элементами */
+.yandex-games-frame .game-header {
+  /* Иногда Яндекс добавляет свои отступы, но мы уже используем safe-area */
+  z-index: 1000;
+}
+
+/* ============================================
+GAME SIDEBAR - ADAPTIVE NAVIGATION
+============================================ */
+
+.game-sidebar {
+  grid-area: sidebar;
+  z-index: var(--z-sticky, 200);
+
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+
+  display: flex;
+  gap: var(--space-2, 10px);
+  padding: var(--space-2, 10px);
+
+  /* По умолчанию (Mobile Portrait): Горизонтальный скролл снизу */
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  height: auto;
+  min-height: 70px; /* Минимальная высота для тача */
+
+  /* Скрываем скроллбар, но оставляем функционал */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  /* Safe Area Bottom для iPhone */
+  padding-bottom: max(var(--space-2, 10px), env(safe-area-inset-bottom, 0px));
+}
+
+.game-sidebar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Кнопка навигации */
+.side-btn {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  /* Минимальный тач-таргет 44x44px */
+  min-width: 60px;
+  height: 60px;
+  flex-shrink: 0; /* Чтобы кнопки не сжимались в скролле */
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--color-text-secondary, #aaa);
+
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.side-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--color-text-primary, #fff);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.side-btn:active {
+  transform: scale(0.95);
+}
+
+/* Иконка внутри кнопки */
+.side-btn .icon {
+  margin-bottom: 2px;
+}
+
+/* Текст под иконкой */
+.side-btn span:nth-child(2) {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  padding: 0 2px;
+}
+
+/* Бейдж (счетчик) */
+.side-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+
+  background: var(--color-accent, #e94560);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  border: 2px solid var(--color-bg-primary, #1a1a2e);
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Стоимость (например, 10 эссенции) */
+.side-btn-cost {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffd43b;
+  font-size: 9px;
+  font-weight: bold;
+
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 212, 59, 0.3);
+}
+
+/* ============================================
+RESPONSIVE ADAPTATIONS FOR SIDEBAR
+============================================ */
+
+/* --- Mobile Landscape & Tablet & Desktop (> 768px or Landscape) --- */
+/* Переключаемся на вертикальный сайдбар слева */
+@media (min-width: 768px), (orientation: landscape) and (min-width: 600px) {
+  .game-sidebar {
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    width: 80px; /* Фиксированная ширина */
+    height: 100%;
+    min-height: 0;
+
+    padding: var(--space-3, 15px) var(--space-1, 5px);
+    gap: var(--space-2, 10px);
+
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: none;
+
+    /* Safe Area Left/Right не нужны, так как это не нижняя панель */
+    padding-bottom: var(--space-3, 15px);
+  }
+
+  .side-btn {
+    width: 100%; /* На всю ширину сайдбара */
+    height: 70px; /* Чуть выше для удобства */
+    min-width: 0;
+
+    border-radius: 12px;
+  }
+
+  .side-btn span:nth-child(2) {
+    font-size: 9px; /* Чуть меньше текст, так как места мало */
+    line-height: 1.1;
+  }
+}
+
+/* --- Desktop Wide (> 1024px) --- */
+/* Можно немного расширить кнопки или добавить отступы */
+@media (min-width: 1024px) {
+  .game-sidebar {
+    width: 90px;
+    padding: var(--space-4, 20px) var(--space-2, 10px);
+    gap: var(--space-3, 15px);
+  }
+
+  .side-btn {
+    height: 80px;
+    border-radius: 16px;
+  }
+
+  .side-btn span:nth-child(2) {
     font-size: 10px;
   }
+}
 
-  .warning-timer {
-    font-size: 14px;
+/* --- Ultra Wide Desktop (> 1440px) --- */
+@media (min-width: 1440px) {
+  .game-sidebar {
+    width: 110px;
+  }
+
+  .side-btn {
+    height: 90px;
+  }
+
+  .side-btn span:nth-child(2) {
+    font-size: 11px;
+  }
+}
+
+/* --- Yandex Games Specific --- */
+.yandex-games-frame .game-sidebar {
+  /* Убедимся, что сайдбар не перекрывается UI Яндекса */
+  z-index: 1000;
+}
+
+/* ============================================
+GAME MAIN & BATTLE ARENA - ADAPTIVE ZONE
+============================================ */
+
+.game-main {
+  grid-area: main;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Чтобы эффекты не вылетали за пределы */
+  padding: var(--space-4);
+
+  /* Центрирование контента */
+  contain: layout style;
+}
+
+.battle-arena {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 5vw, 60px); /* Адаптивный отступ между персонажами */
+
+  width: 100%;
+  max-width: 1400px; /* Ограничение для ультра-широких экранов */
+  height: 100%;
+
+  position: relative;
+  z-index: 10;
+
+  /* Соотношение сторон для стабильности (опционально, можно убрать если нужно full height) */
+  /* aspect-ratio: 16/9; */
+}
+
+/* --- Waifu Component (Слева) --- */
+.waifu-clickable {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+  z-index: 20;
+  flex-shrink: 0;
+
+  /* Адаптивный размер контейнера вайфу */
+  width: clamp(120px, 25vh, 350px);
+  height: auto;
+  aspect-ratio: 3/4; /* Пропорции портрета */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Увеличиваем область клика для тача */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.waifu-clickable:hover {
+  transform: scale(1.03) translateY(-5px);
+}
+
+.waifu-clickable:active {
+  transform: scale(0.98);
+}
+
+/* Внутреннее изображение вайфу (контролируется через компонент, но здесь страховка) */
+.waifu-clickable img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none; /* Чтобы клик проходил на контейнер */
+}
+
+/* --- Enemy Component (Справа) --- */
+/* Стили для самого компонента врага задаются в EnemyComponent.css, 
+   но здесь мы контролируем его контейнер в арене */
+.battle-arena > *:last-child {
+  /* Это враг, если он идет вторым в JSX */
+  z-index: 15;
+  flex-shrink: 0;
+}
+
+/* --- CPS Display (Счетчик кликов) --- */
+.cps-display {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  z-index: 30;
+  min-width: 60px;
+  pointer-events: none; /* Пропускаем клики сквозь него */
+
+  transition: all 0.3s ease;
+}
+
+.cps-value {
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.cps-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
+}
+
+/* Всплывашка предупреждения о читерстве */
+.cps-warning-popup {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+
+  background: rgba(220, 38, 38, 0.95);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+  text-align: center;
+
+  animation: slideDownFade 0.3s ease-out;
+  pointer-events: auto;
+  z-index: 40;
+}
+
+.warning-title {
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.warning-subtitle {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+RESPONSIVE ADAPTATIONS FOR ARENA
+============================================ */
+
+/* --- Mobile Portrait (< 768px) --- */
+@media (max-width: 767px) and (orientation: portrait) {
+  .battle-arena {
+    gap: 10px;
+    /* На очень узких экранах можно чуть уменьшить отступы */
+  }
+
+  .waifu-clickable {
+    width: clamp(100px, 30vw, 200px);
+  }
+
+  .cps-display {
+    top: 5px;
+    right: 5px;
+    padding: 6px 10px;
+  }
+}
+
+/* --- Mobile Landscape (< 768px) --- */
+/* Самое критичное разрешение для игр в браузере телефона */
+@media (max-width: 767px) and (orientation: landscape) {
+  .game-main {
+    padding: 5px;
+  }
+
+  .battle-arena {
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  .waifu-clickable {
+    /* Уменьшаем вайфу, чтобы влезла по высоте */
+    height: 85vh;
+    width: auto;
+    max-width: 40vw;
+  }
+
+  /* Враг тоже должен уменьшиться пропорционально */
+  /* Примечание: стили врага находятся в EnemyComponent.css, 
+     но мы можем передать класс или использовать глобальный селектор, 
+     если компонент врага не имеет жесткой ширины */
+}
+
+/* --- Tablet (768px - 1023px) --- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .battle-arena {
+    gap: 30px;
+  }
+
+  .waifu-clickable {
+    width: clamp(150px, 20vh, 280px);
+  }
+}
+
+/* --- Desktop (>= 1024px) --- */
+@media (min-width: 1024px) {
+  .battle-arena {
+    gap: 50px;
+  }
+
+  .waifu-clickable {
+    width: clamp(200px, 25vh, 350px);
+  }
+
+  .cps-display {
+    top: 20px;
+    right: 20px;
+    padding: 10px 16px;
+  }
+}
+
+/* --- Ultra Wide / 4K (>= 1920px) --- */
+@media (min-width: 1920px) {
+  .battle-arena {
+    max-width: 1600px; /* Ограничиваем, чтобы не разъезжались слишком далеко */
+    gap: 80px;
+  }
+
+  .waifu-clickable {
+    width: 400px; /* Фиксированный максимум для читаемости */
+  }
+}
+
+/* ============================================
+YANDEX GAMES & SAFE AREAS
+============================================ */
+
+/* Если игра в iframe Яндекса, убеждаемся, что арена не обрезается */
+.yandex-games-frame .battle-arena {
+  max-width: 100%;
+}
+
+/* Учет безопасных зон (notch, home indicator) внутри арены */
+@supports (padding: max(0px)) {
+  .game-main {
+    padding-left: max(var(--space-4), env(safe-area-inset-left));
+    padding-right: max(var(--space-4), env(safe-area-inset-right));
+    padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+  }
+}
+/* ============================================
+GAME HEADER - UPDATED CENTERED LAYOUT
+============================================ */
+.game-header {
+  grid-area: header;
+  z-index: var(--z-sticky, 200);
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Центрируем всё содержимое */
+  padding-top: max(var(--space-2, 10px), var(--safe-top, 0px));
+  padding-bottom: var(--space-2, 10px);
+  padding-left: var(--space-3, 15px);
+  padding-right: var(--space-3, 15px);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: var(--space-2, 10px);
+  min-height: 60px;
+}
+
+/* Контейнер валют теперь центрирует свои элементы */
+.currency-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3, 15px);
+  width: 100%;
+  max-width: 600px; /* Ограничиваем ширину, чтобы не разъезжалось на планшетах */
+  overflow-x: auto;
+  padding: 0 var(--space-1, 5px);
+  scrollbar-width: none;
+}
+
+.currency-display::-webkit-scrollbar {
+  display: none;
+}
+
+/* Стили для кнопок внутри хедера */
+.header-control-btn {
+  flex-shrink: 0;
+}
+
+/* ============================================
+SIDEBAR TEXT FIXES (Mobile)
+============================================ */
+
+/* На мобильных устройствах в портретном режиме */
+@media (max-width: 767px) and (orientation: portrait) {
+  .side-btn {
+    /* Увеличиваем минимальную ширину кнопки, чтобы текст влезал */
+    min-width: 70px;
+    padding: 4px;
+  }
+
+  .side-btn span:nth-child(2) {
+    /* Разрешаем перенос текста или уменьшаем шрифт */
+    font-size: 9px;
+    line-height: 1.1;
+    white-space: normal; /* Разрешаем перенос слов */
+    word-break: break-word;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  /* Если текста слишком много, можно скрыть его на очень узких экранах, оставив только иконку */
+  /* Раскомментируйте ниже, если хотите скрыть текст полностью на узких экранах */
+  /*
+  .side-btn span:nth-child(2) {
+    display: none;
+  }
+  */
+}
+
+/* Для очень узких экранов (меньше 360px) */
+@media (max-width: 359px) {
+  .side-btn {
+    min-width: 55px;
+  }
+
+  .side-btn span:nth-child(2) {
+    font-size: 8px;
+    display: none; /* Скрываем текст, оставляем только иконки для экономии места */
+  }
+}
+
+/* В ландшафтном режиме на мобильных сайдбар становится вертикальным слева, там места больше */
+@media (max-width: 767px) and (orientation: landscape) {
+  .side-btn {
+    width: 60px;
+    height: 60px;
+  }
+
+  .side-btn span:nth-child(2) {
+    font-size: 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* src/components/Game/Game.css */
+
+.leaderboard-rank {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.leaderboard-rank.improved {
+  border-top-color: #51cf66;
+  animation: pulseGreen 1.5s ease infinite;
+}
+
+.leaderboard-rank.loading {
+  opacity: 0.6;
+}
+
+@keyframes pulseGreen {
+  0%,
+  100% {
+    border-top-color: rgba(81, 207, 102, 0.3);
+    box-shadow: 0 0 0 rgba(81, 207, 102, 0);
+  }
+  50% {
+    border-top-color: rgba(81, 207, 102, 0.8);
+    box-shadow: 0 0 8px rgba(81, 207, 102, 0.3);
+  }
+}
+
+.rank-icon {
+  font-size: 14px;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+}
+
+.rank-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.rank-spinner {
+  font-size: 12px;
+  color: #888;
+  animation: spin 1s linear infinite;
+}
+
+.rank-pending {
+  font-size: 10px;
+  color: #51cf66;
+  margin-left: 2px;
+  animation: bounce 0.5s ease infinite alternate;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-2px);
   }
 }

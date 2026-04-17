@@ -1,0 +1,169 @@
+/* ============================================
+   HAREM CLICKER INFINITY - DESIGN SYSTEM
+   ============================================ */
+
+/* --- Брейкпоинты (mobile-first) --- */
+:root {
+  /* Mobile */
+  --bp-mobile: 480px;
+  --bp-tablet: 768px;
+  --bp-desktop: 1024px;
+  --bp-wide: 1440px;
+  --bp-ultra: 1920px;
+
+  /* --- Yandex Games Safe Areas --- */
+  /* Sticky баннеры сверху/снизу */
+  --yg-banner-top: 0px;
+  --yg-banner-bottom: 0px;
+  /* Fallback для старых устройств */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+
+  /* Комбинированные отступы */
+  --safe-top: calc(var(--safe-area-top) + var(--yg-banner-top));
+  --safe-bottom: calc(var(--safe-area-bottom) + var(--yg-banner-bottom));
+
+  /* --- Цветовая палитра (из текущей темы) --- */
+  --color-bg-primary: #1a1a2e;
+  --color-bg-secondary: #16213e;
+  --color-bg-tertiary: #0f3460;
+  --color-accent: #e94560;
+  --color-accent-hover: #ff6b6b;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a0a0a0;
+  --color-text-muted: #666666;
+  --color-border: rgba(255, 255, 255, 0.1);
+
+  /* Редкости */
+  --rarity-common: #9e9e9e;
+  --rarity-uncommon: #4caf50;
+  --rarity-rare: #2196f3;
+  --rarity-epic: #9c27b0;
+  --rarity-legendary: #ff9800;
+  --rarity-mythic: #f44336;
+
+  /* --- Типографика с fluid scaling --- */
+  /* clamp(min, preferred, max) */
+  --text-xs: clamp(0.625rem, 0.5vw + 0.5rem, 0.75rem); /* 10-12px */
+  --text-sm: clamp(0.75rem, 0.5vw + 0.5rem, 0.875rem); /* 12-14px */
+  --text-base: clamp(0.875rem, 0.5vw + 0.5rem, 1rem); /* 14-16px */
+  --text-md: clamp(1rem, 0.8vw + 0.5rem, 1.125rem); /* 16-18px */
+  --text-lg: clamp(1.125rem, 1vw + 0.5rem, 1.5rem); /* 18-24px */
+  --text-xl: clamp(1.25rem, 1.5vw + 0.5rem, 2rem); /* 20-32px */
+  --text-2xl: clamp(1.5rem, 2vw + 0.5rem, 2.5rem); /* 24-40px */
+  --text-3xl: clamp(1.875rem, 3vw + 0.5rem, 3rem); /* 30-48px */
+  --text-4xl: clamp(2.25rem, 4vw + 0.5rem, 4rem); /* 36-64px */
+
+  /* --- Отступы (8px base) --- */
+  --space-1: clamp(0.25rem, 0.5vw, 0.5rem); /* 4-8px */
+  --space-2: clamp(0.5rem, 1vw, 0.75rem); /* 8-12px */
+  --space-3: clamp(0.75rem, 1.5vw, 1rem); /* 12-16px */
+  --space-4: clamp(1rem, 2vw, 1.5rem); /* 16-24px */
+  --space-5: clamp(1.25rem, 2.5vw, 2rem); /* 20-32px */
+  --space-6: clamp(1.5rem, 3vw, 2.5rem); /* 24-40px */
+  --space-8: clamp(2rem, 4vw, 3rem); /* 32-48px */
+  --space-10: clamp(2.5rem, 5vw, 4rem); /* 40-64px */
+  --space-12: clamp(3rem, 6vw, 5rem); /* 48-80px */
+
+  /* --- Размеры UI --- */
+  /* Touch targets (минимум 44px для iOS/Android) */
+  --touch-target: 44px;
+  --touch-target-lg: 56px;
+
+  /* Иконки */
+  --icon-vsm: clamp(12px, 2vw, 16px);
+  --icon-sm: clamp(16px, 3vw, 24px);
+  --icon-md: clamp(20px, 4vw, 32px);
+  --icon-lg: clamp(28px, 6vw, 48px);
+  --icon-xl: clamp(36px, 8vw, 64px);
+
+  /* Кнопки */
+  --btn-height: clamp(36px, 6vh, 48px);
+  --btn-height-lg: clamp(44px, 8vh, 56px);
+  --btn-padding-x: clamp(12px, 3vw, 24px);
+
+  /* --- Тени и эффекты --- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px rgba(233, 69, 96, 0.3);
+
+  /* --- Анимации --- */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  /* --- Z-index scale --- */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 300;
+  --z-popover: 400;
+  --z-toast: 500;
+  --z-yg-banner: 1000; /* Выше всего для баннеров ЯГ */
+}
+
+/* --- Yandex Games специфичные переменные --- */
+/* Класс добавляется через JS когда детектим YG */
+.yandex-games {
+  --yg-banner-top: 50px; /* Высота sticky баннера сверху */
+  --yg-banner-bottom: 50px; /* Высота sticky баннера снизу */
+}
+
+/* --- Портрет/ландшафт адаптация --- */
+@media (orientation: portrait) {
+  :root {
+    --game-sidebar-width: 100%;
+    --game-sidebar-height: auto;
+    --game-main-height: 60vh;
+  }
+}
+
+@media (orientation: landscape) {
+  :root {
+    --game-sidebar-width: 80px;
+    --game-sidebar-height: 100%;
+    --game-main-height: 100%;
+  }
+}
+
+/* --- Контейнеры --- */
+:root {
+  --container-max: 1920px;
+  --container-padding: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-padding: var(--space-6);
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --container-padding: var(--space-8);
+  }
+}
+
+/* --- Aspect ratios для боевой арены --- */
+:root {
+  --arena-ratio-mobile: 3/4;
+  --arena-ratio-tablet: 4/3;
+  --arena-ratio-desktop: 16/9;
+  --arena-ratio-wide: 21/9;
+}
+:root {
+  /* Фоны панелей - должны быть непрозрачными */
+  --bg-panel: rgba(26, 26, 46, 0.98);
+  --bg-panel-solid: #1a1a2e;
+  --bg-panel-header: rgba(22, 22, 38, 0.99);
+
+  /* Границы панелей */
+  --border-panel: rgba(255, 255, 255, 0.1);
+
+  /* Тени для выделения поверх контента */
+  --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-panel-lg: 0 12px 48px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.5);
+}

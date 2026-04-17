@@ -17,7 +17,7 @@ import "./Game.css";
 import { Icon } from "../Icon/Icon";
 import { Background } from "./components/Background/Background";
 import { BackpackPanel } from "./components/BackpackPanel/BackpackPanel";
-import { CheatMenu } from "./components/CheatMenu/CheatMenu";
+
 import { CraftPanel, TCraftableItem } from "./components/CraftPanel/CraftPanel";
 import { BestiaryPanel } from "./components/BestiaryPanel/BestiaryPanel";
 import { useCPS } from "../../hooks/useCPS";
@@ -25,6 +25,7 @@ import { TInventoryItemId } from "../../types";
 import { audioManager } from "../../audio/AudioManager";
 import { AdPanel } from "./components/AdPanel/AdPanel";
 import { adService } from "../../services/AdService";
+import { useLeaderboard } from "../../hooks/useLeaderboard";
 
 interface Props {
   onBack: () => void;
@@ -55,11 +56,11 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   const closePanel = useGameStore((state) => state.closePanel);
   const openPanel = useGameStore((state) => state.openPanel);
   const changeLocation = useGameStore((state) => state.changeLocation);
-  const dealDamage = useGameStore((state) => state.dealDamage);
   const setPaused = useGameStore((state) => state.setPaused);
 
   const { handleClick, currentLevel, locationConfig } = useBattle();
   const { cps, isWarning, recordClick } = useCPS();
+  const { rank, isAuthorized: isLeaderboardAuth, isLoading, hasImproved } = useLeaderboard();
 
   const activeWaifu = ownedWaifus.find((w) => w.id === activeWaifuId);
   const gems = inventory.getItemCount("gem");
@@ -72,6 +73,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     },
     [handleClick],
   );
+
   useEffect(() => {
     setPaused(panels.pause);
   }, [panels.pause, setPaused]);
@@ -88,6 +90,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     (itemId: TInventoryItemId) => {
       const item = inventory.getItem(itemId);
       if (!item || !item.effect) return;
+
       if (item.effect.type === "level_down") {
         const levelsToReduce = item.effect.value;
         const newLevel = Math.max(1, locationProgress[currentLocation].currentLevel - levelsToReduce);
@@ -122,13 +125,17 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     },
     [inventory, currentLocation, locationProgress, activeWaifu, removeItem, useItem, refreshWaifus],
   );
+
   useEffect(() => {
     if (!isPaused) {
       adService.startGameplay();
+      audioManager.setMuted(false);
     } else {
       adService.stopGameplay();
+      audioManager.setMuted(true);
     }
   }, [isPaused]);
+
   useEffect(() => {
     // Предотвращает масштабирование двойным тапом на iOS/Android
     let lastTouchEnd = 0;
@@ -141,16 +148,44 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     };
     document.addEventListener("touchend", handleTouchEnd, { passive: false });
 
-    // Предотвращает жест "pull-to-refresh" на мобильных
+    // ИСПРАВЛЕННЫЙ обработчик — блокируем только pull-to-refresh, не скролл панелей
     const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches[0] && e.touches[0].clientY > 0) {
-        // Разрешаем скролл только внутри панелей
-        const target = e.target as HTMLElement;
-        if (!target.closest(".panel-scroll-content") && !target.closest(".tutorial-scroll-content")) {
-          e.preventDefault();
-        }
+      const target = e.target as HTMLElement;
+
+      // Разрешаем скролл внутри панелей и туториала
+      const isInScrollablePanel =
+        target.closest(".panel") ||
+        target.closest(".panel-content") ||
+        target.closest(".panel-scroll-content") ||
+        target.closest(".tutorial-scroll-content") ||
+        target.closest(".game-sidebar") || // Важно для навигации!
+        target.closest(".backpack-panel") ||
+        target.closest(".craft-panel") ||
+        target.closest(".settings-modal") ||
+        target.closest(".collection-panel") ||
+        target.closest(".bestiary-panel") ||
+        target.closest(".waifu-select-panel") ||
+        target.closest(".gacha-panel") ||
+        target.closest(".upgrade-panel-modal") ||
+        target.closest(".location-selector-panel") ||
+        target.closest(".ad-panel") ||
+        target.closest(".pause-panel") ||
+        target.closest(".waifu-detail-panel") ||
+        target.closest(".drop-pool-panel");
+
+      if (isInScrollablePanel) {
+        return; // Не блокируем — пусть скроллится
+      }
+
+      // Блокируем только pull-to-refresh (когда свайп вниз вверху страницы)
+      const isAtTop = window.scrollY === 0;
+      const isPullDown = e.touches[0] && e.touches[0].clientY > 0;
+
+      if (isAtTop && isPullDown && e.cancelable) {
+        e.preventDefault();
       }
     };
+
     document.addEventListener("touchmove", handleTouchMove, { passive: false });
 
     return () => {
@@ -170,6 +205,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     },
     [addItem, removeItem],
   );
+
   const handleWaifuSelect = useCallback(
     (waifuId: string) => {
       setActiveWaifu(waifuId);
@@ -206,53 +242,57 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   }
 
   return (
-    <div className="game">
+    <div className="game-layout">
       <Background locationId={currentLocation} />
-      <div className="cps-display" style={{ opacity: 0.9 }}>
-        <span className="cps-value">{cps}</span>
-        <span className="cps-label">{t("ui.cps")}</span>
 
-        {isWarning && (
-          <div className="cps-warning-popup">
-            <span className="warning-title">{t("ui.cpsWarning")}</span>
-            <span className="warning-subtitle">{t("ui.cpsWarningSubtitle")}</span>
-          </div>
-        )}
-      </div>
-
+      {/* --- HEADER AREA --- */}
+      {/* --- HEADER AREA --- */}
       <header className="game-header">
+        {/* Центр: Валюты и Кнопки управления (Реклама/Пауза) */}
         <div className="currency-display">
+          {/* Кнопка Рекламы (теперь слева от валют) */}
           <button
-            className="side-btn"
+            className="btn-icon-only ads-btn header-control-btn"
             onClick={() => {
               openPanel("ads");
               audioManager.playSFX("panel_click");
             }}
+            aria-label={t("ui.ads")}
           >
-            <Icon name="play" size="lg" />
-            <span>{t("ui.ads")}</span>
+            <Icon name="play" size="md" />
           </button>
-          <div className="currency-item">
-            <Icon name="gem" size="md" />
+
+          {/* Валюты */}
+          <div className="currency-item gem">
+            <Icon name="gem" size="sm" />
             <span className="currency-value">{Math.floor(gems)}</span>
             {locationConfig && locationConfig.bonuses.gemMultiplier > 1 && (
               <span className="bonus-indicator">x{locationConfig.bonuses.gemMultiplier.toFixed(1)}</span>
             )}
           </div>
+
           <div className="currency-item essence">
-            <Icon name="essence" size="md" />
+            <Icon name="essence" size="sm" />
             <span className="currency-value">{Math.floor(essence)}</span>
             {locationConfig && locationConfig.bonuses.essenceMultiplier > 1 && (
               <span className="bonus-indicator">x{locationConfig.bonuses.essenceMultiplier.toFixed(1)}</span>
             )}
           </div>
+
+          {/* Кнопка Паузы (теперь справа от валют) */}
+          <button
+            className="btn-icon-only pause-btn header-control-btn"
+            onClick={() => openPanel("pause")}
+            aria-label={t("ui.pause")}
+          >
+            <Icon name="pause" size="md" />
+          </button>
         </div>
-        <button className="btn-icon-only" onClick={() => openPanel("pause")}>
-          <Icon name="pause" size="md" />
-        </button>
       </header>
 
+      {/* --- SIDEBAR AREA --- */}
       <nav className="game-sidebar">
+        {/* ... содержимое сайдбара остается прежним ... */}
         <button
           className="side-btn"
           onClick={() => {
@@ -265,6 +305,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
           <span>{t("ui.location")}</span>
           <span className="side-badge">{currentLevel}</span>
         </button>
+        {/* ... остальные кнопки сайдбара ... */}
         <button
           className="side-btn"
           onClick={() => {
@@ -345,7 +386,33 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         </button>
       </nav>
 
+      {/* --- MAIN AREA (BATTLE ARENA) --- */}
       <main className="game-main">
+        <div className="cps-display">
+          <span className="cps-value">{cps}</span>
+          <span className="cps-label">{t("ui.cps")}</span>
+          {isLeaderboardAuth && (
+            <div className={`leaderboard-rank ${hasImproved ? "improved" : ""} ${isLoading ? "loading" : ""}`}>
+              <span className="rank-icon">🏆</span>
+              {isLoading ? (
+                <span className="rank-spinner">⟳</span>
+              ) : rank !== null ? (
+                <span className="rank-value">#{rank}</span>
+              ) : (
+                <span className="rank-value">-</span>
+              )}
+              {/* Индикатор что есть несохранённый прогресс */}
+              {hasImproved && !isLoading && <span className="rank-pending">↑</span>}
+            </div>
+          )}
+          {isWarning && (
+            <div className="cps-warning-popup">
+              <span className="warning-title">{t("ui.cpsWarning")}</span>
+              <span className="warning-subtitle">{t("ui.cpsWarningSubtitle")}</span>
+            </div>
+          )}
+        </div>
+
         <div className="battle-arena">
           <div onClick={handleWaifuClick} className="waifu-clickable">
             <WaifuComponent />
@@ -359,6 +426,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         </div>
       </main>
 
+      {/* ... Панели остаются прежними ... */}
       <LocationSelector
         isOpen={panels.locationSelector}
         onClose={() => closePanel("locationSelector")}
@@ -366,39 +434,31 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         locationProgress={locationProgress}
         onLocationChange={handleLocationChange}
       />
-
       <GachaPanel isOpen={panels.gacha} onClose={() => closePanel("gacha")} />
-
       <CollectionPanel isOpen={panels.collection} onClose={() => closePanel("collection")} />
-
       <WaifuSelectPanel
         isOpen={panels.waifuSelect}
         onClose={() => closePanel("waifuSelect")}
         onSelect={handleWaifuSelect}
       />
-
       <UpgradePanel isOpen={panels.upgrades} onClose={() => closePanel("upgrades")} />
-
       <BackpackPanel
         isOpen={panels.backpack}
         onClose={() => closePanel("backpack")}
         onUseItem={handleUseItem}
         selectedWaifuId={activeWaifu?.id}
       />
-
       <WaifuDetailPanel
         isOpen={!!panels.waifuDetail}
         onClose={() => closePanel("waifuDetail")}
         waifuId={panels.waifuDetail}
       />
-
       <Pause
         isOpen={panels.pause}
         onClose={() => closePanel("pause")}
         onSettings={handlePauseSettings}
         onMenu={handlePauseMenu}
       />
-
       {panels.settings && (
         <Settings
           setIsSettings={() => closePanel("settings")}
@@ -406,7 +466,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
           isPaused={isGlobalPaused || isPaused}
         />
       )}
-
       <CraftPanel
         isOpen={panels.craft}
         onClose={() => closePanel("craft")}
@@ -414,33 +473,8 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         onUseItem={handleUseItem}
         selectedWaifuId={activeWaifu?.id}
       />
-
       <BestiaryPanel isOpen={panels.bestiary} onClose={() => closePanel("bestiary")} />
       <AdPanel isOpen={panels.ads} onClose={() => closePanel("ads")} />
-      <CheatMenu
-        onSetGems={(amount) => {
-          const current = inventory.getItemCount("gem");
-          if (amount > current) {
-            addItem("gem", amount - current);
-          } else if (amount < current) {
-            removeItem("gem", current - amount);
-          }
-        }}
-        onSetEssence={(amount) => {
-          const current = inventory.getItemCount("essence");
-          if (amount > current) {
-            addItem("essence", amount - current);
-          } else if (amount < current) {
-            removeItem("essence", current - amount);
-          }
-        }}
-        onKillEnemy={() => {
-          if (enemy) {
-            enemy.currentHp = 0;
-            dealDamage(0, false);
-          }
-        }}
-      />
     </div>
   );
 });

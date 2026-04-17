@@ -79,7 +79,7 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
     setDropEffects((prev) => [...prev, { id, x, y, itemId, count }]);
     setTimeout(() => {
       setDropEffects((prev) => prev.filter((effect) => effect.id !== id));
-    }, 1500);
+    }, 1200);
   }, []);
 
   const addClickEffect = useCallback(
@@ -95,7 +95,7 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
       setClickEffects((prev) => [...prev, { id, x, y, value, isCrit, element, effectiveness }]);
       setTimeout(() => {
         setClickEffects((prev) => prev.filter((effect) => effect.id !== id));
-      }, 600);
+      }, 1000);
     },
     [],
   );
@@ -134,8 +134,8 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
       let x: number, y: number;
       if (isAuto && enemyContainerRef.current) {
         const rect = enemyContainerRef.current.getBoundingClientRect();
-        x = rect.left + rect.width / 2 + (Math.random() - 0.5) * 60;
-        y = rect.top + rect.height / 2 + (Math.random() - 0.5) * 60;
+        x = rect.left + rect.width / 2 + (Math.random() - 0.5);
+        y = rect.top + rect.height / 2 + (Math.random() - 0.5);
       } else {
         x = window.innerWidth / 2;
         y = window.innerHeight / 2;
@@ -188,6 +188,16 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       e.preventDefault();
 
+      // Получаем точные координаты относительно viewport
+      const rect = enemyContainerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+
+      // Используем clientX/clientY напрямую - они уже в координатах viewport
+      // Но если есть смещение, проверим через offset
+      let clickX = e.clientX;
+      let clickY = e.clientY;
+
+      // Для touch событий - берём координаты из touches
       if (e.pointerType === "touch") {
         if (touchHandledRef.current) return;
         touchHandledRef.current = true;
@@ -202,9 +212,6 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       audioManager.playClick();
 
-      const clientX = e.clientX;
-      const clientY = e.clientY;
-
       const clickPower = activeWaifu.getClickPower();
       const elementMultiplier = activeWaifu.getElementMultiplier(enemy.resistances);
       const isCrit = Math.random() < activeWaifu.getCritChance();
@@ -214,7 +221,7 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
       const finalDamage = Math.floor(clickPower * elementMultiplier * critMultiplier * adMultiplier);
 
       const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
-      addClickEffect(clientX, clientY, finalDamage, isCrit, activeWaifu.element, effectiveness);
+      addClickEffect(clickX, clickY, finalDamage, isCrit, activeWaifu.element, effectiveness);
 
       // Наносим урон
       const actualDamage = dealDamage(finalDamage, isCrit);
@@ -279,8 +286,8 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
           key={effect.id}
           className={`damage-effect ${effect.isCrit ? "crit" : ""} ${effect.effectiveness}`}
           style={{
-            left: effect.x,
-            top: effect.y,
+            left: effect.x * 0.86,
+            top: effect.y * 0.7,
             color: ELEMENT_COLORS[effect.element],
           }}
         >

@@ -1,4 +1,5 @@
-import { locales, type Lang } from "./locales";
+import { adService } from "../services/AdService";
+import { LANGUAGE_CONFIG, locales, type Lang } from "./locales";
 
 declare global {
   interface Window {
@@ -25,13 +26,36 @@ declare global {
   }
 }
 
-let currentLang: Lang = "ru";
+let currentLang: Lang = (() => {
+  const saved = localStorage.getItem("harem-clicker-lang") as Lang;
+  if (saved && LANGUAGE_CONFIG[saved]) {
+    return saved;
+  }
+  return "en";
+})();
 
 export async function initI18n() {
+  // 1. Пробуем язык из Яндекс SDK (приоритет)
   if (window.YaGames) {
-    const ysdk = await window.YaGames.init();
-    const lang = ysdk.environment.i18n.lang as Lang;
-    if (locales[lang]) currentLang = lang;
+    try {
+      const ysdk = await adService.getSDK();
+      const yaLang = (ysdk!.environment?.i18n?.lang as Lang) ?? "en";
+
+      if (yaLang && LANGUAGE_CONFIG[yaLang]) {
+        setLang(yaLang);
+        return;
+      }
+    } catch (e) {
+      console.warn("[i18n] Failed to get YaGames lang:", e);
+    }
+  }
+
+  const savedLang = localStorage.getItem("harem-clicker-lang") as Lang;
+
+  if (savedLang && LANGUAGE_CONFIG[savedLang]) {
+    setLang(savedLang);
+  } else {
+    setLang("en"); // Дефолт
   }
 }
 
@@ -45,7 +69,7 @@ export function t(key: string): string {
   }
 
   if (value === undefined) {
-    value = locales.ru;
+    value = locales.en;
     for (const k of keys) {
       if (value === undefined) return key;
       value = value[k];
@@ -57,6 +81,7 @@ export function t(key: string): string {
 
 export function setLang(lang: Lang) {
   currentLang = lang;
+  localStorage.setItem("harem-clicker-lang", lang);
 }
 
 export function getLang(): Lang {

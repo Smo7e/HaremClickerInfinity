@@ -4,8 +4,8 @@ import { MainMenu } from "./components/MainMenu/MainMenu";
 import { Settings } from "./components/Settings/Settings";
 import { Game } from "./components/Game/Game";
 import { ErrorBoundary } from "./components/ErrorBoundary/ErrorBoundary";
-import type { Lang } from "./locales/locales";
-import { getLang, setLang } from "./locales/i18n";
+import { type Lang } from "./locales/locales";
+import { getLang, initI18n, setLang, t } from "./locales/i18n";
 import { audioManager } from "./audio/AudioManager";
 import { useAutoSave } from "./hooks/useSave";
 import { useGameStore } from "./store/gameStore";
@@ -20,20 +20,29 @@ function AppContent() {
   const [isPaused, setIsPaused] = useState(false);
   const [audioInitialized, setAudioInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
 
   const { loadGame, migrateSaveToCloud } = useAutoSave();
   const hasRehydrated = useGameStore.persist.hasHydrated();
 
-  const initAudio = useCallback(async () => {
-    // Инициализация SDK и аудио
-    await adService.init();
-    if (!audioInitialized) {
-      await audioManager.init();
-      audioManager.setMusicVolume(0);
-      audioManager.setSFXVolume(0);
-      setAudioInitialized(true);
-    }
-  }, [audioInitialized]);
+  useEffect(() => {
+    const checkDevice = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      setIsMobile(width < 768 || "ontouchstart" in window);
+      setIsLandscape(width > height);
+    };
+
+    checkDevice();
+    window.addEventListener("resize", checkDevice);
+    window.addEventListener("orientationchange", checkDevice);
+
+    return () => {
+      window.removeEventListener("resize", checkDevice);
+      window.removeEventListener("orientationchange", checkDevice);
+    };
+  }, []);
 
   const handleLanguageChange = useCallback((lang: Lang) => {
     setLang(lang);
@@ -44,28 +53,34 @@ function AppContent() {
     setIsPaused((prev) => !prev);
   }, []);
 
-  // Загрузка игры при старте
   useEffect(() => {
     const init = async () => {
       try {
-        // Ждем инициализации аудио и SDK
-        await initAudio();
+        await adService.init();
+        await initI18n();
 
-        // Пробуем загрузить сохранение (из облака или LS)
+        if (!audioInitialized) {
+          await audioManager.init();
+          audioManager.setMuted(true);
+          audioManager.setMusicVolume(0.2);
+          audioManager.setSFXVolume(0.2);
+          setAudioInitialized(true);
+        }
+
         const hasSave = await loadGame();
         if (hasSave) {
           console.log("[App] Save loaded successfully");
         }
       } catch (error) {
-        console.error("[App] Failed to load save:", error);
+        console.error("[App] Failed to initialize:", error);
       } finally {
         setIsLoading(false);
       }
     };
-    init();
-  }, [loadGame, initAudio]);
 
-  // Обработка видимости страницы
+    init();
+  }, [loadGame, audioInitialized]);
+
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
@@ -82,74 +97,40 @@ function AppContent() {
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
 
-  // Обработка событий Яндекс.Игр (пауза при сворачивании)
-  useEffect(() => {
-    const isYaGamesAvailable = () => {
-      try {
-        return window.YaGames && window.self !== window.top;
-      } catch {
-        return false;
-      }
-    };
-
-    if (!isYaGamesAvailable()) return;
-
-    try {
-      //@ts-ignore
-      const ysdk = window.YaGames.ysdk;
-      const handlePause = () => {
-        setIsPaused(true);
-        audioManager.setMuted(true);
-      };
-      const handleResume = () => {
-        setIsPaused(false);
-        audioManager.setMuted(false);
-      };
-
-      if (ysdk?.on) {
-        ysdk.on("game_api_pause", handlePause);
-        ysdk.on("game_api_resume", handleResume);
-      }
-      return () => {
-        if (ysdk?.off) {
-          ysdk.off("game_api_pause", handlePause);
-          ysdk.off("game_api_resume", handleResume);
-        }
-      };
-    } catch (e) {
-      console.log("YaGames SDK not available in this environment:", e);
-    }
-  }, []);
-
   if (isLoading || !hasRehydrated) {
     return (
       <div className="app-loading">
         <div className="loading-spinner" />
-        <p>Загрузка...</p>
+        <p>{t("ui.loading")}</p>
       </div>
     );
   }
+  window.oncontextmenu = () => false;
 
   return (
-    <div className="app">
+    <div
+      className={`app-container ${
+        screen === "game" ? "app-container--game" : "app-container--menu"
+      } ${isMobile ? "app-container--mobile" : ""} ${
+        isLandscape ? "app-container--landscape" : "app-container--portrait"
+      }`}
+    >
       {screen === "menu" ? (
         <MainMenu
           onPlay={() => {
             setScreen("game");
             audioManager.playMusic();
+            audioManager.setMuted(false);
           }}
           onSettings={() => {
             setIsSettings(true);
             audioManager.playSFX("panel_click");
           }}
           onLanguageChange={handleLanguageChange}
-          // Передаем функцию для миграции и обновления UI
           onAuthorize={async () => {
             const success = await adService.authorize();
             if (success) {
-              // Если авторизация прошла успешно, мигрируем сейв
               await migrateSaveToCloud();
-              // Можно показать уведомление "Прогресс сохранен в облако"
               alert("Вы вошли! Ваш прогресс теперь синхронизируется с облаком.");
             }
           }}

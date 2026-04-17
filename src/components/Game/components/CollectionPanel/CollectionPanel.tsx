@@ -40,8 +40,8 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
     { id: "all", name: t("ui.all"), icon: "all" },
     { id: "weapon", name: t("collection.weapons"), icon: "weapon" },
     { id: "accessory", name: t("collection.accessories"), icon: "accessory" },
-    { id: "memoria", name: t("collection.memoria"), icon: "memoria" },
-    { id: "outfit", name: t("collection.outfits"), icon: "outfit" },
+    // { id: "memoria", name: t("collection.memoria"), icon: "memoria" },
+    // { id: "outfit", name: t("collection.outfits"), icon: "outfit" },
   ] as const;
 
   const filteredItems =
@@ -52,8 +52,8 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
     const byCategory = {
       weapon: collectedItems.filter((i) => i.category === "weapon").length,
       accessory: collectedItems.filter((i) => i.category === "accessory").length,
-      memoria: collectedItems.filter((i) => i.category === "memoria").length,
-      outfit: collectedItems.filter((i) => i.category === "outfit").length,
+      // memoria: collectedItems.filter((i) => i.category === "memoria").length,
+      // outfit: collectedItems.filter((i) => i.category === "outfit").length,
     };
     return { total, byCategory };
   }, [collectedItems]);
@@ -119,7 +119,7 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
               })
             )}
           </div>
-          {selectedCategory === "memoria" && counts.byCategory.memoria === 0 && (
+          {/* {selectedCategory === "memoria" && counts.byCategory.memoria === 0 && (
             <div className="category-hint">
               <Icon name="memoria" size="md" />
               <p>{t("ui.memoriaHint")}</p>
@@ -132,7 +132,7 @@ export function CollectionPanel({ isOpen, onClose }: CollectionPanelProps) {
               <p>{t("ui.outfitHint")}</p>
               <small>{t("ui.buyInShop")}</small>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

@@ -250,15 +250,17 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
   return (
     <div className="panel-overlay" onClick={handleClose}>
       <div className="panel gacha-panel" onClick={(e) => e.stopPropagation()}>
+        {/* Header */}
         <div className="panel-header">
           <h2>
             <Icon name="gacha" size="md" /> {t("ui.gacha")}
           </h2>
           <button className="btn-close" onClick={handleClose}>
-            ✕
+            <Icon name="close" size="md" />
           </button>
         </div>
 
+        {/* Tabs (Summon / Pool) */}
         <div className="gacha-tabs">
           <button
             className={`gacha-tab ${activeTab === "summon" ? "active" : ""}`}
@@ -271,7 +273,8 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
           </button>
         </div>
 
-        <div className="panel-content">
+        {/* Content Area */}
+        <div className="panel-content gacha-content-wrapper">
           {activeTab === "summon" ? (
             <>
               {isAnimating ? (
@@ -280,88 +283,89 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                   <p>{t("ui.summoning")}...</p>
                 </div>
               ) : results.length > 0 ? (
-                (() => {
-                  const currentResult = results[currentResultIndex];
-                  if (!currentResult) return null;
-
-                  return (
-                    <div className="gacha-results-overlay" onClick={(e) => e.stopPropagation()}>
-                      <div className="result-counter">
-                        {currentResultIndex + 1} / {results.length}
-                      </div>
-
-                      <div
-                        className={`gacha-result-card rarity-${currentResult.waifu.rarity} ${
-                          currentResult.isDuplicate ? "duplicate" : "new-waifu"
-                        }`}
-                      >
-                        {currentResult.isDuplicate && (
-                          <div className="duplicate-banner">
-                            <span>
-                              <Icon name="duplicate" size="sm" /> {t("ui.duplicate")}
-                            </span>
-                            <small>+30% {t("ui.stats")}</small>
-                          </div>
-                        )}
-
-                        {!currentResult.isDuplicate && (
-                          <div className="new-waifu-banner">
-                            <span>✨ NEW ✨</span>
-                          </div>
-                        )}
-
-                        <div className="result-waifu-visual">
-                          <img src={currentResult.waifu.image} alt={currentResult.waifu.name} />
+                // --- РЕЗУЛЬТАТЫ ПРИЗЫВА ---
+                <div className="gacha-results-container">
+                  {(() => {
+                    const currentResult = results[currentResultIndex];
+                    if (!currentResult) return null;
+                    return (
+                      <div className="gacha-result-card-wrapper">
+                        <div className="result-counter">
+                          {currentResultIndex + 1} / {results.length}
                         </div>
 
-                        <div className="result-info">
-                          <h3>{currentResult.waifu.name}</h3>
-                          <span
-                            className="rarity-label"
-                            style={{
-                              color: RARITY_COLORS[currentResult.waifu.rarity],
-                            }}
-                          >
-                            {t(`ui.${RARITY_KEYS[currentResult.waifu.rarity]}`).toUpperCase()}
-                          </span>
-                          {currentResult.isDuplicate && (
-                            <span className="dup-count-badge">{currentResult.waifu.duplicateCount}/20</span>
-                          )}
-                        </div>
-
-                        <div className="waifu-stats-preview">
-                          <span>
-                            <Icon name="click" size="sm" /> {currentResult.waifu.getClickPower()}
-                          </span>
-                          <span>
-                            <Icon name="crit" size="sm" /> {(currentResult.waifu.getCritChance() * 100).toFixed(1)}%
-                          </span>
-                          <span>
-                            <Icon name="critPower" size="sm" /> {currentResult.waifu.getCritMultiplier().toFixed(1)}x
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Блок управления кнопками */}
-                      <div className="gacha-controls">
-                        <button
-                          className="btn-secondary btn-skip-fast"
-                          onClick={handleSmartSkip}
-                          disabled={isSkipping || currentResultIndex === results.length - 1}
+                        <div
+                          className={`gacha-result-card rarity-${currentResult.waifu.rarity} ${
+                            currentResult.isDuplicate ? "duplicate" : "new-waifu"
+                          }`}
                         >
-                          {isSkipping ? "..." : t("ui.skip")}
-                        </button>
+                          {/* Баннеры */}
+                          {currentResult.isDuplicate && (
+                            <div className="duplicate-banner">
+                              <span>
+                                <Icon name="duplicate" size="sm" /> {t("ui.duplicate")}
+                              </span>
+                              <small>+30% {t("ui.stats")}</small>
+                            </div>
+                          )}
+                          {!currentResult.isDuplicate && (
+                            <div className="new-waifu-banner">
+                              <span>{t("ui.new")}</span>
+                            </div>
+                          )}
 
-                        <button className="btn-primary btn-continue" onClick={handleNextResult} disabled={isSkipping}>
-                          {currentResultIndex < results.length - 1 ? t("ui.next") : t("ui.continue")}
-                        </button>
+                          {/* Визуал */}
+                          <div className="result-waifu-visual">
+                            <img src={currentResult.waifu.image} alt={currentResult.waifu.name} />
+                          </div>
+
+                          {/* Инфо */}
+                          <div className="result-info">
+                            <h3>{currentResult.waifu.name}</h3>
+                            <span className="rarity-label" style={{ color: RARITY_COLORS[currentResult.waifu.rarity] }}>
+                              {t(`ui.${RARITY_KEYS[currentResult.waifu.rarity]}`).toUpperCase()}
+                            </span>
+                            {currentResult.isDuplicate && (
+                              <span className="dup-count-badge">{currentResult.waifu.duplicateCount}/20</span>
+                            )}
+                          </div>
+
+                          {/* Статы */}
+                          <div className="waifu-stats-preview">
+                            <span>
+                              <Icon name="click" size="sm" /> {currentResult.waifu.getClickPower()}
+                            </span>
+                            <span>
+                              <Icon name="crit" size="sm" /> {(currentResult.waifu.getCritChance() * 100).toFixed(1)}%
+                            </span>
+                            <span>
+                              <Icon name="critPower" size="sm" /> {currentResult.waifu.getCritMultiplier().toFixed(1)}x
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Кнопки управления (фиксированы внизу контента) */}
+                        <div className="gacha-controls-fixed">
+                          <button
+                            className="btn-secondary btn-skip-fast"
+                            onClick={handleSmartSkip}
+                            disabled={isSkipping || currentResultIndex === results.length - 1}
+                          >
+                            {isSkipping ? "..." : t("ui.skip")}
+                          </button>
+                          <button className="btn-primary btn-continue" onClick={handleNextResult} disabled={isSkipping}>
+                            {currentResultIndex < results.length - 1 ? t("ui.next") : t("ui.continue")}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })()
+                    );
+                  })()}
+                </div>
               ) : (
-                <>
+                // --- ЭКРАН ПРИЗЫВА (КНОПКИ) ---
+                <div className="gacha-summon-screen">
                   <p className="gacha-description">{t("gacha.desc")}</p>
+
                   <div className="gacha-rates">
                     <h4>{t("ui.dropRates")}</h4>
                     {dropInfo ? (
@@ -380,7 +384,8 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                       <p className="empty-pool-warning">⚠️ {t("ui.poolEmptyWarning")}</p>
                     )}
                   </div>
-                  <div className="gacha-action">
+
+                  <div className="gacha-action-fixed">
                     <div className="cost-display">
                       <div className="cost-row">
                         <span>
@@ -397,7 +402,8 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                         <span className="x10-badge">x10</span>
                       </div>
                     </div>
-                    <div className="summon-buttons">
+
+                    <div className="summon-buttons-grid">
                       <button
                         className="btn-primary btn-summon"
                         onClick={performSummon}
@@ -414,10 +420,11 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                       </button>
                     </div>
                   </div>
-                </>
+                </div>
               )}
             </>
           ) : (
+            // --- ПРЕДПРОСМОТР ПУЛА ---
             <div className="pool-preview-tab">
               <p className="pool-preview-hint">{t("ui.poolPreviewHint")}</p>
               <button className="btn-secondary" onClick={() => setShowPool(true)}>
@@ -428,9 +435,7 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
                 <div className="collection-bar">
                   <div
                     className="collection-fill"
-                    style={{
-                      width: `${(ownedWaifus.length / testWaifus.length) * 100}%`,
-                    }}
+                    style={{ width: `${(ownedWaifus.length / testWaifus.length) * 100}%` }}
                   />
                   <span>
                     {ownedWaifus.length} / {testWaifus.length}
@@ -446,6 +451,8 @@ export function GachaPanel({ isOpen, onClose }: GachaPanelProps) {
           )}
         </div>
       </div>
+
+      {/* Модальное окно полного пула */}
       <DropPoolPanel isOpen={showPool} onClose={() => setShowPool(false)} ownedWaifus={ownedWaifus} />
     </div>
   );
