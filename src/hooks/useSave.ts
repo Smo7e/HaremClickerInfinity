@@ -1,4 +1,3 @@
-// src/hooks/useSave.ts
 import { useEffect, useCallback, useRef } from "react";
 import { useGameStore } from "../store/gameStore";
 import { adService } from "../services/AdService";
@@ -6,35 +5,37 @@ import { adService } from "../services/AdService";
 const SAVE_KEY = "harem-clicker-save-v2";
 const BACKUP_KEY = "harem-clicker-backup-v2";
 const CLOUD_SAVE_KEY = "cloud_save_v1";
-const TIMESTAMP_KEY = "harem-clicker-last-save-ts"; // Новый ключ для времени
+const TIMESTAMP_KEY = "harem-clicker-last-save-ts";
+// ИЗМЕНЕНО: добавлен ключ для хранения метаданных владельца сохранения
+const META_KEY = "harem-clicker-meta-v1";
 
 export function useAutoSave() {
   const saveTimeoutRef = useRef<number | null>(null);
   const isSavingRef = useRef(false);
 
-  // Основная функция сохранения
   const saveGame = useCallback(async () => {
     if (isSavingRef.current) return;
     isSavingRef.current = true;
 
     try {
       const localData = localStorage.getItem(SAVE_KEY);
-
       if (!localData) {
         isSavingRef.current = false;
         return;
       }
 
       const now = Date.now();
+      const currentUserId = adService.getIsAuthorized() ? adService.getUniqueID() : null;
 
-      // 1. Сохраняем в LocalStorage с меткой времени
+      // 1. Сохраняем в LocalStorage
       localStorage.setItem(SAVE_KEY, localData);
       localStorage.setItem(TIMESTAMP_KEY, now.toString());
-      localStorage.setItem("harem-clicker-last-save", JSON.stringify({ timestamp: now }));
 
-      // 2. Если авторизованы, сохраняем в Облако вместе с меткой времени
+      // ИЗМЕНЕНО: сохраняем ID владельца локального сейва
+      localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: now }));
+
+      // 2. Если авторизованы, сохраняем в Облако
       if (adService.getIsAuthorized()) {
-        // Оборачиваем данные в объект с timestamp, чтобы сравнивать версии
         const cloudPayload = {
           data: localData,
           timestamp: now,
@@ -51,7 +52,6 @@ export function useAutoSave() {
     }
   }, []);
 
-  // Функция загрузки с логикой Merge/Sync
   const loadGame = useCallback(async (): Promise<boolean> => {
     try {
       let cloudDataStr: string | null = null;
@@ -59,20 +59,77 @@ export function useAutoSave() {
       let localDataStr: string | null = null;
       let localTimestamp: number = 0;
 
-      // 1. Получаем данные из Облака (если авторизованы)
+      // Получаем текущего пользователя
+      const currentUserId = adService.getIsAuthorized() ? adService.getUniqueID() : null;
+
+      // Читаем метаданные локального сохранения
+      let metaUserId = null;
+      try {
+        const metaStr = localStorage.getItem(META_KEY);
+        if (metaStr) {
+          const meta = JSON.parse(metaStr);
+          metaUserId = meta.userId;
+        }
+      } catch (e) {
+        console.warn("[useSave] Failed to parse meta", e);
+      }
+
+      // ИЗМЕНЕНО: Проверка на смену пользователя
+      // Если текущий пользователь не совпадает с тем, кто записал локальный сейв
+      if (currentUserId !== metaUserId) {
+        console.log("[useSave] User mismatch detected. Ignoring local save.");
+
+        // Если мы авторизованы, пытаемся загрузить только из облака
+        if (adService.getIsAuthorized()) {
+          const cloudRaw = await adService.getData([CLOUD_SAVE_KEY]);
+          if (cloudRaw && cloudRaw[CLOUD_SAVE_KEY]) {
+            try {
+              const parsedCloud = JSON.parse(cloudRaw[CLOUD_SAVE_KEY]);
+              cloudDataStr = parsedCloud.data;
+              cloudTimestamp = parsedCloud.timestamp || 0;
+
+              console.log("[useSave] Loaded from Cloud for new user.");
+              localStorage.setItem(SAVE_KEY, cloudDataStr!);
+              localStorage.setItem(TIMESTAMP_KEY, cloudTimestamp.toString());
+              // Обновляем мету
+              localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: cloudTimestamp }));
+
+              await useGameStore.persist.rehydrate();
+              return true;
+            } catch (e) {
+              console.error("[useSave] Failed to parse cloud save", e);
+            }
+          }
+          // Если в облаке пусто, начинаем с чистого листа
+          console.log("[useSave] No cloud save for new user. Starting fresh.");
+          localStorage.removeItem(SAVE_KEY);
+          return false;
+        } else {
+          // Если мы гость, а предыдущий сейв был от юзера (или другого гостя с другим ID, хотя для гостей это сложнее)
+          // Для простоты: если вышли из аккаунта (был юзер, стал null), сбрасываем
+          if (metaUserId !== null && currentUserId === null) {
+            console.log("[useSave] Logged out. Clearing local save.");
+            localStorage.removeItem(SAVE_KEY);
+            return false;
+          }
+          // Если оба null (гость -> гость), грузим как обычно ниже
+        }
+      }
+
+      // Стандартная логика загрузки, если ID совпали или это тот же гость
+
+      // 1. Получаем данные из Облака
       if (adService.getIsAuthorized()) {
         const cloudRaw = await adService.getData([CLOUD_SAVE_KEY]);
         if (cloudRaw && cloudRaw[CLOUD_SAVE_KEY]) {
           try {
-            // Парсим оболочку { data: "...", timestamp: 123 }
             const parsedCloud = JSON.parse(cloudRaw[CLOUD_SAVE_KEY]);
             cloudDataStr = parsedCloud.data;
             cloudTimestamp = parsedCloud.timestamp || 0;
           } catch (e) {
-            // Fallback для старых сохранений без оболочки
             console.warn("[useSave] Legacy cloud save detected, migrating...");
             cloudDataStr = cloudRaw[CLOUD_SAVE_KEY];
-            cloudTimestamp = 0; // Считаем старым
+            cloudTimestamp = 0;
           }
         }
       }
@@ -87,27 +144,22 @@ export function useAutoSave() {
       let source = "none";
 
       if (cloudDataStr && localDataStr) {
-        // Есть и там, и там. Сравниваем время.
         if (cloudTimestamp > localTimestamp) {
           console.log("[useSave] Cloud is newer. Loading from Cloud.");
           dataToLoad = cloudDataStr;
           source = "cloud";
-          // Обновляем локальную метку времени, чтобы не перезаписать облако старыми данными при следующем сейве
           localStorage.setItem(TIMESTAMP_KEY, cloudTimestamp.toString());
         } else {
           console.log("[useSave] Local is newer or same. Loading from Local.");
           dataToLoad = localDataStr;
           source = "local";
-          // Если локальные данные новее, при следующем сохранении они перезапишут облако (это нормально)
         }
       } else if (cloudDataStr) {
-        // Только облако
         console.log("[useSave] Only Cloud save exists.");
         dataToLoad = cloudDataStr;
         source = "cloud";
         localStorage.setItem(TIMESTAMP_KEY, cloudTimestamp.toString());
       } else if (localDataStr) {
-        // Только локально
         console.log("[useSave] Only Local save exists.");
         dataToLoad = localDataStr;
         source = "local";
@@ -115,15 +167,8 @@ export function useAutoSave() {
 
       // 4. Загрузка данных в Store
       if (dataToLoad) {
-        // Записываем выбранные данные в localStorage, чтобы zustand persist подхватил их при реайдрации
-        // Или если стор уже гидрирован, нам нужно вызвать setState вручную?
-        // Zustand persist при вызове rehydrate читает из storage (localStorage).
-        // Поэтому мы должны положить "победившие" данные в localStorage перед вызовом rehydrate.
         localStorage.setItem(SAVE_KEY, dataToLoad);
-
-        // Триггерим реайдацию стора
         await useGameStore.persist.rehydrate();
-
         console.log(`[useSave] Game loaded successfully from ${source}`);
         return true;
       }
@@ -135,40 +180,102 @@ export function useAutoSave() {
     }
   }, []);
 
-  // Функция миграции: вызывается при успешной авторизации
   const migrateSaveToCloud = useCallback(async () => {
     const localData = localStorage.getItem(SAVE_KEY);
-    if (!localData) return;
+    if (!localData) {
+      console.log("[useSave] Migration skipped: No local save found.");
+      return;
+    }
 
-    console.log("[useSave] Migrating save to Cloud...");
+    // 1. Получаем ID текущего пользователя (кто сейчас залогинен)
+    const currentUserId = adService.getUniqueID();
+
+    // 2. Получаем ID владельца локального сохранения (кто играл раньше)
+    let metaUserId: string | null = null;
     try {
-      // Проверяем, есть ли уже данные в облаке
+      const metaStr = localStorage.getItem(META_KEY);
+      if (metaStr) {
+        const meta = JSON.parse(metaStr);
+        metaUserId = meta.userId;
+      }
+    } catch (e) {
+      console.warn("[useSave] Failed to parse meta during migration", e);
+    }
+
+    // СЦЕНАРИЙ 1: Пользователь не авторизован (не должно происходить при вызове из кнопки "Войти", но на всякий случай)
+    if (!currentUserId) {
+      console.warn("[useSave] Migration called but user is not authorized.");
+      return;
+    }
+
+    // СЦЕНАРИЙ 2: Локальный сейв принадлежит ДРУГОМУ пользователю (Смена аккаунта User A -> User B)
+    // Если metaUserId не null и не совпадает с currentUserId, мы НЕ перезаписываем облако User B данными User A.
+    if (metaUserId !== null && metaUserId !== currentUserId) {
+      console.log("[useSave] Migration skipped: Local save belongs to a different user.", {
+        metaUserId,
+        currentUserId,
+      });
+      // В этом случае loadGame должен будет загрузить данные из облака для currentUserId, игнорируя локальные.
+      return;
+    }
+
+    // СЦЕНАРИЙ 3: Гость -> Авторизованный пользователь (metaUserId === null) ИЛИ Тот же пользователь (metaUserId === currentUserId)
+    console.log("[useSave] Starting migration to Cloud...", { metaUserId, currentUserId });
+
+    try {
+      // Проверяем, что уже есть в облаке
       const cloudRaw = await adService.getData([CLOUD_SAVE_KEY]);
 
-      // Если в облаке пусто ИЛИ данные в облаке старые (на случай рассинхрона при первом входе)
+      const now = Date.now();
+      let shouldUpload = false;
+      let finalPayload = "";
+
       if (!cloudRaw || !cloudRaw[CLOUD_SAVE_KEY]) {
-        const now = Date.now();
-        const payload = JSON.stringify({ data: localData, timestamp: now });
-        await adService.setData({ [CLOUD_SAVE_KEY]: payload });
-        localStorage.setItem(TIMESTAMP_KEY, now.toString());
-        console.log("[useSave] Migration successful");
+        // В облаке пусто. Безопасно загружаем локальный прогресс.
+        console.log("[useSave] Cloud is empty. Uploading local save.");
+        finalPayload = JSON.stringify({ data: localData, timestamp: now });
+        shouldUpload = true;
       } else {
-        console.log("[useSave] Cloud save already exists. Comparing timestamps...");
-        // Дополнительная проверка при миграции: если облако новее, загружаем его
+        // В облаке что-то есть. Сравниваем время.
         try {
           const parsedCloud = JSON.parse(cloudRaw[CLOUD_SAVE_KEY]);
           const cloudTs = parsedCloud.timestamp || 0;
+          // Берем timestamp локального сейва
           const localTs = parseInt(localStorage.getItem(TIMESTAMP_KEY) || "0", 10);
 
-          if (cloudTs > localTs) {
-            console.log("[useSave] Cloud save is newer during migration. Updating local...");
+          if (localTs > cloudTs) {
+            // Локальный сейв новее (например, игрок играл оффлайн или был гостем и прогрессировал)
+            console.log("[useSave] Local save is newer than cloud. Updating cloud.");
+            finalPayload = JSON.stringify({ data: localData, timestamp: now }); // Используем новое время для обновления
+            shouldUpload = true;
+          } else {
+            // Облачный сейв новее или такой же.
+            // Если это был Гость (metaUserId === null), а в облаке есть старые данные этого аккаунта,
+            // то облачные данные важнее (игрок уже играл с этого аккаунта на другом устройстве).
+            // Мы НЕ перезаписываем облако старыми данными гостя.
+            console.log("[useSave] Cloud save is newer or equal. Keeping cloud data. Updating local meta.");
+            // Обновляем локальный сейв данными из облака, чтобы синхронизироваться
             localStorage.setItem(SAVE_KEY, parsedCloud.data);
             localStorage.setItem(TIMESTAMP_KEY, cloudTs.toString());
+            // Важно: обновляем мета-данные, чтобы привязать этот локальный файл к текущему пользователю
+            localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: cloudTs }));
+
+            // Перезагружаем стейт игры, чтобы подтянуть облачные данные
             await useGameStore.persist.rehydrate();
+            return;
           }
         } catch (e) {
-          console.warn("[useSave] Could not parse cloud data during migration comparison", e);
+          console.error("[useSave] Error comparing timestamps, forcing upload to be safe", e);
+          finalPayload = JSON.stringify({ data: localData, timestamp: now });
+          shouldUpload = true;
         }
+      }
+
+      if (shouldUpload) {
+        await adService.setData({ [CLOUD_SAVE_KEY]: finalPayload });
+        localStorage.setItem(TIMESTAMP_KEY, now.toString());
+        localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: now }));
+        console.log("[useSave] Migration successful.");
       }
     } catch (err) {
       console.error("[useSave] Migration failed", err);
@@ -190,8 +297,9 @@ export function useAutoSave() {
     localStorage.removeItem(SAVE_KEY);
     localStorage.removeItem(BACKUP_KEY);
     localStorage.removeItem(TIMESTAMP_KEY);
+    localStorage.removeItem(META_KEY); // ИЗМЕНЕНО: очистка меты
     localStorage.removeItem("harem-clicker-last-save");
-    // Если авторизован, чистим и облако
+
     if (adService.getIsAuthorized()) {
       adService.setData({ [CLOUD_SAVE_KEY]: null });
     }
@@ -201,7 +309,7 @@ export function useAutoSave() {
   useEffect(() => {
     saveTimeoutRef.current = window.setInterval(() => {
       saveGame();
-    }, 30000); // Автосохранение каждые 30 сек
+    }, 30000);
     return () => {
       if (saveTimeoutRef.current) clearInterval(saveTimeoutRef.current);
     };

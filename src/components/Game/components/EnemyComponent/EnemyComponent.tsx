@@ -51,18 +51,45 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
   const autoAttackIntervalRef = useRef<number | null>(null);
   const enemyContainerRef = useRef<HTMLDivElement>(null);
   const touchHandledRef = useRef(false);
-  const isProcessingKill = useRef(false);
-
-  const globalUpgrades = useGameStore((state) => state.globalUpgrades);
+  const defeatedEnemyKeyRef = useRef<string | null>(null);
   const dealDamage = useGameStore((state) => state.dealDamage);
   const lastDrops = useGameStore((state) => state.lastDrops);
+  const defeatEnemy = useGameStore((state) => state.defeatEnemy);
+
+  const getEnemyKey = (e: Enemy) => `${e.id}-${e.level}`;
+
+  const handleEnemyDeath = useCallback(() => {
+    const currentEnemy = enemyRef.current;
+    if (!currentEnemy) return;
+
+    const key = getEnemyKey(currentEnemy);
+    if (defeatedEnemyKeyRef.current === key) {
+      return;
+    }
+
+    defeatedEnemyKeyRef.current = key;
+    audioManager.playEnemyDefeat();
+  }, []);
 
   useEffect(() => {
     enemyRef.current = enemy;
     setHpPercent(enemy.getHpPercent());
     setCurrentHp(enemy.currentHp);
-    isProcessingKill.current = false;
-  }, [enemy]);
+
+    const key = getEnemyKey(enemy);
+
+    if (enemy.currentHp <= 0 && defeatedEnemyKeyRef.current !== key) {
+      console.log("[EnemyComponent] Detected stuck dead enemy on load/render. Triggering defeat.");
+      defeatedEnemyKeyRef.current = key;
+      handleEnemyDeath();
+
+      setTimeout(() => {
+        defeatEnemy();
+      }, 100);
+    } else if (enemy.currentHp > 0) {
+      defeatedEnemyKeyRef.current = null;
+    }
+  }, [enemy, defeatEnemy, handleEnemyDeath]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -99,12 +126,6 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
     },
     [],
   );
-  const handleEnemyDeath = useCallback(() => {
-    if (isProcessingKill.current) return;
-    isProcessingKill.current = true;
-
-    audioManager.playEnemyDefeat();
-  }, []);
 
   useEffect(() => {
     if (lastDrops && lastDrops.length > 0) {
@@ -125,17 +146,25 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
   const performAttack = useCallback(
     (isAuto: boolean = false) => {
-      if (!enemy || !activeWaifu) return;
-      if (!enemy.isAlive()) return;
+      const currentEnemy = enemyRef.current;
 
-      const calculation = BattleService.calculateDamage(activeWaifu, enemy);
+      if (!currentEnemy || !activeWaifu) return;
+
+      if (!currentEnemy.isAlive()) return;
+
+      // Расчет урона
+      const calculation = BattleService.calculateDamage(activeWaifu, currentEnemy);
+
+      // Наносим урон через стор (это обновит enemy в сторе и вызовет ре-рендер)
+      // dealDamage возвращает фактический нанесенный урон
       const actualDamage = dealDamage(calculation.base, calculation.isCrit);
 
+      // Визуальные эффекты (клики)
       let x: number, y: number;
       if (isAuto && enemyContainerRef.current) {
         const rect = enemyContainerRef.current.getBoundingClientRect();
-        x = rect.left + rect.width / 2 + (Math.random() - 0.5);
-        y = rect.top + rect.height / 2 + (Math.random() - 0.5);
+        x = rect.left + rect.width / 2 + (Math.random() - 0.5) * 20; // Немного разброса
+        y = rect.top + rect.height / 2 + (Math.random() - 0.5) * 20;
       } else {
         x = window.innerWidth / 2;
         y = window.innerHeight / 2;
@@ -143,12 +172,15 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       addClickEffect(x, y, actualDamage, calculation.isCrit, activeWaifu.element, calculation.effectiveness);
 
-      const newHp = enemy.currentHp - actualDamage;
-      if (newHp <= 0 && !isProcessingKill.current) {
+      const remainingHp = currentEnemy.currentHp;
+
+      if (remainingHp <= 0) {
+        console.log(remainingHp);
+        // Вызываем обработчик смерти. Он сам проверит isProcessingKill
         handleEnemyDeath();
       }
     },
-    [enemy, activeWaifu, globalUpgrades, dealDamage, addClickEffect, handleEnemyDeath],
+    [activeWaifu, dealDamage, addClickEffect, handleEnemyDeath], // Убрали enemy из зависимостей, используем ref
   );
 
   useEffect(() => {
@@ -188,16 +220,12 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       e.preventDefault();
 
-      // Получаем точные координаты относительно viewport
       const rect = enemyContainerRef.current?.getBoundingClientRect();
       if (!rect) return;
 
-      // Используем clientX/clientY напрямую - они уже в координатах viewport
-      // Но если есть смещение, проверим через offset
       let clickX = e.clientX;
       let clickY = e.clientY;
 
-      // Для touch событий - берём координаты из touches
       if (e.pointerType === "touch") {
         if (touchHandledRef.current) return;
         touchHandledRef.current = true;
@@ -212,27 +240,25 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       audioManager.playClick();
 
+      const critChance = activeWaifu.getCritChance();
+      const isCrit = Math.random() < critChance;
+
       const clickPower = activeWaifu.getClickPower();
       const elementMultiplier = activeWaifu.getElementMultiplier(enemy.resistances);
-      const isCrit = Math.random() < activeWaifu.getCritChance();
-      const critMultiplier = isCrit ? activeWaifu.getCritMultiplier() : 1;
       const adMultiplier = useAdStore.getState().getDamageMultiplier();
 
-      const finalDamage = Math.floor(clickPower * elementMultiplier * critMultiplier * adMultiplier);
+      const baseDamage = Math.floor(clickPower * elementMultiplier * adMultiplier);
+      const actualDamage = dealDamage(baseDamage, isCrit);
 
-      const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
-      addClickEffect(clickX, clickY, finalDamage, isCrit, activeWaifu.element, effectiveness);
-
-      // Наносим урон
-      const actualDamage = dealDamage(finalDamage, isCrit);
-
-      // Проверяем смерть
-      const newHp = enemy.currentHp - actualDamage;
-      if (newHp <= 0 && !isProcessingKill.current) {
+      // Проверяем убил ли клик
+      if (enemy.currentHp - actualDamage <= 0) {
         handleEnemyDeath();
       }
+
+      const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
+      addClickEffect(clickX, clickY, actualDamage, isCrit, activeWaifu.element, effectiveness);
     },
-    [isPaused, activeWaifu, enemy, onClick, addClickEffect, handleEnemyDeath, dealDamage],
+    [isPaused, activeWaifu, enemy, onClick, addClickEffect, dealDamage, handleEnemyDeath],
   );
 
   const getResistanceTooltip = (value: number): string => {

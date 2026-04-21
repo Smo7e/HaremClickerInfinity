@@ -8,7 +8,6 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\all_components.txt
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\collect.bat
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\collectNonCSS.bat
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist.zip
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\eslint.config.js
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\index.html
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\package-lock.json
@@ -22,13 +21,14 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.node.json
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.tsbuildinfo
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\vite.config.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\dist.zip
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\favicon.svg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\icons.svg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\index.html
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-BOSSJVd6.js
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-C5hntRNk.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-9VfjGNqP.js
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-n-o7VOl6.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\1.ogg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\background.ogg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\click.mp3
@@ -955,7 +955,7 @@ function AppContent() {
     };
 
     init();
-  }, [loadGame, audioInitialized]);
+  }, [loadGame]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -972,6 +972,9 @@ function AppContent() {
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
+  useEffect(() => {
+    window.oncontextmenu = () => false;
+  }, []);
 
   if (isLoading || !hasRehydrated) {
     return (
@@ -981,7 +984,6 @@ function AppContent() {
       </div>
     );
   }
-  window.oncontextmenu = () => false;
 
   return (
     <div
@@ -2114,16 +2116,43 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     };
     document.addEventListener("touchend", handleTouchEnd, { passive: false });
 
-    // Предотвращает жест "pull-to-refresh" на мобильных
+    // ИСПРАВЛЕННЫЙ обработчик — блокируем только pull-to-refresh, не скролл панелей
     const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches[0] && e.touches[0].clientY > 0) {
-        // Разрешаем скролл только внутри панелей
-        const target = e.target as HTMLElement;
-        if (!target.closest(".panel-scroll-content") && !target.closest(".tutorial-scroll-content")) {
-          e.preventDefault();
-        }
+      const target = e.target as HTMLElement;
+
+      // Разрешаем скролл внутри панелей и туториала
+      const isInScrollablePanel =
+        target.closest(".panel") ||
+        target.closest(".panel-content") ||
+        target.closest(".panel-scroll-content") ||
+        target.closest(".tutorial-scroll-content") ||
+        target.closest(".game-sidebar") || // Важно для навигации!
+        target.closest(".backpack-panel") ||
+        target.closest(".craft-panel") ||
+        target.closest(".settings-modal") ||
+        target.closest(".collection-panel") ||
+        target.closest(".bestiary-panel") ||
+        target.closest(".waifu-select-panel") ||
+        target.closest(".gacha-panel") ||
+        target.closest(".upgrade-panel-modal") ||
+        target.closest(".location-selector-panel") ||
+        target.closest(".ad-panel") ||
+        target.closest(".pause-panel") ||
+        target.closest(".waifu-detail-panel") ||
+        target.closest(".drop-pool-panel");
+
+      if (isInScrollablePanel) {
+        return; // Не блокируем — пусть скроллится
+      }
+
+      const isAtTop = window.scrollY === 0;
+      const isPullDown = e.touches[0] && e.touches[0].clientY > 0;
+
+      if (isAtTop && isPullDown && e.cancelable) {
+        e.preventDefault();
       }
     };
+
     document.addEventListener("touchmove", handleTouchMove, { passive: false });
 
     return () => {
@@ -3641,18 +3670,45 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
   const autoAttackIntervalRef = useRef<number | null>(null);
   const enemyContainerRef = useRef<HTMLDivElement>(null);
   const touchHandledRef = useRef(false);
-  const isProcessingKill = useRef(false);
-
-  const globalUpgrades = useGameStore((state) => state.globalUpgrades);
+  const defeatedEnemyKeyRef = useRef<string | null>(null);
   const dealDamage = useGameStore((state) => state.dealDamage);
   const lastDrops = useGameStore((state) => state.lastDrops);
+  const defeatEnemy = useGameStore((state) => state.defeatEnemy);
+
+  const getEnemyKey = (e: Enemy) => `${e.id}-${e.level}`;
+
+  const handleEnemyDeath = useCallback(() => {
+    const currentEnemy = enemyRef.current;
+    if (!currentEnemy) return;
+
+    const key = getEnemyKey(currentEnemy);
+    if (defeatedEnemyKeyRef.current === key) {
+      return;
+    }
+
+    defeatedEnemyKeyRef.current = key;
+    audioManager.playEnemyDefeat();
+  }, []);
 
   useEffect(() => {
     enemyRef.current = enemy;
     setHpPercent(enemy.getHpPercent());
     setCurrentHp(enemy.currentHp);
-    isProcessingKill.current = false;
-  }, [enemy]);
+
+    const key = getEnemyKey(enemy);
+
+    if (enemy.currentHp <= 0 && defeatedEnemyKeyRef.current !== key) {
+      console.log("[EnemyComponent] Detected stuck dead enemy on load/render. Triggering defeat.");
+      defeatedEnemyKeyRef.current = key;
+      handleEnemyDeath();
+
+      setTimeout(() => {
+        defeatEnemy();
+      }, 100);
+    } else if (enemy.currentHp > 0) {
+      defeatedEnemyKeyRef.current = null;
+    }
+  }, [enemy, defeatEnemy, handleEnemyDeath]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -3689,12 +3745,6 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
     },
     [],
   );
-  const handleEnemyDeath = useCallback(() => {
-    if (isProcessingKill.current) return;
-    isProcessingKill.current = true;
-
-    audioManager.playEnemyDefeat();
-  }, []);
 
   useEffect(() => {
     if (lastDrops && lastDrops.length > 0) {
@@ -3715,17 +3765,25 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
   const performAttack = useCallback(
     (isAuto: boolean = false) => {
-      if (!enemy || !activeWaifu) return;
-      if (!enemy.isAlive()) return;
+      const currentEnemy = enemyRef.current;
 
-      const calculation = BattleService.calculateDamage(activeWaifu, enemy);
+      if (!currentEnemy || !activeWaifu) return;
+
+      if (!currentEnemy.isAlive()) return;
+
+      // Расчет урона
+      const calculation = BattleService.calculateDamage(activeWaifu, currentEnemy);
+
+      // Наносим урон через стор (это обновит enemy в сторе и вызовет ре-рендер)
+      // dealDamage возвращает фактический нанесенный урон
       const actualDamage = dealDamage(calculation.base, calculation.isCrit);
 
+      // Визуальные эффекты (клики)
       let x: number, y: number;
       if (isAuto && enemyContainerRef.current) {
         const rect = enemyContainerRef.current.getBoundingClientRect();
-        x = rect.left + rect.width / 2 + (Math.random() - 0.5);
-        y = rect.top + rect.height / 2 + (Math.random() - 0.5);
+        x = rect.left + rect.width / 2 + (Math.random() - 0.5) * 20; // Немного разброса
+        y = rect.top + rect.height / 2 + (Math.random() - 0.5) * 20;
       } else {
         x = window.innerWidth / 2;
         y = window.innerHeight / 2;
@@ -3733,12 +3791,15 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       addClickEffect(x, y, actualDamage, calculation.isCrit, activeWaifu.element, calculation.effectiveness);
 
-      const newHp = enemy.currentHp - actualDamage;
-      if (newHp <= 0 && !isProcessingKill.current) {
+      const remainingHp = currentEnemy.currentHp;
+
+      if (remainingHp <= 0) {
+        console.log(remainingHp);
+        // Вызываем обработчик смерти. Он сам проверит isProcessingKill
         handleEnemyDeath();
       }
     },
-    [enemy, activeWaifu, globalUpgrades, dealDamage, addClickEffect, handleEnemyDeath],
+    [activeWaifu, dealDamage, addClickEffect, handleEnemyDeath], // Убрали enemy из зависимостей, используем ref
   );
 
   useEffect(() => {
@@ -3778,16 +3839,12 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       e.preventDefault();
 
-      // Получаем точные координаты относительно viewport
       const rect = enemyContainerRef.current?.getBoundingClientRect();
       if (!rect) return;
 
-      // Используем clientX/clientY напрямую - они уже в координатах viewport
-      // Но если есть смещение, проверим через offset
       let clickX = e.clientX;
       let clickY = e.clientY;
 
-      // Для touch событий - берём координаты из touches
       if (e.pointerType === "touch") {
         if (touchHandledRef.current) return;
         touchHandledRef.current = true;
@@ -3802,27 +3859,25 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       audioManager.playClick();
 
+      const critChance = activeWaifu.getCritChance();
+      const isCrit = Math.random() < critChance;
+
       const clickPower = activeWaifu.getClickPower();
       const elementMultiplier = activeWaifu.getElementMultiplier(enemy.resistances);
-      const isCrit = Math.random() < activeWaifu.getCritChance();
-      const critMultiplier = isCrit ? activeWaifu.getCritMultiplier() : 1;
       const adMultiplier = useAdStore.getState().getDamageMultiplier();
 
-      const finalDamage = Math.floor(clickPower * elementMultiplier * critMultiplier * adMultiplier);
+      const baseDamage = Math.floor(clickPower * elementMultiplier * adMultiplier);
+      const actualDamage = dealDamage(baseDamage, isCrit);
 
-      const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
-      addClickEffect(clickX, clickY, finalDamage, isCrit, activeWaifu.element, effectiveness);
-
-      // Наносим урон
-      const actualDamage = dealDamage(finalDamage, isCrit);
-
-      // Проверяем смерть
-      const newHp = enemy.currentHp - actualDamage;
-      if (newHp <= 0 && !isProcessingKill.current) {
+      // Проверяем убил ли клик
+      if (enemy.currentHp - actualDamage <= 0) {
         handleEnemyDeath();
       }
+
+      const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
+      addClickEffect(clickX, clickY, actualDamage, isCrit, activeWaifu.element, effectiveness);
     },
-    [isPaused, activeWaifu, enemy, onClick, addClickEffect, handleEnemyDeath, dealDamage],
+    [isPaused, activeWaifu, enemy, onClick, addClickEffect, dealDamage, handleEnemyDeath],
   );
 
   const getResistanceTooltip = (value: number): string => {
@@ -5390,6 +5445,7 @@ import "./MainMenu.css";
 import { TutorialPanel } from "../TutorialPanel/TutorialPanel";
 import { audioManager } from "../../audio/AudioManager";
 import { Icon } from "../Icon/Icon";
+import { adService } from "../../services/AdService";
 
 interface Props {
   onPlay: () => void;
@@ -5436,6 +5492,7 @@ export function MainMenu({ onPlay, onSettings, onLanguageChange, onAuthorize, is
           {isAuthorized && (
             <div className="auth-section">
               <span className="status-badge">✅ {t("ui.loggedin")}</span>
+              <span> {adService.getPlayerName()}</span>
             </div>
           )}
 
@@ -7963,7 +8020,6 @@ export function useLeaderboard() {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useSave.ts ===== 
-// src/hooks/useSave.ts
 import { useEffect, useCallback, useRef } from "react";
 import { useGameStore } from "../store/gameStore";
 import { adService } from "../services/AdService";
@@ -7971,35 +8027,37 @@ import { adService } from "../services/AdService";
 const SAVE_KEY = "harem-clicker-save-v2";
 const BACKUP_KEY = "harem-clicker-backup-v2";
 const CLOUD_SAVE_KEY = "cloud_save_v1";
-const TIMESTAMP_KEY = "harem-clicker-last-save-ts"; // Новый ключ для времени
+const TIMESTAMP_KEY = "harem-clicker-last-save-ts";
+// ИЗМЕНЕНО: добавлен ключ для хранения метаданных владельца сохранения
+const META_KEY = "harem-clicker-meta-v1";
 
 export function useAutoSave() {
   const saveTimeoutRef = useRef<number | null>(null);
   const isSavingRef = useRef(false);
 
-  // Основная функция сохранения
   const saveGame = useCallback(async () => {
     if (isSavingRef.current) return;
     isSavingRef.current = true;
 
     try {
       const localData = localStorage.getItem(SAVE_KEY);
-
       if (!localData) {
         isSavingRef.current = false;
         return;
       }
 
       const now = Date.now();
+      const currentUserId = adService.getIsAuthorized() ? adService.getUniqueID() : null;
 
-      // 1. Сохраняем в LocalStorage с меткой времени
+      // 1. Сохраняем в LocalStorage
       localStorage.setItem(SAVE_KEY, localData);
       localStorage.setItem(TIMESTAMP_KEY, now.toString());
-      localStorage.setItem("harem-clicker-last-save", JSON.stringify({ timestamp: now }));
 
-      // 2. Если авторизованы, сохраняем в Облако вместе с меткой времени
+      // ИЗМЕНЕНО: сохраняем ID владельца локального сейва
+      localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: now }));
+
+      // 2. Если авторизованы, сохраняем в Облако
       if (adService.getIsAuthorized()) {
-        // Оборачиваем данные в объект с timestamp, чтобы сравнивать версии
         const cloudPayload = {
           data: localData,
           timestamp: now,
@@ -8016,7 +8074,6 @@ export function useAutoSave() {
     }
   }, []);
 
-  // Функция загрузки с логикой Merge/Sync
   const loadGame = useCallback(async (): Promise<boolean> => {
     try {
       let cloudDataStr: string | null = null;
@@ -8024,20 +8081,77 @@ export function useAutoSave() {
       let localDataStr: string | null = null;
       let localTimestamp: number = 0;
 
-      // 1. Получаем данные из Облака (если авторизованы)
+      // Получаем текущего пользователя
+      const currentUserId = adService.getIsAuthorized() ? adService.getUniqueID() : null;
+
+      // Читаем метаданные локального сохранения
+      let metaUserId = null;
+      try {
+        const metaStr = localStorage.getItem(META_KEY);
+        if (metaStr) {
+          const meta = JSON.parse(metaStr);
+          metaUserId = meta.userId;
+        }
+      } catch (e) {
+        console.warn("[useSave] Failed to parse meta", e);
+      }
+
+      // ИЗМЕНЕНО: Проверка на смену пользователя
+      // Если текущий пользователь не совпадает с тем, кто записал локальный сейв
+      if (currentUserId !== metaUserId) {
+        console.log("[useSave] User mismatch detected. Ignoring local save.");
+
+        // Если мы авторизованы, пытаемся загрузить только из облака
+        if (adService.getIsAuthorized()) {
+          const cloudRaw = await adService.getData([CLOUD_SAVE_KEY]);
+          if (cloudRaw && cloudRaw[CLOUD_SAVE_KEY]) {
+            try {
+              const parsedCloud = JSON.parse(cloudRaw[CLOUD_SAVE_KEY]);
+              cloudDataStr = parsedCloud.data;
+              cloudTimestamp = parsedCloud.timestamp || 0;
+
+              console.log("[useSave] Loaded from Cloud for new user.");
+              localStorage.setItem(SAVE_KEY, cloudDataStr!);
+              localStorage.setItem(TIMESTAMP_KEY, cloudTimestamp.toString());
+              // Обновляем мету
+              localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: cloudTimestamp }));
+
+              await useGameStore.persist.rehydrate();
+              return true;
+            } catch (e) {
+              console.error("[useSave] Failed to parse cloud save", e);
+            }
+          }
+          // Если в облаке пусто, начинаем с чистого листа
+          console.log("[useSave] No cloud save for new user. Starting fresh.");
+          localStorage.removeItem(SAVE_KEY);
+          return false;
+        } else {
+          // Если мы гость, а предыдущий сейв был от юзера (или другого гостя с другим ID, хотя для гостей это сложнее)
+          // Для простоты: если вышли из аккаунта (был юзер, стал null), сбрасываем
+          if (metaUserId !== null && currentUserId === null) {
+            console.log("[useSave] Logged out. Clearing local save.");
+            localStorage.removeItem(SAVE_KEY);
+            return false;
+          }
+          // Если оба null (гость -> гость), грузим как обычно ниже
+        }
+      }
+
+      // Стандартная логика загрузки, если ID совпали или это тот же гость
+
+      // 1. Получаем данные из Облака
       if (adService.getIsAuthorized()) {
         const cloudRaw = await adService.getData([CLOUD_SAVE_KEY]);
         if (cloudRaw && cloudRaw[CLOUD_SAVE_KEY]) {
           try {
-            // Парсим оболочку { data: "...", timestamp: 123 }
             const parsedCloud = JSON.parse(cloudRaw[CLOUD_SAVE_KEY]);
             cloudDataStr = parsedCloud.data;
             cloudTimestamp = parsedCloud.timestamp || 0;
           } catch (e) {
-            // Fallback для старых сохранений без оболочки
             console.warn("[useSave] Legacy cloud save detected, migrating...");
             cloudDataStr = cloudRaw[CLOUD_SAVE_KEY];
-            cloudTimestamp = 0; // Считаем старым
+            cloudTimestamp = 0;
           }
         }
       }
@@ -8052,27 +8166,22 @@ export function useAutoSave() {
       let source = "none";
 
       if (cloudDataStr && localDataStr) {
-        // Есть и там, и там. Сравниваем время.
         if (cloudTimestamp > localTimestamp) {
           console.log("[useSave] Cloud is newer. Loading from Cloud.");
           dataToLoad = cloudDataStr;
           source = "cloud";
-          // Обновляем локальную метку времени, чтобы не перезаписать облако старыми данными при следующем сейве
           localStorage.setItem(TIMESTAMP_KEY, cloudTimestamp.toString());
         } else {
           console.log("[useSave] Local is newer or same. Loading from Local.");
           dataToLoad = localDataStr;
           source = "local";
-          // Если локальные данные новее, при следующем сохранении они перезапишут облако (это нормально)
         }
       } else if (cloudDataStr) {
-        // Только облако
         console.log("[useSave] Only Cloud save exists.");
         dataToLoad = cloudDataStr;
         source = "cloud";
         localStorage.setItem(TIMESTAMP_KEY, cloudTimestamp.toString());
       } else if (localDataStr) {
-        // Только локально
         console.log("[useSave] Only Local save exists.");
         dataToLoad = localDataStr;
         source = "local";
@@ -8080,15 +8189,8 @@ export function useAutoSave() {
 
       // 4. Загрузка данных в Store
       if (dataToLoad) {
-        // Записываем выбранные данные в localStorage, чтобы zustand persist подхватил их при реайдрации
-        // Или если стор уже гидрирован, нам нужно вызвать setState вручную?
-        // Zustand persist при вызове rehydrate читает из storage (localStorage).
-        // Поэтому мы должны положить "победившие" данные в localStorage перед вызовом rehydrate.
         localStorage.setItem(SAVE_KEY, dataToLoad);
-
-        // Триггерим реайдацию стора
         await useGameStore.persist.rehydrate();
-
         console.log(`[useSave] Game loaded successfully from ${source}`);
         return true;
       }
@@ -8100,40 +8202,102 @@ export function useAutoSave() {
     }
   }, []);
 
-  // Функция миграции: вызывается при успешной авторизации
   const migrateSaveToCloud = useCallback(async () => {
     const localData = localStorage.getItem(SAVE_KEY);
-    if (!localData) return;
+    if (!localData) {
+      console.log("[useSave] Migration skipped: No local save found.");
+      return;
+    }
 
-    console.log("[useSave] Migrating save to Cloud...");
+    // 1. Получаем ID текущего пользователя (кто сейчас залогинен)
+    const currentUserId = adService.getUniqueID();
+
+    // 2. Получаем ID владельца локального сохранения (кто играл раньше)
+    let metaUserId: string | null = null;
     try {
-      // Проверяем, есть ли уже данные в облаке
+      const metaStr = localStorage.getItem(META_KEY);
+      if (metaStr) {
+        const meta = JSON.parse(metaStr);
+        metaUserId = meta.userId;
+      }
+    } catch (e) {
+      console.warn("[useSave] Failed to parse meta during migration", e);
+    }
+
+    // СЦЕНАРИЙ 1: Пользователь не авторизован (не должно происходить при вызове из кнопки "Войти", но на всякий случай)
+    if (!currentUserId) {
+      console.warn("[useSave] Migration called but user is not authorized.");
+      return;
+    }
+
+    // СЦЕНАРИЙ 2: Локальный сейв принадлежит ДРУГОМУ пользователю (Смена аккаунта User A -> User B)
+    // Если metaUserId не null и не совпадает с currentUserId, мы НЕ перезаписываем облако User B данными User A.
+    if (metaUserId !== null && metaUserId !== currentUserId) {
+      console.log("[useSave] Migration skipped: Local save belongs to a different user.", {
+        metaUserId,
+        currentUserId,
+      });
+      // В этом случае loadGame должен будет загрузить данные из облака для currentUserId, игнорируя локальные.
+      return;
+    }
+
+    // СЦЕНАРИЙ 3: Гость -> Авторизованный пользователь (metaUserId === null) ИЛИ Тот же пользователь (metaUserId === currentUserId)
+    console.log("[useSave] Starting migration to Cloud...", { metaUserId, currentUserId });
+
+    try {
+      // Проверяем, что уже есть в облаке
       const cloudRaw = await adService.getData([CLOUD_SAVE_KEY]);
 
-      // Если в облаке пусто ИЛИ данные в облаке старые (на случай рассинхрона при первом входе)
+      const now = Date.now();
+      let shouldUpload = false;
+      let finalPayload = "";
+
       if (!cloudRaw || !cloudRaw[CLOUD_SAVE_KEY]) {
-        const now = Date.now();
-        const payload = JSON.stringify({ data: localData, timestamp: now });
-        await adService.setData({ [CLOUD_SAVE_KEY]: payload });
-        localStorage.setItem(TIMESTAMP_KEY, now.toString());
-        console.log("[useSave] Migration successful");
+        // В облаке пусто. Безопасно загружаем локальный прогресс.
+        console.log("[useSave] Cloud is empty. Uploading local save.");
+        finalPayload = JSON.stringify({ data: localData, timestamp: now });
+        shouldUpload = true;
       } else {
-        console.log("[useSave] Cloud save already exists. Comparing timestamps...");
-        // Дополнительная проверка при миграции: если облако новее, загружаем его
+        // В облаке что-то есть. Сравниваем время.
         try {
           const parsedCloud = JSON.parse(cloudRaw[CLOUD_SAVE_KEY]);
           const cloudTs = parsedCloud.timestamp || 0;
+          // Берем timestamp локального сейва
           const localTs = parseInt(localStorage.getItem(TIMESTAMP_KEY) || "0", 10);
 
-          if (cloudTs > localTs) {
-            console.log("[useSave] Cloud save is newer during migration. Updating local...");
+          if (localTs > cloudTs) {
+            // Локальный сейв новее (например, игрок играл оффлайн или был гостем и прогрессировал)
+            console.log("[useSave] Local save is newer than cloud. Updating cloud.");
+            finalPayload = JSON.stringify({ data: localData, timestamp: now }); // Используем новое время для обновления
+            shouldUpload = true;
+          } else {
+            // Облачный сейв новее или такой же.
+            // Если это был Гость (metaUserId === null), а в облаке есть старые данные этого аккаунта,
+            // то облачные данные важнее (игрок уже играл с этого аккаунта на другом устройстве).
+            // Мы НЕ перезаписываем облако старыми данными гостя.
+            console.log("[useSave] Cloud save is newer or equal. Keeping cloud data. Updating local meta.");
+            // Обновляем локальный сейв данными из облака, чтобы синхронизироваться
             localStorage.setItem(SAVE_KEY, parsedCloud.data);
             localStorage.setItem(TIMESTAMP_KEY, cloudTs.toString());
+            // Важно: обновляем мета-данные, чтобы привязать этот локальный файл к текущему пользователю
+            localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: cloudTs }));
+
+            // Перезагружаем стейт игры, чтобы подтянуть облачные данные
             await useGameStore.persist.rehydrate();
+            return;
           }
         } catch (e) {
-          console.warn("[useSave] Could not parse cloud data during migration comparison", e);
+          console.error("[useSave] Error comparing timestamps, forcing upload to be safe", e);
+          finalPayload = JSON.stringify({ data: localData, timestamp: now });
+          shouldUpload = true;
         }
+      }
+
+      if (shouldUpload) {
+        await adService.setData({ [CLOUD_SAVE_KEY]: finalPayload });
+        localStorage.setItem(TIMESTAMP_KEY, now.toString());
+        localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: now }));
+        console.log("[useSave] Migration successful.");
       }
     } catch (err) {
       console.error("[useSave] Migration failed", err);
@@ -8155,8 +8319,9 @@ export function useAutoSave() {
     localStorage.removeItem(SAVE_KEY);
     localStorage.removeItem(BACKUP_KEY);
     localStorage.removeItem(TIMESTAMP_KEY);
+    localStorage.removeItem(META_KEY); // ИЗМЕНЕНО: очистка меты
     localStorage.removeItem("harem-clicker-last-save");
-    // Если авторизован, чистим и облако
+
     if (adService.getIsAuthorized()) {
       adService.setData({ [CLOUD_SAVE_KEY]: null });
     }
@@ -8166,7 +8331,7 @@ export function useAutoSave() {
   useEffect(() => {
     saveTimeoutRef.current = window.setInterval(() => {
       saveGame();
-    }, 30000); // Автосохранение каждые 30 сек
+    }, 30000);
     return () => {
       if (saveTimeoutRef.current) clearInterval(saveTimeoutRef.current);
     };
@@ -14718,8 +14883,7 @@ export const locales = {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\AdService.ts ===== 
-// src/services/AdService.ts
-import { SDK, Player, Leaderboards } from "ysdk";
+import { SDK, Player } from "ysdk";
 import { audioManager } from "../audio/AudioManager";
 
 type AdCallback = (success: boolean) => void;
@@ -14730,25 +14894,23 @@ class AdService {
   private player: Player | null = null;
   private initialized = false;
   private isAuthorized = false;
-  private leaderboard: Leaderboards | null = null;
+  private uniqueId: string | null = null;
+  private lastScoreSubmitTime: number = 0;
+  private readonly MIN_SCORE_SUBMIT_INTERVAL = 1000;
   private lastFullscreenAdTime: number = 0;
   private readonly MIN_AD_INTERVAL = 30000;
 
   async getSDK(): Promise<SDK | null> {
-    // Если уже инициализирован, возвращаем сразу
     if (this.ysdk) return this.ysdk;
-
-    // Если инициализация уже идет, ждем тот же промис
     if (this.initPromise) return this.initPromise;
 
-    // Запускаем инициализацию
     this.initPromise = (async () => {
       try {
         const yaGames = (window as any).YaGames;
-        // Если не в iframe или SDK нет
         if (!yaGames || window.self === window.top) {
           console.log("[AdService] Dev mode or not in iframe");
           this.initialized = true;
+          this.isAuthorized = false;
           return null;
         }
 
@@ -14756,96 +14918,138 @@ class AdService {
         this.ysdk = sdk;
         this.initialized = true;
 
-        // Инициализируем лидерборды сразу после получения SDK
-        try {
-          this.leaderboard = sdk.leaderboards;
-        } catch (err) {
-          console.warn("[AdService] Leaderboard init failed", err);
-        }
-
-        // Сообщаем Яндексу, что игра загрузилась
         if (sdk.features?.LoadingAPI?.ready) {
           sdk.features.LoadingAPI.ready();
         }
 
-        // Пробуем получить игрока (авторизация)
         try {
-          this.player = await sdk.getPlayer();
-          this.isAuthorized = true;
+          const player = await sdk.getPlayer();
+          const name = player.getName();
+          // ИЗМЕНЕНО: сохраняем uniqueID
+          this.uniqueId = player.getUniqueID();
+
+          if (name && name.length > 0) {
+            this.player = player;
+            this.isAuthorized = true;
+            console.log("[AdService] User authorized:", name);
+          } else {
+            this.isAuthorized = false;
+            this.player = null;
+            console.log("[AdService] User guest (empty name)");
+          }
         } catch (err) {
           this.isAuthorized = false;
+          this.player = null;
+          console.log("[AdService] User not authorized on init:", err);
         }
-
         return sdk;
       } catch (error) {
         console.error("[AdService] Init failed:", error);
-        this.initialized = true; // Чтобы не пытаться бесконечно
+        this.initialized = true;
+        this.isAuthorized = false;
         return null;
       }
     })();
-
     return this.initPromise;
   }
 
   async init(): Promise<void> {
     await this.getSDK();
   }
-  async submitScore(score: number): Promise<boolean> {
-    if (!this.leaderboard || !this.isAuthorized) {
-      console.log("[AdService] Cannot submit score: leaderboard or auth not available");
+
+  getPlayerName(): string | null {
+    if (!this.player) return null;
+    return this.player.getName();
+  }
+
+  // ИЗМЕНЕНО: добавлен геттер для UniqueID
+  getUniqueID(): string | null {
+    return this.uniqueId;
+  }
+
+  async submitScore(score: number, leaderboardName: string = "totalMaxLevels"): Promise<boolean> {
+    if (!this.ysdk || !this.isAuthorized) {
+      console.warn("[AdService] Cannot submit score: SDK not ready or user not authorized");
       return false;
     }
 
+    const now = Date.now();
+    if (now - this.lastScoreSubmitTime < this.MIN_SCORE_SUBMIT_INTERVAL) {
+      console.log("[AdService] Score submit skipped: too frequent");
+      return false;
+    }
+
+    if ((this.ysdk as any).isAvailableMethod) {
+      try {
+        const isAvailable = await (this.ysdk as any).isAvailableMethod("leaderboards.setScore");
+        if (!isAvailable) {
+          console.warn("[AdService] leaderboards.setScore is not available");
+          return false;
+        }
+      } catch (e) {
+        console.warn("[AdService] Error checking method availability", e);
+      }
+    }
+
     try {
-      await this.leaderboard.setLeaderboardScore("totalMaxLevels", score);
-      console.log("[AdService] Score submitted:", score);
+      await this.ysdk.leaderboards.setScore(leaderboardName, score);
+      this.lastScoreSubmitTime = Date.now();
+      console.log("[AdService] Score submitted successfully:", score);
       return true;
-    } catch (err) {
+    } catch (err: any) {
       console.error("[AdService] Failed to submit score:", err);
       return false;
     }
   }
 
-  /**
-   * Получает позицию игрока в топе
-   * @returns позиция (1-based) или null если не в топе/не авторизован
-   */
-  async getPlayerRank(): Promise<number | null> {
-    if (!this.leaderboard || !this.isAuthorized) {
+  async getPlayerRank(leaderboardName: string = "totalMaxLevels"): Promise<number | null> {
+    if (!this.ysdk || !this.isAuthorized) {
       return null;
     }
 
+    if ((this.ysdk as any).isAvailableMethod) {
+      try {
+        const isAvailable = await (this.ysdk as any).isAvailableMethod("leaderboards.getPlayerEntry");
+        if (!isAvailable) {
+          return null;
+        }
+      } catch (e) {
+        // Игнорируем ошибку проверки
+      }
+    }
+
     try {
-      const entry = await this.leaderboard.getLeaderboardPlayerEntry("totalMaxLevels");
+      const entry = await this.ysdk.leaderboards.getPlayerEntry(leaderboardName);
       if (entry && entry.rank) {
         return entry.rank;
       }
       return null;
-    } catch (err) {
-      // Игрок ещё не в лидерборде
+    } catch (err: any) {
+      if (err.code === "LEADERBOARD_PLAYER_NOT_PRESENT") {
+        console.log("[AdService] Player not present in leaderboard yet");
+      } else {
+        console.error("[AdService] Failed to get player rank:", err);
+      }
       return null;
     }
   }
 
-  /**
-   * Получает топ игроков
-   */
-  async getTopScores(quantity: number = 10): Promise<Array<{ rank: number; score: number; name: string }> | null> {
-    if (!this.leaderboard) {
+  async getTopScores(
+    quantity: number = 10,
+    leaderboardName: string = "totalMaxLevels",
+  ): Promise<Array<{ rank: number; score: number; name: string }> | null> {
+    if (!this.ysdk) {
       return null;
     }
-
     try {
-      const result = await this.leaderboard.getLeaderboardEntries("totalMaxLevels", {
-        quantityAround: 0,
+      const result = await this.ysdk.leaderboards.getEntries(leaderboardName, {
         quantityTop: quantity,
-        includeUser: true,
+        includeUser: false,
       });
-
       return result.entries.map((entry) => ({
         rank: entry.rank,
         score: entry.score,
-        name: entry.player.publicName || "Anonymous",
+        name: entry.player?.publicName || "Anonymous",
       }));
     } catch (err) {
       console.error("[AdService] Failed to get top scores:", err);
@@ -14853,30 +15057,30 @@ class AdService {
     }
   }
 
-  // Метод для проверки авторизации
   getIsAuthorized(): boolean {
     return this.isAuthorized;
   }
 
-  // Метод для показа окна авторизации
   async authorize(): Promise<boolean> {
     if (!this.ysdk) return false;
     try {
-      // Если уже авторизован, возвращаем true
       if (this.isAuthorized) return true;
 
-      // Показываем окно авторизации
-      // ✅ ИСПРАВЛЕНИЕ: openAuthDialog может возвращать void или Player.
-      // Обрабатываем оба случая.
       const result: any = await this.ysdk.auth.openAuthDialog();
 
-      if (result && typeof result === "object") {
-        this.player = result as Player;
-        this.isAuthorized = true;
-        console.log("[AdService] User authorized successfully");
-        return true;
+      if (result) {
+        try {
+          this.player = await this.ysdk.getPlayer();
+          // ИЗМЕНЕНО: обновляем uniqueID после авторизации
+          this.uniqueId = this.player.getUniqueID();
+          this.isAuthorized = true;
+          console.log("[AdService] User authorized via dialog");
+          return true;
+        } catch (e) {
+          this.isAuthorized = false;
+          return false;
+        }
       }
-
       return false;
     } catch (err) {
       console.error("[AdService] Auth failed", err);
@@ -14884,7 +15088,6 @@ class AdService {
     }
   }
 
-  // Получение данных из облака Яндекса
   async getData(keys: string[]): Promise<any> {
     if (!this.player || !this.isAuthorized) return null;
     try {
@@ -14896,7 +15099,6 @@ class AdService {
     }
   }
 
-  // Сохранение данных в облако Яндекса
   async setData(data: any): Promise<void> {
     if (!this.player || !this.isAuthorized) {
       console.warn("[AdService] Cannot save to cloud: not authorized");
@@ -14924,18 +15126,14 @@ class AdService {
 
   showFullscreenAd(onClose?: (wasShown: boolean) => void): void {
     const now = Date.now();
-
-    // Проверяем, прошло ли 30 секунд с последнего показа
     if (now - this.lastFullscreenAdTime < this.MIN_AD_INTERVAL) {
       console.log("[AdService] Fullscreen ad skipped: too soon");
-      onClose?.(false); // Вызываем callback с false (реклама не показана)
+      onClose?.(false);
       return;
     }
 
     audioManager.setMuted(true);
-
     if (!this.ysdk?.adv) {
-      // Dev режим - показываем фейковую рекламу с задержкой
       setTimeout(() => {
         audioManager.setMuted(false);
         onClose?.(true);
@@ -14943,15 +15141,12 @@ class AdService {
       return;
     }
 
-    // Обновляем время последнего показа
     this.lastFullscreenAdTime = now;
-
     this.ysdk.adv.showFullscreenAdv({
       callbacks: {
         onClose: (wasShown: boolean) => {
           audioManager.setMuted(false);
           onClose?.(wasShown);
-          // Сбрасываем таймер при успешном показе
           this.lastFullscreenAdTime = Date.now();
         },
         onError: () => {
@@ -14966,9 +15161,10 @@ class AdService {
     audioManager.setMuted(true);
     if (!this.ysdk?.adv) {
       audioManager.setMuted(false);
-      callback(true); // В дев режиме всегда успех
+      callback(true);
       return;
     }
+
     let rewarded = false;
     this.ysdk.adv.showRewardedVideo({
       callbacks: {

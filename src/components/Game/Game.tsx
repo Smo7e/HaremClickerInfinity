@@ -177,7 +177,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         return; // Не блокируем — пусть скроллится
       }
 
-      // Блокируем только pull-to-refresh (когда свайп вниз вверху страницы)
       const isAtTop = window.scrollY === 0;
       const isPullDown = e.touches[0] && e.touches[0].clientY > 0;
 

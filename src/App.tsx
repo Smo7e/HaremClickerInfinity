@@ -79,7 +79,7 @@ function AppContent() {
     };
 
     init();
-  }, [loadGame, audioInitialized]);
+  }, [loadGame]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -96,6 +96,9 @@ function AppContent() {
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
+  useEffect(() => {
+    window.oncontextmenu = () => false;
+  }, []);
 
   if (isLoading || !hasRehydrated) {
     return (
@@ -105,7 +108,6 @@ function AppContent() {
       </div>
     );
   }
-  window.oncontextmenu = () => false;
 
   return (
     <div
