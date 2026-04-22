@@ -136,3 +136,5 @@
     padding-right: max(0px, env(safe-area-inset-right));
   }
 }
+
+/* App.css или index.css */

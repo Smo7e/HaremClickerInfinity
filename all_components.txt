@@ -22,13 +22,11 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.tsbuildinfo
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\vite.config.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\dist.zip
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\favicon.svg
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\icons.svg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\index.html
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-CpSpVTFK.js
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-n-o7VOl6.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-CGbEhBGL.js
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-Cqaja1N7.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\1.ogg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\background.ogg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\click.mp3
@@ -192,8 +190,6 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Umbr
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Yui.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\YukiOnna.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\favicon.svg
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\icons.svg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio\1.ogg
@@ -372,6 +368,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\styles
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\utils
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\vite-env.d.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\AudioManager.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Enemy.ts
@@ -467,6 +464,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\styles\mixins.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\styles\variables.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\ads.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\utils\preloadAssets.ts
  
  
 ===== СОДЕРЖИМОЕ ФАЙЛОВ (.ts / .tsx / .css) ===== 
@@ -857,6 +855,12 @@ export type TBestiaryProgress = Record<string, TBestiaryEntry>;
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.tsx ===== 
  
  
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\utils\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\utils\index.tsx ===== 
+ 
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\vite-env.d.ts ===== 
 /// <reference types="vite/client" />
 
@@ -886,6 +890,7 @@ import { audioManager } from "./audio/AudioManager";
 import { useAutoSave } from "./hooks/useSave";
 import { useGameStore } from "./store/gameStore";
 import { adService } from "./services/AdService";
+import { preloadAllAssets, type PreloadProgress } from "./utils/preloadAssets";
 
 export type TScreen = "menu" | "game";
 
@@ -898,6 +903,7 @@ function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
+  const [preloadProgress, setPreloadProgress] = useState<PreloadProgress | null>(null);
 
   const { loadGame, migrateSaveToCloud } = useAutoSave();
   const hasRehydrated = useGameStore.persist.hasHydrated();
@@ -932,6 +938,9 @@ function AppContent() {
   useEffect(() => {
     const init = async () => {
       try {
+        await preloadAllAssets((progress) => {
+          setPreloadProgress(progress);
+        });
         await adService.init();
         await initI18n();
 
@@ -955,7 +964,7 @@ function AppContent() {
     };
 
     init();
-  }, [loadGame, audioInitialized]);
+  }, [loadGame]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -972,16 +981,33 @@ function AppContent() {
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
+  useEffect(() => {
+    window.oncontextmenu = () => false;
+  }, []);
 
   if (isLoading || !hasRehydrated) {
     return (
       <div className="app-loading">
-        <div className="loading-spinner" />
-        <p>{t("ui.loading")}</p>
+        {/* Если прогресс уже начался, показываем бар, иначе спиннер */}
+        {preloadProgress ? (
+          <div className="preload-container">
+            <h2 className="loading-title">{t("ui.loading")}</h2>
+            <div className="progress-bar-container">
+              <div className="progress-bar-fill" style={{ width: `${preloadProgress.percentage}%` }} />
+            </div>
+            <p className="loading-text">
+              {preloadProgress.loaded} / {preloadProgress.total}
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="loading-spinner" />
+            <p>{t("ui.loading")}</p>
+          </>
+        )}
       </div>
     );
   }
-  window.oncontextmenu = () => false;
 
   return (
     <div
@@ -1058,6 +1084,8 @@ createRoot(document.getElementById("root")!).render(
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\AudioManager.ts ===== 
+// src/audio/AudioManager.ts
+
 type SFXType = "click" | "enemy_defeat" | "panel_click";
 
 interface AudioConfig {
@@ -1067,21 +1095,39 @@ interface AudioConfig {
   isMusicEnabled: boolean;
 }
 
+// Интерфейс для кэшированных буферов звуков
+interface SFXBuffers {
+  click: AudioBuffer | null;
+  enemy_defeat: AudioBuffer | null;
+  panel_click: AudioBuffer | null;
+}
+
 class AudioManager {
   private static instance: AudioManager;
-  private sfxCache: Map<SFXType, HTMLAudioElement> = new Map();
+
+  // Храним буферы вместо HTMLAudioElement
+  private sfxBuffers: SFXBuffers = {
+    click: null,
+    enemy_defeat: null,
+    panel_click: null,
+  };
+
   private config: AudioConfig = {
     musicVolume: 0.2,
     sfxVolume: 0.2,
     isMuted: false,
     isMusicEnabled: true,
   };
+
   private isInitialized = false;
   audioContext: AudioContext | null = null;
 
   private musicSource: AudioBufferSourceNode | null = null;
   private musicBuffer: AudioBuffer | null = null;
   private musicGainNode: GainNode | null = null;
+
+  // Gain node для SFX, чтобы управлять общей громкостью эффектов
+  private sfxGainNode: GainNode | null = null;
 
   private readonly MUSIC_PATH = "assets/audio/background.ogg";
   private readonly SFX_PATHS: Record<SFXType, string> = {
@@ -1100,12 +1146,14 @@ class AudioManager {
         }
       };
 
-      const events = ["touchstart", "touchend", "mousedown", "keydown"];
+      // Важно: возобновляем контекст при любом взаимодействии
+      const events = ["touchstart", "touchend", "mousedown", "keydown", "pointerdown"];
       const handler = () => {
         resumeAudio();
-        events.forEach((e) => document.removeEventListener(e, handler));
+        // Не удаляем слушатели сразу, так как контекст может снова заснуть
       };
-      events.forEach((e) => document.addEventListener(e, handler, { once: true }));
+
+      events.forEach((e) => document.addEventListener(e, handler, { passive: true }));
     }
   }
 
@@ -1118,11 +1166,17 @@ class AudioManager {
 
   async init(): Promise<void> {
     if (this.isInitialized) return;
+
     try {
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
       this.audioContext = new AudioContextClass();
 
-      // Загружаем музыку в буфер
+      // Создаем мастер-гейн для SFX
+      this.sfxGainNode = this.audioContext.createGain();
+      this.sfxGainNode.connect(this.audioContext.destination);
+      this.sfxGainNode.gain.value = this.config.sfxVolume;
+
+      // Загружаем музыку
       const response = await fetch(this.MUSIC_PATH);
       const arrayBuffer = await response.arrayBuffer();
       this.musicBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
@@ -1131,39 +1185,27 @@ class AudioManager {
       this.musicGainNode.connect(this.audioContext.destination);
       this.musicGainNode.gain.value = this.config.musicVolume;
 
-      await this.preloadSFX();
+      // Загружаем SFX в буферы
+      await this.preloadSFXBuffers();
+
       this.isInitialized = true;
-      console.log("[AudioManager] Initialized successfully with Web Audio API for music");
+      console.log("[AudioManager] Initialized successfully with Web Audio API");
     } catch (error) {
       console.error("[AudioManager] Initialization failed:", error);
     }
   }
 
-  private async preloadSFX(): Promise<void> {
-    const loadPromises = Object.entries(this.SFX_PATHS).map(([key, path]) => {
-      return new Promise<void>((resolve) => {
-        const audio = new Audio(path);
-        audio.preload = "auto";
-        audio.volume = this.config.sfxVolume;
-        audio.setAttribute("playsinline", "true");
-        audio.setAttribute("webkit-playsinline", "true");
-
-        audio.addEventListener(
-          "canplaythrough",
-          () => {
-            this.sfxCache.set(key as SFXType, audio);
-            resolve();
-          },
-          { once: true },
-        );
-
-        audio.addEventListener("error", () => {
-          console.warn(`[AudioManager] Failed to load SFX: ${path}`);
-          resolve();
-        });
-      });
+  private async preloadSFXBuffers(): Promise<void> {
+    const loadPromises = Object.entries(this.SFX_PATHS).map(async ([key, path]) => {
+      try {
+        const response = await fetch(path);
+        const arrayBuffer = await response.arrayBuffer();
+        const audioBuffer = await this.audioContext!.decodeAudioData(arrayBuffer);
+        this.sfxBuffers[key as SFXType] = audioBuffer;
+      } catch (err) {
+        console.warn(`[AudioManager] Failed to load SFX buffer: ${path}`, err);
+      }
     });
-
     await Promise.all(loadPromises);
   }
 
@@ -1200,32 +1242,33 @@ class AudioManager {
     this.pauseMusic();
   }
 
+  // Новый метод воспроизведения SFX через Web Audio API
   playSFX(type: SFXType): void {
     if (!this.isInitialized || this.config.isMuted) return;
 
-    const originalAudio = this.sfxCache.get(type);
-    if (!originalAudio) {
-      console.warn(`[AudioManager] SFX not found: ${type}`);
+    const buffer = this.sfxBuffers[type];
+    if (!buffer || !this.audioContext) {
+      console.warn(`[AudioManager] SFX buffer not found or context missing: ${type}`);
       return;
     }
 
-    const sfx = originalAudio.cloneNode() as HTMLAudioElement;
-    sfx.volume = this.config.sfxVolume;
-
-    const playPromise = sfx.play();
-    if (playPromise !== undefined) {
-      playPromise.catch((err) => {
-        console.warn(`[AudioManager] SFX play prevented:`, err);
-      });
+    if (this.audioContext.state === "suspended") {
+      this.audioContext.resume();
     }
 
-    sfx.addEventListener(
-      "ended",
-      () => {
-        sfx.remove();
-      },
-      { once: true },
-    );
+    const source = this.audioContext.createBufferSource();
+    source.buffer = buffer;
+
+    // Подключаем к гейну SFX
+    source.connect(this.sfxGainNode!);
+
+    source.start(0);
+
+    // Очистка после воспроизведения не требуется для BufferSource,
+    // но можно добавить onended для отладки
+    source.onended = () => {
+      source.disconnect();
+    };
   }
 
   playClick(): void {
@@ -1245,17 +1288,26 @@ class AudioManager {
 
   setSFXVolume(volume: number): void {
     this.config.sfxVolume = Math.max(0, Math.min(1, volume));
-    this.sfxCache.forEach((audio) => {
-      audio.volume = this.config.sfxVolume;
-    });
+    if (this.sfxGainNode) {
+      this.sfxGainNode.gain.value = this.config.sfxVolume;
+    }
   }
 
   setMuted(muted: boolean): void {
     this.config.isMuted = muted;
     if (muted) {
       this.pauseMusic();
-    } else if (this.config.isMusicEnabled) {
-      this.playMusic();
+      // Для Web Audio API можно просто установить gain в 0, но паузы музыки достаточно
+      if (this.sfxGainNode) {
+        this.sfxGainNode.gain.value = 0;
+      }
+    } else {
+      if (this.sfxGainNode) {
+        this.sfxGainNode.gain.value = this.config.sfxVolume;
+      }
+      if (this.config.isMusicEnabled) {
+        this.playMusic();
+      }
     }
   }
 
@@ -1426,7 +1478,7 @@ export class Enemy {
     const elements: TElementType[] = ["water", "fire", "earth", "ice", "light", "dark", "physical"];
     const shuffled = [...elements].sort(() => Math.random() - 0.5);
 
-    const resistCount = isBoss ? 3 : 1;
+    const resistCount = isBoss ? 2 : 1;
     for (let i = 0; i < resistCount; i++) {
       const element = shuffled[i]!;
       if (resistances[element] === undefined) {
@@ -2120,19 +2172,29 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
 
       // Разрешаем скролл внутри панелей и туториала
       const isInScrollablePanel =
+        target.closest(".panel") ||
+        target.closest(".panel-content") ||
         target.closest(".panel-scroll-content") ||
         target.closest(".tutorial-scroll-content") ||
-        target.closest(".panel");
-      target.closest(".settings-modal") ||
-        target.closest(".settings-content") ||
+        target.closest(".game-sidebar") || // Важно для навигации!
         target.closest(".backpack-panel") ||
-        target.closest(".craft-panel");
+        target.closest(".craft-panel") ||
+        target.closest(".settings-modal") ||
+        target.closest(".collection-panel") ||
+        target.closest(".bestiary-panel") ||
+        target.closest(".waifu-select-panel") ||
+        target.closest(".gacha-panel") ||
+        target.closest(".upgrade-panel-modal") ||
+        target.closest(".location-selector-panel") ||
+        target.closest(".ad-panel") ||
+        target.closest(".pause-panel") ||
+        target.closest(".waifu-detail-panel") ||
+        target.closest(".drop-pool-panel");
 
       if (isInScrollablePanel) {
         return; // Не блокируем — пусть скроллится
       }
 
-      // Блокируем только pull-to-refresh (когда свайп вниз вверху страницы)
       const isAtTop = window.scrollY === 0;
       const isPullDown = e.touches[0] && e.touches[0].clientY > 0;
 
@@ -3658,18 +3720,45 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
   const autoAttackIntervalRef = useRef<number | null>(null);
   const enemyContainerRef = useRef<HTMLDivElement>(null);
   const touchHandledRef = useRef(false);
-  const isProcessingKill = useRef(false);
-
-  const globalUpgrades = useGameStore((state) => state.globalUpgrades);
+  const defeatedEnemyKeyRef = useRef<string | null>(null);
   const dealDamage = useGameStore((state) => state.dealDamage);
   const lastDrops = useGameStore((state) => state.lastDrops);
+  const defeatEnemy = useGameStore((state) => state.defeatEnemy);
+
+  const getEnemyKey = (e: Enemy) => `${e.id}-${e.level}`;
+
+  const handleEnemyDeath = useCallback(() => {
+    const currentEnemy = enemyRef.current;
+    if (!currentEnemy) return;
+
+    const key = getEnemyKey(currentEnemy);
+    if (defeatedEnemyKeyRef.current === key) {
+      return;
+    }
+
+    defeatedEnemyKeyRef.current = key;
+    audioManager.playEnemyDefeat();
+  }, []);
 
   useEffect(() => {
     enemyRef.current = enemy;
     setHpPercent(enemy.getHpPercent());
     setCurrentHp(enemy.currentHp);
-    isProcessingKill.current = false;
-  }, [enemy]);
+
+    const key = getEnemyKey(enemy);
+
+    if (enemy.currentHp <= 0 && defeatedEnemyKeyRef.current !== key) {
+      console.log("[EnemyComponent] Detected stuck dead enemy on load/render. Triggering defeat.");
+      defeatedEnemyKeyRef.current = key;
+      handleEnemyDeath();
+
+      setTimeout(() => {
+        defeatEnemy();
+      }, 100);
+    } else if (enemy.currentHp > 0) {
+      defeatedEnemyKeyRef.current = null;
+    }
+  }, [enemy, defeatEnemy, handleEnemyDeath]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -3706,12 +3795,6 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
     },
     [],
   );
-  const handleEnemyDeath = useCallback(() => {
-    if (isProcessingKill.current) return;
-    isProcessingKill.current = true;
-
-    audioManager.playEnemyDefeat();
-  }, []);
 
   useEffect(() => {
     if (lastDrops && lastDrops.length > 0) {
@@ -3732,17 +3815,25 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
   const performAttack = useCallback(
     (isAuto: boolean = false) => {
-      if (!enemy || !activeWaifu) return;
-      if (!enemy.isAlive()) return;
+      const currentEnemy = enemyRef.current;
 
-      const calculation = BattleService.calculateDamage(activeWaifu, enemy);
+      if (!currentEnemy || !activeWaifu) return;
+
+      if (!currentEnemy.isAlive()) return;
+
+      // Расчет урона
+      const calculation = BattleService.calculateDamage(activeWaifu, currentEnemy);
+
+      // Наносим урон через стор (это обновит enemy в сторе и вызовет ре-рендер)
+      // dealDamage возвращает фактический нанесенный урон
       const actualDamage = dealDamage(calculation.base, calculation.isCrit);
 
+      // Визуальные эффекты (клики)
       let x: number, y: number;
       if (isAuto && enemyContainerRef.current) {
         const rect = enemyContainerRef.current.getBoundingClientRect();
-        x = rect.left + rect.width / 2 + (Math.random() - 0.5);
-        y = rect.top + rect.height / 2 + (Math.random() - 0.5);
+        x = rect.left + rect.width / 2 + (Math.random() - 0.5) * 20; // Немного разброса
+        y = rect.top + rect.height / 2 + (Math.random() - 0.5) * 20;
       } else {
         x = window.innerWidth / 2;
         y = window.innerHeight / 2;
@@ -3750,12 +3841,15 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       addClickEffect(x, y, actualDamage, calculation.isCrit, activeWaifu.element, calculation.effectiveness);
 
-      const newHp = enemy.currentHp - actualDamage;
-      if (newHp <= 0 && !isProcessingKill.current) {
+      const remainingHp = currentEnemy.currentHp;
+
+      if (remainingHp <= 0) {
+        console.log(remainingHp);
+        // Вызываем обработчик смерти. Он сам проверит isProcessingKill
         handleEnemyDeath();
       }
     },
-    [enemy, activeWaifu, globalUpgrades, dealDamage, addClickEffect, handleEnemyDeath],
+    [activeWaifu, dealDamage, addClickEffect, handleEnemyDeath], // Убрали enemy из зависимостей, используем ref
   );
 
   useEffect(() => {
@@ -3795,16 +3889,12 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       e.preventDefault();
 
-      // Получаем точные координаты относительно viewport
       const rect = enemyContainerRef.current?.getBoundingClientRect();
       if (!rect) return;
 
-      // Используем clientX/clientY напрямую - они уже в координатах viewport
-      // Но если есть смещение, проверим через offset
       let clickX = e.clientX;
       let clickY = e.clientY;
 
-      // Для touch событий - берём координаты из touches
       if (e.pointerType === "touch") {
         if (touchHandledRef.current) return;
         touchHandledRef.current = true;
@@ -3819,27 +3909,25 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
 
       audioManager.playClick();
 
+      const critChance = activeWaifu.getCritChance();
+      const isCrit = Math.random() < critChance;
+
       const clickPower = activeWaifu.getClickPower();
       const elementMultiplier = activeWaifu.getElementMultiplier(enemy.resistances);
-      const isCrit = Math.random() < activeWaifu.getCritChance();
-      const critMultiplier = isCrit ? activeWaifu.getCritMultiplier() : 1;
       const adMultiplier = useAdStore.getState().getDamageMultiplier();
 
-      const finalDamage = Math.floor(clickPower * elementMultiplier * critMultiplier * adMultiplier);
+      const baseDamage = Math.floor(clickPower * elementMultiplier * adMultiplier);
+      const actualDamage = dealDamage(baseDamage, isCrit);
 
-      const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
-      addClickEffect(clickX, clickY, finalDamage, isCrit, activeWaifu.element, effectiveness);
-
-      // Наносим урон
-      const actualDamage = dealDamage(finalDamage, isCrit);
-
-      // Проверяем смерть
-      const newHp = enemy.currentHp - actualDamage;
-      if (newHp <= 0 && !isProcessingKill.current) {
+      // Проверяем убил ли клик
+      if (enemy.currentHp - actualDamage <= 0) {
         handleEnemyDeath();
       }
+
+      const effectiveness = enemy.getElementEffectiveness(activeWaifu.element);
+      addClickEffect(clickX, clickY, actualDamage, isCrit, activeWaifu.element, effectiveness);
     },
-    [isPaused, activeWaifu, enemy, onClick, addClickEffect, handleEnemyDeath, dealDamage],
+    [isPaused, activeWaifu, enemy, onClick, addClickEffect, dealDamage, handleEnemyDeath],
   );
 
   const getResistanceTooltip = (value: number): string => {
@@ -7982,7 +8070,6 @@ export function useLeaderboard() {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\hooks\useSave.ts ===== 
-// src/hooks/useSave.ts
 import { useEffect, useCallback, useRef } from "react";
 import { useGameStore } from "../store/gameStore";
 import { adService } from "../services/AdService";
@@ -7990,35 +8077,37 @@ import { adService } from "../services/AdService";
 const SAVE_KEY = "harem-clicker-save-v2";
 const BACKUP_KEY = "harem-clicker-backup-v2";
 const CLOUD_SAVE_KEY = "cloud_save_v1";
-const TIMESTAMP_KEY = "harem-clicker-last-save-ts"; // Новый ключ для времени
+const TIMESTAMP_KEY = "harem-clicker-last-save-ts";
+// ИЗМЕНЕНО: добавлен ключ для хранения метаданных владельца сохранения
+const META_KEY = "harem-clicker-meta-v1";
 
 export function useAutoSave() {
   const saveTimeoutRef = useRef<number | null>(null);
   const isSavingRef = useRef(false);
 
-  // Основная функция сохранения
   const saveGame = useCallback(async () => {
     if (isSavingRef.current) return;
     isSavingRef.current = true;
 
     try {
       const localData = localStorage.getItem(SAVE_KEY);
-
       if (!localData) {
         isSavingRef.current = false;
         return;
       }
 
       const now = Date.now();
+      const currentUserId = adService.getIsAuthorized() ? adService.getUniqueID() : null;
 
-      // 1. Сохраняем в LocalStorage с меткой времени
+      // 1. Сохраняем в LocalStorage
       localStorage.setItem(SAVE_KEY, localData);
       localStorage.setItem(TIMESTAMP_KEY, now.toString());
-      localStorage.setItem("harem-clicker-last-save", JSON.stringify({ timestamp: now }));
 
-      // 2. Если авторизованы, сохраняем в Облако вместе с меткой времени
+      // ИЗМЕНЕНО: сохраняем ID владельца локального сейва
+      localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: now }));
+
+      // 2. Если авторизованы, сохраняем в Облако
       if (adService.getIsAuthorized()) {
-        // Оборачиваем данные в объект с timestamp, чтобы сравнивать версии
         const cloudPayload = {
           data: localData,
           timestamp: now,
@@ -8035,7 +8124,6 @@ export function useAutoSave() {
     }
   }, []);
 
-  // Функция загрузки с логикой Merge/Sync
   const loadGame = useCallback(async (): Promise<boolean> => {
     try {
       let cloudDataStr: string | null = null;
@@ -8043,20 +8131,77 @@ export function useAutoSave() {
       let localDataStr: string | null = null;
       let localTimestamp: number = 0;
 
-      // 1. Получаем данные из Облака (если авторизованы)
+      // Получаем текущего пользователя
+      const currentUserId = adService.getIsAuthorized() ? adService.getUniqueID() : null;
+
+      // Читаем метаданные локального сохранения
+      let metaUserId = null;
+      try {
+        const metaStr = localStorage.getItem(META_KEY);
+        if (metaStr) {
+          const meta = JSON.parse(metaStr);
+          metaUserId = meta.userId;
+        }
+      } catch (e) {
+        console.warn("[useSave] Failed to parse meta", e);
+      }
+
+      // ИЗМЕНЕНО: Проверка на смену пользователя
+      // Если текущий пользователь не совпадает с тем, кто записал локальный сейв
+      if (currentUserId !== metaUserId) {
+        console.log("[useSave] User mismatch detected. Ignoring local save.");
+
+        // Если мы авторизованы, пытаемся загрузить только из облака
+        if (adService.getIsAuthorized()) {
+          const cloudRaw = await adService.getData([CLOUD_SAVE_KEY]);
+          if (cloudRaw && cloudRaw[CLOUD_SAVE_KEY]) {
+            try {
+              const parsedCloud = JSON.parse(cloudRaw[CLOUD_SAVE_KEY]);
+              cloudDataStr = parsedCloud.data;
+              cloudTimestamp = parsedCloud.timestamp || 0;
+
+              console.log("[useSave] Loaded from Cloud for new user.");
+              localStorage.setItem(SAVE_KEY, cloudDataStr!);
+              localStorage.setItem(TIMESTAMP_KEY, cloudTimestamp.toString());
+              // Обновляем мету
+              localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: cloudTimestamp }));
+
+              await useGameStore.persist.rehydrate();
+              return true;
+            } catch (e) {
+              console.error("[useSave] Failed to parse cloud save", e);
+            }
+          }
+          // Если в облаке пусто, начинаем с чистого листа
+          console.log("[useSave] No cloud save for new user. Starting fresh.");
+          localStorage.removeItem(SAVE_KEY);
+          return false;
+        } else {
+          // Если мы гость, а предыдущий сейв был от юзера (или другого гостя с другим ID, хотя для гостей это сложнее)
+          // Для простоты: если вышли из аккаунта (был юзер, стал null), сбрасываем
+          if (metaUserId !== null && currentUserId === null) {
+            console.log("[useSave] Logged out. Clearing local save.");
+            localStorage.removeItem(SAVE_KEY);
+            return false;
+          }
+          // Если оба null (гость -> гость), грузим как обычно ниже
+        }
+      }
+
+      // Стандартная логика загрузки, если ID совпали или это тот же гость
+
+      // 1. Получаем данные из Облака
       if (adService.getIsAuthorized()) {
         const cloudRaw = await adService.getData([CLOUD_SAVE_KEY]);
         if (cloudRaw && cloudRaw[CLOUD_SAVE_KEY]) {
           try {
-            // Парсим оболочку { data: "...", timestamp: 123 }
             const parsedCloud = JSON.parse(cloudRaw[CLOUD_SAVE_KEY]);
             cloudDataStr = parsedCloud.data;
             cloudTimestamp = parsedCloud.timestamp || 0;
           } catch (e) {
-            // Fallback для старых сохранений без оболочки
             console.warn("[useSave] Legacy cloud save detected, migrating...");
             cloudDataStr = cloudRaw[CLOUD_SAVE_KEY];
-            cloudTimestamp = 0; // Считаем старым
+            cloudTimestamp = 0;
           }
         }
       }
@@ -8071,27 +8216,22 @@ export function useAutoSave() {
       let source = "none";
 
       if (cloudDataStr && localDataStr) {
-        // Есть и там, и там. Сравниваем время.
         if (cloudTimestamp > localTimestamp) {
           console.log("[useSave] Cloud is newer. Loading from Cloud.");
           dataToLoad = cloudDataStr;
           source = "cloud";
-          // Обновляем локальную метку времени, чтобы не перезаписать облако старыми данными при следующем сейве
           localStorage.setItem(TIMESTAMP_KEY, cloudTimestamp.toString());
         } else {
           console.log("[useSave] Local is newer or same. Loading from Local.");
           dataToLoad = localDataStr;
           source = "local";
-          // Если локальные данные новее, при следующем сохранении они перезапишут облако (это нормально)
         }
       } else if (cloudDataStr) {
-        // Только облако
         console.log("[useSave] Only Cloud save exists.");
         dataToLoad = cloudDataStr;
         source = "cloud";
         localStorage.setItem(TIMESTAMP_KEY, cloudTimestamp.toString());
       } else if (localDataStr) {
-        // Только локально
         console.log("[useSave] Only Local save exists.");
         dataToLoad = localDataStr;
         source = "local";
@@ -8099,15 +8239,8 @@ export function useAutoSave() {
 
       // 4. Загрузка данных в Store
       if (dataToLoad) {
-        // Записываем выбранные данные в localStorage, чтобы zustand persist подхватил их при реайдрации
-        // Или если стор уже гидрирован, нам нужно вызвать setState вручную?
-        // Zustand persist при вызове rehydrate читает из storage (localStorage).
-        // Поэтому мы должны положить "победившие" данные в localStorage перед вызовом rehydrate.
         localStorage.setItem(SAVE_KEY, dataToLoad);
-
-        // Триггерим реайдацию стора
         await useGameStore.persist.rehydrate();
-
         console.log(`[useSave] Game loaded successfully from ${source}`);
         return true;
       }
@@ -8119,40 +8252,102 @@ export function useAutoSave() {
     }
   }, []);
 
-  // Функция миграции: вызывается при успешной авторизации
   const migrateSaveToCloud = useCallback(async () => {
     const localData = localStorage.getItem(SAVE_KEY);
-    if (!localData) return;
+    if (!localData) {
+      console.log("[useSave] Migration skipped: No local save found.");
+      return;
+    }
 
-    console.log("[useSave] Migrating save to Cloud...");
+    // 1. Получаем ID текущего пользователя (кто сейчас залогинен)
+    const currentUserId = adService.getUniqueID();
+
+    // 2. Получаем ID владельца локального сохранения (кто играл раньше)
+    let metaUserId: string | null = null;
     try {
-      // Проверяем, есть ли уже данные в облаке
+      const metaStr = localStorage.getItem(META_KEY);
+      if (metaStr) {
+        const meta = JSON.parse(metaStr);
+        metaUserId = meta.userId;
+      }
+    } catch (e) {
+      console.warn("[useSave] Failed to parse meta during migration", e);
+    }
+
+    // СЦЕНАРИЙ 1: Пользователь не авторизован (не должно происходить при вызове из кнопки "Войти", но на всякий случай)
+    if (!currentUserId) {
+      console.warn("[useSave] Migration called but user is not authorized.");
+      return;
+    }
+
+    // СЦЕНАРИЙ 2: Локальный сейв принадлежит ДРУГОМУ пользователю (Смена аккаунта User A -> User B)
+    // Если metaUserId не null и не совпадает с currentUserId, мы НЕ перезаписываем облако User B данными User A.
+    if (metaUserId !== null && metaUserId !== currentUserId) {
+      console.log("[useSave] Migration skipped: Local save belongs to a different user.", {
+        metaUserId,
+        currentUserId,
+      });
+      // В этом случае loadGame должен будет загрузить данные из облака для currentUserId, игнорируя локальные.
+      return;
+    }
+
+    // СЦЕНАРИЙ 3: Гость -> Авторизованный пользователь (metaUserId === null) ИЛИ Тот же пользователь (metaUserId === currentUserId)
+    console.log("[useSave] Starting migration to Cloud...", { metaUserId, currentUserId });
+
+    try {
+      // Проверяем, что уже есть в облаке
       const cloudRaw = await adService.getData([CLOUD_SAVE_KEY]);
 
-      // Если в облаке пусто ИЛИ данные в облаке старые (на случай рассинхрона при первом входе)
+      const now = Date.now();
+      let shouldUpload = false;
+      let finalPayload = "";
+
       if (!cloudRaw || !cloudRaw[CLOUD_SAVE_KEY]) {
-        const now = Date.now();
-        const payload = JSON.stringify({ data: localData, timestamp: now });
-        await adService.setData({ [CLOUD_SAVE_KEY]: payload });
-        localStorage.setItem(TIMESTAMP_KEY, now.toString());
-        console.log("[useSave] Migration successful");
+        // В облаке пусто. Безопасно загружаем локальный прогресс.
+        console.log("[useSave] Cloud is empty. Uploading local save.");
+        finalPayload = JSON.stringify({ data: localData, timestamp: now });
+        shouldUpload = true;
       } else {
-        console.log("[useSave] Cloud save already exists. Comparing timestamps...");
-        // Дополнительная проверка при миграции: если облако новее, загружаем его
+        // В облаке что-то есть. Сравниваем время.
         try {
           const parsedCloud = JSON.parse(cloudRaw[CLOUD_SAVE_KEY]);
           const cloudTs = parsedCloud.timestamp || 0;
+          // Берем timestamp локального сейва
           const localTs = parseInt(localStorage.getItem(TIMESTAMP_KEY) || "0", 10);
 
-          if (cloudTs > localTs) {
-            console.log("[useSave] Cloud save is newer during migration. Updating local...");
+          if (localTs > cloudTs) {
+            // Локальный сейв новее (например, игрок играл оффлайн или был гостем и прогрессировал)
+            console.log("[useSave] Local save is newer than cloud. Updating cloud.");
+            finalPayload = JSON.stringify({ data: localData, timestamp: now }); // Используем новое время для обновления
+            shouldUpload = true;
+          } else {
+            // Облачный сейв новее или такой же.
+            // Если это был Гость (metaUserId === null), а в облаке есть старые данные этого аккаунта,
+            // то облачные данные важнее (игрок уже играл с этого аккаунта на другом устройстве).
+            // Мы НЕ перезаписываем облако старыми данными гостя.
+            console.log("[useSave] Cloud save is newer or equal. Keeping cloud data. Updating local meta.");
+            // Обновляем локальный сейв данными из облака, чтобы синхронизироваться
             localStorage.setItem(SAVE_KEY, parsedCloud.data);
             localStorage.setItem(TIMESTAMP_KEY, cloudTs.toString());
+            // Важно: обновляем мета-данные, чтобы привязать этот локальный файл к текущему пользователю
+            localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: cloudTs }));
+
+            // Перезагружаем стейт игры, чтобы подтянуть облачные данные
             await useGameStore.persist.rehydrate();
+            return;
           }
         } catch (e) {
-          console.warn("[useSave] Could not parse cloud data during migration comparison", e);
+          console.error("[useSave] Error comparing timestamps, forcing upload to be safe", e);
+          finalPayload = JSON.stringify({ data: localData, timestamp: now });
+          shouldUpload = true;
         }
+      }
+
+      if (shouldUpload) {
+        await adService.setData({ [CLOUD_SAVE_KEY]: finalPayload });
+        localStorage.setItem(TIMESTAMP_KEY, now.toString());
+        localStorage.setItem(META_KEY, JSON.stringify({ userId: currentUserId, timestamp: now }));
+        console.log("[useSave] Migration successful.");
       }
     } catch (err) {
       console.error("[useSave] Migration failed", err);
@@ -8174,8 +8369,9 @@ export function useAutoSave() {
     localStorage.removeItem(SAVE_KEY);
     localStorage.removeItem(BACKUP_KEY);
     localStorage.removeItem(TIMESTAMP_KEY);
+    localStorage.removeItem(META_KEY); // ИЗМЕНЕНО: очистка меты
     localStorage.removeItem("harem-clicker-last-save");
-    // Если авторизован, чистим и облако
+
     if (adService.getIsAuthorized()) {
       adService.setData({ [CLOUD_SAVE_KEY]: null });
     }
@@ -8185,7 +8381,7 @@ export function useAutoSave() {
   useEffect(() => {
     saveTimeoutRef.current = window.setInterval(() => {
       saveGame();
-    }, 30000); // Автосохранение каждые 30 сек
+    }, 30000);
     return () => {
       if (saveTimeoutRef.current) clearInterval(saveTimeoutRef.current);
     };
@@ -14737,8 +14933,7 @@ export const locales = {
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\AdService.ts ===== 
-// src/services/AdService.ts
-import { SDK, Player } from "ysdk"; // Убрали Leaderboards из импорта, так как он теперь часть SDK
+import { SDK, Player } from "ysdk";
 import { audioManager } from "../audio/AudioManager";
 
 type AdCallback = (success: boolean) => void;
@@ -14749,10 +14944,9 @@ class AdService {
   private player: Player | null = null;
   private initialized = false;
   private isAuthorized = false;
-
+  private uniqueId: string | null = null;
   private lastScoreSubmitTime: number = 0;
   private readonly MIN_SCORE_SUBMIT_INTERVAL = 1000;
-
   private lastFullscreenAdTime: number = 0;
   private readonly MIN_AD_INTERVAL = 30000;
 
@@ -14781,6 +14975,8 @@ class AdService {
         try {
           const player = await sdk.getPlayer();
           const name = player.getName();
+          // ИЗМЕНЕНО: сохраняем uniqueID
+          this.uniqueId = player.getUniqueID();
 
           if (name && name.length > 0) {
             this.player = player;
@@ -14796,7 +14992,6 @@ class AdService {
           this.player = null;
           console.log("[AdService] User not authorized on init:", err);
         }
-
         return sdk;
       } catch (error) {
         console.error("[AdService] Init failed:", error);
@@ -14811,32 +15006,29 @@ class AdService {
   async init(): Promise<void> {
     await this.getSDK();
   }
+
   getPlayerName(): string | null {
     if (!this.player) return null;
     return this.player.getName();
   }
 
-  /**
-   * Отправка результата в лидерборд
-   * @param score Число очков
-   * @param leaderboardName Техническое имя лидерборда в консоли Яндекса
-   */
+  // ИЗМЕНЕНО: добавлен геттер для UniqueID
+  getUniqueID(): string | null {
+    return this.uniqueId;
+  }
+
   async submitScore(score: number, leaderboardName: string = "totalMaxLevels"): Promise<boolean> {
-    // Проверка авторизации и наличия SDK
     if (!this.ysdk || !this.isAuthorized) {
       console.warn("[AdService] Cannot submit score: SDK not ready or user not authorized");
       return false;
     }
 
-    // Проверка лимита запросов (1 раз в секунду)
     const now = Date.now();
     if (now - this.lastScoreSubmitTime < this.MIN_SCORE_SUBMIT_INTERVAL) {
       console.log("[AdService] Score submit skipped: too frequent");
       return false;
     }
 
-    // Проверка доступности метода (согласно доке)
-    // Примечание: isAvailableMethod может отсутствовать в старых версиях типизации, но есть в runtime
     if ((this.ysdk as any).isAvailableMethod) {
       try {
         const isAvailable = await (this.ysdk as any).isAvailableMethod("leaderboards.setScore");
@@ -14850,31 +15042,21 @@ class AdService {
     }
 
     try {
-      // ВАЖНО: Используем ysdk.leaderboards.setScore напрямую
       await this.ysdk.leaderboards.setScore(leaderboardName, score);
-
       this.lastScoreSubmitTime = Date.now();
       console.log("[AdService] Score submitted successfully:", score);
       return true;
     } catch (err: any) {
       console.error("[AdService] Failed to submit score:", err);
-      // Ошибка LEADERBOARD_PLAYER_NOT_PRESENT обычно не возникает при setScore,
-      // но если лидерборд не создан в консоли, будет ошибка.
       return false;
     }
   }
 
-  /**
-     * Получение позиции игрока в топе
-5     * @param leaderboardName Техническое имя лидерборда
-     * @returns позиция (rank) или null
-     */
   async getPlayerRank(leaderboardName: string = "totalMaxLevels"): Promise<number | null> {
     if (!this.ysdk || !this.isAuthorized) {
       return null;
     }
 
-    // Проверка доступности метода
     if ((this.ysdk as any).isAvailableMethod) {
       try {
         const isAvailable = await (this.ysdk as any).isAvailableMethod("leaderboards.getPlayerEntry");
@@ -14887,14 +15069,12 @@ class AdService {
     }
 
     try {
-      // ВАЖНО: Используем ysdk.leaderboards.getPlayerEntry напрямую
       const entry = await this.ysdk.leaderboards.getPlayerEntry(leaderboardName);
       if (entry && entry.rank) {
         return entry.rank;
       }
       return null;
     } catch (err: any) {
-      // Если игрока нет в таблице, Яндекс вернет ошибку LEADERBOARD_PLAYER_NOT_PRESENT
       if (err.code === "LEADERBOARD_PLAYER_NOT_PRESENT") {
         console.log("[AdService] Player not present in leaderboard yet");
       } else {
@@ -14904,9 +15084,6 @@ class AdService {
     }
   }
 
-  /**
-   * Получение топа игроков
-   */
   async getTopScores(
     quantity: number = 10,
     leaderboardName: string = "totalMaxLevels",
@@ -14914,14 +15091,11 @@ class AdService {
     if (!this.ysdk) {
       return null;
     }
-
     try {
-      // ВАЖНО: Используем ysdk.leaderboards.getEntries
       const result = await this.ysdk.leaderboards.getEntries(leaderboardName, {
         quantityTop: quantity,
-        includeUser: false, // Нам нужен только топ, пользователя получим отдельно если надо
+        includeUser: false,
       });
-
       return result.entries.map((entry) => ({
         rank: entry.rank,
         score: entry.score,
@@ -14942,21 +15116,17 @@ class AdService {
     try {
       if (this.isAuthorized) return true;
 
-      // Показываем окно авторизации
       const result: any = await this.ysdk.auth.openAuthDialog();
 
-      // После успешной авторизации обновляем объект player
       if (result) {
-        // Иногда openAuthDialog просто резолвится, если уже авторизован,
-        // или возвращает данные. Лучше перезапросить getPlayer, если нужно гарантировать свежесть,
-        // но для простоты считаем, что если диалог прошел без ошибки - мы авторизованы.
         try {
           this.player = await this.ysdk.getPlayer();
+          // ИЗМЕНЕНО: обновляем uniqueID после авторизации
+          this.uniqueId = this.player.getUniqueID();
           this.isAuthorized = true;
           console.log("[AdService] User authorized via dialog");
           return true;
         } catch (e) {
-          // Если getPlayer упал, значит что-то пошло не так
           this.isAuthorized = false;
           return false;
         }
@@ -15013,7 +15183,6 @@ class AdService {
     }
 
     audioManager.setMuted(true);
-
     if (!this.ysdk?.adv) {
       setTimeout(() => {
         audioManager.setMuted(false);
@@ -15023,7 +15192,6 @@ class AdService {
     }
 
     this.lastFullscreenAdTime = now;
-
     this.ysdk.adv.showFullscreenAdv({
       callbacks: {
         onClose: (wasShown: boolean) => {
@@ -16101,6 +16269,124 @@ export interface ActiveAdBuff {
 }
  
  
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\utils\preloadAssets.ts ===== 
+import { testWaifus, MONSTER_TEMPLATES, LOCATIONS, INVENTORY_ITEMS } from "../game/constant";
+import { audioManager } from "../audio/AudioManager";
+
+// Типы для отслеживания прогресса
+export interface PreloadProgress {
+  total: number;
+  loaded: number;
+  percentage: number;
+}
+
+// Функция для загрузки одного изображения
+const loadImage = (src: string): Promise<void> => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => resolve();
+    img.onerror = () => {
+      console.warn(`[Preload] Failed to load image: ${src}`);
+      resolve(); // Resolve even on error to not block the game, but log it
+    };
+  });
+};
+
+// Функция для загрузки одного аудиофайла (через fetch для точного контроля байтов/факта загрузки)
+const loadAudio = (src: string): Promise<void> => {
+  return new Promise((resolve) => {
+    fetch(src)
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.blob();
+      })
+      .then(() => resolve())
+      .catch((err) => {
+        console.warn(`[Preload] Failed to load audio: ${src}`, err);
+        resolve();
+      });
+  });
+};
+
+export const preloadAllAssets = async (onProgress?: (progress: PreloadProgress) => void): Promise<void> => {
+  const urls: string[] = [];
+
+  // 1. Собираем изображения Вайфу
+  testWaifus.forEach((waifu) => {
+    if (waifu.image) urls.push(waifu.image);
+  });
+
+  // 2. Собираем изображения Врагов
+  MONSTER_TEMPLATES.forEach((enemy) => {
+    if (enemy.sprite) urls.push(enemy.sprite);
+  });
+
+  // 3. Собираем фоны локаций
+  LOCATIONS.forEach((loc) => {
+    // Путь к фону формируется динамически в компоненте Background, но мы знаем структуру
+    urls.push(`assets/images/backgrounds/${loc.id}.png`);
+  });
+
+  // 4. Собираем иконки предметов (уникальные)
+  const iconSet = new Set<string>();
+  Object.values(INVENTORY_ITEMS).forEach((item) => {
+    if (item.icon) iconSet.add(`assets/images/icons/${item.icon}.png`);
+  });
+  // Добавляем иконки стихий и редкостей, если они используются как отдельные файлы
+  ["water", "fire", "earth", "ice", "light", "dark", "physical"].forEach((el) =>
+    iconSet.add(`assets/images/icons/${el}.png`),
+  );
+  ["common", "uncommon", "rare", "epic", "legendary", "mythic"].forEach((r) =>
+    iconSet.add(`assets/images/icons/${r}.png`),
+  );
+
+  urls.push(...Array.from(iconSet));
+
+  // 5. Аудио файлы (берем из AudioManager или жестко, если они статичны)
+  // В AudioManager они загружаются асинхронно, но мы можем форсировать их предзагрузку здесь
+  // или просто учесть их в общем счетчике, если хотим "честный" прогресс.
+  // Для простоты добавим основные звуки, которые точно есть в public/assets/audio
+  const audioFiles = [
+    "assets/audio/background.ogg",
+    "assets/audio/click.mp3",
+    "assets/audio/enemy_defeat.mp3",
+    "assets/audio/panel_click.mp3",
+  ];
+
+  // Создаем массив промисов для загрузки
+  // Мы разделяем картинки и аудио, так как аудио может грузиться дольше или иначе
+  const imagePromises = urls.map((url) => loadImage(url));
+  const audioPromises = audioFiles.map((url) => loadAudio(url));
+
+  const allPromises = [...imagePromises, ...audioPromises];
+  const total = allPromises.length;
+  let loaded = 0;
+
+  // Функция обновления прогресса
+  const updateProgress = () => {
+    loaded++;
+    if (onProgress) {
+      onProgress({
+        total,
+        loaded,
+        percentage: Math.min(100, Math.round((loaded / total) * 100)),
+      });
+    }
+  };
+
+  // Запускаем все промисы параллельно
+  await Promise.all(allPromises.map((promise) => promise.then(updateProgress).catch(updateProgress)));
+
+  // Инициализируем AudioContext заранее, чтобы браузер не блокировал его потом
+  try {
+    await audioManager.init();
+  } catch (e) {
+    console.error("[Preload] Audio init failed", e);
+  }
+};
+ 
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\App.css ===== 
 /* ============================================
    APP CONTAINER - Базовая адаптивная сетка
@@ -16240,6 +16526,8 @@ export interface ActiveAdBuff {
     padding-right: max(0px, env(safe-area-inset-right));
   }
 }
+
+/* App.css или index.css */
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\index.css ===== 
@@ -16981,6 +17269,50 @@ textarea {
 .yandex-iframe .panel {
   max-height: 100vh;
   overflow-y: auto;
+}
+
+.preload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 300px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.loading-title {
+  color: #fff;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 10px;
+  background-color: #333;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border: 1px solid #555;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6b6b, #feca57);
+  transition: width 0.2s ease-out;
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+.loading-text {
+  color: #aaa;
+  font-size: 0.9rem;
+  font-family: monospace;
 }
  
  
@@ -18712,6 +19044,8 @@ ITEM GRID - RESPONSIVE
   line-height: 1.2;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
+
   -webkit-box-orient: vertical;
   overflow: hidden;
   height: 2.4em; /* Ограничение высоты текста */
@@ -18723,6 +19057,8 @@ ITEM GRID - RESPONSIVE
   line-height: 1.2;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
+
   -webkit-box-orient: vertical;
   overflow: hidden;
   height: 2.4em;
@@ -18933,6 +19269,9 @@ LOCATION TABS - PILL DESIGN
 ============================================ */
 
 .bestiary-tabs {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
   display: flex;
   gap: 8px;
   padding: var(--space-3) var(--space-4);
@@ -18940,7 +19279,6 @@ LOCATION TABS - PILL DESIGN
   overflow-x: auto;
   flex-shrink: 0;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
   background: rgba(0, 0, 0, 0.15);
 }
 
@@ -20228,7 +20566,8 @@ CRAFT PANEL - ADAPTIVE STYLES
 }
 
 .use-item-card {
-  display: flex;
+  display: block;
+  text-align: center;
   align-items: center;
   justify-content: space-between;
   padding: 12px;
@@ -20433,6 +20772,82 @@ RESPONSIVE BREAKPOINTS FOR CRAFT
     font-size: 18px;
   }
 }
+
+/* src/components/Game/components/CraftPanel/CraftPanel.css */
+
+/* Основная кнопка использования */
+.btn-use {
+  /* Размеры и отступы */
+  margin-top: 20px;
+  padding: 8px 16px;
+  min-width: 80px;
+
+  /* Типографика */
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+
+  /* Фон и границы */
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  border: none;
+  border-radius: 8px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  /* Интерактивность */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Эффект при наведении */
+.btn-use:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 12px rgba(76, 175, 80, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  filter: brightness(1.1);
+}
+
+/* Эффект при нажатии */
+.btn-use:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Состояние disabled (например, если не выбрана вайфу) */
+.btn-use:disabled {
+  background: #424242;
+  color: #757575;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+/* Опционально: добавляем легкий блик при наведении для "игрового" эффекта */
+.btn-use::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+  pointer-events: none;
+}
+
+.btn-use:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\components\Game\components\EnemyComponent\EnemyComponent.css ===== 
@@ -20560,7 +20975,6 @@ RESPONSIVE BREAKPOINTS FOR CRAFT
 /* --- СОПРОТИВЛЕНИЯ --- */
 .enemy-resists {
   display: flex;
-  gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
   min-height: 32px;
@@ -21554,8 +21968,7 @@ RESPONSIVE BREAKPOINTS FOR CRAFT
 
 /* СТИЛИ ДЛЯ КНОПОК ПРИЗЫВА (Единый стиль с другими кнопками игры) */
 .btn-summon {
-  flex: 1;
-  padding: 14px;
+  padding: 0;
   font-size: 16px;
   font-weight: bold;
   min-height: 50px;
@@ -21769,6 +22182,7 @@ RESPONSIVE BREAKPOINTS FOR CRAFT
 
 .summon-buttons-grid {
   display: flex;
+  justify-content: space-around;
 }
 
 .gacha-result-card-wrapper {

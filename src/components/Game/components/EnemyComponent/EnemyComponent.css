@@ -122,7 +122,6 @@
 /* --- СОПРОТИВЛЕНИЯ --- */
 .enemy-resists {
   display: flex;
-  gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
   min-height: 32px;

@@ -10,6 +10,7 @@ import { audioManager } from "./audio/AudioManager";
 import { useAutoSave } from "./hooks/useSave";
 import { useGameStore } from "./store/gameStore";
 import { adService } from "./services/AdService";
+import { preloadAllAssets, type PreloadProgress } from "./utils/preloadAssets";
 
 export type TScreen = "menu" | "game";
 
@@ -22,6 +23,7 @@ function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
+  const [preloadProgress, setPreloadProgress] = useState<PreloadProgress | null>(null);
 
   const { loadGame, migrateSaveToCloud } = useAutoSave();
   const hasRehydrated = useGameStore.persist.hasHydrated();
@@ -56,6 +58,9 @@ function AppContent() {
   useEffect(() => {
     const init = async () => {
       try {
+        await preloadAllAssets((progress) => {
+          setPreloadProgress(progress);
+        });
         await adService.init();
         await initI18n();
 
@@ -103,8 +108,23 @@ function AppContent() {
   if (isLoading || !hasRehydrated) {
     return (
       <div className="app-loading">
-        <div className="loading-spinner" />
-        <p>{t("ui.loading")}</p>
+        {/* Если прогресс уже начался, показываем бар, иначе спиннер */}
+        {preloadProgress ? (
+          <div className="preload-container">
+            <h2 className="loading-title">{t("ui.loading")}</h2>
+            <div className="progress-bar-container">
+              <div className="progress-bar-fill" style={{ width: `${preloadProgress.percentage}%` }} />
+            </div>
+            <p className="loading-text">
+              {preloadProgress.loaded} / {preloadProgress.total}
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="loading-spinner" />
+            <p>{t("ui.loading")}</p>
+          </>
+        )}
       </div>
     );
   }

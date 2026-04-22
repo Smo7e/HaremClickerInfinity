@@ -151,7 +151,7 @@ export class Enemy {
     const elements: TElementType[] = ["water", "fire", "earth", "ice", "light", "dark", "physical"];
     const shuffled = [...elements].sort(() => Math.random() - 0.5);
 
-    const resistCount = isBoss ? 3 : 1;
+    const resistCount = isBoss ? 2 : 1;
     for (let i = 0; i < resistCount; i++) {
       const element = shuffled[i]!;
       if (resistances[element] === undefined) {

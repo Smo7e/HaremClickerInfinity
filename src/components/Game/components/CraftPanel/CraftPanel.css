@@ -141,7 +141,8 @@ CRAFT PANEL - ADAPTIVE STYLES
 }
 
 .use-item-card {
-  display: flex;
+  display: block;
+  text-align: center;
   align-items: center;
   justify-content: space-between;
   padding: 12px;
@@ -345,4 +346,80 @@ RESPONSIVE BREAKPOINTS FOR CRAFT
   .quantity-value {
     font-size: 18px;
   }
+}
+
+/* src/components/Game/components/CraftPanel/CraftPanel.css */
+
+/* Основная кнопка использования */
+.btn-use {
+  /* Размеры и отступы */
+  margin-top: 20px;
+  padding: 8px 16px;
+  min-width: 80px;
+
+  /* Типографика */
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+
+  /* Фон и границы */
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  border: none;
+  border-radius: 8px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  /* Интерактивность */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Эффект при наведении */
+.btn-use:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 12px rgba(76, 175, 80, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  filter: brightness(1.1);
+}
+
+/* Эффект при нажатии */
+.btn-use:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Состояние disabled (например, если не выбрана вайфу) */
+.btn-use:disabled {
+  background: #424242;
+  color: #757575;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+/* Опционально: добавляем легкий блик при наведении для "игрового" эффекта */
+.btn-use::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+  pointer-events: none;
+}
+
+.btn-use:hover::after {
+  opacity: 1;
+  transform: scale(1);
 }

@@ -22,13 +22,11 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\tsconfig.tsbuildinfo
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\vite.config.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\dist.zip
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\favicon.svg
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\icons.svg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\index.html
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-9VfjGNqP.js
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-n-o7VOl6.css
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-CGbEhBGL.js
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\index-Cqaja1N7.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\1.ogg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\background.ogg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\audio\click.mp3
@@ -192,8 +190,6 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Umbr
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\Yui.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\dist\assets\images\waifus\YukiOnna.png
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\favicon.svg
-C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\icons.svg
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\images
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\public\assets\audio\1.ogg
@@ -372,6 +368,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\store
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\styles
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\utils
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\vite-env.d.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\AudioManager.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\classes\Enemy.ts
@@ -467,6 +464,7 @@ C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\styles\mixins.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\styles\variables.css
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\ads.ts
 C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.ts
+C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\utils\preloadAssets.ts
  
  
 ===== СОДЕРЖИМОЕ ФАЙЛОВ (.ts / .tsx) ===== 
@@ -857,6 +855,12 @@ export type TBestiaryProgress = Record<string, TBestiaryEntry>;
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\types\index.tsx ===== 
  
  
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\utils\index.ts ===== 
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\utils\index.tsx ===== 
+ 
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\vite-env.d.ts ===== 
 /// <reference types="vite/client" />
 
@@ -886,6 +890,7 @@ import { audioManager } from "./audio/AudioManager";
 import { useAutoSave } from "./hooks/useSave";
 import { useGameStore } from "./store/gameStore";
 import { adService } from "./services/AdService";
+import { preloadAllAssets, type PreloadProgress } from "./utils/preloadAssets";
 
 export type TScreen = "menu" | "game";
 
@@ -898,6 +903,7 @@ function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
+  const [preloadProgress, setPreloadProgress] = useState<PreloadProgress | null>(null);
 
   const { loadGame, migrateSaveToCloud } = useAutoSave();
   const hasRehydrated = useGameStore.persist.hasHydrated();
@@ -932,6 +938,9 @@ function AppContent() {
   useEffect(() => {
     const init = async () => {
       try {
+        await preloadAllAssets((progress) => {
+          setPreloadProgress(progress);
+        });
         await adService.init();
         await initI18n();
 
@@ -979,8 +988,23 @@ function AppContent() {
   if (isLoading || !hasRehydrated) {
     return (
       <div className="app-loading">
-        <div className="loading-spinner" />
-        <p>{t("ui.loading")}</p>
+        {/* Если прогресс уже начался, показываем бар, иначе спиннер */}
+        {preloadProgress ? (
+          <div className="preload-container">
+            <h2 className="loading-title">{t("ui.loading")}</h2>
+            <div className="progress-bar-container">
+              <div className="progress-bar-fill" style={{ width: `${preloadProgress.percentage}%` }} />
+            </div>
+            <p className="loading-text">
+              {preloadProgress.loaded} / {preloadProgress.total}
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="loading-spinner" />
+            <p>{t("ui.loading")}</p>
+          </>
+        )}
       </div>
     );
   }
@@ -1060,6 +1084,8 @@ createRoot(document.getElementById("root")!).render(
  
  
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\audio\AudioManager.ts ===== 
+// src/audio/AudioManager.ts
+
 type SFXType = "click" | "enemy_defeat" | "panel_click";
 
 interface AudioConfig {
@@ -1069,21 +1095,39 @@ interface AudioConfig {
   isMusicEnabled: boolean;
 }
 
+// Интерфейс для кэшированных буферов звуков
+interface SFXBuffers {
+  click: AudioBuffer | null;
+  enemy_defeat: AudioBuffer | null;
+  panel_click: AudioBuffer | null;
+}
+
 class AudioManager {
   private static instance: AudioManager;
-  private sfxCache: Map<SFXType, HTMLAudioElement> = new Map();
+
+  // Храним буферы вместо HTMLAudioElement
+  private sfxBuffers: SFXBuffers = {
+    click: null,
+    enemy_defeat: null,
+    panel_click: null,
+  };
+
   private config: AudioConfig = {
     musicVolume: 0.2,
     sfxVolume: 0.2,
     isMuted: false,
     isMusicEnabled: true,
   };
+
   private isInitialized = false;
   audioContext: AudioContext | null = null;
 
   private musicSource: AudioBufferSourceNode | null = null;
   private musicBuffer: AudioBuffer | null = null;
   private musicGainNode: GainNode | null = null;
+
+  // Gain node для SFX, чтобы управлять общей громкостью эффектов
+  private sfxGainNode: GainNode | null = null;
 
   private readonly MUSIC_PATH = "assets/audio/background.ogg";
   private readonly SFX_PATHS: Record<SFXType, string> = {
@@ -1102,12 +1146,14 @@ class AudioManager {
         }
       };
 
-      const events = ["touchstart", "touchend", "mousedown", "keydown"];
+      // Важно: возобновляем контекст при любом взаимодействии
+      const events = ["touchstart", "touchend", "mousedown", "keydown", "pointerdown"];
       const handler = () => {
         resumeAudio();
-        events.forEach((e) => document.removeEventListener(e, handler));
+        // Не удаляем слушатели сразу, так как контекст может снова заснуть
       };
-      events.forEach((e) => document.addEventListener(e, handler, { once: true }));
+
+      events.forEach((e) => document.addEventListener(e, handler, { passive: true }));
     }
   }
 
@@ -1120,11 +1166,17 @@ class AudioManager {
 
   async init(): Promise<void> {
     if (this.isInitialized) return;
+
     try {
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
       this.audioContext = new AudioContextClass();
 
-      // Загружаем музыку в буфер
+      // Создаем мастер-гейн для SFX
+      this.sfxGainNode = this.audioContext.createGain();
+      this.sfxGainNode.connect(this.audioContext.destination);
+      this.sfxGainNode.gain.value = this.config.sfxVolume;
+
+      // Загружаем музыку
       const response = await fetch(this.MUSIC_PATH);
       const arrayBuffer = await response.arrayBuffer();
       this.musicBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
@@ -1133,39 +1185,27 @@ class AudioManager {
       this.musicGainNode.connect(this.audioContext.destination);
       this.musicGainNode.gain.value = this.config.musicVolume;
 
-      await this.preloadSFX();
+      // Загружаем SFX в буферы
+      await this.preloadSFXBuffers();
+
       this.isInitialized = true;
-      console.log("[AudioManager] Initialized successfully with Web Audio API for music");
+      console.log("[AudioManager] Initialized successfully with Web Audio API");
     } catch (error) {
       console.error("[AudioManager] Initialization failed:", error);
     }
   }
 
-  private async preloadSFX(): Promise<void> {
-    const loadPromises = Object.entries(this.SFX_PATHS).map(([key, path]) => {
-      return new Promise<void>((resolve) => {
-        const audio = new Audio(path);
-        audio.preload = "auto";
-        audio.volume = this.config.sfxVolume;
-        audio.setAttribute("playsinline", "true");
-        audio.setAttribute("webkit-playsinline", "true");
-
-        audio.addEventListener(
-          "canplaythrough",
-          () => {
-            this.sfxCache.set(key as SFXType, audio);
-            resolve();
-          },
-          { once: true },
-        );
-
-        audio.addEventListener("error", () => {
-          console.warn(`[AudioManager] Failed to load SFX: ${path}`);
-          resolve();
-        });
-      });
+  private async preloadSFXBuffers(): Promise<void> {
+    const loadPromises = Object.entries(this.SFX_PATHS).map(async ([key, path]) => {
+      try {
+        const response = await fetch(path);
+        const arrayBuffer = await response.arrayBuffer();
+        const audioBuffer = await this.audioContext!.decodeAudioData(arrayBuffer);
+        this.sfxBuffers[key as SFXType] = audioBuffer;
+      } catch (err) {
+        console.warn(`[AudioManager] Failed to load SFX buffer: ${path}`, err);
+      }
     });
-
     await Promise.all(loadPromises);
   }
 
@@ -1202,32 +1242,33 @@ class AudioManager {
     this.pauseMusic();
   }
 
+  // Новый метод воспроизведения SFX через Web Audio API
   playSFX(type: SFXType): void {
     if (!this.isInitialized || this.config.isMuted) return;
 
-    const originalAudio = this.sfxCache.get(type);
-    if (!originalAudio) {
-      console.warn(`[AudioManager] SFX not found: ${type}`);
+    const buffer = this.sfxBuffers[type];
+    if (!buffer || !this.audioContext) {
+      console.warn(`[AudioManager] SFX buffer not found or context missing: ${type}`);
       return;
     }
 
-    const sfx = originalAudio.cloneNode() as HTMLAudioElement;
-    sfx.volume = this.config.sfxVolume;
-
-    const playPromise = sfx.play();
-    if (playPromise !== undefined) {
-      playPromise.catch((err) => {
-        console.warn(`[AudioManager] SFX play prevented:`, err);
-      });
+    if (this.audioContext.state === "suspended") {
+      this.audioContext.resume();
     }
 
-    sfx.addEventListener(
-      "ended",
-      () => {
-        sfx.remove();
-      },
-      { once: true },
-    );
+    const source = this.audioContext.createBufferSource();
+    source.buffer = buffer;
+
+    // Подключаем к гейну SFX
+    source.connect(this.sfxGainNode!);
+
+    source.start(0);
+
+    // Очистка после воспроизведения не требуется для BufferSource,
+    // но можно добавить onended для отладки
+    source.onended = () => {
+      source.disconnect();
+    };
   }
 
   playClick(): void {
@@ -1247,17 +1288,26 @@ class AudioManager {
 
   setSFXVolume(volume: number): void {
     this.config.sfxVolume = Math.max(0, Math.min(1, volume));
-    this.sfxCache.forEach((audio) => {
-      audio.volume = this.config.sfxVolume;
-    });
+    if (this.sfxGainNode) {
+      this.sfxGainNode.gain.value = this.config.sfxVolume;
+    }
   }
 
   setMuted(muted: boolean): void {
     this.config.isMuted = muted;
     if (muted) {
       this.pauseMusic();
-    } else if (this.config.isMusicEnabled) {
-      this.playMusic();
+      // Для Web Audio API можно просто установить gain в 0, но паузы музыки достаточно
+      if (this.sfxGainNode) {
+        this.sfxGainNode.gain.value = 0;
+      }
+    } else {
+      if (this.sfxGainNode) {
+        this.sfxGainNode.gain.value = this.config.sfxVolume;
+      }
+      if (this.config.isMusicEnabled) {
+        this.playMusic();
+      }
     }
   }
 
@@ -1428,7 +1478,7 @@ export class Enemy {
     const elements: TElementType[] = ["water", "fire", "earth", "ice", "light", "dark", "physical"];
     const shuffled = [...elements].sort(() => Math.random() - 0.5);
 
-    const resistCount = isBoss ? 3 : 1;
+    const resistCount = isBoss ? 2 : 1;
     for (let i = 0; i < resistCount; i++) {
       const element = shuffled[i]!;
       if (resistances[element] === undefined) {
@@ -16217,5 +16267,123 @@ export interface ActiveAdBuff {
   multiplier: number;
   expiresAt: number;
 }
+ 
+ 
+===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\utils\preloadAssets.ts ===== 
+import { testWaifus, MONSTER_TEMPLATES, LOCATIONS, INVENTORY_ITEMS } from "../game/constant";
+import { audioManager } from "../audio/AudioManager";
+
+// Типы для отслеживания прогресса
+export interface PreloadProgress {
+  total: number;
+  loaded: number;
+  percentage: number;
+}
+
+// Функция для загрузки одного изображения
+const loadImage = (src: string): Promise<void> => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => resolve();
+    img.onerror = () => {
+      console.warn(`[Preload] Failed to load image: ${src}`);
+      resolve(); // Resolve even on error to not block the game, but log it
+    };
+  });
+};
+
+// Функция для загрузки одного аудиофайла (через fetch для точного контроля байтов/факта загрузки)
+const loadAudio = (src: string): Promise<void> => {
+  return new Promise((resolve) => {
+    fetch(src)
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.blob();
+      })
+      .then(() => resolve())
+      .catch((err) => {
+        console.warn(`[Preload] Failed to load audio: ${src}`, err);
+        resolve();
+      });
+  });
+};
+
+export const preloadAllAssets = async (onProgress?: (progress: PreloadProgress) => void): Promise<void> => {
+  const urls: string[] = [];
+
+  // 1. Собираем изображения Вайфу
+  testWaifus.forEach((waifu) => {
+    if (waifu.image) urls.push(waifu.image);
+  });
+
+  // 2. Собираем изображения Врагов
+  MONSTER_TEMPLATES.forEach((enemy) => {
+    if (enemy.sprite) urls.push(enemy.sprite);
+  });
+
+  // 3. Собираем фоны локаций
+  LOCATIONS.forEach((loc) => {
+    // Путь к фону формируется динамически в компоненте Background, но мы знаем структуру
+    urls.push(`assets/images/backgrounds/${loc.id}.png`);
+  });
+
+  // 4. Собираем иконки предметов (уникальные)
+  const iconSet = new Set<string>();
+  Object.values(INVENTORY_ITEMS).forEach((item) => {
+    if (item.icon) iconSet.add(`assets/images/icons/${item.icon}.png`);
+  });
+  // Добавляем иконки стихий и редкостей, если они используются как отдельные файлы
+  ["water", "fire", "earth", "ice", "light", "dark", "physical"].forEach((el) =>
+    iconSet.add(`assets/images/icons/${el}.png`),
+  );
+  ["common", "uncommon", "rare", "epic", "legendary", "mythic"].forEach((r) =>
+    iconSet.add(`assets/images/icons/${r}.png`),
+  );
+
+  urls.push(...Array.from(iconSet));
+
+  // 5. Аудио файлы (берем из AudioManager или жестко, если они статичны)
+  // В AudioManager они загружаются асинхронно, но мы можем форсировать их предзагрузку здесь
+  // или просто учесть их в общем счетчике, если хотим "честный" прогресс.
+  // Для простоты добавим основные звуки, которые точно есть в public/assets/audio
+  const audioFiles = [
+    "assets/audio/background.ogg",
+    "assets/audio/click.mp3",
+    "assets/audio/enemy_defeat.mp3",
+    "assets/audio/panel_click.mp3",
+  ];
+
+  // Создаем массив промисов для загрузки
+  // Мы разделяем картинки и аудио, так как аудио может грузиться дольше или иначе
+  const imagePromises = urls.map((url) => loadImage(url));
+  const audioPromises = audioFiles.map((url) => loadAudio(url));
+
+  const allPromises = [...imagePromises, ...audioPromises];
+  const total = allPromises.length;
+  let loaded = 0;
+
+  // Функция обновления прогресса
+  const updateProgress = () => {
+    loaded++;
+    if (onProgress) {
+      onProgress({
+        total,
+        loaded,
+        percentage: Math.min(100, Math.round((loaded / total) * 100)),
+      });
+    }
+  };
+
+  // Запускаем все промисы параллельно
+  await Promise.all(allPromises.map((promise) => promise.then(updateProgress).catch(updateProgress)));
+
+  // Инициализируем AudioContext заранее, чтобы браузер не блокировал его потом
+  try {
+    await audioManager.init();
+  } catch (e) {
+    console.error("[Preload] Audio init failed", e);
+  }
+};
  
  
