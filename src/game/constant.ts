@@ -20,6 +20,14 @@ export const BASE_DROP_RATES: Record<TRarity, number> = {
   legendary: 0.01,
   mythic: 0.001,
 };
+export const DUPLICATE_REFUND_RATES: Record<TRarity, number> = {
+  common: 100,
+  uncommon: 300,
+  rare: 1500,
+  epic: 5000,
+  legendary: 20000,
+  mythic: 200000,
+};
 
 export const ELEMENT_COLORS: Record<TElementType, string> = {
   water: "#2196f3",
@@ -315,9 +323,11 @@ export const INVENTORY_ITEMS: Record<TInventoryItemId, Omit<TInventoryItem, "cou
     nameKey: "voidEssence",
     descriptionKey: "items.voidEssence.desc",
     icon: "void_essence",
-    rarity: "rare",
+    rarity: "mythic",
     type: "material",
     maxStack: 200,
+    canCraft: true,
+    ingredients: [{ itemId: "essence", count: 1000 }],
   },
 
   affection_potion_forest: {

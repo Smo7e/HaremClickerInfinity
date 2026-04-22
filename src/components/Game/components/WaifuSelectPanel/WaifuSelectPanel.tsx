@@ -38,44 +38,50 @@ export function WaifuSelectPanel({ isOpen, onClose, onSelect }: WaifuSelectPanel
           {ownedWaifus.length === 0 ? (
             <p className="empty-message">{t("ui.noWaifus")}</p>
           ) : (
-            ownedWaifus.map((waifu) => (
-              <button
-                key={waifu.id}
-                className={`waifu-card ${activeWaifuId === waifu.id ? "active" : ""}`}
-                style={{ borderColor: activeWaifuId === waifu.id ? undefined : RARITY_COLORS[waifu.rarity] }}
-                onClick={() => handleSelect(waifu.id)}
-              >
-                <div className="waifu-card-portrait">
-                  <img
-                    src={waifu.image}
-                    alt={waifu.name}
-                    style={{
-                      borderColor: RARITY_COLORS[waifu.rarity],
-                    }}
-                  />
-                  <span className="waifu-element">
-                    <Icon name={waifu.element} size="sm" />
-                  </span>
-                </div>
-                <div className="waifu-card-info">
-                  <span className="waifu-name" style={{ color: RARITY_COLORS[waifu.rarity] }}>
-                    {waifu.name}
-                  </span>
-                  <span className="waifu-lvl">
-                    {t("ui.level")}.{waifu.stats.level}
-                  </span>
-                  <div className="waifu-stats-row">
-                    <small>
-                      <Icon name="click" size="sm" /> {waifu.getClickPower()}
-                    </small>
-                    <small>
-                      <Icon name="crit" size="sm" /> {(waifu.getCritChance() * 100).toFixed(0)}%
-                    </small>
+            ownedWaifus
+              .sort((wA, wB) => {
+                if (wA.id === activeWaifuId) return -1;
+                if (wB.id === activeWaifuId) return 1;
+                return wB.getClickPower() - wA.getClickPower();
+              })
+              .map((waifu) => (
+                <button
+                  key={waifu.id}
+                  className={`waifu-card ${activeWaifuId === waifu.id ? "active" : ""}`}
+                  style={{ borderColor: activeWaifuId === waifu.id ? undefined : RARITY_COLORS[waifu.rarity] }}
+                  onClick={() => handleSelect(waifu.id)}
+                >
+                  <div className="waifu-card-portrait">
+                    <img
+                      src={waifu.image}
+                      alt={waifu.name}
+                      style={{
+                        borderColor: RARITY_COLORS[waifu.rarity],
+                      }}
+                    />
+                    <span className="waifu-element">
+                      <Icon name={waifu.element} size="sm" />
+                    </span>
                   </div>
-                </div>
-                {activeWaifuId === waifu.id && <span className="active-badge">✓</span>}
-              </button>
-            ))
+                  <div className="waifu-card-info">
+                    <span className="waifu-name" style={{ color: RARITY_COLORS[waifu.rarity] }}>
+                      {waifu.name}
+                    </span>
+                    <span className="waifu-lvl">
+                      {t("ui.level")}.{waifu.stats.level}
+                    </span>
+                    <div className="waifu-stats-row">
+                      <small>
+                        <Icon name="click" size="sm" /> {waifu.getClickPower()}
+                      </small>
+                      <small>
+                        <Icon name="crit" size="sm" /> {(waifu.getCritChance() * 100).toFixed(0)}%
+                      </small>
+                    </div>
+                  </div>
+                  {activeWaifuId === waifu.id && <span className="active-badge">✓</span>}
+                </button>
+              ))
           )}
         </div>
       </div>

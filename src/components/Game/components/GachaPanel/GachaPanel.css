@@ -40,6 +40,7 @@
 
 .result-counter {
   position: absolute;
+  left: 0;
   top: 10px;
   font-size: 14px;
   font-weight: bold;
@@ -173,7 +174,6 @@
 
 .btn-skip-fast,
 .btn-continue {
-  flex: 1;
   padding: 12px 20px;
   border-radius: 12px;
   font-size: 16px;
@@ -595,4 +595,9 @@
   align-content: center;
   flex-direction: column;
   align-items: center;
+}
+.gacha-controls-fixed {
+  display: flex;
+  width: 80%;
+  justify-content: space-around;
 }

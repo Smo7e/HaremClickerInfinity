@@ -12,9 +12,10 @@ const META_KEY = "harem-clicker-meta-v1";
 export function useAutoSave() {
   const saveTimeoutRef = useRef<number | null>(null);
   const isSavingRef = useRef(false);
+  const canSave = useRef(true);
 
   const saveGame = useCallback(async () => {
-    if (isSavingRef.current) return;
+    if (isSavingRef.current && !canSave) return;
     isSavingRef.current = true;
 
     try {
@@ -293,15 +294,16 @@ export function useAutoSave() {
     }
   }, []);
 
-  const resetGame = useCallback(() => {
+  const resetGame = useCallback(async () => {
     localStorage.removeItem(SAVE_KEY);
     localStorage.removeItem(BACKUP_KEY);
     localStorage.removeItem(TIMESTAMP_KEY);
-    localStorage.removeItem(META_KEY); // ИЗМЕНЕНО: очистка меты
+    localStorage.removeItem(META_KEY);
     localStorage.removeItem("harem-clicker-last-save");
 
     if (adService.getIsAuthorized()) {
-      adService.setData({ [CLOUD_SAVE_KEY]: null });
+      await adService.setData({ [CLOUD_SAVE_KEY]: null });
+      await adService.submitScore(0, "totalMaxLevels");
     }
     window.location.reload();
   }, []);
@@ -329,6 +331,7 @@ export function useAutoSave() {
     migrateSaveToCloud,
     createBackup,
     resetGame,
+    canSave,
   };
 }
 

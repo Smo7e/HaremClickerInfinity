@@ -182,6 +182,18 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
     },
     [activeWaifu, dealDamage, addClickEffect, handleEnemyDeath], // Убрали enemy из зависимостей, используем ref
   );
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Space" && !isPaused && activeWaifu && enemy.isAlive()) {
+        e.preventDefault();
+        audioManager.playClick();
+        performAttack(true);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [performAttack]);
 
   useEffect(() => {
     if (autoAttackIntervalRef.current) {

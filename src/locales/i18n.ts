@@ -64,7 +64,7 @@ export function t(key: string): string {
   let value: any = locales[currentLang];
 
   for (const k of keys) {
-    if (value === undefined) break;
+    if (!value) break;
     value = value[k];
   }
 
