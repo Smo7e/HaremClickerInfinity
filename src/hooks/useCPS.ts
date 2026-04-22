@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from "react";
-import { useGameStore } from "../store/gameStore";
+import { resetGame, setCanSave } from "./useSave";
 
 const MAX_CPS = 20;
 const WARNING_DURATION = 30;
@@ -22,8 +22,6 @@ export function useCPS() {
     isWarning: false,
     warningTimeLeft: WARNING_DURATION,
   });
-
-  const resetGame = useGameStore((state) => state.resetGame);
 
   const recordClick = useCallback(() => {
     const now = Date.now();
@@ -59,8 +57,9 @@ export function useCPS() {
         warningTimeLeft = Math.max(0, WARNING_DURATION - Math.floor(totalMs / 1000));
 
         if (warningTimeLeft <= 0) {
-          setTimeout(() => resetGame(), 0);
-          window.location.reload();
+          setCanSave(false);
+          setTimeout(() => resetGame(), 50);
+
           return prev;
         }
       } else if (isWarning && lastViolationRef.current) {

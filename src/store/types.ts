@@ -58,7 +58,6 @@ export interface GameActions {
   togglePanel: (panel: keyof GameState["panels"]) => void;
   upgradeClickPower: () => boolean;
   upgradeElement: (element: TElementType) => boolean;
-  resetGame: () => void;
   loadGame: (savedState: Partial<GameState>) => void;
   recordEnemyKill: (enemyNameKey: string) => void;
   getBestiaryEntry: (enemyId: string) => { killCount: number; unlocked: boolean } | undefined;

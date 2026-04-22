@@ -346,11 +346,6 @@ export const useGameStore = create<GameState & GameActions>()(
         return true;
       },
 
-      resetGame: () => {
-        localStorage.removeItem("harem-clicker-save-v2");
-        window.location.reload();
-      },
-
       loadGame: (_savedState: Partial<GameState>) => {
         console.log("[Store] Load game");
       },

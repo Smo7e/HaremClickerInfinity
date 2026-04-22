@@ -9,10 +9,14 @@ const TIMESTAMP_KEY = "harem-clicker-last-save-ts";
 // ИЗМЕНЕНО: добавлен ключ для хранения метаданных владельца сохранения
 const META_KEY = "harem-clicker-meta-v1";
 
+let canSave = true;
+export function setCanSave(value: boolean) {
+  canSave = value;
+}
+
 export function useAutoSave() {
   const saveTimeoutRef = useRef<number | null>(null);
   const isSavingRef = useRef(false);
-  const canSave = useRef(true);
 
   const saveGame = useCallback(async () => {
     if (isSavingRef.current && !canSave) return;
@@ -51,7 +55,7 @@ export function useAutoSave() {
     } finally {
       isSavingRef.current = false;
     }
-  }, []);
+  }, [canSave]);
 
   const loadGame = useCallback(async (): Promise<boolean> => {
     try {
@@ -294,20 +298,6 @@ export function useAutoSave() {
     }
   }, []);
 
-  const resetGame = useCallback(async () => {
-    localStorage.removeItem(SAVE_KEY);
-    localStorage.removeItem(BACKUP_KEY);
-    localStorage.removeItem(TIMESTAMP_KEY);
-    localStorage.removeItem(META_KEY);
-    localStorage.removeItem("harem-clicker-last-save");
-
-    if (adService.getIsAuthorized()) {
-      await adService.setData({ [CLOUD_SAVE_KEY]: null });
-      await adService.submitScore(0, "totalMaxLevels");
-    }
-    window.location.reload();
-  }, []);
-
   useEffect(() => {
     saveTimeoutRef.current = window.setInterval(() => {
       saveGame();
@@ -368,3 +358,18 @@ export function useSaveStatus() {
     hasSave,
   };
 }
+export const resetGame = async () => {
+  setCanSave(false);
+  localStorage.removeItem(SAVE_KEY);
+  localStorage.removeItem(BACKUP_KEY);
+  localStorage.removeItem(TIMESTAMP_KEY);
+  localStorage.removeItem(META_KEY);
+  localStorage.removeItem("harem-clicker-last-save");
+
+  if (adService.getIsAuthorized()) {
+    await adService.setData({ [CLOUD_SAVE_KEY]: null });
+    await adService.submitScore(0, "totalMaxLevels");
+  }
+
+  window.location.reload();
+};
