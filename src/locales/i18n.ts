@@ -1,3 +1,4 @@
+import { KEY } from "../hooks/useSave";
 import { adService } from "../services/AdService";
 import { LANGUAGE_CONFIG, locales, type Lang } from "./locales";
 
@@ -27,7 +28,7 @@ declare global {
 }
 
 let currentLang: Lang = (() => {
-  const saved = localStorage.getItem("harem-clicker-lang") as Lang;
+  const saved = localStorage.getItem(KEY.LANGUAGE) as Lang;
   if (saved && LANGUAGE_CONFIG[saved]) {
     return saved;
   }
@@ -50,7 +51,7 @@ export async function initI18n() {
     }
   }
 
-  const savedLang = localStorage.getItem("harem-clicker-lang") as Lang;
+  const savedLang = localStorage.getItem(KEY.LANGUAGE) as Lang;
 
   if (savedLang && LANGUAGE_CONFIG[savedLang]) {
     setLang(savedLang);
@@ -81,7 +82,7 @@ export function t(key: string): string {
 
 export function setLang(lang: Lang) {
   currentLang = lang;
-  localStorage.setItem("harem-clicker-lang", lang);
+  localStorage.setItem(KEY.LANGUAGE, lang);
 }
 
 export function getLang(): Lang {

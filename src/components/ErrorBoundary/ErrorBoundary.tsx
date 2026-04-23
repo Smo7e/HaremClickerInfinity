@@ -2,6 +2,7 @@ import { Component, ErrorInfo, ReactNode } from "react";
 import { t } from "../../locales/i18n";
 
 import "./ErrorBoundary.css";
+import { KEY, resetGame } from "../../hooks/useSave";
 
 interface Props {
   children: ReactNode;
@@ -28,7 +29,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
     try {
       localStorage.setItem(
-        "harem-clicker-error",
+        KEY.ERROR_LOG,
         JSON.stringify({
           message: error.message,
           stack: error.stack,
@@ -39,10 +40,8 @@ export class ErrorBoundary extends Component<Props, State> {
     } catch {}
   }
 
-  handleReset = () => {
-    localStorage.removeItem("harem-clicker-save-v2");
-    localStorage.removeItem("harem-clicker-error");
-    window.location.reload();
+  handleReset = async () => {
+    resetGame();
   };
 
   handleReport = () => {

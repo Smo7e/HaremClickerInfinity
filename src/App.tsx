@@ -15,6 +15,7 @@ import { preloadAllAssets, type PreloadProgress } from "./utils/preloadAssets";
 export type TScreen = "menu" | "game";
 
 function AppContent() {
+  const { loadGame, migrateSaveToCloud } = useAutoSave();
   const [screen, setScreen] = useState<TScreen>("menu");
   const [isSettings, setIsSettings] = useState<boolean>(false);
   const [_, setCurrentLang] = useState<Lang>(getLang());
@@ -25,7 +26,6 @@ function AppContent() {
   const [isLandscape, setIsLandscape] = useState(false);
   const [preloadProgress, setPreloadProgress] = useState<PreloadProgress | null>(null);
 
-  const { loadGame, migrateSaveToCloud } = useAutoSave();
   const hasRehydrated = useGameStore.persist.hasHydrated();
 
   useEffect(() => {

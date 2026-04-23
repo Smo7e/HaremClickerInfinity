@@ -3,13 +3,12 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { adService } from "../services/AdService";
 import { useGameStore } from "../store/gameStore";
 
-const LAST_SENT_SCORE_KEY = "harem-leaderboard-last-sent";
-
 interface LeaderboardState {
   rank: number | null;
   totalScore: number;
   isLoading: boolean;
 }
+export const LAST_SENT_SCORE_KEY = "harem-leaderboard-last-sent";
 
 export function useLeaderboard() {
   const locationProgress = useGameStore((s) => s.locationProgress);
