@@ -168,7 +168,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         target.closest(".gacha-panel") ||
         target.closest(".upgrade-panel-modal") ||
         target.closest(".location-selector-panel") ||
-        target.closest(".ad-panel") ||
+        target.closest(".bonus-panel") ||
         target.closest(".pause-panel") ||
         target.closest(".waifu-detail-panel") ||
         target.closest(".drop-pool-panel");
@@ -251,14 +251,16 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         <div className="currency-display">
           {/* Кнопка Рекламы (теперь слева от валют) */}
           <button
-            className="btn-icon-only ads-btn header-control-btn"
+            className="btn-icon-only bonusA-btn header-control-btn bonusA-btn-animated"
             onClick={() => {
               openPanel("ads");
               audioManager.playSFX("panel_click");
             }}
+            style={{ fontSize: 30 }}
             aria-label={t("ui.ads")}
           >
-            <Icon name="play" size="md" />
+            {/* <Icon name="play" size="md" /> */}
+            💸
           </button>
 
           {/* Валюты */}

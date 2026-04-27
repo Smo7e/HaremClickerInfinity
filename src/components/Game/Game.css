@@ -550,13 +550,13 @@ GAME HEADER - ADAPTIVE TOP BAR
 }
 
 /* Специфичные стили для кнопки ADS, если нужно выделить */
-.ads-btn {
+.bonusA-btn {
   background: rgba(81, 207, 102, 0.2);
   border-color: rgba(81, 207, 102, 0.3);
   color: #51cf66;
 }
 
-.ads-btn:hover {
+.bonusA-btn:hover {
   background: rgba(81, 207, 102, 0.3);
 }
 
@@ -1275,5 +1275,56 @@ SIDEBAR TEXT FIXES (Mobile)
   }
   to {
     transform: translateY(-2px);
+  }
+}
+
+@keyframes pulse-glow {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
+  }
+  50% {
+    transform: scale(1.15); /* Увеличение на 15% */
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.9)); /* Золотое свечение */
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
+  }
+}
+
+/* Класс для кнопки рекламы */
+.bonusA-btn-animated {
+  /* Адаптивный размер: минимум 24px, предпочтительно 6vw, максимум 40px */
+  font-size: clamp(24px, 6vw, 40px);
+
+  /* Настройки анимации */
+  animation: pulse-glow 20s infinite ease-in-out;
+
+  /* Чтобы эмодзи стояло ровно по центру */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+
+  /* Плавность при наведении (если нужно) */
+  transition: transform 0.2s;
+  cursor: pointer;
+
+  /* Убираем стандартные стили кнопки, если они мешают */
+  background: none;
+  padding: 0;
+}
+
+/* Остановка анимации при наведении (опционально, чтобы не мешала клику) */
+.bonusA-btn-animated:hover {
+  animation-play-state: paused;
+  transform: scale(1.2);
+}
+
+/* Адаптив для очень маленьких экранов (мобильные в портрете) */
+@media (max-width: 480px) {
+  .ads-btn-animated {
+    font-size: clamp(28px, 8vw, 36px); /* Чуть крупнее на мобильных */
   }
 }

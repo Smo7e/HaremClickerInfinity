@@ -1,9 +1,9 @@
-.ad-panel {
+.bonus-panel {
   max-width: 600px;
   width: 90%;
 }
 
-.ad-rewards-grid {
+.bonus-rewards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 12px;
@@ -12,7 +12,7 @@
   overflow-y: auto;
 }
 
-.ad-reward-card {
+.bonus-reward-card {
   background: rgba(0, 0, 0, 0.3);
   border: 2px solid #444;
   border-radius: 12px;
@@ -23,12 +23,12 @@
   transition: all 0.2s;
 }
 
-.ad-reward-card.cooldown {
+.bonus-reward-card.cooldown {
   opacity: 0.6;
   border-color: #333;
 }
 
-.ad-reward-card.buff {
+.bonus-reward-card.buff {
   border-color: #ff9800;
   background: rgba(255, 152, 0, 0.1);
 }
@@ -88,7 +88,7 @@
   border-radius: 8px;
 }
 
-.btn-watch-ad {
+.btn-watch-bonus {
   width: 100%;
   padding: 10px;
   background: linear-gradient(135deg, #4caf50, #45a049);
@@ -104,17 +104,17 @@
   transition: transform 0.1s;
 }
 
-.btn-watch-ad:hover:not(:disabled) {
+.btn-watch-bonus:hover:not(:disabled) {
   transform: scale(1.02);
   background: linear-gradient(135deg, #45a049, #4caf50);
 }
 
-.btn-watch-ad:disabled {
+.btn-watch-bonus:disabled {
   opacity: 0.7;
   cursor: wait;
 }
 
-.ad-footer {
+.bonus-footer {
   text-align: center;
   padding: 12px;
   color: #888;

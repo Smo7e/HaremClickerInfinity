@@ -74,7 +74,7 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
 
   return (
     <div className="panel-overlay" onClick={onClose}>
-      <div className="panel ad-panel" onClick={(e) => e.stopPropagation()}>
+      <div className="panel bonus-panel" onClick={(e) => e.stopPropagation()}>
         <div className="panel-header">
           <h2>
             <Icon name="play" size="md" /> {t("ads.title")}
@@ -84,7 +84,7 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
           </button>
         </div>
 
-        <div className="ad-rewards-grid">
+        <div className="bonus-rewards-grid">
           {AD_REWARD_LIST.map((type) => {
             const config = AD_REWARDS[type];
             if (!config) return null; // Защита от undefined
@@ -94,7 +94,7 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
             const isBuff = !!config.durationSeconds;
 
             return (
-              <div key={type} className={`ad-reward-card ${!available ? "cooldown" : ""} ${isBuff ? "buff" : ""}`}>
+              <div key={type} className={`bonus-reward-card ${!available ? "cooldown" : ""} ${isBuff ? "buff" : ""}`}>
                 <div className="reward-icon">
                   <Icon name={config.icon} size="lg" />
                   {isBuff && <span className="buff-badge">2x</span>}
@@ -118,7 +118,11 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
                       <span>{formatTime(cooldown)}</span>
                     </div>
                   ) : (
-                    <button className="btn-watch-ad" onClick={() => handleWatchAd(type)} disabled={watching === type}>
+                    <button
+                      className="btn-watch-bonus"
+                      onClick={() => handleWatchAd(type)}
+                      disabled={watching === type}
+                    >
                       {watching === type ? (
                         <span className="loading-dots">{t("ads.loading")}</span>
                       ) : (
@@ -135,7 +139,7 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
           })}
         </div>
 
-        <div className="ad-footer">
+        <div className="bonus-footer">
           <p>{t("ads.hint")}</p>
         </div>
       </div>

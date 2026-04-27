@@ -26,8 +26,8 @@ import { useAdStore } from "./adStore";
 
 const createInitialState = (): GameState => ({
   inventory: new Inventory(),
-  ownedWaifus: [Waifu.fromTemplate(testWaifus[testWaifus.length - 1]!)],
-  activeWaifuId: testWaifus[testWaifus.length - 1]?.id ?? null,
+  ownedWaifus: [Waifu.createDefault()],
+  activeWaifuId: "wf_sakura_001",
   enemy: Enemy.spawn(1, "forest"),
   currentLocation: "forest",
   locationProgress: INITIAL_LOCATION_PROGRESS,

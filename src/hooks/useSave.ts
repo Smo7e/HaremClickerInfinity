@@ -2,10 +2,10 @@
 import { useEffect, useCallback, useRef } from "react";
 import { useGameStore } from "../store/gameStore";
 import { adService } from "../services/AdService";
-// Импортируем централизованные ключи
 import { STORAGE_KEYS } from "../utils/storageKeys";
+import { Waifu } from "../classes/Waifu";
+import { Inventory } from "../classes/Inventory";
 
-// Экспортируем KEY для совместимости с текущим кодом (например, в i18n.ts)
 export const KEY = STORAGE_KEYS;
 
 let canSave = true;
@@ -326,8 +326,11 @@ export function useSaveStatus() {
 }
 
 export const resetGame = async () => {
-  setCanSave(false);
+  console.log("[resetGame] Starting hard reset...");
+  setCanSave(false); // Блокируем автосохранение
+
   try {
+    // 1. Немедленно очищаем LocalStorage
     localStorage.removeItem(STORAGE_KEYS.SAVE);
     localStorage.removeItem(STORAGE_KEYS.BACKUP);
     localStorage.removeItem(STORAGE_KEYS.TIMESTAMP);
@@ -336,13 +339,125 @@ export const resetGame = async () => {
     localStorage.removeItem(STORAGE_KEYS.ADS_STATE);
     localStorage.removeItem(STORAGE_KEYS.LEADERBOARD_LAST_SENT);
 
+    // Очищаем состояние Zustand вручную, чтобы при рехадратации не было мусора
+    useGameStore.setState({
+      inventory: new Inventory(),
+      ownedWaifus: [Waifu.createDefault()],
+      activeWaifuId: "wf_sakura_001",
+      currentLocation: "forest",
+      locationProgress: {
+        forest: { currentLevel: 1, maxLevelReached: 1, unlocked: true },
+        desert: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+        ice: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+        volcano: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+        castle: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+        abyss: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+      },
+      enemy: null,
+      globalUpgrades: {
+        clickPowerBonus: 0,
+        elementDamage: { water: 0, fire: 0, earth: 0, ice: 0, light: 0, dark: 0, physical: 0 },
+        collectionBuffs: {
+          elementDamage: { water: 0, fire: 0, earth: 0, ice: 0, light: 0, dark: 0, physical: 0 },
+          enemyTypeDamage: {},
+          critPowerBonus: 0,
+          gemBonus: 0,
+          expBonus: 0,
+        },
+      },
+      bestiary: {},
+      panels: {
+        locationSelector: false,
+        gacha: false,
+        collection: false,
+        waifuSelect: false,
+        upgrades: false,
+        backpack: false,
+        craft: false,
+        bestiary: false,
+        pause: false,
+        settings: false,
+        waifuDetail: null,
+        ads: false,
+      },
+      isPaused: false,
+      lastDrops: null,
+    });
+
+    console.log("[resetGame] LocalStorage cleared and State reset.");
+
+    // 2. Если авторизован, очищаем Облако и ЖДЕМ
     if (adService.getIsAuthorized()) {
-      await adService.setData({ [STORAGE_KEYS.CLOUD_SAVE]: null });
-      await adService.submitScore(0);
+      try {
+        console.log("[resetGame] Clearing Cloud Save...");
+
+        // Формируем пустой пейлоад. Важно: timestamp должен быть актуальным
+        const now = Date.now();
+        // Создаем пустое состояние для сериализации
+        const emptyInventory = new Inventory();
+        const emptyWaifu = Waifu.createDefault();
+
+        // Структура должна соответствовать тому, что ожидает merge/partialize,
+        // но проще отправить просто пустой объект данных, если ваша логика loadGame это умеет обрабатывать.
+        // Однако, чтобы перебить старые данные, отправим валидную структуру с нулями.
+
+        const emptyPayload = JSON.stringify({
+          data: JSON.stringify({
+            inventory: emptyInventory.serialize(),
+            ownedWaifus: [
+              {
+                id: emptyWaifu.id,
+                stats: { ...emptyWaifu.stats },
+                duplicateCount: 0,
+                unlockedOutfits: ["default"],
+                currentOutfit: "default",
+              },
+            ],
+            activeWaifuId: emptyWaifu.id,
+            currentLocation: "forest",
+            locationProgress: {
+              forest: { currentLevel: 1, maxLevelReached: 1, unlocked: true },
+              desert: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+              ice: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+              volcano: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+              castle: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+              abyss: { currentLevel: 1, maxLevelReached: 1, unlocked: false },
+            },
+            globalUpgrades: {
+              clickPowerBonus: 0,
+              elementDamage: { water: 0, fire: 0, earth: 0, ice: 0, light: 0, dark: 0, physical: 0 },
+              collectionBuffs: {
+                elementDamage: { water: 0, fire: 0, earth: 0, ice: 0, light: 0, dark: 0, physical: 0 },
+                enemyTypeDamage: {},
+                critPowerBonus: 0,
+                gemBonus: 0,
+                expBonus: 0,
+              },
+            },
+            bestiary: {},
+            enemy: null,
+          }),
+          timestamp: now,
+        });
+
+        // Ждем завершения записи
+        await adService.setData({ [STORAGE_KEYS.CLOUD_SAVE]: emptyPayload });
+        console.log("[resetGame] Cloud save successfully overwritten.");
+
+        // Сбрасываем скор
+        await adService.submitScore(0);
+      } catch (e) {
+        console.error("[resetGame] Failed to clear cloud save:", e);
+      }
     }
+
+    // 3. Принудительная перезагрузка с небольшой задержкой
+    // Даем браузеру время применить изменения LS и отправить запросы
+    setTimeout(() => {
+      window.location.reload();
+    }, 800);
   } catch (e) {
-    console.error("[resetGame] Error during reset:", e);
-  } finally {
+    console.error("[resetGame] Critical error:", e);
     window.location.reload();
   }
 };

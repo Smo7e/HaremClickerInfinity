@@ -242,7 +242,7 @@ class AdService {
   showFullscreenAd(onClose?: (wasShown: boolean) => void): void {
     const now = Date.now();
     if (now - this.lastFullscreenAdTime < this.MIN_AD_INTERVAL) {
-      console.log("[AdService] Fullscreen ad skipped: too soon");
+      console.log("[AdService] Fullscreen bonus skipped: too soon");
       onClose?.(false);
       return;
     }

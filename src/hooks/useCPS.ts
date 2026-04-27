@@ -1,8 +1,8 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { resetGame, setCanSave } from "./useSave";
 
-const MAX_CPS = 19;
-const WARNING_DURATION = 10;
+const MAX_CPS = 20;
+const WARNING_DURATION = 6;
 const RESET_DELAY = 5000;
 
 interface CPSState {
