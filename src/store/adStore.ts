@@ -4,11 +4,10 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import type { AdRewardType, AdCooldownState, ActiveAdBuff } from "../types/ads";
 import { useGameStore } from "./gameStore";
 import { AD_REWARDS } from "../game/adConstants";
+import { STORAGE_KEYS } from "../utils/storageKeys";
 
 interface AdState {
-  // Перезарядки (timestamp когда доступно)
   cooldowns: AdCooldownState;
-  // Активные баффы
   activeBuffs: {
     damage?: ActiveAdBuff;
     drop?: ActiveAdBuff;
@@ -16,17 +15,11 @@ interface AdState {
 }
 
 interface AdActions {
-  // Проверить доступность награды
   isRewardAvailable: (type: AdRewardType) => boolean;
-  // Получить оставшееся время перезарядки в секундах
   getCooldownSeconds: (type: AdRewardType) => number;
-  // Применить награду (вызывается после просмотра рекламы)
   applyReward: (type: AdRewardType) => void;
-  // Проверить и очистить истекшие баффы
   checkBuffsExpiration: () => void;
-  // Получить текущий множитель урона (1 если нет баффа)
   getDamageMultiplier: () => number;
-  // Получить текущий множитель дропа (1 если нет баффа)
   getDropMultiplier: () => number;
 }
 
@@ -131,7 +124,6 @@ export const useAdStore = create<AdState & AdActions>()(
       getDamageMultiplier: () => {
         const buff = get().activeBuffs.damage;
         if (!buff) return 1;
-        // Проверяем не истек ли
         if (buff.expiresAt <= Date.now()) {
           get().checkBuffsExpiration();
           return 1;
@@ -150,7 +142,7 @@ export const useAdStore = create<AdState & AdActions>()(
       },
     }),
     {
-      name: "harem-clicker-ads-v1",
+      name: STORAGE_KEYS.ADS_STATE,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         cooldowns: state.cooldowns,

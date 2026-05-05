@@ -166,7 +166,9 @@ export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPa
                 <div className="credits">
                   <span>{t("title.accent") + " "}</span>
                   <span>{t("title.main") + " "}</span>
-                  <span>{t("title.sub")}</span>
+                  <span>{t("title.sub") + " "}</span>
+                  <span>v0.1</span>
+
                   <p>©Creep Games</p>
                   <p>{t("ui.thanksForPlaying")}</p>
                 </div>

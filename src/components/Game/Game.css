@@ -310,8 +310,8 @@
     }
 
     .side-btn {
-      width: 60px;
-      height: 60px;
+      width: 30px;
+      height: 30px;
     }
   }
 }
@@ -335,11 +335,12 @@
   }
 
   .side-btn {
-    width: 70px;
-    height: 70px;
+    width: 30px;
+    height: 30px;
   }
 
   .battle-arena {
+    scale: 0.9;
     gap: 40px;
   }
 }
@@ -356,8 +357,8 @@
   }
 
   .side-btn {
-    width: 80px;
-    height: 80px;
+    width: 30px;
+    height: 30px;
     border-radius: 16px;
   }
 
@@ -1006,6 +1007,7 @@ RESPONSIVE ADAPTATIONS FOR ARENA
 @media (max-width: 767px) and (orientation: portrait) {
   .battle-arena {
     gap: 10px;
+    scale: 0.7;
     /* На очень узких экранах можно чуть уменьшить отступы */
   }
 
@@ -1017,6 +1019,7 @@ RESPONSIVE ADAPTATIONS FOR ARENA
     top: 5px;
     right: 5px;
     padding: 6px 10px;
+    scale: 0.8;
   }
 }
 
@@ -1189,6 +1192,9 @@ SIDEBAR TEXT FIXES (Mobile)
 
 /* В ландшафтном режиме на мобильных сайдбар становится вертикальным слева, там места больше */
 @media (max-width: 767px) and (orientation: landscape) {
+  .battle-arena {
+    scale: 0.6;
+  }
   .side-btn {
     width: 60px;
     height: 60px;

@@ -478,18 +478,6 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* ===== Адаптация для iPhone с челкой (notch) ===== */
-@supports (padding-top: env(safe-area-inset-top)) {
-  .game-header {
-    padding-top: env(safe-area-inset-top);
-  }
-
-  .main-menu {
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-
 /* ===== Размеры шрифтов для разных экранов ===== */
 @media (max-width: 360px) {
   html {

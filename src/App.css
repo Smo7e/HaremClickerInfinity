@@ -11,9 +11,9 @@
   overflow: hidden;
 
   /* CSS переменные для гибкости */
-  --header-height: 60px;
+  /* --header-height: 60px;
   --sidebar-width: 80px;
-  --sidebar-width-expanded: 140px;
+  --sidebar-width-expanded: 140px; */
 }
 
 /* ---- Меню режим ---- */
@@ -51,14 +51,12 @@
 /* ---- Mobile (< 768px) ---- */
 @media (max-width: 767px) {
   .app-container {
-    --header-height: 56px;
     --sidebar-width: 100%;
   }
 
   /* Portrait: сайдбар снизу */
   .app-container--game.app-container--portrait {
     grid-template-areas:
-      "header"
       "main"
       "sidebar";
     grid-template-rows: var(--header-height) 1fr auto;

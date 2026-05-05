@@ -1,4 +1,3 @@
-// src/locales/locales.ts
 type DeepKeys<T, Prefix extends string = ""> = T extends string
   ? Prefix extends ""
     ? never
@@ -13,7 +12,6 @@ export type LocaleKeys = DeepKeys<typeof locales.ru>;
 
 export type Lang = "en" | "tr" | "es" | "pt" | "id" | "vi" | "de" | "pl" | "ru";
 
-// Конфигурация языков (метаданные)
 export const LANGUAGE_CONFIG: Record<
   Lang,
   {
@@ -24,14 +22,14 @@ export const LANGUAGE_CONFIG: Record<
   }
 > = {
   en: { flag: "🇬🇧", name: "English", nativeName: "English" },
-  tr: { flag: "🇹🇷", name: "Turkish", nativeName: "Türkçe" },
-  es: { flag: "🇪🇸", name: "Spanish", nativeName: "Español" },
-  pt: { flag: "🇧🇷", name: "Portuguese", nativeName: "Português" },
-  id: { flag: "🇮🇩", name: "Indonesian", nativeName: "Bahasa Indonesia" },
-  vi: { flag: "🇻🇳", name: "Vietnamese", nativeName: "Tiếng Việt" },
-  de: { flag: "🇩🇪", name: "German", nativeName: "Deutsch" },
-  pl: { flag: "🇵🇱", name: "Polish", nativeName: "Polski" },
-  ru: { flag: "🇷🇺", name: "Russian", nativeName: "Русский" },
+  tr: { flag: "🇹🇷", name: "Türkçe", nativeName: "Türkçe" },
+  es: { flag: "🇪🇸", name: "Español", nativeName: "Español" },
+  pt: { flag: "🇧🇷", name: "Português", nativeName: "Português" },
+  id: { flag: "🇮🇩", name: "Bahasa Indonesia", nativeName: "Bahasa Indonesia" },
+  vi: { flag: "🇻🇳", name: "Tiếng Việt", nativeName: "Tiếng Việt" },
+  de: { flag: "🇩🇪", name: "Deutsch", nativeName: "Deutsch" },
+  pl: { flag: "🇵🇱", name: "Polski", nativeName: "Polski" },
+  ru: { flag: "🇷🇺", name: "Русский", nativeName: "Русский" },
 };
 
 export const locales = {
@@ -210,19 +208,16 @@ export const locales = {
       noCollectionItems: "Нет предметов коллекции",
       noItems: "Нет предметов",
     },
-
     title: {
       accent: "Гарем",
       main: "Кликер",
       sub: "Бесконечность",
     },
-
     languages: {
       ru: "Русский",
-      en: "English",
-      tr: "Türkçe",
+      en: "Английский",
+      tr: "Турецкий",
     },
-
     upgrades: {
       globalHint: "Улучшения применяются ко всем вайфу",
       click: {
@@ -262,7 +257,6 @@ export const locales = {
         desc: "Увеличивает урон вайфу физической стихии",
       },
     },
-
     gacha: {
       desc: "Призовите новую вайфу за эссенцию",
       luckBonus: "Бонус удачи",
@@ -285,7 +279,6 @@ export const locales = {
       demonWing: "+10% силы крита",
       ancientCoin: "+10% кристаллов с врагов",
     },
-
     monsters: {
       slime: {
         name: "Слайм",
@@ -404,7 +397,6 @@ export const locales = {
         desc: "Древнее божество пустоты, пробудившееся из глубин. Босс бездны.",
       },
     },
-
     waifus: {
       Tiamat: {
         name: "Тиамат",
@@ -491,7 +483,6 @@ export const locales = {
         desc: "Быстрая посыльная, доставляющая письма в любую точку мира.",
       },
     },
-
     items: {
       gel: {
         name: "Слаймовая слизь",
@@ -565,7 +556,6 @@ export const locales = {
         name: "Крыло демона",
         desc: "Крыло демона. Редчайший трофей охотника.",
       },
-
       forestEssence: {
         name: "Лесная эссенция",
         desc: "Концентрированная жизненная сила леса.",
@@ -574,12 +564,10 @@ export const locales = {
         name: "Паучий яд",
         desc: "Смертельный яд из желез гигантского паука.",
       },
-
       sandStone: {
         name: "Песчаник",
         desc: "Закалённый пустынным солнцем камень.",
       },
-
       iceCrystal: {
         name: "Ледяной кристалл",
         desc: "Кристалл вечного льда, не тающий даже в жару.",
@@ -596,7 +584,6 @@ export const locales = {
         name: "Пепел импа",
         desc: "Останки огненного демона. Используется в пиромантии.",
       },
-
       cursedCloth: {
         name: "Проклятая ткань",
         desc: "Ткань, пропитанная тёмной магией.",
@@ -605,25 +592,78 @@ export const locales = {
         name: "Эссенция пустоты",
         desc: "Субстанция из пространства между мирами.",
       },
-
-      affectionPotionForest: { name: "Лесной нектар", desc: "Увеличивает привязанность на {{value}}" },
-      expScrollForest: { name: "Свиток пробуждения", desc: "Дает +{{value}} опыта выбранной вайфу" },
-      levelDownScrollForest: { name: "Свиток укрытия", desc: "Понижает текущий уровень локации на {{value}}" },
-      affectionPotionDesert: { name: "Пустынный мираж", desc: "Увеличивает привязанность на {{value}}" },
-      expScrollDesert: { name: "Свиток зноя", desc: "Дает +{{value}} опыта выбранной вайфу" },
-      levelDownScrollDesert: { name: "Свиток песчаной бури", desc: "Понижает текущий уровень локации на {{value}}" },
-      affectionPotionIce: { name: "Эликсир инея", desc: "Увеличивает привязанность на {{value}}" },
-      expScrollIce: { name: "Свиток метели", desc: "Дает +{{value}} опыта выбранной вайфу" },
-      levelDownScrollIce: { name: "Свиток ледяного покоя", desc: "Понижает текущий уровень локации на {{value}}" },
-      affectionPotionVolcano: { name: "Пламенный отвар", desc: "Увеличивает привязанность на {{value}}" },
-      expScrollVolcano: { name: "Свиток магмы", desc: "Дает +{{value}} опыта выбранной вайфу" },
-      levelDownScrollVolcano: { name: "Свиток остывания", desc: "Понижает текущий уровень локации на {{value}}" },
-      affectionPotionCastle: { name: "Зелье призрачной любви", desc: "Увеличивает привязанность на {{value}}" },
-      expScrollCastle: { name: "Свиток некроманта", desc: "Дает +{{value}} опыта выбранной вайфу" },
-      levelDownScrollCastle: { name: "Свиток тишины гробницы", desc: "Понижает текущий уровень локации на {{value}}" },
-      affectionPotionAbyss: { name: "Настой пустоты", desc: "Увеличивает привязанность на {{value}}" },
-      expScrollAbyss: { name: "Свиток бездны", desc: "Дает +{{value}} опыта выбранной вайфу" },
-      levelDownScrollAbyss: { name: "Свиток затмения", desc: "Понижает текущий уровень локации на {{value}}" },
+      affectionPotionForest: {
+        name: "Лесной нектар",
+        desc: "Увеличивает привязанность на {{value}}",
+      },
+      expScrollForest: {
+        name: "Свиток пробуждения",
+        desc: "Дает +{{value}} опыта выбранной вайфу",
+      },
+      levelDownScrollForest: {
+        name: "Свиток укрытия",
+        desc: "Понижает текущий уровень локации на {{value}}",
+      },
+      affectionPotionDesert: {
+        name: "Пустынный мираж",
+        desc: "Увеличивает привязанность на {{value}}",
+      },
+      expScrollDesert: {
+        name: "Свиток зноя",
+        desc: "Дает +{{value}} опыта выбранной вайфу",
+      },
+      levelDownScrollDesert: {
+        name: "Свиток песчаной бури",
+        desc: "Понижает текущий уровень локации на {{value}}",
+      },
+      affectionPotionIce: {
+        name: "Эликсир инея",
+        desc: "Увеличивает привязанность на {{value}}",
+      },
+      expScrollIce: {
+        name: "Свиток метели",
+        desc: "Дает +{{value}} опыта выбранной вайфу",
+      },
+      levelDownScrollIce: {
+        name: "Свиток ледяного покоя",
+        desc: "Понижает текущий уровень локации на {{value}}",
+      },
+      affectionPotionVolcano: {
+        name: "Пламенный отвар",
+        desc: "Увеличивает привязанность на {{value}}",
+      },
+      expScrollVolcano: {
+        name: "Свиток магмы",
+        desc: "Дает +{{value}} опыта выбранной вайфу",
+      },
+      levelDownScrollVolcano: {
+        name: "Свиток остывания",
+        desc: "Понижает текущий уровень локации на {{value}}",
+      },
+      affectionPotionCastle: {
+        name: "Зелье призрачной любви",
+        desc: "Увеличивает привязанность на {{value}}",
+      },
+      expScrollCastle: {
+        name: "Свиток некроманта",
+        desc: "Дает +{{value}} опыта выбранной вайфу",
+      },
+      levelDownScrollCastle: {
+        name: "Свиток тишины гробницы",
+        desc: "Понижает текущий уровень локации на {{value}}",
+      },
+      affectionPotionAbyss: {
+        name: "Настой пустоты",
+        desc: "Увеличивает привязанность на {{value}}",
+      },
+      expScrollAbyss: {
+        name: "Свиток бездны",
+        desc: "Дает +{{value}} опыта выбранной вайфу",
+      },
+      levelDownScrollAbyss: {
+        name: "Свиток затмения",
+        desc: "Понижает текущий уровень локации на {{value}}",
+      },
     },
     tutorial: {
       title: "Обучение",
@@ -634,8 +674,6 @@ export const locales = {
       upgrades: "Улучшения",
       craft: "Крафт",
       collection: "Коллекция",
-
-      // Basics
       basicsTitle: "Как играть",
       clickTitle: "Клики и бой",
       clickDesc:
@@ -644,8 +682,6 @@ export const locales = {
       currencyDesc:
         "Кристаллы используются для улучшений, эссенция — для призыва новых вайфу. За прохождение уровней также даются материалы для крафта.",
       autoSaveTip: "Игра автоматически сохраняет прогресс. Можно закрывать и возвращаться позже!",
-
-      // Combat
       combatTitle: "Система боя",
       critTitle: "Критические удары",
       critDesc:
@@ -654,8 +690,6 @@ export const locales = {
       elementsDesc:
         "У каждой вайфу есть стихия. Враги имеют сопротивления и уязвимости к стихиям. Используйте правильную стихию, чтобы наносить больше урона (зеленый значок), и избегайте сопротивлений (красный значок).",
       resistWarning: "Обратите внимание на иконки стихий под врагом — они показывают сопротивления!",
-
-      // Locations
       locationsTitle: "Локации и уровни",
       locationChangeTitle: "Смена локаций",
       locationChangeDesc:
@@ -667,8 +701,6 @@ export const locales = {
       locationBonusTitle: "Бонусы локаций",
       locationBonusDesc:
         "Пустыня дает больше кристаллов, Ледяные пики — эссенции, Вулкан — опыта. Выбирайте локацию в зависимости от того, что вам нужно.",
-
-      // Waifus
       waifusTitle: "Система вайфу",
       gachaTitle: "Призыв",
       gachaDesc:
@@ -679,8 +711,6 @@ export const locales = {
       expTitle: "Опыт и уровни",
       expDesc:
         "Вайфу получает опыт за победу над врагами. При наборе опыта она повышает уровень, что увеличивает силу клика. Также можно использовать свитки опыта.",
-
-      // Upgrades
       upgradesTitle: "Улучшения",
       globalUpgradesTitle: "Глобальные улучшения",
       globalUpgradesDesc:
@@ -691,19 +721,15 @@ export const locales = {
       elementUpgradesDesc:
         "Увеличивает урон вайфу определенной стихии. Если у вас много вайфу огненной стихии — качайте огонь!",
       upgradeCostTip: "Стоимость улучшений растет с каждым уровнем",
-
-      // Craft
       craftTitle: "Крафт и предметы",
       craftingTitle: "Создание предметов",
       craftingDesc:
         "В меню Крафта можно создавать полезные предметы: свитки опыта, зелья привязанности (+бонус к характеристикам) и свитки понижения уровня.",
       materialsTip: "Материалы выпадают из врагов. Боссы дают больше материалов и редкие предметы.",
-
-      // Collection
       collectionTitle: "Коллекция и бестиарий",
       collectionItemsTitle: "Коллекционные предметы",
       collectionItemsDesc:
-        "C Врагов могут выпадать редкие коллекционные предметы (оружие, аксессуары). Они дают пассивные бонусы ко всему аккаунту.",
+        "С врагов могут выпадать редкие коллекционные предметы (оружие, аксессуары). Они дают пассивные бонусы ко всему аккаунту.",
       buffsTitle: "Бонусы коллекции",
       buffsDesc:
         "Собранные предметы дают постоянные бонусы: +урон против определенных типов врагов, +сила крита, +кристаллы с врагов.",
@@ -748,7 +774,6 @@ export const locales = {
       },
     },
   },
-
   en: {
     errorBoundary: {
       title: "An Error Occurred",
@@ -924,19 +949,16 @@ export const locales = {
       noCollectionItems: "No collection items",
       noItems: "No items",
     },
-
     title: {
       accent: "Harem",
       main: "Clicker",
       sub: "Infinity",
     },
-
     languages: {
       ru: "Russian",
       en: "English",
       tr: "Turkish",
     },
-
     upgrades: {
       globalHint: "Upgrades apply to all waifus",
       click: {
@@ -976,7 +998,6 @@ export const locales = {
         desc: "Increases damage of physical element waifus",
       },
     },
-
     gacha: {
       desc: "Summon a new waifu for essence",
       luckBonus: "Luck Bonus",
@@ -999,7 +1020,6 @@ export const locales = {
       demonWing: "+10% crit power",
       ancientCoin: "+10% crystals from enemies",
     },
-
     monsters: {
       slime: {
         name: "Slime",
@@ -1118,7 +1138,6 @@ export const locales = {
         desc: "An ancient deity of the void awakened from the depths. Abyss boss.",
       },
     },
-
     waifus: {
       Tiamat: {
         name: "Tiamat",
@@ -1205,7 +1224,6 @@ export const locales = {
         desc: "Fast courier delivering letters to any point of the world.",
       },
     },
-
     items: {
       gel: {
         name: "Slime Gel",
@@ -1279,7 +1297,6 @@ export const locales = {
         name: "Demon Wing",
         desc: "Demon wing. Rarest hunter trophy.",
       },
-
       forestEssence: {
         name: "Forest Essence",
         desc: "Concentrated life force of the forest.",
@@ -1288,12 +1305,10 @@ export const locales = {
         name: "Spider Venom",
         desc: "Deadly venom from giant spider glands.",
       },
-
       sandStone: {
         name: "Sandstone",
         desc: "Stone hardened by desert sun.",
       },
-
       iceCrystal: {
         name: "Ice Crystal",
         desc: "Crystal of eternal ice that doesn't melt even in heat.",
@@ -1310,7 +1325,6 @@ export const locales = {
         name: "Imp Ash",
         desc: "Remains of a fire demon. Used in pyromancy.",
       },
-
       cursedCloth: {
         name: "Cursed Cloth",
         desc: "Cloth soaked in dark magic.",
@@ -1319,25 +1333,78 @@ export const locales = {
         name: "Void Essence",
         desc: "Substance from the space between worlds.",
       },
-
-      affectionPotionForest: { name: "Forest Nectar", desc: "Increases affection by {{value}}" },
-      expScrollForest: { name: "Scroll of Awakening", desc: "Gives +{{value}} exp to selected waifu" },
-      levelDownScrollForest: { name: "Scroll of Cover", desc: "Lowers current location level by {{value}}" },
-      affectionPotionDesert: { name: "Desert Mirage", desc: "Increases affection by {{value}}" },
-      expScrollDesert: { name: "Scroll of Heat", desc: "Gives +{{value}} exp to selected waifu" },
-      levelDownScrollDesert: { name: "Scroll of Sandstorm", desc: "Lowers current location level by {{value}}" },
-      affectionPotionIce: { name: "Frost Elixir", desc: "Increases affection by {{value}}" },
-      expScrollIce: { name: "Scroll of Blizzard", desc: "Gives +{{value}} exp to selected waifu" },
-      levelDownScrollIce: { name: "Scroll of Ice Rest", desc: "Lowers current location level by {{value}}" },
-      affectionPotionVolcano: { name: "Flame Draught", desc: "Increases affection by {{value}}" },
-      expScrollVolcano: { name: "Scroll of Magma", desc: "Gives +{{value}} exp to selected waifu" },
-      levelDownScrollVolcano: { name: "Scroll of Cooling", desc: "Lowers current location level by {{value}}" },
-      affectionPotionCastle: { name: "Ghostly Love Potion", desc: "Increases affection by {{value}}" },
-      expScrollCastle: { name: "Necromancer's Scroll", desc: "Gives +{{value}} exp to selected waifu" },
-      levelDownScrollCastle: { name: "Scroll of Tomb Silence", desc: "Lowers current location level by {{value}}" },
-      affectionPotionAbyss: { name: "Void Infusion", desc: "Increases affection by {{value}}" },
-      expScrollAbyss: { name: "Scroll of Abyss", desc: "Gives +{{value}} exp to selected waifu" },
-      levelDownScrollAbyss: { name: "Scroll of Eclipse", desc: "Lowers current location level by {{value}}" },
+      affectionPotionForest: {
+        name: "Forest Nectar",
+        desc: "Increases affection by {{value}}",
+      },
+      expScrollForest: {
+        name: "Scroll of Awakening",
+        desc: "Gives +{{value}} exp to selected waifu",
+      },
+      levelDownScrollForest: {
+        name: "Scroll of Cover",
+        desc: "Lowers current location level by {{value}}",
+      },
+      affectionPotionDesert: {
+        name: "Desert Mirage",
+        desc: "Increases affection by {{value}}",
+      },
+      expScrollDesert: {
+        name: "Scroll of Heat",
+        desc: "Gives +{{value}} exp to selected waifu",
+      },
+      levelDownScrollDesert: {
+        name: "Scroll of Sandstorm",
+        desc: "Lowers current location level by {{value}}",
+      },
+      affectionPotionIce: {
+        name: "Frost Elixir",
+        desc: "Increases affection by {{value}}",
+      },
+      expScrollIce: {
+        name: "Scroll of Blizzard",
+        desc: "Gives +{{value}} exp to selected waifu",
+      },
+      levelDownScrollIce: {
+        name: "Scroll of Ice Rest",
+        desc: "Lowers current location level by {{value}}",
+      },
+      affectionPotionVolcano: {
+        name: "Flame Draught",
+        desc: "Increases affection by {{value}}",
+      },
+      expScrollVolcano: {
+        name: "Scroll of Magma",
+        desc: "Gives +{{value}} exp to selected waifu",
+      },
+      levelDownScrollVolcano: {
+        name: "Scroll of Cooling",
+        desc: "Lowers current location level by {{value}}",
+      },
+      affectionPotionCastle: {
+        name: "Ghostly Love Potion",
+        desc: "Increases affection by {{value}}",
+      },
+      expScrollCastle: {
+        name: "Necromancer's Scroll",
+        desc: "Gives +{{value}} exp to selected waifu",
+      },
+      levelDownScrollCastle: {
+        name: "Scroll of Tomb Silence",
+        desc: "Lowers current location level by {{value}}",
+      },
+      affectionPotionAbyss: {
+        name: "Void Infusion",
+        desc: "Increases affection by {{value}}",
+      },
+      expScrollAbyss: {
+        name: "Scroll of Abyss",
+        desc: "Gives +{{value}} exp to selected waifu",
+      },
+      levelDownScrollAbyss: {
+        name: "Scroll of Eclipse",
+        desc: "Lowers current location level by {{value}}",
+      },
     },
     tutorial: {
       title: "Tutorial",
@@ -1348,7 +1415,6 @@ export const locales = {
       upgrades: "Upgrades",
       craft: "Craft",
       collection: "Collection",
-
       basicsTitle: "How to Play",
       clickTitle: "Clicks and Combat",
       clickDesc:
@@ -1357,7 +1423,6 @@ export const locales = {
       currencyDesc:
         "Crystals are used for upgrades, essence for summoning new waifus. Passing levels also gives materials for crafting.",
       autoSaveTip: "The game automatically saves progress. You can close and return later!",
-
       combatTitle: "Combat System",
       critTitle: "Critical Hits",
       critDesc: "Each waifu has crit chance and crit multiplier. Crits deal huge damage and are shown in yellow.",
@@ -1365,7 +1430,6 @@ export const locales = {
       elementsDesc:
         "Each waifu has an element. Enemies have resistances and weaknesses to elements. Use the right element to deal more damage (green icon), avoid resistances (red icon).",
       resistWarning: "Pay attention to element icons under the enemy - they show resistances!",
-
       locationsTitle: "Locations and Levels",
       locationChangeTitle: "Changing Locations",
       locationChangeDesc:
@@ -1377,7 +1441,6 @@ export const locales = {
       locationBonusTitle: "Location Bonuses",
       locationBonusDesc:
         "Desert gives more crystals, Ice Peaks - essence, Volcano - exp. Choose location depending on what you need.",
-
       waifusTitle: "Waifu System",
       gachaTitle: "Summoning",
       gachaDesc: "Use essence to summon new waifus. Each waifu has their rarity, element and base stats.",
@@ -1387,7 +1450,6 @@ export const locales = {
       expTitle: "Experience and Levels",
       expDesc:
         "Waifu gains exp from defeating enemies. When gaining exp they level up, increasing click power. Can also use exp scrolls.",
-
       upgradesTitle: "Upgrades",
       globalUpgradesTitle: "Global Upgrades",
       globalUpgradesDesc: "Upgrades apply to all waifus at once. They cost crystals but give huge power boost.",
@@ -1397,13 +1459,11 @@ export const locales = {
       elementUpgradesDesc:
         "Increases damage of waifus of specific element. If you have many fire waifus - upgrade fire!",
       upgradeCostTip: "Upgrade cost grows with each level",
-
       craftTitle: "Craft and Items",
       craftingTitle: "Creating Items",
       craftingDesc:
         "In Craft menu you can create useful items: exp scrolls, affection potions (+stat bonus) and level down scrolls.",
       materialsTip: "Materials drop from enemies. Bosses give more materials and rare items.",
-
       collectionTitle: "Collection and Bestiary",
       collectionItemsTitle: "Collection Items",
       collectionItemsDesc:
@@ -1495,20 +1555,20 @@ export const locales = {
       cpsWarningSubtitle: "Dur veya kayıt silinecek",
       cpsWarningTime: "Kalan süre: {{seconds}}s",
       killEnemiesForDrops: "Koleksiyon eşyaları için düşmanları öldürün",
-      unlockRequirement: "{{location}} bölgesinde seviye {{level}} boss'unu öldürün",
+      unlockRequirement: "{{location}} bölgesinde seviye {{level}} patronunu öldürün",
       killsToUnlock: "{{current}} / {{required}} öldürme",
       locationLocked: "Konum henüz açılmadı",
       unknownLocations: "Bilinmiyor",
       unlockAtKills: "{{count}} öldürmede açılır",
       lock: "🔒",
-      bestiary: "Bestiary",
+      bestiary: "Canavar Kitabı",
       kills: "Öldürülen",
       totalKills: "Toplam Öldürülen",
       foundIn: "Bulunduğu Yer",
       resistances: "Dirençler",
       noSpecialResists: "Özel direnç yok",
       possibleDrops: "Olası Ganimetler",
-      noBestiaryEntries: "Bestiary boş",
+      noBestiaryEntries: "Canavar kitabı boş",
       killEnemiesToUnlock: "Girişleri açmak için düşmanları öldürün",
       craft: "Üretim",
       craftItems: "Oluştur",
@@ -1601,12 +1661,12 @@ export const locales = {
       light: "Işık",
       dark: "Karanlık",
       physical: "Fiziksel",
-      boss: "BOSS",
+      boss: "PATRON",
       enemy: "Düşman",
       hp: "CAN",
       weak: "Zayıf",
       resist: "Direnç",
-      normal: "Normal",
+      normal: "Sıradan",
       obtained: "Elde Edildi",
       locked: "Kilitli",
       weapon: "Silah",
@@ -1627,19 +1687,16 @@ export const locales = {
       noCollectionItems: "Koleksiyon eşyası yok",
       noItems: "Eşya yok",
     },
-
     title: {
       accent: "Harem",
-      main: "Clicker",
+      main: "Tıklayıcının",
       sub: "Sonsuzluk",
     },
-
     languages: {
       ru: "Rusça",
       en: "İngilizce",
       tr: "Türkçe",
     },
-
     upgrades: {
       globalHint: "Geliştirmeler tüm waifulara uygulanır",
       click: {
@@ -1679,7 +1736,6 @@ export const locales = {
         desc: "Fiziksel element waifularının hasarını artırır",
       },
     },
-
     gacha: {
       desc: "Öz kullanarak yeni bir waifu çağırın",
       luckBonus: "Şans Bonusu",
@@ -1702,7 +1758,6 @@ export const locales = {
       demonWing: "Krit gücü %+10",
       ancientCoin: "Düşmanlardan %+10 kristal",
     },
-
     monsters: {
       slime: {
         name: "Slime",
@@ -1722,11 +1777,11 @@ export const locales = {
       },
       darkMage: {
         name: "Karanlık Büyücü",
-        desc: "Yasak sanatları ustalaşmış düşmüş büyücü. Boss.",
+        desc: "Yasak sanatları ustalaşmış düşmüş büyücü. Patron.",
       },
       lesserDemon: {
         name: "Küçük Şeytan",
-        desc: "Cehennemden şeytan. Baza karşı zayıf, ateşe dirençli.",
+        desc: "Cehennemden gelen şeytan. Buza karşı zayıf, ateşe dirençli.",
       },
       direWolf: {
         name: "Korkunç Kurt",
@@ -1758,7 +1813,7 @@ export const locales = {
       },
       forestGuardian: {
         name: "Orman Muhafızı",
-        desc: "Yüzyıllardır ormanı koruyan kadim ağaç-koruyucu. Orman boss'u.",
+        desc: "Yüzyıllardır ormanı koruyan kadim ağaç-koruyucu. Orman patronu.",
       },
       sandWorm: {
         name: "Kum Solucanı",
@@ -1770,7 +1825,7 @@ export const locales = {
       },
       desertColossus: {
         name: "Çöl Kolossu",
-        desc: "Kadim büyüyle canlandırılmış devasa kumtaşı golemi. Çöl boss'u.",
+        desc: "Kadim büyüyle canlandırılmış devasa kumtaşı golemi. Çöl patronu.",
       },
       iceElemental: {
         name: "Buz Elementali",
@@ -1782,7 +1837,7 @@ export const locales = {
       },
       iceQueen: {
         name: "Buz Kraliçesi",
-        desc: "Kalbi ebedi donmuş toprak olan buzlu zirvelerin hükümdarı. Buz boss'u.",
+        desc: "Kalbi ebedi donmuş toprak olan buzlu zirvelerin hükümdarı. Buz patronu.",
       },
       lavaSlime: {
         name: "Lav Slime'ı",
@@ -1794,7 +1849,7 @@ export const locales = {
       },
       infernoDragon: {
         name: "Cehennem Ejderhası",
-        desc: "Volkanik ateşte doğmuş kadim ejderha. Volkan boss'u.",
+        desc: "Volkanik ateşte doğmuş kadim ejderha. Volkan patronu.",
       },
       armoredKnight: {
         name: "Zırhlı Şövalye",
@@ -1806,7 +1861,7 @@ export const locales = {
       },
       castleLord: {
         name: "Kale Lordu",
-        desc: "Ölümsüz olan düşmüş soylu şövalye. Kale boss'u.",
+        desc: "Ölümsüz olan düşmüş soylu şövalye. Kale patronu.",
       },
       voidWalker: {
         name: "Boşluk Yürüyücüsü",
@@ -1818,10 +1873,9 @@ export const locales = {
       },
       abyssLord: {
         name: "Uçurum Lordu",
-        desc: "Derinliklerden uyanmış kadim boşluk tanrısı. Uçurum boss'u.",
+        desc: "Derinliklerden uyanmış kadim boşluk tanrısı. Uçurum patronu.",
       },
     },
-
     waifus: {
       Tiamat: {
         name: "Tiamat",
@@ -1845,7 +1899,7 @@ export const locales = {
       },
       YukiOnna: {
         name: "Yuki-Onna",
-        desc: "Kış fırtınaları ve karlı zirvelerin ruhu. Kırağı kadar soğuk, kadar güzel.",
+        desc: "Kış fırtınaları ve karlı zirvelerin ruhu. Kırağı kadar soğuk, kırağı kadar güzel.",
       },
       Ignis: {
         name: "Ignis",
@@ -1908,7 +1962,6 @@ export const locales = {
         desc: "Dünyanın her yerine mektup teslim eden hızlı kurye.",
       },
     },
-
     items: {
       gel: {
         name: "Slime Jeli",
@@ -1982,7 +2035,6 @@ export const locales = {
         name: "Şeytan Kanadı",
         desc: "Şeytan kanadı. Avcının en nadir ganimeti.",
       },
-
       forestEssence: {
         name: "Orman Özü",
         desc: "Yoğunlaştırılmış orman yaşam gücü.",
@@ -1991,12 +2043,10 @@ export const locales = {
         name: "Örümcek Zehri",
         desc: "Dev örümcek bezlerinden ölümcül zehir.",
       },
-
       sandStone: {
         name: "Kumtaşı",
         desc: "Çöl güneşinde sertleşmiş taş.",
       },
-
       iceCrystal: {
         name: "Buz Kristali",
         desc: "Sıcakta bile erimeyen ebedi buz kristali.",
@@ -2013,7 +2063,6 @@ export const locales = {
         name: "İmp Külü",
         desc: "Ateş şeytanının kalıntıları. Ateş büyüsünde kullanılır.",
       },
-
       cursedCloth: {
         name: "Lanetli Kumaş",
         desc: "Karanlık büyüyle doymuş kumaş.",
@@ -2022,25 +2071,78 @@ export const locales = {
         name: "Boşluk Özü",
         desc: "Dünyalar arasındaki uzaydan madde.",
       },
-
-      affectionPotionForest: { name: "Orman Nektarı", desc: "Sevgiyi {{value}} artırır" },
-      expScrollForest: { name: "Uyandırma Parşömeni", desc: "Seçili waifu'ya +{{value}} TP verir" },
-      levelDownScrollForest: { name: "Sığınak Parşömeni", desc: "Mevcut konum seviyesini {{value}} düşürür" },
-      affectionPotionDesert: { name: "Çöl İllüzyonu", desc: "Sevgiyi {{value}} artırır" },
-      expScrollDesert: { name: "Sıcak Parşömeni", desc: "Seçili waifu'ya +{{value}} TP verir" },
-      levelDownScrollDesert: { name: "Kum Fırtınası Parşömeni", desc: "Mevcut konum seviyesini {{value}} düşürür" },
-      affectionPotionIce: { name: "Kırağı İksiri", desc: "Sevgiyi {{value}} artırır" },
-      expScrollIce: { name: "Tipi Parşömeni", desc: "Seçili waifu'ya +{{value}} TP verir" },
-      levelDownScrollIce: { name: "Buz Dinlenişi Parşömeni", desc: "Mevcut konum seviyesini {{value}} düşürür" },
-      affectionPotionVolcano: { name: "Alev Kaynatması", desc: "Sevgiyi {{value}} artırır" },
-      expScrollVolcano: { name: "Magma Parşömeni", desc: "Seçili waifu'ya +{{value}} TP verir" },
-      levelDownScrollVolcano: { name: "Soğuma Parşömeni", desc: "Mevcut konum seviyesini {{value}} düşürür" },
-      affectionPotionCastle: { name: "Hayalet Aşk İksiri", desc: "Sevgiyi {{value}} artırır" },
-      expScrollCastle: { name: "Nekromancer Parşömeni", desc: "Seçili waifu'ya +{{value}} TP verir" },
-      levelDownScrollCastle: { name: "Mezar Sessizliği Parşömeni", desc: "Mevcut konum seviyesini {{value}} düşürür" },
-      affectionPotionAbyss: { name: "Boşluk Demlemi", desc: "Sevgiyi {{value}} artırır" },
-      expScrollAbyss: { name: "Uçurum Parşömeni", desc: "Seçili waifu'ya +{{value}} TP verir" },
-      levelDownScrollAbyss: { name: "Tutulma Parşömeni", desc: "Mevcut konum seviyesini {{value}} düşürür" },
+      affectionPotionForest: {
+        name: "Orman Nektarı",
+        desc: "Sevgiyi {{value}} artırır",
+      },
+      expScrollForest: {
+        name: "Uyandırma Parşömeni",
+        desc: "Seçili waifu'ya +{{value}} TP verir",
+      },
+      levelDownScrollForest: {
+        name: "Sığınak Parşömeni",
+        desc: "Mevcut konum seviyesini {{value}} düşürür",
+      },
+      affectionPotionDesert: {
+        name: "Çöl İllüzyonu",
+        desc: "Sevgiyi {{value}} artırır",
+      },
+      expScrollDesert: {
+        name: "Sıcak Parşömeni",
+        desc: "Seçili waifu'ya +{{value}} TP verir",
+      },
+      levelDownScrollDesert: {
+        name: "Kum Fırtınası Parşömeni",
+        desc: "Mevcut konum seviyesini {{value}} düşürür",
+      },
+      affectionPotionIce: {
+        name: "Kırağı İksiri",
+        desc: "Sevgiyi {{value}} artırır",
+      },
+      expScrollIce: {
+        name: "Tipi Parşömeni",
+        desc: "Seçili waifu'ya +{{value}} TP verir",
+      },
+      levelDownScrollIce: {
+        name: "Buz Dinlenişi Parşömeni",
+        desc: "Mevcut konum seviyesini {{value}} düşürür",
+      },
+      affectionPotionVolcano: {
+        name: "Alev Kaynatması",
+        desc: "Sevgiyi {{value}} artırır",
+      },
+      expScrollVolcano: {
+        name: "Magma Parşömeni",
+        desc: "Seçili waifu'ya +{{value}} TP verir",
+      },
+      levelDownScrollVolcano: {
+        name: "Soğuma Parşömeni",
+        desc: "Mevcut konum seviyesini {{value}} düşürür",
+      },
+      affectionPotionCastle: {
+        name: "Hayalet Aşk İksiri",
+        desc: "Sevgiyi {{value}} artırır",
+      },
+      expScrollCastle: {
+        name: "Nekromancer Parşömeni",
+        desc: "Seçili waifu'ya +{{value}} TP verir",
+      },
+      levelDownScrollCastle: {
+        name: "Mezar Sessizliği Parşömeni",
+        desc: "Mevcut konum seviyesini {{value}} düşürür",
+      },
+      affectionPotionAbyss: {
+        name: "Boşluk Demlemi",
+        desc: "Sevgiyi {{value}} artırır",
+      },
+      expScrollAbyss: {
+        name: "Uçurum Parşömeni",
+        desc: "Seçili waifu'ya +{{value}} TP verir",
+      },
+      levelDownScrollAbyss: {
+        name: "Tutulma Parşömeni",
+        desc: "Mevcut konum seviyesini {{value}} düşürür",
+      },
     },
     tutorial: {
       title: "Öğretici",
@@ -2051,7 +2153,6 @@ export const locales = {
       upgrades: "Geliştirmeler",
       craft: "Üretim",
       collection: "Koleksiyon",
-
       basicsTitle: "Nasıl Oynanır",
       clickTitle: "Tıklamalar ve Savaş",
       clickDesc:
@@ -2060,7 +2161,6 @@ export const locales = {
       currencyDesc:
         "Kristaller geliştirmeler için, öz yeni waifu çağırmak için kullanılır. Seviyeleri geçmek ayrıca üretim materyalleri verir.",
       autoSaveTip: "Oyun otomatik olarak kaydeder. Kapatabilir ve sonra dönebilirsiniz!",
-
       combatTitle: "Savaş Sistemi",
       critTitle: "Kritik Vuruşlar",
       critDesc:
@@ -2069,7 +2169,6 @@ export const locales = {
       elementsDesc:
         "Her waifu'nun bir elementi vardır. Düşmanların elementlere karşı dirençleri ve zayıflıkları vardır. Daha fazla hasar için doğru elementi kullanın (yeşil ikon), dirençlerden kaçının (kırmızı ikon).",
       resistWarning: "Düşmanın altındaki element ikonlarına dikkat edin - dirençleri gösterir!",
-
       locationsTitle: "Konumlar ve Seviyeler",
       locationChangeTitle: "Konum Değiştirme",
       locationChangeDesc:
@@ -2080,7 +2179,6 @@ export const locales = {
       scrollsHint: "İpucu: Parşömenler Üretim menüsünde oluşturulabilir.",
       locationBonusTitle: "Konum Bonusları",
       locationBonusDesc: "Çöl daha fazla kristal, Buz Tepeleri - öz, Volkan - TP verir. İhtiyacınıza göre konum seçin.",
-
       waifusTitle: "Waifu Sistemi",
       gachaTitle: "Çağırma",
       gachaDesc:
@@ -2091,7 +2189,6 @@ export const locales = {
       expTitle: "Tecrübe ve Seviyeler",
       expDesc:
         "Waifu düşmanları yendiğinde TP kazanır. TP kazandığında seviye atlar ve tıklama gücü artar. Ayrıca TP parşömenleri kullanılabilir.",
-
       upgradesTitle: "Geliştirmeler",
       globalUpgradesTitle: "Küresel Geliştirmeler",
       globalUpgradesDesc:
@@ -2102,14 +2199,12 @@ export const locales = {
       elementUpgradesDesc:
         "Belirli element waifularının hasarını artırır. Çok ateş waifu'nuz varsa - ateşi geliştirin!",
       upgradeCostTip: "Geliştirme maliyeti her seviyede artar",
-
       craftTitle: "Üretim ve Eşyalar",
       craftingTitle: "Eşya Oluşturma",
       craftingDesc:
         "Üretim menüsünde faydalı eşyalar oluşturabilirsiniz: TP parşömenleri, sevgi iksirleri (+stat bonusu) ve seviye düşürme parşömenleri.",
-      materialsTip: "Materyaller düşmanlardan düşer. Boss'lar daha fazla materyal ve nadir eşya verir.",
-
-      collectionTitle: "Koleksiyon ve Bestiary",
+      materialsTip: "Materyaller düşmanlardan düşer. Patronlar daha fazla materyal ve nadir eşya verir.",
+      collectionTitle: "Koleksiyon ve Canavar Kitabı",
       collectionItemsTitle: "Koleksiyon Eşyaları",
       collectionItemsDesc:
         "Nadir koleksiyon eşyaları (silahlar, aksesuarlar) düşmanlardan düşebilir. Tüm hesaba pasif bonuslar verirler.",
@@ -2118,9 +2213,9 @@ export const locales = {
         "Toplanan eşyalar kalıcı bonuslar verir: +belirli düşman türlerine karşı hasar, +krit gücü, +düşmanlardan kristal.",
       vsSlimes: "slime'lara karşı",
       darkDamage: "karanlık hasarı",
-      bestiaryTitle: "Bestiary",
+      bestiaryTitle: "Canavar Kitabı",
       bestiaryDesc:
-        "Bestiary bölümü öldürülen düşmanların istatistiklerini takip eder. Ne kadar çok öldürürseniz, o kadar çok bilgi açılır (dirençler, ganimet).",
+        "Canavar Kitabı bölümü öldürülen düşmanların istatistiklerini takip eder. Ne kadar çok öldürürseniz, o kadar çok bilgi açılır (dirençler, ganimet).",
     },
     ads: {
       title: "Reklam Ödülleri",
@@ -2195,7 +2290,7 @@ export const locales = {
       scrolls: "Pergaminos",
       cancel: "Cancelar",
       noConsumables: "No hay consumibles",
-      viewFullPool: "Ver Pool Completo",
+      viewFullPool: "Ver lista completa",
       cpsWarning: "¡⚠️ Autoclicker Detectado!",
       cpsWarningSubtitle: "Detente o los datos se borrarán",
       cpsWarningTime: "Tiempo restante: {{seconds}}s",
@@ -2212,7 +2307,7 @@ export const locales = {
       foundIn: "Encontrado en",
       resistances: "Resistencias",
       noSpecialResists: "Sin resistencias especiales",
-      possibleDrops: "Drops Posibles",
+      possibleDrops: "Botines posibles",
       noBestiaryEntries: "El bestiario está vacío",
       killEnemiesToUnlock: "Mata enemigos para desbloquear entradas",
       craft: "Fabricar",
@@ -2272,10 +2367,10 @@ export const locales = {
       summoning: "Invocando",
       dropRates: "Probabilidades",
       youHave: "Tienes",
-      dropPool: "Pool de Invocación",
-      dropPoolHint: "Cuando una waifu se repite: +30% a stats base",
+      dropPool: "Lista de invocación",
+      dropPoolHint: "Cuando una waifu se repite: +30% a estadísticas base",
       duplicate: "¡Duplicado!",
-      stats: "stats",
+      stats: "estadísticas",
       poolPreviewHint: "Haz clic abajo para ver todas las waifus disponibles",
       collectionProgress: "Progreso de Colección",
       maxedWaifus: "Máximas",
@@ -2332,20 +2427,17 @@ export const locales = {
       noCollectionItems: "No hay objetos de colección",
       noItems: "No hay objetos",
     },
-
     title: {
       accent: "Harem",
-      main: "Clicker",
+      main: "Clicador",
       sub: "Infinito",
     },
-
     languages: {
       ru: "Ruso",
       en: "Inglés",
       tr: "Turco",
       es: "Español",
     },
-
     upgrades: {
       globalHint: "Las mejoras aplican a todas las waifus",
       click: {
@@ -2385,7 +2477,6 @@ export const locales = {
         desc: "Aumenta el daño de waifus de elemento físico",
       },
     },
-
     gacha: {
       desc: "Invoca una nueva waifu usando esencia",
       luckBonus: "Bono de Suerte",
@@ -2408,7 +2499,6 @@ export const locales = {
       demonWing: "+10% poder crítico",
       ancientCoin: "+10% cristales de enemigos",
     },
-
     monsters: {
       slime: {
         name: "Slime",
@@ -2527,7 +2617,6 @@ export const locales = {
         desc: "Deidad antigua del vacío despertada de las profundidades. Jefe del abismo.",
       },
     },
-
     waifus: {
       Tiamat: {
         name: "Tiamat",
@@ -2614,7 +2703,6 @@ export const locales = {
         desc: "Mensajera rápida que entrega cartas a cualquier punto del mundo.",
       },
     },
-
     items: {
       gel: {
         name: "Gel de Slime",
@@ -2688,7 +2776,6 @@ export const locales = {
         name: "Ala de Demonio",
         desc: "Ala de demonio. Trofeo de cazador más raro.",
       },
-
       forestEssence: {
         name: "Esencia del Bosque",
         desc: "Fuerza vital concentrada del bosque.",
@@ -2697,12 +2784,10 @@ export const locales = {
         name: "Veneno de Araña",
         desc: "Veneno letal de glándulas de araña gigante.",
       },
-
       sandStone: {
         name: "Arenisca",
         desc: "Piedra endurecida por el sol del desierto.",
       },
-
       iceCrystal: {
         name: "Cristal de Hielo",
         desc: "Cristal de hielo eterno que no se derrite ni en el calor.",
@@ -2719,7 +2804,6 @@ export const locales = {
         name: "Ceniza de Diablillo",
         desc: "Restos de demonio de fuego. Usado en piromancia.",
       },
-
       cursedCloth: {
         name: "Tela Maldita",
         desc: "Tela empapada de magia oscura.",
@@ -2728,43 +2812,81 @@ export const locales = {
         name: "Esencia del Vacío",
         desc: "Sustancia del espacio entre mundos.",
       },
-
-      affectionPotionForest: { name: "Néctar del Bosque", desc: "Aumenta el afecto en {{value}}" },
-      expScrollForest: { name: "Pergamino del Despertar", desc: "Otorga +{{value}} EXP a la waifu seleccionada" },
+      affectionPotionForest: {
+        name: "Néctar del Bosque",
+        desc: "Aumenta el afecto en {{value}}",
+      },
+      expScrollForest: {
+        name: "Pergamino del Despertar",
+        desc: "Otorga +{{value}} EXP a la waifu seleccionada",
+      },
       levelDownScrollForest: {
         name: "Pergamino del Refugio",
         desc: "Reduce el nivel actual de ubicación en {{value}}",
       },
-      affectionPotionDesert: { name: "Espejismo del Desierto", desc: "Aumenta el afecto en {{value}}" },
-      expScrollDesert: { name: "Pergamino del Calor", desc: "Otorga +{{value}} EXP a la waifu seleccionada" },
+      affectionPotionDesert: {
+        name: "Espejismo del Desierto",
+        desc: "Aumenta el afecto en {{value}}",
+      },
+      expScrollDesert: {
+        name: "Pergamino del Calor",
+        desc: "Otorga +{{value}} EXP a la waifu seleccionada",
+      },
       levelDownScrollDesert: {
         name: "Pergamino de la Tormenta de Arena",
         desc: "Reduce el nivel actual de ubicación en {{value}}",
       },
-      affectionPotionIce: { name: "Elixir de Escarcha", desc: "Aumenta el afecto en {{value}}" },
-      expScrollIce: { name: "Pergamino de la Ventisca", desc: "Otorga +{{value}} EXP a la waifu seleccionada" },
+      affectionPotionIce: {
+        name: "Elixir de Escarcha",
+        desc: "Aumenta el afecto en {{value}}",
+      },
+      expScrollIce: {
+        name: "Pergamino de la Ventisca",
+        desc: "Otorga +{{value}} EXP a la waifu seleccionada",
+      },
       levelDownScrollIce: {
         name: "Pergamino del Reposo Helado",
         desc: "Reduce el nivel actual de ubicación en {{value}}",
       },
-      affectionPotionVolcano: { name: "Extracto Llameante", desc: "Aumenta el afecto en {{value}}" },
-      expScrollVolcano: { name: "Pergamino de la Magma", desc: "Otorga +{{value}} EXP a la waifu seleccionada" },
+      affectionPotionVolcano: {
+        name: "Extracto Llameante",
+        desc: "Aumenta el afecto en {{value}}",
+      },
+      expScrollVolcano: {
+        name: "Pergamino de la Magma",
+        desc: "Otorga +{{value}} EXP a la waifu seleccionada",
+      },
       levelDownScrollVolcano: {
         name: "Pergamino del Enfriamiento",
         desc: "Reduce el nivel actual de ubicación en {{value}}",
       },
-      affectionPotionCastle: { name: "Poción de Amor Fantasmal", desc: "Aumenta el afecto en {{value}}" },
-      expScrollCastle: { name: "Pergamino del Nigromante", desc: "Otorga +{{value}} EXP a la waifu seleccionada" },
+      affectionPotionCastle: {
+        name: "Poción de Amor Fantasmal",
+        desc: "Aumenta el afecto en {{value}}",
+      },
+      expScrollCastle: {
+        name: "Pergamino del Nigromante",
+        desc: "Otorga +{{value}} EXP a la waifu seleccionada",
+      },
       levelDownScrollCastle: {
         name: "Pergamino del Silencio de la Tumba",
         desc: "Reduce el nivel actual de ubicación en {{value}}",
       },
-      affectionPotionAbyss: { name: "Infusión del Vacío", desc: "Aumenta el afecto en {{value}}" },
-      expScrollAbyss: { name: "Pergamino del Abismo", desc: "Otorga +{{value}} EXP a la waifu seleccionada" },
-      levelDownScrollAbyss: { name: "Pergamino del Eclipse", desc: "Reduce el nivel actual de ubicación en {{value}}" },
+      affectionPotionAbyss: {
+        name: "Infusión del Vacío",
+        desc: "Aumenta el afecto en {{value}}",
+      },
+      expScrollAbyss: {
+        name: "Pergamino del Abismo",
+        desc: "Otorga +{{value}} EXP a la waifu seleccionada",
+      },
+      levelDownScrollAbyss: {
+        name: "Pergamino del Eclipse",
+        desc: "Reduce el nivel actual de ubicación en {{value}}",
+      },
     },
     tutorial: {
-      title: "Tutorial",
+      title: "Guía",
       basics: "Básicos",
       combat: "Combate",
       locations: "Ubicaciones",
@@ -2772,7 +2894,6 @@ export const locales = {
       upgrades: "Mejoras",
       craft: "Fabricar",
       collection: "Colección",
-
       basicsTitle: "Cómo Jugar",
       clickTitle: "Clics y Combate",
       clickDesc:
@@ -2781,7 +2902,6 @@ export const locales = {
       currencyDesc:
         "Los cristales se usan para mejoras, la esencia para invocar nuevas waifus. Pasar niveles también da materiales para fabricar.",
       autoSaveTip: "¡El juego guarda progreso automáticamente. Puedes cerrar y volver después!",
-
       combatTitle: "Sistema de Combate",
       critTitle: "Golpes Críticos",
       critDesc:
@@ -2790,7 +2910,6 @@ export const locales = {
       elementsDesc:
         "Cada waifu tiene un elemento. Los enemigos tienen resistencias y debilidades a elementos. Usa el elemento correcto para hacer más daño (icono verde), evita resistencias (icono rojo).",
       resistWarning: "¡Presta atención a los iconos de elementos bajo el enemigo - muestran resistencias!",
-
       locationsTitle: "Ubicaciones y Niveles",
       locationChangeTitle: "Cambiar Ubicaciones",
       locationChangeDesc:
@@ -2802,17 +2921,15 @@ export const locales = {
       locationBonusTitle: "Bonuses de Ubicación",
       locationBonusDesc:
         "El desierto da más cristales, los Picos Helados - esencia, el Volcán - EXP. Elige ubicación dependiendo de qué necesites.",
-
       waifusTitle: "Sistema de Waifus",
       gachaTitle: "Invocar",
-      gachaDesc: "Usa esencia para invocar nuevas waifus. Cada waifu tiene su rareza, elemento y stats base.",
+      gachaDesc: "Usa esencia para invocar nuevas waifus. Cada waifu tiene su rareza, elemento y estadísticas base.",
       duplicatesTitle: "Duplicados",
       duplicatesDesc:
-        "Si invocas una waifu que ya tienes - obtiene +1 duplicado. ¡Cada duplicado aumenta stats en 30%! Máximo - 20 duplicados.",
+        "Si invocas una waifu que ya tienes, obtiene +1 duplicado. ¡Cada duplicado aumenta las estadísticas en 30%! Máximo: 20 duplicados.",
       expTitle: "Experiencia y Niveles",
       expDesc:
         "La waifu gana EXP al derrotar enemigos. Al ganar EXP sube de nivel, aumentando poder de clic. También se pueden usar pergaminos de EXP.",
-
       upgradesTitle: "Mejoras",
       globalUpgradesTitle: "Mejoras Globales",
       globalUpgradesDesc:
@@ -2823,13 +2940,11 @@ export const locales = {
       elementUpgradesDesc:
         "Aumenta el daño de waifus de elemento específico. ¡Si tienes muchas waifus de fuego - mejora el fuego!",
       upgradeCostTip: "El costo de mejoras aumenta con cada nivel",
-
       craftTitle: "Fabricar y Objetos",
       craftingTitle: "Crear Objetos",
       craftingDesc:
-        "En el menú de Fabricar puedes crear objetos útiles: pergaminos de EXP, pociones de afecto (+bonus de stats) y pergaminos de reducción de nivel.",
+        "En el menú de Fabricar puedes crear objetos útiles: pergaminos de EXP, pociones de afecto (+bonificación de estadísticas) y pergaminos de reducción de nivel.",
       materialsTip: "Los materiales caen de enemigos. Los jefes dan más materiales y objetos raros.",
-
       collectionTitle: "Colección y Bestiario",
       collectionItemsTitle: "Objetos de Colección",
       collectionItemsDesc:
@@ -2837,7 +2952,7 @@ export const locales = {
       buffsTitle: "Bonuses de Colección",
       buffsDesc:
         "Los objetos recolectados dan bonuses permanentes: +daño contra tipos específicos de enemigos, +poder crítico, +cristales de enemigos.",
-      vsSlimes: "vs slimes",
+      vsSlimes: "contra slimes",
       darkDamage: "daño oscuro",
       bestiaryTitle: "Bestiario",
       bestiaryDesc:
@@ -2864,8 +2979,8 @@ export const locales = {
           desc: "Daño doble por 5 minutos",
         },
         drop2x: {
-          title: "Drop x2",
-          desc: "Drops dobles por 5 minutos",
+          title: "Botín x2",
+          desc: "Botín doble por 5 minutos",
         },
         scrollForest: {
           title: "40 Pergaminos de Refugio",
@@ -2883,7 +2998,7 @@ export const locales = {
       title: "Ocorreu um Erro",
       description: "O jogo encontrou um erro inesperado.",
       details: "Detalhes do Erro",
-      resetButton: "Resetar Progresso",
+      resetButton: "Redefinir Progresso",
       reportButton: "Reportar Erro",
       reportMessage: "Erro salvo no console. Por favor, envie uma screenshot ao desenvolvedor.",
     },
@@ -2916,7 +3031,7 @@ export const locales = {
       scrolls: "Pergaminhos",
       cancel: "Cancelar",
       noConsumables: "Sem consumíveis",
-      viewFullPool: "Ver Pool Completo",
+      viewFullPool: "Ver lista completa",
       cpsWarning: "⚠️ Autoclicker Detectado!",
       cpsWarningSubtitle: "Pare ou os dados serão deletados",
       cpsWarningTime: "Tempo restante: {{seconds}}s",
@@ -2933,7 +3048,7 @@ export const locales = {
       foundIn: "Encontrado em",
       resistances: "Resistências",
       noSpecialResists: "Sem resistências especiais",
-      possibleDrops: "Drops Possíveis",
+      possibleDrops: "Saques possíveis",
       noBestiaryEntries: "O bestiário está vazio",
       killEnemiesToUnlock: "Mate inimigos para desbloquear entradas",
       craft: "Criar",
@@ -2966,7 +3081,7 @@ export const locales = {
       music: "Música",
       sfx: "Efeitos Sonoros",
       muteAll: "Silenciar Tudo",
-      resetVolume: "Resetar",
+      resetVolume: "Redefinir",
       gameplay: "Jogabilidade",
       pauseGame: "Pausar",
       resumeGame: "Continuar",
@@ -2991,9 +3106,9 @@ export const locales = {
       summonFirst: "Primeiro invoque uma waifu",
       summon: "Invocar",
       summoning: "Invocando",
-      dropRates: "Taxas de Drop",
+      dropRates: "Taxas de saque",
       youHave: "Você tem",
-      dropPool: "Pool de Invocação",
+      dropPool: "Lista de invocação",
       dropPoolHint: "Quando uma waifu se repete: +30% aos status base",
       duplicate: "Duplicado!",
       stats: "status",
@@ -3004,7 +3119,7 @@ export const locales = {
       poolEmptyWarning: "Todas as waifus atingiram o limite!",
       available: "disp.",
       affection: "Afeição",
-      critChance: "Chance de Crítico",
+      critChance: "Probabilidade de Crítico",
       critPower: "Poder de Crítico",
       outfits: "Roupas",
       totalStats: "Dano Total Causado",
@@ -3053,13 +3168,11 @@ export const locales = {
       noCollectionItems: "Sem itens de coleção",
       noItems: "Sem itens",
     },
-
     title: {
       accent: "Harem",
-      main: "Clicker",
+      main: "Clicador",
       sub: "Infinito",
     },
-
     languages: {
       ru: "Russo",
       en: "Inglês",
@@ -3067,7 +3180,6 @@ export const locales = {
       es: "Espanhol",
       pt: "Português",
     },
-
     upgrades: {
       globalHint: "As melhorias aplicam-se a todas as waifus",
       click: {
@@ -3107,7 +3219,6 @@ export const locales = {
         desc: "Aumenta o dano de waifus do elemento físico",
       },
     },
-
     gacha: {
       desc: "Invoque uma nova waifu usando essência",
       luckBonus: "Bônus de Sorte",
@@ -3130,7 +3241,6 @@ export const locales = {
       demonWing: "+10% poder de crítico",
       ancientCoin: "+10% cristais de inimigos",
     },
-
     monsters: {
       slime: {
         name: "Slime",
@@ -3249,7 +3359,6 @@ export const locales = {
         desc: "Divindade antiga do vazio despertada das profundezas. Chefe do abismo.",
       },
     },
-
     waifus: {
       Tiamat: {
         name: "Tiamat",
@@ -3336,7 +3445,6 @@ export const locales = {
         desc: "Mensageira rápida que entrega cartas a qualquer ponto do mundo.",
       },
     },
-
     items: {
       gel: {
         name: "Gel de Slime",
@@ -3410,7 +3518,6 @@ export const locales = {
         name: "Asa de Demônio",
         desc: "Asa de demônio. Troféu de caçador mais raro.",
       },
-
       forestEssence: {
         name: "Essência da Floresta",
         desc: "Força vital concentrada da floresta.",
@@ -3419,12 +3526,10 @@ export const locales = {
         name: "Veneno de Aranha",
         desc: "Veneno mortal de glândulas de aranha gigante.",
       },
-
       sandStone: {
         name: "Arenito",
         desc: "Pedra endurecida pelo sol do deserto.",
       },
-
       iceCrystal: {
         name: "Cristal de Gelo",
         desc: "Cristal de gelo eterno que não derrete nem no calor.",
@@ -3441,7 +3546,6 @@ export const locales = {
         name: "Cinza de Diabrete",
         desc: "Restos de demônio de fogo. Usado em piromancia.",
       },
-
       cursedCloth: {
         name: "Tecido Amaldiçoado",
         desc: "Tecido embebido em magia sombria.",
@@ -3450,40 +3554,81 @@ export const locales = {
         name: "Essência do Vazio",
         desc: "Substância do espaço entre mundos.",
       },
-
-      affectionPotionForest: { name: "Néctar da Floresta", desc: "Aumenta a afeição em {{value}}" },
-      expScrollForest: { name: "Pergaminho do Despertar", desc: "Concede +{{value}} EXP à waifu selecionada" },
-      levelDownScrollForest: { name: "Pergaminho do Refúgio", desc: "Reduz o nível atual da localização em {{value}}" },
-      affectionPotionDesert: { name: "Miragem do Deserto", desc: "Aumenta a afeição em {{value}}" },
-      expScrollDesert: { name: "Pergaminho do Calor", desc: "Concede +{{value}} EXP à waifu selecionada" },
+      affectionPotionForest: {
+        name: "Néctar da Floresta",
+        desc: "Aumenta a afeição em {{value}}",
+      },
+      expScrollForest: {
+        name: "Pergaminho do Despertar",
+        desc: "Concede +{{value}} EXP à waifu selecionada",
+      },
+      levelDownScrollForest: {
+        name: "Pergaminho do Refúgio",
+        desc: "Reduz o nível atual da localização em {{value}}",
+      },
+      affectionPotionDesert: {
+        name: "Miragem do Deserto",
+        desc: "Aumenta a afeição em {{value}}",
+      },
+      expScrollDesert: {
+        name: "Pergaminho do Calor",
+        desc: "Concede +{{value}} EXP à waifu selecionada",
+      },
       levelDownScrollDesert: {
         name: "Pergaminho da Tempestade de Areia",
         desc: "Reduz o nível atual da localização em {{value}}",
       },
-      affectionPotionIce: { name: "Elixir de Gelo", desc: "Aumenta a afeição em {{value}}" },
-      expScrollIce: { name: "Pergaminho da Nevasca", desc: "Concede +{{value}} EXP à waifu selecionada" },
+      affectionPotionIce: {
+        name: "Elixir de Gelo",
+        desc: "Aumenta a afeição em {{value}}",
+      },
+      expScrollIce: {
+        name: "Pergaminho da Nevasca",
+        desc: "Concede +{{value}} EXP à waifu selecionada",
+      },
       levelDownScrollIce: {
         name: "Pergaminho do Repouso Gelado",
         desc: "Reduz o nível atual da localização em {{value}}",
       },
-      affectionPotionVolcano: { name: "Extrato Flamejante", desc: "Aumenta a afeição em {{value}}" },
-      expScrollVolcano: { name: "Pergaminho da Magma", desc: "Concede +{{value}} EXP à waifu selecionada" },
+      affectionPotionVolcano: {
+        name: "Extrato Flamejante",
+        desc: "Aumenta a afeição em {{value}}",
+      },
+      expScrollVolcano: {
+        name: "Pergaminho da Magma",
+        desc: "Concede +{{value}} EXP à waifu selecionada",
+      },
       levelDownScrollVolcano: {
         name: "Pergaminho do Resfriamento",
         desc: "Reduz o nível atual da localização em {{value}}",
       },
-      affectionPotionCastle: { name: "Poção de Amor Fantasmagórico", desc: "Aumenta a afeição em {{value}}" },
-      expScrollCastle: { name: "Pergaminho do Necromante", desc: "Concede +{{value}} EXP à waifu selecionada" },
+      affectionPotionCastle: {
+        name: "Poção de Amor Fantasmagórico",
+        desc: "Aumenta a afeição em {{value}}",
+      },
+      expScrollCastle: {
+        name: "Pergaminho do Necromante",
+        desc: "Concede +{{value}} EXP à waifu selecionada",
+      },
       levelDownScrollCastle: {
         name: "Pergaminho do Silêncio da Tumba",
         desc: "Reduz o nível atual da localização em {{value}}",
       },
-      affectionPotionAbyss: { name: "Infusão do Vazio", desc: "Aumenta a afeição em {{value}}" },
-      expScrollAbyss: { name: "Pergaminho do Abismo", desc: "Concede +{{value}} EXP à waifu selecionada" },
-      levelDownScrollAbyss: { name: "Pergaminho do Eclipse", desc: "Reduz o nível atual da localização em {{value}}" },
+      affectionPotionAbyss: {
+        name: "Infusão do Vazio",
+        desc: "Aumenta a afeição em {{value}}",
+      },
+      expScrollAbyss: {
+        name: "Pergaminho do Abismo",
+        desc: "Concede +{{value}} EXP à waifu selecionada",
+      },
+      levelDownScrollAbyss: {
+        name: "Pergaminho do Eclipse",
+        desc: "Reduz o nível atual da localização em {{value}}",
+      },
     },
     tutorial: {
-      title: "Tutorial",
+      title: "Guia",
       basics: "Básico",
       combat: "Combate",
       locations: "Localizações",
@@ -3491,7 +3636,6 @@ export const locales = {
       upgrades: "Melhorias",
       craft: "Criação",
       collection: "Coleção",
-
       basicsTitle: "Como Jogar",
       clickTitle: "Cliques e Combate",
       clickDesc:
@@ -3500,7 +3644,6 @@ export const locales = {
       currencyDesc:
         "Cristais são usados para melhorias, essência para invocar novas waifus. Passar níveis também dá materiais para criação.",
       autoSaveTip: "O jogo salva o progresso automaticamente. Você pode fechar e voltar depois!",
-
       combatTitle: "Sistema de Combate",
       critTitle: "Golpes Críticos",
       critDesc:
@@ -3509,7 +3652,6 @@ export const locales = {
       elementsDesc:
         "Cada waifu tem um elemento. Inimigos têm resistências e fraquezas a elementos. Use o elemento correto para causar mais dano (ícone verde), evite resistências (ícone vermelho).",
       resistWarning: "Preste atenção aos ícones de elementos sob o inimigo - eles mostram resistências!",
-
       locationsTitle: "Localizações e Níveis",
       locationChangeTitle: "Mudar Localizações",
       locationChangeDesc:
@@ -3521,7 +3663,6 @@ export const locales = {
       locationBonusTitle: "Bônus de Localização",
       locationBonusDesc:
         "O deserto dá mais cristais, os Picos de Gelo - essência, o Vulcão - EXP. Escolha a localização dependendo do que precisa.",
-
       waifusTitle: "Sistema de Waifus",
       gachaTitle: "Invocar",
       gachaDesc: "Use essência para invocar novas waifus. Cada waifu tem sua raridade, elemento e status base.",
@@ -3531,7 +3672,6 @@ export const locales = {
       expTitle: "Experiência e Níveis",
       expDesc:
         "A waifu ganha EXP ao derrotar inimigos. Ao ganhar EXP, ela sobe de nível, aumentando o poder de clique. Também podem ser usados pergaminhos de EXP.",
-
       upgradesTitle: "Melhorias",
       globalUpgradesTitle: "Melhorias Globais",
       globalUpgradesDesc:
@@ -3542,13 +3682,11 @@ export const locales = {
       elementUpgradesDesc:
         "Aumenta o dano de waifus de elemento específico. Se você tem muitas waifus de fogo - melhore o fogo!",
       upgradeCostTip: "O custo das melhorias aumenta a cada nível",
-
       craftTitle: "Criação e Itens",
       craftingTitle: "Criar Itens",
       craftingDesc:
         "No menu de Criação você pode criar itens úteis: pergaminhos de EXP, poções de afeição (+bônus de status) e pergaminhos de redução de nível.",
       materialsTip: "Materiais caem de inimigos. Chefes dão mais materiais e itens raros.",
-
       collectionTitle: "Coleção e Bestiário",
       collectionItemsTitle: "Itens de Coleção",
       collectionItemsDesc:
@@ -3583,8 +3721,8 @@ export const locales = {
           desc: "Dano dobrado por 5 minutos",
         },
         drop2x: {
-          title: "Drop x2",
-          desc: "Drops dobrados por 5 minutos",
+          title: "Saque x2",
+          desc: "Saques dobrados por 5 minutos",
         },
         scrollForest: {
           title: "40 Pergaminhos de Refúgio",
@@ -3602,7 +3740,7 @@ export const locales = {
       title: "Terjadi Kesalahan",
       description: "Game mengalami kesalahan yang tidak terduga.",
       details: "Detail Kesalahan",
-      resetButton: "Reset Progres",
+      resetButton: "Atur Ulang Progres",
       reportButton: "Laporkan Kesalahan",
       reportMessage: "Kesalahan disimpan di konsol. Silakan kirim screenshot ke pengembang.",
     },
@@ -3630,16 +3768,16 @@ export const locales = {
       memoriaHint: "Memoria memberikan bonus yang kuat",
       buyInShop: "Dapat dibeli di toko",
       outfitHint: "Pakaian mengubah penampilan waifu",
-      useItems: "Gunakan Item",
+      useItems: "Gunakan Barang",
       potions: "Ramuan",
       scrolls: "Gulungan",
       cancel: "Batal",
       noConsumables: "Tidak ada konsumabel",
-      viewFullPool: "Lihat Pool Lengkap",
+      viewFullPool: "Lihat daftar lengkap",
       cpsWarning: "⚠️ Autoclicker Terdeteksi!",
       cpsWarningSubtitle: "Berhenti atau data akan dihapus",
       cpsWarningTime: "Waktu tersisa: {{seconds}}d",
-      killEnemiesForDrops: "Kalahkan musuh untuk mendapatkan item koleksi",
+      killEnemiesForDrops: "Kalahkan musuh untuk mendapatkan barang koleksi",
       unlockRequirement: "Kalahkan bos di level {{level}} di {{location}}",
       killsToUnlock: "{{current}} / {{required}} pembunuhan",
       locationLocked: "Lokasi belum terbuka",
@@ -3649,13 +3787,13 @@ export const locales = {
       bestiary: "Bestiari",
       kills: "Terbunuh",
       totalKills: "Total Terbunuh",
-      foundIn: "Ditemukan di",
+      foundIn: "Dbarangukan di",
       resistances: "Resistensi",
       noSpecialResists: "Tidak ada resistensi khusus",
-      possibleDrops: "Drop yang Mungkin",
+      possibleDrops: "Hadiah yang mungkin",
       noBestiaryEntries: "Bestiari kosong",
       killEnemiesToUnlock: "Kalahkan musuh untuk membuka entri",
-      craft: "Craft",
+      craft: "Kerajinan",
       craftItems: "Buat",
       requiredMaterials: "Material yang Diperlukan",
       levels: "level",
@@ -3666,7 +3804,7 @@ export const locales = {
         desert: "Gurun",
         volcano: "Gunung Berapi",
         ice: "Puncak Es",
-        abyss: "jurang",
+        abyss: "Jurang",
       },
       changeLocation: "Ganti Lokasi",
       locationLevelRequired: "Memerlukan level musuh {{level}}",
@@ -3678,15 +3816,15 @@ export const locales = {
       settings: "Pengaturan",
       back: "Kembali",
       continue: "Lanjutkan",
-      level: "Level",
+      level: "Tingkat",
       language: "Bahasa",
       changeLanguage: "Ganti Bahasa",
       audio: "Audio",
       music: "Musik",
       sfx: "Efek Suara",
       muteAll: "Bisukan Semua",
-      resetVolume: "Reset",
-      gameplay: "Gameplay",
+      resetVolume: "Atur Ulang",
+      gameplay: "Alur Main",
       pauseGame: "Jeda",
       resumeGame: "Lanjutkan",
       support: "Dukungan",
@@ -3699,20 +3837,20 @@ export const locales = {
       essence: "Esensi",
       click: "Klik",
       auto: "Otomatis",
-      upgrades: "Upgrade",
-      gacha: "Summon",
+      upgrades: "Peningkatan",
+      gacha: "Pemanggilan",
       prestige: "Prestise",
       collection: "Koleksi",
       selectWaifu: "Pilih Waifu",
       all: "Semua",
       noCollection: "Koleksi kosong",
       noWaifus: "Tidak ada waifu",
-      summonFirst: "Summon waifu terlebih dahulu",
-      summon: "Summon",
+      summonFirst: "Panggil waifu terlebih dahulu",
+      summon: "Panggil",
       summoning: "Memanggil",
-      dropRates: "Tingkat Drop",
+      dropRates: "Tingkat perolehan",
       youHave: "Kamu punya",
-      dropPool: "Pool Summon",
+      dropPool: "Daftar pemanggilan",
       dropPoolHint: "Ketika waifu drop lagi: +30% ke stat dasar",
       duplicate: "Duplikat!",
       stats: "stat",
@@ -3723,12 +3861,12 @@ export const locales = {
       poolEmptyWarning: "Semua waifu telah mencapai batas!",
       available: "tersedia",
       affection: "Kasih Sayang",
-      critChance: "Chance Crit",
-      critPower: "Power Crit",
+      critChance: "Peluang kritis",
+      critPower: "Kekuatan kritis",
       outfits: "Pakaian",
-      totalStats: "Total Damage Diberikan",
+      totalStats: "Total kerusakan yang diberikan",
       clicks: "klik",
-      damage: "damage",
+      damage: "kerusakan",
       pause: "Jeda",
       resume: "Lanjutkan",
       exitToMenu: "Keluar ke Menu",
@@ -3751,7 +3889,7 @@ export const locales = {
       hp: "HP",
       weak: "Lemah",
       resist: "Resistensi",
-      normal: "Normal",
+      normal: "Biasa",
       obtained: "Diperoleh",
       locked: "Terkunci",
       weapon: "Senjata",
@@ -3764,21 +3902,19 @@ export const locales = {
       max: "MAKS",
       availableCount: "tersedia",
       backpack: "Ransel",
-      items: "Item",
+      items: "Barang",
       coins: "Koin",
       selectTarget: "Pilih Target",
       use: "Gunakan",
       expAdded: "{{name}} mendapat {{amount}} EXP!",
-      noCollectionItems: "Tidak ada item koleksi",
-      noItems: "Tidak ada item",
+      noCollectionItems: "Tidak ada barang koleksi",
+      noItems: "Tidak ada barang",
     },
-
     title: {
       accent: "Harem",
-      main: "Clicker",
-      sub: "Infinity",
+      main: "Pengklik",
+      sub: "Tak Terhingga",
     },
-
     languages: {
       ru: "Rusia",
       en: "Inggris",
@@ -3787,49 +3923,47 @@ export const locales = {
       pt: "Portugis",
       id: "Indonesia",
     },
-
     upgrades: {
-      globalHint: "Upgrade berlaku untuk semua waifu",
+      globalHint: "Peningkatan berlaku untuk semua waifu",
       click: {
-        name: "Power Klik",
-        desc: "Meningkatkan damage dasar klik",
+        name: "Kekuatan Klik",
+        desc: "Meningkatkan kerusakan dasar klik",
       },
       auto: {
         name: "Auto Klik",
-        desc: "Damage otomatis per detik",
+        desc: "Kerusakan otomatis per detik",
       },
       elementWater: {
-        name: "Damage Air",
-        desc: "Meningkatkan damage waifu elemen air",
+        name: "Kerusakan Air",
+        desc: "Meningkatkan kerusakan waifu elemen air",
       },
       elementFire: {
-        name: "Damage Api",
-        desc: "Meningkatkan damage waifu elemen api",
+        name: "Kerusakan Api",
+        desc: "Meningkatkan kerusakan waifu elemen api",
       },
       elementEarth: {
-        name: "Damage Tanah",
-        desc: "Meningkatkan damage waifu elemen tanah",
+        name: "Kerusakan Tanah",
+        desc: "Meningkatkan kerusakan waifu elemen tanah",
       },
       elementIce: {
-        name: "Damage Es",
-        desc: "Meningkatkan damage waifu elemen es",
+        name: "Kerusakan Es",
+        desc: "Meningkatkan kerusakan waifu elemen es",
       },
       elementLight: {
-        name: "Damage Cahaya",
-        desc: "Meningkatkan damage waifu elemen cahaya",
+        name: "Kerusakan Cahaya",
+        desc: "Meningkatkan kerusakan waifu elemen cahaya",
       },
       elementDark: {
-        name: "Damage Gelap",
-        desc: "Meningkatkan damage waifu elemen gelap",
+        name: "Kerusakan Gelap",
+        desc: "Meningkatkan kerusakan waifu elemen gelap",
       },
       elementPhysical: {
-        name: "Damage Fisik",
-        desc: "Meningkatkan damage waifu elemen fisik",
+        name: "Kerusakan Fisik",
+        desc: "Meningkatkan kerusakan waifu elemen fisik",
       },
     },
-
     gacha: {
-      desc: "Summon waifu baru menggunakan esensi",
+      desc: "Panggil waifu baru menggunakan esensi",
       luckBonus: "Bonus Keberuntungan",
     },
     collection: {
@@ -3839,18 +3973,17 @@ export const locales = {
       outfits: "Pakaian",
     },
     buffs: {
-      slimeCore: "+50% damage ke slime",
-      goblinDagger: "+50% damage ke goblin",
-      skull: "+50% damage ke kerangka",
-      soulShard: "+50% damage ke hantu",
-      darkOrb: "+50% damage ke penyihir gelap",
-      mageStaff: "+20% damage elemen gelap",
-      demonHorn: "+50% damage ke iblis",
-      hellfireEssence: "+25% damage ke elemen air",
-      demonWing: "+10% power crit",
+      slimeCore: "+50% kerusakan ke slime",
+      goblinDagger: "+50% kerusakan ke goblin",
+      skull: "+50% kerusakan ke kerangka",
+      soulShard: "+50% kerusakan ke hantu",
+      darkOrb: "+50% kerusakan ke penyihir gelap",
+      mageStaff: "+20% kerusakan elemen gelap",
+      demonHorn: "+50% kerusakan ke iblis",
+      hellfireEssence: "+25% kerusakan ke elemen air",
+      demonWing: "+10% power kritis",
       ancientCoin: "+10% kristal dari musuh",
     },
-
     monsters: {
       slime: {
         name: "Slime",
@@ -3858,7 +3991,7 @@ export const locales = {
       },
       goblin: {
         name: "Goblin",
-        desc: "Pencuri kecil yang licik. Lemah terhadap damage fisik.",
+        desc: "Pencuri kecil yang licik. Lemah terhadap kerusakan fisik.",
       },
       skeleton: {
         name: "Kerangka",
@@ -3866,7 +3999,7 @@ export const locales = {
       },
       ghost: {
         name: "Hantu",
-        desc: "Roh halus. Hampir kebal terhadap damage fisik.",
+        desc: "Roh halus. Hampir kebal terhadap kerusakan fisik.",
       },
       darkMage: {
         name: "Penyihir Gelap",
@@ -3969,7 +4102,6 @@ export const locales = {
         desc: "Dewa kuno dari kekosongan yang terbangun dari kedalaman. Bos jurang.",
       },
     },
-
     waifus: {
       Tiamat: {
         name: "Tiamat",
@@ -4056,7 +4188,6 @@ export const locales = {
         desc: "Kurir cepat yang mengantarkan surat ke titik mana pun di dunia.",
       },
     },
-
     items: {
       gel: {
         name: "Gel Slime",
@@ -4064,7 +4195,7 @@ export const locales = {
       },
       slimeCore: {
         name: "Inti Slime",
-        desc: "Jantung slime yang menyimpan energi magis. Item koleksi langka.",
+        desc: "Jantung slime yang menyimpan energi magis. Barang koleksi langka.",
       },
       gem: {
         name: "Kristal",
@@ -4072,7 +4203,7 @@ export const locales = {
       },
       coin: {
         name: "Koin",
-        desc: "Koin biasa yang ditemukan di musuh yang dikalahkan.",
+        desc: "Koin biasa yang dbarangukan di musuh yang dikalahkan.",
       },
       goblinDagger: {
         name: "Belati Goblin",
@@ -4088,7 +4219,7 @@ export const locales = {
       },
       skull: {
         name: "Tengkorak",
-        desc: "Tengkorak dari mayat hidup. Item koleksi.",
+        desc: "Tengkorak dari mayat hidup. Barang koleksi.",
       },
       ancientCoin: {
         name: "Koin Kuno",
@@ -4124,13 +4255,12 @@ export const locales = {
       },
       hellfireEssence: {
         name: "Esensi Api Neraka",
-        desc: "Esensi api infernal. Item koleksi epik.",
+        desc: "Esensi api infernal. Barang koleksi epik.",
       },
       demonWing: {
         name: "Sayap Iblis",
         desc: "Sayap iblis. Trofi pemburu paling langka.",
       },
-
       forestEssence: {
         name: "Esensi Hutan",
         desc: "Kekuatan hidup terkonsentrasi dari hutan.",
@@ -4139,12 +4269,10 @@ export const locales = {
         name: "Racun Laba-laba",
         desc: "Racun mematikan dari kelenjar laba-laba raksasa.",
       },
-
       sandStone: {
         name: "Batu Pasir",
         desc: "Batu yang mengeras oleh matahari gurun.",
       },
-
       iceCrystal: {
         name: "Kristal Es",
         desc: "Kristal es abadi yang tidak melebahkan bahkan di panas.",
@@ -4161,7 +4289,6 @@ export const locales = {
         name: "Abu Setan",
         desc: "Sisa-sisa iblis api. Digunakan dalam piromansi.",
       },
-
       cursedCloth: {
         name: "Kain Terkutuk",
         desc: "Kain yang direndam dalam magi gelap.",
@@ -4170,118 +4297,149 @@ export const locales = {
         name: "Esensi Kekosongan",
         desc: "Zat dari ruang antar dunia.",
       },
-
-      affectionPotionForest: { name: "Nektar Hutan", desc: "Meningkatkan kasih sayang sebesar {{value}}" },
-      expScrollForest: { name: "Gulungan Kebangkitan", desc: "Memberikan +{{value}} EXP ke waifu yang dipilih" },
+      affectionPotionForest: {
+        name: "Nektar Hutan",
+        desc: "Meningkatkan kasih sayang sebesar {{value}}",
+      },
+      expScrollForest: {
+        name: "Gulungan Kebangkitan",
+        desc: "Memberikan +{{value}} EXP ke waifu yang dipilih",
+      },
       levelDownScrollForest: {
         name: "Gulungan Persembunyian",
         desc: "Menurunkan level lokasi saat ini sebesar {{value}}",
       },
-      affectionPotionDesert: { name: "Fatamorgana Gurun", desc: "Meningkatkan kasih sayang sebesar {{value}}" },
-      expScrollDesert: { name: "Gulungan Panas", desc: "Memberikan +{{value}} EXP ke waifu yang dipilih" },
+      affectionPotionDesert: {
+        name: "Fatamorgana Gurun",
+        desc: "Meningkatkan kasih sayang sebesar {{value}}",
+      },
+      expScrollDesert: {
+        name: "Gulungan Panas",
+        desc: "Memberikan +{{value}} EXP ke waifu yang dipilih",
+      },
       levelDownScrollDesert: {
         name: "Gulungan Badai Pasir",
         desc: "Menurunkan level lokasi saat ini sebesar {{value}}",
       },
-      affectionPotionIce: { name: "Elixir Beku", desc: "Meningkatkan kasih sayang sebesar {{value}}" },
-      expScrollIce: { name: "Gulungan Badai Salju", desc: "Memberikan +{{value}} EXP ke waifu yang dipilih" },
+      affectionPotionIce: {
+        name: "Elixir Beku",
+        desc: "Meningkatkan kasih sayang sebesar {{value}}",
+      },
+      expScrollIce: {
+        name: "Gulungan Badai Salju",
+        desc: "Memberikan +{{value}} EXP ke waifu yang dipilih",
+      },
       levelDownScrollIce: {
         name: "Gulungan Istirahat Beku",
         desc: "Menurunkan level lokasi saat ini sebesar {{value}}",
       },
-      affectionPotionVolcano: { name: "Ramuan Berapi", desc: "Meningkatkan kasih sayang sebesar {{value}}" },
-      expScrollVolcano: { name: "Gulungan Magma", desc: "Memberikan +{{value}} EXP ke waifu yang dipilih" },
+      affectionPotionVolcano: {
+        name: "Ramuan Berapi",
+        desc: "Meningkatkan kasih sayang sebesar {{value}}",
+      },
+      expScrollVolcano: {
+        name: "Gulungan Magma",
+        desc: "Memberikan +{{value}} EXP ke waifu yang dipilih",
+      },
       levelDownScrollVolcano: {
         name: "Gulungan Pendinginan",
         desc: "Menurunkan level lokasi saat ini sebesar {{value}}",
       },
-      affectionPotionCastle: { name: "Ramuan Cinta Hantu", desc: "Meningkatkan kasih sayang sebesar {{value}}" },
-      expScrollCastle: { name: "Gulungan Nekromancer", desc: "Memberikan +{{value}} EXP ke waifu yang dipilih" },
+      affectionPotionCastle: {
+        name: "Ramuan Cinta Hantu",
+        desc: "Meningkatkan kasih sayang sebesar {{value}}",
+      },
+      expScrollCastle: {
+        name: "Gulungan Nekromancer",
+        desc: "Memberikan +{{value}} EXP ke waifu yang dipilih",
+      },
       levelDownScrollCastle: {
         name: "Gulungan Sunyi Kuburan",
         desc: "Menurunkan level lokasi saat ini sebesar {{value}}",
       },
-      affectionPotionAbyss: { name: "Infusi Kekosongan", desc: "Meningkatkan kasih sayang sebesar {{value}}" },
-      expScrollAbyss: { name: "Gulungan Jurang", desc: "Memberikan +{{value}} EXP ke waifu yang dipilih" },
-      levelDownScrollAbyss: { name: "Gulungan Gerhana", desc: "Menurunkan level lokasi saat ini sebesar {{value}}" },
+      affectionPotionAbyss: {
+        name: "Infusi Kekosongan",
+        desc: "Meningkatkan kasih sayang sebesar {{value}}",
+      },
+      expScrollAbyss: {
+        name: "Gulungan Jurang",
+        desc: "Memberikan +{{value}} EXP ke waifu yang dipilih",
+      },
+      levelDownScrollAbyss: {
+        name: "Gulungan Gerhana",
+        desc: "Menurunkan level lokasi saat ini sebesar {{value}}",
+      },
     },
     tutorial: {
-      title: "Tutorial",
+      title: "Panduan",
       basics: "Dasar",
       combat: "Kombat",
       locations: "Lokasi",
       waifus: "Waifu",
-      upgrades: "Upgrade",
-      craft: "Craft",
+      upgrades: "Peningkatan",
+      craft: "Kerajinan",
       collection: "Koleksi",
-
       basicsTitle: "Cara Bermain",
       clickTitle: "Klik dan Kombat",
       clickDesc:
-        "Klik musuh untuk memberikan damage. Semakin cepat kamu klik, semakin banyak damage yang diberikan. Mengalahkan musuh memberikan kristal dan pengalaman.",
+        "Klik musuh untuk memberikan kerusakan. Semakin cepat kamu klik, semakin banyak kerusakan yang diberikan. Mengalahkan musuh memberikan kristal dan pengalaman.",
       currencyTitle: "Mata Uang",
       currencyDesc:
         "Kristal digunakan untuk upgrade, esensi untuk summon waifu baru. Melewati level juga memberikan material untuk crafting.",
       autoSaveTip: "Game menyimpan progres secara otomatis. Kamu bisa menutup dan kembali nanti!",
-
       combatTitle: "Sistem Kombat",
       critTitle: "Serangan Kritis",
       critDesc:
-        "Setiap waifu memiliki chance crit dan pengali crit. Crit memberikan damage besar dan ditampilkan dengan warna kuning.",
+        "Setiap waifu memiliki chance kritis dan pengali kritis. Kritis memberikan kerusakan besar dan ditampilkan dengan warna kuning.",
       elementsTitle: "Elemen dan Resistensi",
       elementsDesc:
-        "Setiap waifu memiliki elemen. Musuh memiliki resistensi dan kelemahan terhadap elemen. Gunakan elemen yang tepat untuk memberikan lebih banyak damage (ikon hijau), hindari resistensi (ikon merah).",
+        "Setiap waifu memiliki elemen. Musuh memiliki resistensi dan kelemahan terhadap elemen. Gunakan elemen yang tepat untuk memberikan lebih banyak kerusakan (ikon hijau), hindari resistensi (ikon merah).",
       resistWarning: "Perhatikan ikon elemen di bawah musuh - mereka menunjukkan resistensi!",
-
-      locationsTitle: "Lokasi dan Level",
+      locationsTitle: "Lokasi dan Tingkat",
       locationChangeTitle: "Mengganti Lokasi",
       locationChangeDesc:
         "Setiap lokasi memiliki bonus sendiri untuk kristal, esensi, dan EXP. Semakin tinggi level lokasi, semakin kuat musuh tetapi semakin besar hadiahnya.",
-      scrollsTitle: "Gulungan Penurun Level",
+      scrollsTitle: "Gulungan Penurun Tingkat",
       scrollsDesc:
         "Jika musuh menjadi terlalu kuat dan kamu tidak bisa mengalahkannya - gunakan gulungan penurun level! Mereka menurunkan level lokasi saat ini, membuat musuh lebih lemah.",
-      scrollsHint: "Tip: Gulungan dapat dibuat di menu Craft.",
+      scrollsHint: "Tip: Gulungan dapat dibuat di menu Kerajinan.",
       locationBonusTitle: "Bonus Lokasi",
       locationBonusDesc:
         "Gurun memberikan lebih banyak kristal, Puncak Es - esensi, Gunung Berapi - EXP. Pilih lokasi tergantung pada apa yang kamu butuhkan.",
-
       waifusTitle: "Sistem Waifu",
-      gachaTitle: "Summon",
+      gachaTitle: "Pemanggilan",
       gachaDesc:
         "Gunakan esensi untuk summon waifu baru. Setiap waifu memiliki kelangkaan, elemen, dan stat dasar mereka sendiri.",
       duplicatesTitle: "Duplikat",
       duplicatesDesc:
         "Jika kamu summon waifu yang sudah kamu miliki - mereka mendapat +1 duplikat. Setiap duplikat meningkatkan stat sebesar 30%! Maksimum - 20 duplikat.",
-      expTitle: "Pengalaman dan Level",
+      expTitle: "Pengalaman dan Tingkat",
       expDesc:
         "Waifu mendapatkan EXP dengan mengalahkan musuh. Saat mendapatkan EXP mereka naik level, meningkatkan power klik. Juga dapat menggunakan gulungan EXP.",
-
-      upgradesTitle: "Upgrade",
-      globalUpgradesTitle: "Upgrade Global",
+      upgradesTitle: "Peningkatan",
+      globalUpgradesTitle: "Peningkatan Global",
       globalUpgradesDesc:
-        "Upgrade berlaku untuk semua waifu sekaligus. Mereka memakan kristal tetapi memberikan peningkatan power yang besar.",
-      clickPowerTitle: "Power Klik",
-      clickPowerDesc: "Meningkatkan damage dasar dari setiap klik. Metode progres utama di tahap awal.",
-      elementUpgradesTitle: "Damage Elemen",
+        "Peningkatan berlaku untuk semua waifu sekaligus. Mereka memakan kristal tetapi memberikan peningkatan kekuatan yang besar.",
+      clickPowerTitle: "Kekuatan Klik",
+      clickPowerDesc: "Meningkatkan kerusakan dasar dari setiap klik. Metode progres utama di tahap awal.",
+      elementUpgradesTitle: "Kerusakan Elemen",
       elementUpgradesDesc:
-        "Meningkatkan damage waifu dari elemen tertentu. Jika kamu memiliki banyak waifu api - upgrade api!",
+        "Meningkatkan kerusakan waifu dari elemen tertentu. Jika kamu memiliki banyak waifu api, tingkatkan api!",
       upgradeCostTip: "Biaya upgrade naik dengan setiap level",
-
-      craftTitle: "Craft dan Item",
-      craftingTitle: "Membuat Item",
+      craftTitle: "Kerajinan dan Barang",
+      craftingTitle: "Membuat Barang",
       craftingDesc:
-        "Di menu Craft kamu dapat membuat item yang berguna: gulungan EXP, ramuan kasih sayang (+bonus stat) dan gulungan penurun level.",
-      materialsTip: "Material jatuh dari musuh. Bos memberikan lebih banyak material dan item langka.",
-
+        "Di menu Kerajinan kamu dapat membuat barang yang berguna: gulungan EXP, ramuan kasih sayang (+bonus statistik) dan gulungan penurun tingkat.",
+      materialsTip: "Material jatuh dari musuh. Bos memberikan lebih banyak material dan barang langka.",
       collectionTitle: "Koleksi dan Bestiari",
-      collectionItemsTitle: "Item Koleksi",
+      collectionItemsTitle: "Barang Koleksi",
       collectionItemsDesc:
-        "Item koleksi langka (senjata, aksesori) dapat jatuh dari musuh. Mereka memberikan bonus pasif ke seluruh akun.",
+        "Barang koleksi langka (senjata, aksesori) dapat jatuh dari musuh. Mereka memberikan bonus pasif ke seluruh akun.",
       buffsTitle: "Bonus Koleksi",
       buffsDesc:
-        "Item yang dikumpulkan memberikan bonus permanen: +damage terhadap tipe musuh tertentu, +power crit, +kristal dari musuh.",
+        "Barang yang dikumpulkan memberikan bonus permanen: +kerusakan terhadap tipe musuh tertentu, +kekuatan kritis, +kristal dari musuh.",
       vsSlimes: "vs slime",
-      darkDamage: "damage gelap",
+      darkDamage: "kerusakan gelap",
       bestiaryTitle: "Bestiari",
       bestiaryDesc:
         "Bagian Bestiari melacak statistik musuh yang terbunuh. Semakin banyak kamu membunuh, semakin banyak informasi yang terbuka (resistensi, drops).",
@@ -4303,12 +4461,12 @@ export const locales = {
           desc: "Untuk upgrade",
         },
         damage2x: {
-          title: "Damage x2",
-          desc: "Damage ganda selama 5 menit",
+          title: "Kerusakan x2",
+          desc: "Kerusakan ganda selama 5 menit",
         },
         drop2x: {
-          title: "Drop x2",
-          desc: "Drop ganda selama 5 menit",
+          title: "Perolehan x2",
+          desc: "Perolehan ganda selama 5 menit",
         },
         scrollForest: {
           title: "40 Gulungan Persembunyian",
@@ -4344,7 +4502,7 @@ export const locales = {
       quantity: "Số Lượng",
       maxAvailable: "Tối Đa",
       loading: "Đang tải...",
-      cps: "Click/giây",
+      cps: "Nhấp/giây",
       location: "Địa Điểm",
       waifus: "Waifu",
       selectWaifuFirst: "Hãy chọn waifu trước",
@@ -4359,25 +4517,25 @@ export const locales = {
       scrolls: "Cuộn Giấy",
       cancel: "Hủy",
       noConsumables: "Không có vật phẩm tiêu hao",
-      viewFullPool: "Xem Toàn Bộ Pool",
+      viewFullPool: "Xem toàn bộ danh sách",
       cpsWarning: "⚠️ Phát Hiện Auto-clicker!",
       cpsWarningSubtitle: "Dừng lại hoặc dữ liệu sẽ bị xóa",
       cpsWarningTime: "Thời gian còn lại: {{seconds}}s",
       killEnemiesForDrops: "Tiêu diệt kẻ thù để nhận vật phẩm sưu tập",
-      unlockRequirement: "Đánh bại boss ở cấp độ {{level}} tại {{location}}",
+      unlockRequirement: "Đánh bại trùm ở cấp độ {{level}} tại {{location}}",
       killsToUnlock: "{{current}} / {{required}} lần giết",
       locationLocked: "Địa điểm chưa được mở khóa",
       unknownLocations: "Không xác định",
       unlockAtKills: "Mở khóa khi giết {{count}}",
       lock: "🔒",
-      bestiary: "Bestiary",
+      bestiary: "Sách Quái Vật",
       kills: "Đã Giết",
       totalKills: "Tổng Số Đã Giết",
       foundIn: "Tìm Thấy Ở",
       resistances: "Kháng",
       noSpecialResists: "Không có kháng đặc biệt",
       possibleDrops: "Vật Phẩm Có Thể Rơi",
-      noBestiaryEntries: "Bestiary trống",
+      noBestiaryEntries: "Sách quái vật trống",
       killEnemiesToUnlock: "Giết kẻ thù để mở khóa mục nhập",
       craft: "Chế Tạo",
       craftItems: "Tạo",
@@ -4421,11 +4579,11 @@ export const locales = {
       gems: "Pha Lê",
       tokens: "Token",
       essence: "Tinh Chất",
-      click: "Click",
+      click: "Nhấp",
       auto: "Tự Động",
       upgrades: "Nâng Cấp",
       gacha: "Triệu Hồi",
-      prestige: "Prestige",
+      prestige: "Danh vọng",
       collection: "Bộ Sưu Tập",
       selectWaifu: "Chọn Waifu",
       all: "Tất Cả",
@@ -4436,7 +4594,7 @@ export const locales = {
       summoning: "Đang Triệu Hồi",
       dropRates: "Tỷ Lệ Rơi",
       youHave: "Bạn có",
-      dropPool: "Pool Triệu Hồi",
+      dropPool: "Danh sách triệu hồi",
       dropPoolHint: "Khi waifu rơi lại: +30% chỉ số cơ bản",
       duplicate: "Trùng Lặp!",
       stats: "chỉ số",
@@ -4470,7 +4628,7 @@ export const locales = {
       light: "Ánh Sáng",
       dark: "Bóng Tối",
       physical: "Vật Lý",
-      boss: "BOSS",
+      boss: "TRÙM",
       enemy: "Kẻ Thù",
       hp: "HP",
       weak: "Yếu",
@@ -4498,7 +4656,7 @@ export const locales = {
     },
     title: {
       accent: "Harem",
-      main: "Clicker",
+      main: "Trò Nhấp",
       sub: "Vô Cực",
     },
     languages: {
@@ -4513,11 +4671,11 @@ export const locales = {
     upgrades: {
       globalHint: "Nâng cấp áp dụng cho tất cả waifu",
       click: {
-        name: "Sát Thương Click",
+        name: "Sát Thương Nhấp",
         desc: "Tăng sát thương cơ bản từ mỗi click",
       },
       auto: {
-        name: "Auto Click",
+        name: "Tự Động Nhấp",
         desc: "Sát thương tự động mỗi giây",
       },
       elementWater: {
@@ -4590,7 +4748,7 @@ export const locales = {
       },
       darkMage: {
         name: "Pháp Sư Bóng Tối",
-        desc: "Pháp sư sa ngã nắm giữ nghệ thuật cấm kỵ. Boss.",
+        desc: "Pháp sư sa ngã nắm giữ nghệ thuật cấm kỵ. Trùm.",
       },
       lesserDemon: {
         name: "Quỷ Nhỏ",
@@ -4626,7 +4784,7 @@ export const locales = {
       },
       forestGuardian: {
         name: "Người Bảo Vệ Rừng",
-        desc: "Cây cổ thụ bảo vệ rừng qua nhiều thế kỷ. Boss rừng.",
+        desc: "Cây cổ thụ bảo vệ rừng qua nhiều thế kỷ. Trùm rừng.",
       },
       sandWorm: {
         name: "Giun Cát",
@@ -4638,7 +4796,7 @@ export const locales = {
       },
       desertColossus: {
         name: "Khổng Lồ Sa Mạc",
-        desc: "Golem đá sa mạc khổng lồ được hồi sinh bởi ma thuật cổ. Boss sa mạc.",
+        desc: "Golem đá sa mạc khổng lồ được hồi sinh bởi ma thuật cổ. Trùm sa mạc.",
       },
       iceElemental: {
         name: "Nguyên Tố Băng",
@@ -4650,7 +4808,7 @@ export const locales = {
       },
       iceQueen: {
         name: "Nữ Hoàng Băng",
-        desc: "Chủ nhân của những đỉnh núi băng với trái tim băng giá vĩnh cửu. Boss băng.",
+        desc: "Chủ nhân của những đỉnh núi băng với trái tim băng giá vĩnh cửu. Trùm băng.",
       },
       lavaSlime: {
         name: "Slime Nham Thạch",
@@ -4662,7 +4820,7 @@ export const locales = {
       },
       infernoDragon: {
         name: "Rồng Địa Ngục",
-        desc: "Rồng cổ xưa sinh ra từ lửa núi lửa. Boss núi lửa.",
+        desc: "Rồng cổ xưa sinh ra từ lửa núi lửa. Trùm núi lửa.",
       },
       armoredKnight: {
         name: "Hiệp Sĩ Giáp",
@@ -4674,7 +4832,7 @@ export const locales = {
       },
       castleLord: {
         name: "Lãnh Chúa Lâu Đài",
-        desc: "Hiệp sĩ quý tộc sa ngã trở thành xác sống. Boss lâu đài.",
+        desc: "Hiệp sĩ quý tộc sa ngã trở thành xác sống. Trùm lâu đài.",
       },
       voidWalker: {
         name: "Kẻ Bước Trong Hư Không",
@@ -4686,7 +4844,7 @@ export const locales = {
       },
       abyssLord: {
         name: "Chúa Tể Vực Thẳm",
-        desc: "Thần linh cổ xưa của hư không thức tỉnh từ vực sâu. Boss vực thẳm.",
+        desc: "Thần linh cổ xưa của hư không thức tỉnh từ vực sâu. Trùm vực thẳm.",
       },
     },
     waifus: {
@@ -4884,24 +5042,78 @@ export const locales = {
         name: "Tinh Chất Hư Không",
         desc: "Chất liệu từ không gian giữa các thế giới.",
       },
-      affectionPotionForest: { name: "Mật Hoa Rừng", desc: "Tăng tình cảm thêm {{value}}" },
-      expScrollForest: { name: "Cuộn Thức Tỉnh", desc: "Cung cấp +{{value}} EXP cho waifu đã chọn" },
-      levelDownScrollForest: { name: "Cuộn Che Chở", desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}" },
-      affectionPotionDesert: { name: "Ảo Ảnh Sa Mạc", desc: "Tăng tình cảm thêm {{value}}" },
-      expScrollDesert: { name: "Cuộn Nắng Nóng", desc: "Cung cấp +{{value}} EXP cho waifu đã chọn" },
-      levelDownScrollDesert: { name: "Cuộn Bão Cát", desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}" },
-      affectionPotionIce: { name: "Thuốc Băng Giá", desc: "Tăng tình cảm thêm {{value}}" },
-      expScrollIce: { name: "Cuộn Bão Tuyết", desc: "Cung cấp +{{value}} EXP cho waifu đã chọn" },
-      levelDownScrollIce: { name: "Cuộn Nghỉ Ngơi Băng Giá", desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}" },
-      affectionPotionVolcano: { name: "Thuốc Lửa", desc: "Tăng tình cảm thêm {{value}}" },
-      expScrollVolcano: { name: "Cuộn Magma", desc: "Cung cấp +{{value}} EXP cho waifu đã chọn" },
-      levelDownScrollVolcano: { name: "Cuộn Làm Mát", desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}" },
-      affectionPotionCastle: { name: "Thuốc Tình Yêu Ma Quái", desc: "Tăng tình cảm thêm {{value}}" },
-      expScrollCastle: { name: "Cuộn Tử Linh Pháp Sư", desc: "Cung cấp +{{value}} EXP cho waifu đã chọn" },
-      levelDownScrollCastle: { name: "Cuộn Im Lặng Của Mộ", desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}" },
-      affectionPotionAbyss: { name: "Thuốc Hư Không", desc: "Tăng tình cảm thêm {{value}}" },
-      expScrollAbyss: { name: "Cuộn Vực Thẳm", desc: "Cung cấp +{{value}} EXP cho waifu đã chọn" },
-      levelDownScrollAbyss: { name: "Cuộn Nhật Thực", desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}" },
+      affectionPotionForest: {
+        name: "Mật Hoa Rừng",
+        desc: "Tăng tình cảm thêm {{value}}",
+      },
+      expScrollForest: {
+        name: "Cuộn Thức Tỉnh",
+        desc: "Cung cấp +{{value}} EXP cho waifu đã chọn",
+      },
+      levelDownScrollForest: {
+        name: "Cuộn Che Chở",
+        desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}",
+      },
+      affectionPotionDesert: {
+        name: "Ảo Ảnh Sa Mạc",
+        desc: "Tăng tình cảm thêm {{value}}",
+      },
+      expScrollDesert: {
+        name: "Cuộn Nắng Nóng",
+        desc: "Cung cấp +{{value}} EXP cho waifu đã chọn",
+      },
+      levelDownScrollDesert: {
+        name: "Cuộn Bão Cát",
+        desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}",
+      },
+      affectionPotionIce: {
+        name: "Thuốc Băng Giá",
+        desc: "Tăng tình cảm thêm {{value}}",
+      },
+      expScrollIce: {
+        name: "Cuộn Bão Tuyết",
+        desc: "Cung cấp +{{value}} EXP cho waifu đã chọn",
+      },
+      levelDownScrollIce: {
+        name: "Cuộn Nghỉ Ngơi Băng Giá",
+        desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}",
+      },
+      affectionPotionVolcano: {
+        name: "Thuốc Lửa",
+        desc: "Tăng tình cảm thêm {{value}}",
+      },
+      expScrollVolcano: {
+        name: "Cuộn Magma",
+        desc: "Cung cấp +{{value}} EXP cho waifu đã chọn",
+      },
+      levelDownScrollVolcano: {
+        name: "Cuộn Làm Mát",
+        desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}",
+      },
+      affectionPotionCastle: {
+        name: "Thuốc Tình Yêu Ma Quái",
+        desc: "Tăng tình cảm thêm {{value}}",
+      },
+      expScrollCastle: {
+        name: "Cuộn Tử Linh Pháp Sư",
+        desc: "Cung cấp +{{value}} EXP cho waifu đã chọn",
+      },
+      levelDownScrollCastle: {
+        name: "Cuộn Im Lặng Của Mộ",
+        desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}",
+      },
+      affectionPotionAbyss: {
+        name: "Thuốc Hư Không",
+        desc: "Tăng tình cảm thêm {{value}}",
+      },
+      expScrollAbyss: {
+        name: "Cuộn Vực Thẳm",
+        desc: "Cung cấp +{{value}} EXP cho waifu đã chọn",
+      },
+      levelDownScrollAbyss: {
+        name: "Cuộn Nhật Thực",
+        desc: "Giảm cấp độ địa điểm hiện tại xuống {{value}}",
+      },
     },
     tutorial: {
       title: "Hướng Dẫn",
@@ -4913,9 +5125,9 @@ export const locales = {
       craft: "Chế Tạo",
       collection: "Bộ Sưu Tập",
       basicsTitle: "Cách Chơi",
-      clickTitle: "Click và Chiến Đấu",
+      clickTitle: "Nhấp và Chiến Đấu",
       clickDesc:
-        "Click vào kẻ thù để gây sát thương. Click càng nhanh, sát thương càng lớn. Đánh bại kẻ thù nhận được pha lê và kinh nghiệm.",
+        "Nhấp vào kẻ thù để gây sát thương. Nhấp càng nhanh, sát thương càng lớn. Đánh bại kẻ thù nhận được pha lê và kinh nghiệm.",
       currencyTitle: "Tiền Tệ",
       currencyDesc:
         "Pha lê dùng để nâng cấp, tinh chất để triệu hồi waifu mới. Vượt qua cấp độ cũng nhận được nguyên liệu để chế tạo.",
@@ -4950,7 +5162,7 @@ export const locales = {
       upgradesTitle: "Nâng Cấp",
       globalUpgradesTitle: "Nâng Cấp Toàn Cục",
       globalUpgradesDesc: "Nâng cấp áp dụng cho tất cả waifu cùng lúc. Tốn pha lê nhưng tăng sức mạnh rất lớn.",
-      clickPowerTitle: "Sát Thương Click",
+      clickPowerTitle: "Sát Thương Nhấp",
       clickPowerDesc: "Tăng sát thương cơ bản từ mỗi click. Phương pháp tiến bộ chính ở giai đoạn đầu.",
       elementUpgradesTitle: "Sát Thương Hệ",
       elementUpgradesDesc:
@@ -4960,8 +5172,8 @@ export const locales = {
       craftingTitle: "Tạo Vật Phẩm",
       craftingDesc:
         "Trong menu Chế Tạo, bạn có thể tạo các vật phẩm hữu ích: cuộn EXP, thuốc tình cảm (+bonus chỉ số) và cuộn giảm cấp.",
-      materialsTip: "Nguyên liệu rơi từ kẻ thù. Boss cho nhiều nguyên liệu và vật phẩm hiếm hơn.",
-      collectionTitle: "Bộ Sưu Tập và Bestiary",
+      materialsTip: "Nguyên liệu rơi từ kẻ thù. Trùm cho nhiều nguyên liệu và vật phẩm hiếm hơn.",
+      collectionTitle: "Bộ Sưu Tập và Sách Quái Vật",
       collectionItemsTitle: "Vật Phẩm Sưu Tập",
       collectionItemsDesc:
         "Các vật phẩm sưu tập hiếm (vũ khí, phụ kiện) có thể rơi từ kẻ thù. Chúng cung cấp bonus thụ động cho toàn tài khoản.",
@@ -4970,9 +5182,9 @@ export const locales = {
         "Các vật phẩm thu thập được cung cấp bonus vĩnh viễn: +sát thương lên loại kẻ thù cụ thể, +sức mạnh bạo kích, +pha lê từ kẻ thù.",
       vsSlimes: "vs slime",
       darkDamage: "sát thương bóng tối",
-      bestiaryTitle: "Bestiary",
+      bestiaryTitle: "Sách Quái Vật",
       bestiaryDesc:
-        "Phần Bestiary theo dõi thống kê kẻ thù đã giết. Bạn giết càng nhiều, càng nhiều thông tin được mở khóa (kháng, vật phẩm rơi).",
+        "Phần Sách Quái Vật theo dõi thống kê kẻ thù đã giết. Bạn giết càng nhiều, càng nhiều thông tin được mở khóa (kháng, vật phẩm rơi).",
     },
     ads: {
       title: "Phần Thưởng Quảng Cáo",
@@ -5042,18 +5254,18 @@ export const locales = {
       currency: "Währung",
       memoriaHint: "Memoria bieten starke Boni",
       buyInShop: "Kann im Shop gekauft werden",
-      outfitHint: "Outfits ändern das Aussehen der Waifu",
+      outfitHint: "Kleidung ändern das Aussehen der Waifu",
       useItems: "Gegenstände verwenden",
       potions: "Tränke",
       scrolls: "Schriftrollen",
       cancel: "Abbrechen",
       noConsumables: "Keine Verbrauchsmaterialien",
-      viewFullPool: "Vollen Pool anzeigen",
+      viewFullPool: "Vollständige Liste anzeigen",
       cpsWarning: "⚠️ Autoklicker erkannt!",
       cpsWarningSubtitle: "Hören Sie auf oder die Daten werden gelöscht",
       cpsWarningTime: "Verbleibende Zeit: {{seconds}}s",
       killEnemiesForDrops: "Töten Sie Feinde, um Sammelgegenstände zu erhalten",
-      unlockRequirement: "Besiegen Sie einen Boss auf Stufe {{level}} in {{location}}",
+      unlockRequirement: "Besiegen Sie einen Endgegner auf Stufe {{level}} in {{location}}",
       killsToUnlock: "{{current}} / {{required}} Tötungen",
       locationLocked: "Ort noch nicht freigeschaltet",
       unknownLocations: "Unbekannt",
@@ -5065,7 +5277,7 @@ export const locales = {
       foundIn: "Gefunden in",
       resistances: "Widerstände",
       noSpecialResists: "Keine speziellen Widerstände",
-      possibleDrops: "Mögliche Drops",
+      possibleDrops: "Mögliche Beute",
       noBestiaryEntries: "Bestiarium ist leer",
       killEnemiesToUnlock: "Töten Sie Feinde, um Einträge freizuschalten",
       craft: "Herstellen",
@@ -5099,10 +5311,10 @@ export const locales = {
       sfx: "Soundeffekte",
       muteAll: "Alles stummschalten",
       resetVolume: "Zurücksetzen",
-      gameplay: "Gameplay",
+      gameplay: "Spielablauf",
       pauseGame: "Pausieren",
       resumeGame: "Fortsetzen",
-      support: "Support",
+      support: "Unterstützung",
       about: "Über",
       showCredits: "Credits anzeigen",
       hideCredits: "Credits ausblenden",
@@ -5112,9 +5324,9 @@ export const locales = {
       essence: "Essenz",
       click: "Klick",
       auto: "Auto",
-      upgrades: "Upgrades",
+      upgrades: "Verbesserungen",
       gacha: "Beschwörung",
-      prestige: "Prestige",
+      prestige: "Ansehen",
       collection: "Sammlung",
       selectWaifu: "Waifu auswählen",
       all: "Alle",
@@ -5123,12 +5335,12 @@ export const locales = {
       summonFirst: "Beschwören Sie zuerst eine Waifu",
       summon: "Beschwören",
       summoning: "Beschwörung läuft",
-      dropRates: "Drop-Raten",
+      dropRates: "Beuteraten",
       youHave: "Sie haben",
-      dropPool: "Beschwörungs-Pool",
-      dropPoolHint: "Wenn eine Waifu erneut droppt: +30% auf Basis-Stats",
+      dropPool: "Beschwörungsliste",
+      dropPoolHint: "Wenn eine Waifu erneut erscheint: +30% auf Basiswerte",
       duplicate: "Duplikat!",
-      stats: "Stats",
+      stats: "Werte",
       poolPreviewHint: "Klicken Sie unten, um alle verfügbaren Waifus zu sehen",
       collectionProgress: "Sammlungsfortschritt",
       maxedWaifus: "Maximiert",
@@ -5138,7 +5350,7 @@ export const locales = {
       affection: "Zuneigung",
       critChance: "Krit-Chance",
       critPower: "Krit-Stärke",
-      outfits: "Outfits",
+      outfits: "Kleidung",
       totalStats: "Gesamtschaden verursacht",
       clicks: "Klicks",
       damage: "Schaden",
@@ -5159,18 +5371,18 @@ export const locales = {
       light: "Licht",
       dark: "Dunkelheit",
       physical: "Physisch",
-      boss: "BOSS",
+      boss: "ENDGEGNER",
       enemy: "Feind",
       hp: "LP",
       weak: "Schwach",
       resist: "Resistenz",
-      normal: "Normal",
+      normal: "Gewöhnlich",
       obtained: "Erhalten",
       locked: "Gesperrt",
       weapon: "Waffe",
       accessory: "Accessoire",
       memoria: "Memoria",
-      outfit: "Outfit",
+      outfit: "Kleidung",
       close: "Schließen",
       select: "Auswählen",
       active: "Aktiv",
@@ -5187,7 +5399,7 @@ export const locales = {
     },
     title: {
       accent: "Harem",
-      main: "Clicker",
+      main: "Klicker",
       sub: "Unendlichkeit",
     },
     languages: {
@@ -5201,7 +5413,7 @@ export const locales = {
       de: "Deutsch",
     },
     upgrades: {
-      globalHint: "Upgrades gelten für alle Waifus",
+      globalHint: "Verbesserungen gelten für alle Waifus",
       click: {
         name: "Klick-Stärke",
         desc: "Erhöht den Basis-Klickschaden",
@@ -5247,7 +5459,7 @@ export const locales = {
       weapons: "Waffen",
       accessories: "Accessoires",
       memoria: "Memoria",
-      outfits: "Outfits",
+      outfits: "Kleidung",
     },
     buffs: {
       slimeCore: "+50% Schaden gegen Slimes",
@@ -5280,7 +5492,7 @@ export const locales = {
       },
       darkMage: {
         name: "Dunkler Magier",
-        desc: "Ein gefallener Zauberer, der verbotene Künste beherrscht. Boss.",
+        desc: "Ein gefallener Zauberer, der verbotene Künste beherrscht. Endgegner.",
       },
       lesserDemon: {
         name: "Geringerer Dämon",
@@ -5316,7 +5528,7 @@ export const locales = {
       },
       forestGuardian: {
         name: "Waldhüter",
-        desc: "Ein uralter Baum-Beschützer, der den Wald seit Jahrhunderten bewacht. Wald-Boss.",
+        desc: "Ein uralter Baum-Beschützer, der den Wald seit Jahrhunderten bewacht. Wald-Endgegner.",
       },
       sandWorm: {
         name: "Sandwurm",
@@ -5328,7 +5540,7 @@ export const locales = {
       },
       desertColossus: {
         name: "Wüstenkoloss",
-        desc: "Ein riesiger Sandsteingolem, der durch alte Magie belebt wurde. Wüsten-Boss.",
+        desc: "Ein riesiger Sandsteingolem, der durch alte Magie belebt wurde. Wüsten-Endgegner.",
       },
       iceElemental: {
         name: "Eiselementar",
@@ -5340,7 +5552,7 @@ export const locales = {
       },
       iceQueen: {
         name: "Eiskönigin",
-        desc: "Die Herrscherin der eisigen Gipfel, deren Herz ewiger Permafrost ist. Eis-Boss.",
+        desc: "Die Herrscherin der eisigen Gipfel, deren Herz ewiger Permafrost ist. Eis-Endgegner.",
       },
       lavaSlime: {
         name: "Lava-Slime",
@@ -5352,7 +5564,7 @@ export const locales = {
       },
       infernoDragon: {
         name: "Infernodrache",
-        desc: "Ein uralter Drache, geboren aus vulkanischem Feuer. Vulkan-Boss.",
+        desc: "Ein uralter Drache, geboren aus vulkanischem Feuer. Vulkan-Endgegner.",
       },
       armoredKnight: {
         name: "Gepanzerter Ritter",
@@ -5364,7 +5576,7 @@ export const locales = {
       },
       castleLord: {
         name: "Schlossherr",
-        desc: "Ein gefallener adliger Ritter, der zum Untoten wurde. Schloss-Boss.",
+        desc: "Ein gefallener adliger Ritter, der zum Untoten wurde. Schloss-Endgegner.",
       },
       voidWalker: {
         name: "Leerwandler",
@@ -5376,7 +5588,7 @@ export const locales = {
       },
       abyssLord: {
         name: "Abgrundherr",
-        desc: "Eine uralte Gottheit der Leere, die aus den Tiefen erwacht ist. Abgrund-Boss.",
+        desc: "Eine uralte Gottheit der Leere, die aus den Tiefen erwacht ist. Abgrund-Endgegner.",
       },
     },
     waifus: {
@@ -5574,32 +5786,86 @@ export const locales = {
         name: "Leeren-Essenz",
         desc: "Substanz aus dem Raum zwischen Welten.",
       },
-      affectionPotionForest: { name: "Waldnektar", desc: "Erhöht die Zuneigung um {{value}}" },
-      expScrollForest: { name: "Schriftrolle des Erwachens", desc: "Gibt +{{value}} EP der ausgewählten Waifu" },
-      levelDownScrollForest: { name: "Schriftrolle der Deckung", desc: "Senkt die aktuelle Ortsstufe um {{value}}" },
-      affectionPotionDesert: { name: "Wüstentrugbild", desc: "Erhöht die Zuneigung um {{value}}" },
-      expScrollDesert: { name: "Schriftrolle der Hitze", desc: "Gibt +{{value}} EP der ausgewählten Waifu" },
-      levelDownScrollDesert: { name: "Schriftrolle des Sandsturms", desc: "Senkt die aktuelle Ortsstufe um {{value}}" },
-      affectionPotionIce: { name: "Frostelixier", desc: "Erhöht die Zuneigung um {{value}}" },
-      expScrollIce: { name: "Schriftrolle des Blizzard", desc: "Gibt +{{value}} EP der ausgewählten Waifu" },
-      levelDownScrollIce: { name: "Schriftrolle der Eiserholung", desc: "Senkt die aktuelle Ortsstufe um {{value}}" },
-      affectionPotionVolcano: { name: "Flammgebräu", desc: "Erhöht die Zuneigung um {{value}}" },
-      expScrollVolcano: { name: "Schriftrolle der Magma", desc: "Gibt +{{value}} EP der ausgewählten Waifu" },
-      levelDownScrollVolcano: { name: "Schriftrolle der Abkühlung", desc: "Senkt die aktuelle Ortsstufe um {{value}}" },
-      affectionPotionCastle: { name: "Geisterliebes-Trank", desc: "Erhöht die Zuneigung um {{value}}" },
-      expScrollCastle: { name: "Schriftrolle des Nekromanten", desc: "Gibt +{{value}} EP der ausgewählten Waifu" },
-      levelDownScrollCastle: { name: "Schriftrolle der Grabstille", desc: "Senkt die aktuelle Ortsstufe um {{value}}" },
-      affectionPotionAbyss: { name: "Leeren-Infusion", desc: "Erhöht die Zuneigung um {{value}}" },
-      expScrollAbyss: { name: "Schriftrolle des Abgrunds", desc: "Gibt +{{value}} EP der ausgewählten Waifu" },
-      levelDownScrollAbyss: { name: "Schriftrolle der Finsternis", desc: "Senkt die aktuelle Ortsstufe um {{value}}" },
+      affectionPotionForest: {
+        name: "Waldnektar",
+        desc: "Erhöht die Zuneigung um {{value}}",
+      },
+      expScrollForest: {
+        name: "Schriftrolle des Erwachens",
+        desc: "Gibt +{{value}} EP der ausgewählten Waifu",
+      },
+      levelDownScrollForest: {
+        name: "Schriftrolle der Deckung",
+        desc: "Senkt die aktuelle Ortsstufe um {{value}}",
+      },
+      affectionPotionDesert: {
+        name: "Wüstentrugbild",
+        desc: "Erhöht die Zuneigung um {{value}}",
+      },
+      expScrollDesert: {
+        name: "Schriftrolle der Hitze",
+        desc: "Gibt +{{value}} EP der ausgewählten Waifu",
+      },
+      levelDownScrollDesert: {
+        name: "Schriftrolle des Sandsturms",
+        desc: "Senkt die aktuelle Ortsstufe um {{value}}",
+      },
+      affectionPotionIce: {
+        name: "Frostelixier",
+        desc: "Erhöht die Zuneigung um {{value}}",
+      },
+      expScrollIce: {
+        name: "Schriftrolle des Blizzard",
+        desc: "Gibt +{{value}} EP der ausgewählten Waifu",
+      },
+      levelDownScrollIce: {
+        name: "Schriftrolle der Eiserholung",
+        desc: "Senkt die aktuelle Ortsstufe um {{value}}",
+      },
+      affectionPotionVolcano: {
+        name: "Flammgebräu",
+        desc: "Erhöht die Zuneigung um {{value}}",
+      },
+      expScrollVolcano: {
+        name: "Schriftrolle der Magma",
+        desc: "Gibt +{{value}} EP der ausgewählten Waifu",
+      },
+      levelDownScrollVolcano: {
+        name: "Schriftrolle der Abkühlung",
+        desc: "Senkt die aktuelle Ortsstufe um {{value}}",
+      },
+      affectionPotionCastle: {
+        name: "Geisterliebes-Trank",
+        desc: "Erhöht die Zuneigung um {{value}}",
+      },
+      expScrollCastle: {
+        name: "Schriftrolle des Nekromanten",
+        desc: "Gibt +{{value}} EP der ausgewählten Waifu",
+      },
+      levelDownScrollCastle: {
+        name: "Schriftrolle der Grabstille",
+        desc: "Senkt die aktuelle Ortsstufe um {{value}}",
+      },
+      affectionPotionAbyss: {
+        name: "Leeren-Infusion",
+        desc: "Erhöht die Zuneigung um {{value}}",
+      },
+      expScrollAbyss: {
+        name: "Schriftrolle des Abgrunds",
+        desc: "Gibt +{{value}} EP der ausgewählten Waifu",
+      },
+      levelDownScrollAbyss: {
+        name: "Schriftrolle der Finsternis",
+        desc: "Senkt die aktuelle Ortsstufe um {{value}}",
+      },
     },
     tutorial: {
-      title: "Tutorial",
+      title: "Anleitung",
       basics: "Grundlagen",
       combat: "Kampf",
       locations: "Orte",
       waifus: "Waifus",
-      upgrades: "Upgrades",
+      upgrades: "Verbesserungen",
       craft: "Herstellen",
       collection: "Sammlung",
       basicsTitle: "Wie man spielt",
@@ -5608,7 +5874,7 @@ export const locales = {
         "Klicken Sie auf den Feind, um Schaden zu verursachen. Je schneller Sie klicken, desto mehr Schaden verursachen Sie. Das Besiegen von Feinden gibt Kristalle und Erfahrung.",
       currencyTitle: "Währung",
       currencyDesc:
-        "Kristalle werden für Upgrades verwendet, Essenz für die Beschwörung neuer Waifus. Das Bestehen von Levels gibt auch Materialien zum Herstellen.",
+        "Kristalle werden für Verbesserungen verwendet, Essenz für die Beschwörung neuer Waifus. Das Abschließen von Stufen gibt auch Materialien zum Herstellen.",
       autoSaveTip: "Das Spiel speichert den Fortschritt automatisch. Sie können schließen und später zurückkehren!",
       combatTitle: "Kampfsystem",
       critTitle: "Kritische Treffer",
@@ -5618,13 +5884,13 @@ export const locales = {
       elementsDesc:
         "Jede Waifu hat ein Element. Feinde haben Widerstände und Schwächen gegen Elemente. Verwenden Sie das richtige Element, um mehr Schaden zu verursachen (grünes Symbol), vermeiden Sie Widerstände (rotes Symbol).",
       resistWarning: "Achten Sie auf die Element-Symbole unter dem Feind - sie zeigen Widerstände an!",
-      locationsTitle: "Orte und Level",
+      locationsTitle: "Orte und Stufen",
       locationChangeTitle: "Orte wechseln",
       locationChangeDesc:
-        "Jeder Ort hat seine eigenen Boni für Kristalle, Essenz und EP. Je höher das Level des Ortes, desto stärker die Feinde, aber desto größer die Belohnungen.",
-      scrollsTitle: "Level-Senkungs-Schriftrollen",
+        "Jeder Ort hat seine eigenen Boni für Kristalle, Essenz und EP. Je höher die Stufe des Ortes, desto stärker die Feinde, aber desto größer die Belohnungen.",
+      scrollsTitle: "Schriftrollen zur Stufensenkung",
       scrollsDesc:
-        "Wenn Feinde zu stark werden und Sie sie nicht besiegen können - verwenden Sie Level-Senkungs-Schriftrollen! Sie senken das aktuelle Level des Ortes und machen Feinde schwächer.",
+        "Wenn Feinde zu stark werden und Sie sie nicht besiegen können, verwenden Sie Schriftrollen zur Stufensenkung! Sie senken die aktuelle Stufe des Ortes und machen Feinde schwächer.",
       scrollsHint: "Tipp: Schriftrollen können im Herstell-Menü erstellt werden.",
       locationBonusTitle: "Orts-Boni",
       locationBonusDesc:
@@ -5632,28 +5898,28 @@ export const locales = {
       waifusTitle: "Waifu-System",
       gachaTitle: "Beschwörung",
       gachaDesc:
-        "Verwenden Sie Essenz, um neue Waifus zu beschwören. Jede Waifu hat ihre Seltenheit, ihr Element und ihre Basis-Stats.",
+        "Verwenden Sie Essenz, um neue Waifus zu beschwören. Jede Waifu hat ihre Seltenheit, ihr Element und ihre Basiswerte.",
       duplicatesTitle: "Duplikate",
       duplicatesDesc:
-        "Wenn Sie eine Waifu beschwören, die Sie bereits haben, erhält sie +1 Duplikat. Jedes Duplikat erhöht die Stats um 30%! Maximum - 20 Duplikate.",
-      expTitle: "Erfahrung und Level",
+        "Wenn Sie eine Waifu beschwören, die Sie bereits haben, erhält sie +1 Duplikat. Jedes Duplikat erhöht die Werte um 30%! Höchstwert: 20 Duplikate.",
+      expTitle: "Erfahrung und Stufen",
       expDesc:
-        "Waifus erhalten EP durch das Besiegen von Feinden. Beim Erhalt von EP steigen sie im Level, was die Klick-Stärke erhöht. Es können auch EP-Schriftrollen verwendet werden.",
-      upgradesTitle: "Upgrades",
-      globalUpgradesTitle: "Globale Upgrades",
+        "Waifus erhalten EP durch das Besiegen von Feinden. Beim Erhalt von EP steigen sie in der Stufe, was die Klick-Stärke erhöht. Es können auch EP-Schriftrollen verwendet werden.",
+      upgradesTitle: "Verbesserungen",
+      globalUpgradesTitle: "Globale Verbesserungen",
       globalUpgradesDesc:
-        "Upgrades gelten für alle Waifus gleichzeitig. Sie kosten Kristalle, geben aber einen enormen Power-Boost.",
+        "Verbesserungen gelten für alle Waifus gleichzeitig. Sie kosten Kristalle, geben aber einen enormen Kraftschub.",
       clickPowerTitle: "Klick-Stärke",
       clickPowerDesc: "Erhöht den Basisschaden jedes Klicks. Hauptfortschrittsmethode in frühen Stadien.",
       elementUpgradesTitle: "Elementschaden",
       elementUpgradesDesc:
         "Erhöht den Schaden von Waifus eines bestimmten Elements. Wenn Sie viele Feuer-Waifus haben - verbessern Sie Feuer!",
-      upgradeCostTip: "Die Upgrade-Kosten steigen mit jedem Level",
+      upgradeCostTip: "Die Verbesserungskosten steigen mit jeder Stufe",
       craftTitle: "Herstellen und Gegenstände",
       craftingTitle: "Gegenstände erstellen",
       craftingDesc:
-        "Im Herstell-Menü können Sie nützliche Gegenstände erstellen: EP-Schriftrollen, Zuneigungs-Tränke (+Stat-Bonus) und Level-Senkungs-Schriftrollen.",
-      materialsTip: "Materialien droppen von Feinden. Bosse geben mehr Materialien und seltene Gegenstände.",
+        "Im Herstell-Menü können Sie nützliche Gegenstände erstellen: EP-Schriftrollen, Zuneigungs-Tränke (+Wertebonus) und Schriftrollen zur Stufensenkung.",
+      materialsTip: "Materialien droppen von Feinden. Endgegner geben mehr Materialien und seltene Gegenstände.",
       collectionTitle: "Sammlung und Bestiarium",
       collectionItemsTitle: "Sammelgegenstände",
       collectionItemsDesc:
@@ -5665,7 +5931,7 @@ export const locales = {
       darkDamage: "Dunkelschaden",
       bestiaryTitle: "Bestiarium",
       bestiaryDesc:
-        "Der Bestiarium-Bereich verfolgt Statistiken getöteter Feinde. Je mehr Sie töten, desto mehr Informationen werden freigeschaltet (Widerstände, Drops).",
+        "Der Bestiarium-Bereich verfolgt Statistiken getöteter Feinde. Je mehr Sie töten, desto mehr Informationen werden freigeschaltet (Widerstände, Beute).",
     },
     ads: {
       title: "Werbe-Belohnungen",
@@ -5681,19 +5947,19 @@ export const locales = {
         },
         gems10000: {
           title: "10000 Kristalle",
-          desc: "Für Upgrades",
+          desc: "Für Verbesserungen",
         },
         damage2x: {
           title: "Schaden x2",
           desc: "Doppelter Schaden für 5 Minuten",
         },
         drop2x: {
-          title: "Drop x2",
-          desc: "Doppelte Drops für 5 Minuten",
+          title: "Beute x2",
+          desc: "Doppelte Beute für 5 Minuten",
         },
         scrollForest: {
           title: "40 Deckungs-Schriftrollen",
-          desc: "Senken Wald-Level (-5)",
+          desc: "Senkt die Waldstufe (-5)",
         },
         abyssBundle: {
           title: "Abgrund-Paket",
@@ -5745,7 +6011,7 @@ export const locales = {
       cpsWarningSubtitle: "Przestań lub dane zostaną usunięte",
       cpsWarningTime: "Pozostały czas: {{seconds}}s",
       killEnemiesForDrops: "Pokonuj wrogów, aby uzyskać przedmioty kolekcjonerskie",
-      unlockRequirement: "Pokonaj bossa na poziomie {{level}} w {{location}}",
+      unlockRequirement: "Pokonaj przywódcę na poziomie {{level}} w {{location}}",
       killsToUnlock: "{{current}} / {{required}} zabójstw",
       locationLocked: "Lokalizacja jeszcze nie odblokowana",
       unknownLocations: "Nieznane",
@@ -5790,7 +6056,7 @@ export const locales = {
       music: "Muzyka",
       sfx: "Efekty Dźwiękowe",
       muteAll: "Wycisz Wszystko",
-      resetVolume: "Resetuj",
+      resetVolume: "Przywróć",
       gameplay: "Rozgrywka",
       pauseGame: "Pauza",
       resumeGame: "Wznów",
@@ -5815,7 +6081,7 @@ export const locales = {
       summonFirst: "Najpierw przywołaj waifu",
       summon: "Przywołaj",
       summoning: "Przyzywanie",
-      dropRates: "Szanse na Drop",
+      dropRates: "Szanse na łup",
       youHave: "Masz",
       dropPool: "Pula Przywołań",
       dropPoolHint: "Gdy waifu wypadnie ponownie: +30% do podstawowych statystyk",
@@ -5851,7 +6117,7 @@ export const locales = {
       light: "Światło",
       dark: "Ciemność",
       physical: "Fizyczny",
-      boss: "BOSS",
+      boss: "PRZYWÓDCA",
       enemy: "Wróg",
       hp: "HP",
       weak: "Słaby",
@@ -5879,7 +6145,7 @@ export const locales = {
     },
     title: {
       accent: "Harem",
-      main: "Clicker",
+      main: "Klikacz",
       sub: "Nieskończoność",
     },
     languages: {
@@ -5973,7 +6239,7 @@ export const locales = {
       },
       darkMage: {
         name: "Mroczny Mag",
-        desc: "Upadły czarownik, który opanował zakazane sztuki. Boss.",
+        desc: "Upadły czarownik, który opanował zakazane sztuki. Przywódca.",
       },
       lesserDemon: {
         name: "Mniejszy Demon",
@@ -6009,7 +6275,7 @@ export const locales = {
       },
       forestGuardian: {
         name: "Strażnik Lasu",
-        desc: "Starożytne drzewo-stróż chroniące las od wieków. Boss lasu.",
+        desc: "Starożytne drzewo-stróż chroniące las od wieków. Przywódca lasu.",
       },
       sandWorm: {
         name: "Piaskowy Robak",
@@ -6021,7 +6287,7 @@ export const locales = {
       },
       desertColossus: {
         name: "Pustynny Kolos",
-        desc: "Ogromny golem z piaskowca ożywiony starożytną magią. Boss pustyni.",
+        desc: "Ogromny golem z piaskowca ożywiony starożytną magią. Przywódca pustyni.",
       },
       iceElemental: {
         name: "Żywiołak Lodu",
@@ -6033,7 +6299,7 @@ export const locales = {
       },
       iceQueen: {
         name: "Królowa Lodu",
-        desc: "Władczyni lodowych szczytów, której sercem jest wieczna zmarzlina. Boss lodu.",
+        desc: "Władczyni lodowych szczytów, której sercem jest wieczna zmarzlina. Przywódca lodu.",
       },
       lavaSlime: {
         name: "Lawowy Szlam",
@@ -6045,7 +6311,7 @@ export const locales = {
       },
       infernoDragon: {
         name: "Smok Inferno",
-        desc: "Starożytny smok narodzony w wulkanicznym ogniu. Boss wulkanu.",
+        desc: "Starożytny smok narodzony w wulkanicznym ogniu. Przywódca wulkanu.",
       },
       armoredKnight: {
         name: "Opancerzony Rycerz",
@@ -6057,7 +6323,7 @@ export const locales = {
       },
       castleLord: {
         name: "Pan Zamku",
-        desc: "Upadły szlachetny rycerz, który stał się nieumarłym. Boss zamku.",
+        desc: "Upadły szlachetny rycerz, który stał się nieumarłym. Przywódca zamku.",
       },
       voidWalker: {
         name: "Wędrowiec Pustki",
@@ -6069,7 +6335,7 @@ export const locales = {
       },
       abyssLord: {
         name: "Pan Otchłani",
-        desc: "Starożytne bóstwo pustki przebudzone z głębin. Boss otchłani.",
+        desc: "Starożytne bóstwo pustki przebudzone z głębin. Przywódca otchłani.",
       },
     },
     waifus: {
@@ -6267,24 +6533,78 @@ export const locales = {
         name: "Esencja Pustki",
         desc: "Substancja z przestrzeni między światami.",
       },
-      affectionPotionForest: { name: "Leśny Nektar", desc: "Zwiększa uczucie o {{value}}" },
-      expScrollForest: { name: "Zwój Przebudzenia", desc: "Daje +{{value}} PD wybranej waifu" },
-      levelDownScrollForest: { name: "Zwój Osłony", desc: "Obniża obecny poziom lokacji o {{value}}" },
-      affectionPotionDesert: { name: "Pustynny Miraż", desc: "Zwiększa uczucie o {{value}}" },
-      expScrollDesert: { name: "Zwój Upału", desc: "Daje +{{value}} PD wybranej waifu" },
-      levelDownScrollDesert: { name: "Zwój Burzy Piaskowej", desc: "Obniża obecny poziom lokacji o {{value}}" },
-      affectionPotionIce: { name: "Eliksir Szronu", desc: "Zwiększa uczucie o {{value}}" },
-      expScrollIce: { name: "Zwój Zamieci", desc: "Daje +{{value}} PD wybranej waifu" },
-      levelDownScrollIce: { name: "Zwój Lodowego Spoczynku", desc: "Obniża obecny poziom lokacji o {{value}}" },
-      affectionPotionVolcano: { name: "Płonący Wywar", desc: "Zwiększa uczucie o {{value}}" },
-      expScrollVolcano: { name: "Zwój Magmy", desc: "Daje +{{value}} PD wybranej waifu" },
-      levelDownScrollVolcano: { name: "Zwój Chłodzenia", desc: "Obniża obecny poziom lokacji o {{value}}" },
-      affectionPotionCastle: { name: "Widmowy Eliksir Miłości", desc: "Zwiększa uczucie o {{value}}" },
-      expScrollCastle: { name: "Zwój Nekromanty", desc: "Daje +{{value}} PD wybranej waifu" },
-      levelDownScrollCastle: { name: "Zwój Ciszy Grobowca", desc: "Obniża obecny poziom lokacji o {{value}}" },
-      affectionPotionAbyss: { name: "Nalewka Pustki", desc: "Zwiększa uczucie o {{value}}" },
-      expScrollAbyss: { name: "Zwój Otchłani", desc: "Daje +{{value}} PD wybranej waifu" },
-      levelDownScrollAbyss: { name: "Zwój Zaćmienia", desc: "Obniża obecny poziom lokacji o {{value}}" },
+      affectionPotionForest: {
+        name: "Leśny Nektar",
+        desc: "Zwiększa uczucie o {{value}}",
+      },
+      expScrollForest: {
+        name: "Zwój Przebudzenia",
+        desc: "Daje +{{value}} PD wybranej waifu",
+      },
+      levelDownScrollForest: {
+        name: "Zwój Osłony",
+        desc: "Obniża obecny poziom lokacji o {{value}}",
+      },
+      affectionPotionDesert: {
+        name: "Pustynny Miraż",
+        desc: "Zwiększa uczucie o {{value}}",
+      },
+      expScrollDesert: {
+        name: "Zwój Upału",
+        desc: "Daje +{{value}} PD wybranej waifu",
+      },
+      levelDownScrollDesert: {
+        name: "Zwój Burzy Piaskowej",
+        desc: "Obniża obecny poziom lokacji o {{value}}",
+      },
+      affectionPotionIce: {
+        name: "Eliksir Szronu",
+        desc: "Zwiększa uczucie o {{value}}",
+      },
+      expScrollIce: {
+        name: "Zwój Zamieci",
+        desc: "Daje +{{value}} PD wybranej waifu",
+      },
+      levelDownScrollIce: {
+        name: "Zwój Lodowego Spoczynku",
+        desc: "Obniża obecny poziom lokacji o {{value}}",
+      },
+      affectionPotionVolcano: {
+        name: "Płonący Wywar",
+        desc: "Zwiększa uczucie o {{value}}",
+      },
+      expScrollVolcano: {
+        name: "Zwój Magmy",
+        desc: "Daje +{{value}} PD wybranej waifu",
+      },
+      levelDownScrollVolcano: {
+        name: "Zwój Chłodzenia",
+        desc: "Obniża obecny poziom lokacji o {{value}}",
+      },
+      affectionPotionCastle: {
+        name: "Widmowy Eliksir Miłości",
+        desc: "Zwiększa uczucie o {{value}}",
+      },
+      expScrollCastle: {
+        name: "Zwój Nekromanty",
+        desc: "Daje +{{value}} PD wybranej waifu",
+      },
+      levelDownScrollCastle: {
+        name: "Zwój Ciszy Grobowca",
+        desc: "Obniża obecny poziom lokacji o {{value}}",
+      },
+      affectionPotionAbyss: {
+        name: "Nalewka Pustki",
+        desc: "Zwiększa uczucie o {{value}}",
+      },
+      expScrollAbyss: {
+        name: "Zwój Otchłani",
+        desc: "Daje +{{value}} PD wybranej waifu",
+      },
+      levelDownScrollAbyss: {
+        name: "Zwój Zaćmienia",
+        desc: "Obniża obecny poziom lokacji o {{value}}",
+      },
     },
     tutorial: {
       title: "Samouczek",
@@ -6346,7 +6666,7 @@ export const locales = {
       craftingTitle: "Tworzenie Przedmiotów",
       craftingDesc:
         "W menu Wytwarzania możesz tworzyć przydatne przedmioty: zwoje PD, eliksiry uczucia (+bonus do statystyk) i zwoje obniżania poziomu.",
-      materialsTip: "Materiały wypadają z wrogów. Bossowie dają więcej materiałów i rzadkie przedmioty.",
+      materialsTip: "Materiały wypadają z wrogów. Przywódcy dają więcej materiałów i rzadkie przedmioty.",
       collectionTitle: "Kolekcja i Bestiariusz",
       collectionItemsTitle: "Przedmioty Kolekcjonerskie",
       collectionItemsDesc:
@@ -6358,7 +6678,7 @@ export const locales = {
       darkDamage: "obrażenia ciemności",
       bestiaryTitle: "Bestiariusz",
       bestiaryDesc:
-        "Sekcja Bestiariusza śledzi statystyki zabitych wrogów. Im więcej zabijesz, tym więcej informacji się otwiera (odporności, drop).",
+        "Sekcja Bestiariusza śledzi statystyki zabitych wrogów. Im więcej zabijesz, tym więcej informacji się otwiera (odporności, łup).",
     },
     ads: {
       title: "Nagrody za Reklamy",
@@ -6381,8 +6701,8 @@ export const locales = {
           desc: "Podwójne obrażenia przez 5 minut",
         },
         drop2x: {
-          title: "Drop x2",
-          desc: "Podwójny drop przez 5 minut",
+          title: "Łup x2",
+          desc: "Podwójny łup przez 5 minut",
         },
         scrollForest: {
           title: "40 Zwojów Osłony",

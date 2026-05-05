@@ -10,6 +10,7 @@ import "./AdPanel.css";
 interface AdPanelProps {
   isOpen: boolean;
   onClose: () => void;
+  isPaused: boolean;
 }
 
 function formatTime(seconds: number): string {
@@ -39,6 +40,7 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
       setTimers(newTimers);
     }, 1000);
 
+    // Первый запуск
     const initialTimers: Record<string, number> = {};
     AD_REWARD_LIST.forEach((type) => {
       initialTimers[type] = getCooldownSeconds(type);
@@ -57,6 +59,7 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
         setWatching(null);
         if (success) {
           applyReward(type as any);
+          // Обновим таймеры сразу
           const newTimers: Record<string, number> = {};
           AD_REWARD_LIST.forEach((t) => {
             newTimers[t] = getCooldownSeconds(t);

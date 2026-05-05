@@ -1,4 +1,3 @@
-// src/types/ads.ts
 export type AdRewardType =
   | "essence_100"
   | "gems_10000"

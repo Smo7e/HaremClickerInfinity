@@ -131,13 +131,12 @@
 .resist-badge {
   padding: 4px 8px;
   border-radius: 12px;
-  font-size: 13px;
+  font-size: 0.5rem;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(2px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
-  gap: 4px;
   font-weight: 600;
 }
 
@@ -234,6 +233,10 @@
 
 /* --- АДАПТИВНОСТЬ --- */
 @media (max-width: 768px) {
+  .resist-badge {
+    height: 20px;
+    width: 30px;
+  }
   .enemy-component {
     width: 260px;
   }
@@ -242,13 +245,13 @@
     flex-wrap: wrap;
     justify-content: center;
     padding: 5px 10px;
-    font-size: 17px;
+    font-size: 0.7rem;
     gap: 6px;
     min-height: 34px;
   }
 
   .enemy-level {
-    font-size: 14px;
+    font-size: 0.7rem;
   }
 
   .enemy-sprite-container {
@@ -277,7 +280,8 @@
   }
 
   .enemy-header {
-    font-size: 15px;
+    font-size: 0.5rem;
+
     min-height: 32px;
     padding: 4px 8px;
   }
@@ -288,7 +292,7 @@
   }
 
   .enemy-level {
-    font-size: 12px;
+    font-size: 0.5rem;
   }
 
   .boss-badge {
@@ -337,7 +341,6 @@
 /* На мобильных ландшафтных экранах уменьшаем врага сильнее */
 @media (max-width: 767px) and (orientation: landscape) {
   .enemy-component {
-    height: 80vh; /* Ограничиваем по высоте */
     width: auto;
     max-width: 40vw;
   }

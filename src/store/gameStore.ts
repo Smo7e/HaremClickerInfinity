@@ -23,6 +23,7 @@ import type {
   TInventoryItemId,
 } from "../types";
 import { useAdStore } from "./adStore";
+import { STORAGE_KEYS } from "../utils/storageKeys";
 
 const createInitialState = (): GameState => ({
   inventory: new Inventory(),
@@ -484,7 +485,7 @@ export const useGameStore = create<GameState & GameActions>()(
       },
     }),
     {
-      name: "harem-clicker-save-v2",
+      name: STORAGE_KEYS.SAVE,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => {
         const partial: PersistedGameState = {

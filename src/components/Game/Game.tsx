@@ -125,6 +125,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     },
     [inventory, currentLocation, locationProgress, activeWaifu, removeItem, useItem, refreshWaifus],
   );
+  console.log(isPaused);
 
   useEffect(() => {
     if (!isPaused) {
@@ -137,7 +138,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   }, [isPaused]);
 
   useEffect(() => {
-    // Предотвращает масштабирование двойным тапом на iOS/Android
     let lastTouchEnd = 0;
     const handleTouchEnd = (e: TouchEvent) => {
       const now = Date.now();
@@ -148,11 +148,9 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     };
     document.addEventListener("touchend", handleTouchEnd, { passive: false });
 
-    // ИСПРАВЛЕННЫЙ обработчик — блокируем только pull-to-refresh, не скролл панелей
     const handleTouchMove = (e: TouchEvent) => {
       const target = e.target as HTMLElement;
 
-      // Разрешаем скролл внутри панелей и туториала
       const isInScrollablePanel =
         target.closest(".panel") ||
         target.closest(".panel-content") ||
@@ -174,7 +172,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         target.closest(".drop-pool-panel");
 
       if (isInScrollablePanel) {
-        return; // Не блокируем — пусть скроллится
+        return;
       }
 
       const isAtTop = window.scrollY === 0;
@@ -244,8 +242,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     <div className="game-layout">
       <Background locationId={currentLocation} />
 
-      {/* --- HEADER AREA --- */}
-      {/* --- HEADER AREA --- */}
       <header className="game-header">
         {/* Центр: Валюты и Кнопки управления (Реклама/Пауза) */}
         <div className="currency-display">
@@ -475,7 +471,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         selectedWaifuId={activeWaifu?.id}
       />
       <BestiaryPanel isOpen={panels.bestiary} onClose={() => closePanel("bestiary")} />
-      <AdPanel isOpen={panels.ads} onClose={() => closePanel("ads")} />
+      <AdPanel isPaused={isGlobalPaused || isPaused} isOpen={panels.ads} onClose={() => closePanel("ads")} />
     </div>
   );
 });
