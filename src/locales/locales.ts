@@ -3666,7 +3666,7 @@ export const locales = {
         desert: "Gurun",
         volcano: "Gunung Berapi",
         ice: "Puncak Es",
-        abyss: " jurang",
+        abyss: "jurang",
       },
       changeLocation: "Ganti Lokasi",
       locationLevelRequired: "Memerlukan level musuh {{level}}",
@@ -4476,7 +4476,7 @@ export const locales = {
       weak: "Yếu",
       resist: "Kháng",
       normal: "Bình Thường",
-      obtained: "Đã Obtained",
+      obtained: "Đã nhận",
       locked: "Bị Khóa",
       weapon: "Vũ Khí",
       accessory: "Phụ Kiện",
@@ -4657,7 +4657,7 @@ export const locales = {
         desc: "Slime làm từ dung nham nóng chảy. Gây bỏng khi chạm vào. Yếu với nước.",
       },
       fireImp: {
-        name: "小鬼 Lửa",
+        name: "Quỷ Lửa Nhỏ",
         desc: "Quỷ lửa nhỏ thích đốt phá. Yếu với băng.",
       },
       infernoDragon: {

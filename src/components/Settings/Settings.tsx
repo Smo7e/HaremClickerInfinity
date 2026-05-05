@@ -164,7 +164,9 @@ export function Settings({ setIsSettings, setCurrentLang, isPaused = false, onPa
 
               {showCredits && (
                 <div className="credits">
-                  <p>Harem Clicker Infinity v0.1</p>
+                  <span>{t("title.accent") + " "}</span>
+                  <span>{t("title.main") + " "}</span>
+                  <span>{t("title.sub")}</span>
                   <p>©Creep Games</p>
                   <p>{t("ui.thanksForPlaying")}</p>
                 </div>

@@ -175,8 +175,6 @@ export function EnemyComponent({ enemy, activeWaifu, isPaused, onClick }: EnemyC
       const remainingHp = currentEnemy.currentHp;
 
       if (remainingHp <= 0) {
-        console.log(remainingHp);
-        // Вызываем обработчик смерти. Он сам проверит isProcessingKill
         handleEnemyDeath();
       }
     },
