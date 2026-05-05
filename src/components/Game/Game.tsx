@@ -26,6 +26,7 @@ import { audioManager } from "../../audio/AudioManager";
 import { AdPanel } from "./components/AdPanel/AdPanel";
 import { adService } from "../../services/AdService";
 import { useLeaderboard } from "../../hooks/useLeaderboard";
+import { useAdStore } from "../../store/adStore";
 
 interface Props {
   onBack: () => void;
@@ -57,6 +58,11 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   const openPanel = useGameStore((state) => state.openPanel);
   const changeLocation = useGameStore((state) => state.changeLocation);
   const setPaused = useGameStore((state) => state.setPaused);
+  const setGamePaused = useAdStore((state) => state.setGamePaused);
+
+  useEffect(() => {
+    setGamePaused(isGlobalPaused || isPaused);
+  }, [isGlobalPaused, isPaused, setGamePaused]);
 
   const { handleClick, currentLevel, locationConfig } = useBattle();
   const { cps, isWarning, recordClick } = useCPS();
@@ -76,6 +82,8 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
 
   useEffect(() => {
     setPaused(panels.pause);
+    const adSetGamePaused = useAdStore.getState().setGamePaused;
+    adSetGamePaused(panels.pause);
   }, [panels.pause, setPaused]);
 
   const handleLocationChange = useCallback(
@@ -125,7 +133,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     },
     [inventory, currentLocation, locationProgress, activeWaifu, removeItem, useItem, refreshWaifus],
   );
-  console.log(isPaused);
 
   useEffect(() => {
     if (!isPaused) {
@@ -218,6 +225,8 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
 
   const handlePauseMenu = useCallback(() => {
     adService.showFullscreenAd();
+    setGamePaused(true);
+    setPaused(true);
     closePanel("pause");
     onBack();
   }, [closePanel, onBack]);
@@ -471,7 +480,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         selectedWaifuId={activeWaifu?.id}
       />
       <BestiaryPanel isOpen={panels.bestiary} onClose={() => closePanel("bestiary")} />
-      <AdPanel isPaused={isGlobalPaused || isPaused} isOpen={panels.ads} onClose={() => closePanel("ads")} />
+      <AdPanel isOpen={panels.ads} onClose={() => closePanel("ads")} />
     </div>
   );
 });

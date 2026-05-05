@@ -2044,6 +2044,7 @@ import { audioManager } from "../../audio/AudioManager";
 import { AdPanel } from "./components/AdPanel/AdPanel";
 import { adService } from "../../services/AdService";
 import { useLeaderboard } from "../../hooks/useLeaderboard";
+import { useAdStore } from "../../store/adStore";
 
 interface Props {
   onBack: () => void;
@@ -2075,6 +2076,11 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   const openPanel = useGameStore((state) => state.openPanel);
   const changeLocation = useGameStore((state) => state.changeLocation);
   const setPaused = useGameStore((state) => state.setPaused);
+  const setGamePaused = useAdStore((state) => state.setGamePaused);
+
+  useEffect(() => {
+    setGamePaused(isGlobalPaused || isPaused);
+  }, [isGlobalPaused, isPaused, setGamePaused]);
 
   const { handleClick, currentLevel, locationConfig } = useBattle();
   const { cps, isWarning, recordClick } = useCPS();
@@ -2094,6 +2100,8 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
 
   useEffect(() => {
     setPaused(panels.pause);
+    const adSetGamePaused = useAdStore.getState().setGamePaused;
+    adSetGamePaused(panels.pause);
   }, [panels.pause, setPaused]);
 
   const handleLocationChange = useCallback(
@@ -2155,7 +2163,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
   }, [isPaused]);
 
   useEffect(() => {
-    // Предотвращает масштабирование двойным тапом на iOS/Android
     let lastTouchEnd = 0;
     const handleTouchEnd = (e: TouchEvent) => {
       const now = Date.now();
@@ -2166,11 +2173,9 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     };
     document.addEventListener("touchend", handleTouchEnd, { passive: false });
 
-    // ИСПРАВЛЕННЫЙ обработчик — блокируем только pull-to-refresh, не скролл панелей
     const handleTouchMove = (e: TouchEvent) => {
       const target = e.target as HTMLElement;
 
-      // Разрешаем скролл внутри панелей и туториала
       const isInScrollablePanel =
         target.closest(".panel") ||
         target.closest(".panel-content") ||
@@ -2192,7 +2197,7 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
         target.closest(".drop-pool-panel");
 
       if (isInScrollablePanel) {
-        return; // Не блокируем — пусть скроллится
+        return;
       }
 
       const isAtTop = window.scrollY === 0;
@@ -2238,6 +2243,8 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
 
   const handlePauseMenu = useCallback(() => {
     adService.showFullscreenAd();
+    setGamePaused(true);
+    setPaused(true);
     closePanel("pause");
     onBack();
   }, [closePanel, onBack]);
@@ -2262,8 +2269,6 @@ export const Game = memo(function Game({ onBack, isPaused: isGlobalPaused }: Pro
     <div className="game-layout">
       <Background locationId={currentLocation} />
 
-      {/* --- HEADER AREA --- */}
-      {/* --- HEADER AREA --- */}
       <header className="game-header">
         {/* Центр: Валюты и Кнопки управления (Реклама/Пауза) */}
         <div className="currency-display">
@@ -2517,7 +2522,7 @@ interface AdPanelProps {
 function formatTime(seconds: number): string {
   if (seconds <= 0) return "00:00";
   const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
+  const secs = Math.floor(seconds % 60);
   return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 }
 
@@ -2527,36 +2532,56 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
 
   const isRewardAvailable = useAdStore((state) => state.isRewardAvailable);
   const getCooldownSeconds = useAdStore((state) => state.getCooldownSeconds);
+  const getBuffRemainingSeconds = useAdStore((state) => state.getBuffRemainingSeconds);
   const applyReward = useAdStore((state) => state.applyReward);
+  const tick = useAdStore((state) => state.tick);
+  const setAdPlaying = useAdStore((state) => state.setAdPlaying);
+  const activeBuffs = useAdStore((state) => state.activeBuffs);
 
-  // Обновление таймеров каждую секунду
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      tick();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [tick]);
+
   useEffect(() => {
     if (!isOpen) return;
 
-    const interval = setInterval(() => {
+    const updateTimers = () => {
       const newTimers: Record<string, number> = {};
       AD_REWARD_LIST.forEach((type) => {
         newTimers[type] = getCooldownSeconds(type);
       });
+
+      if (activeBuffs.damage) {
+        newTimers["buff_damage"] = getBuffRemainingSeconds("damage");
+      }
+      if (activeBuffs.drop) {
+        newTimers["buff_drop"] = getBuffRemainingSeconds("drop");
+      }
+
       setTimers(newTimers);
-    }, 1000);
+    };
 
-    const initialTimers: Record<string, number> = {};
-    AD_REWARD_LIST.forEach((type) => {
-      initialTimers[type] = getCooldownSeconds(type);
-    });
-    setTimers(initialTimers);
+    updateTimers();
+    const displayInterval = window.setInterval(updateTimers, 500);
 
-    return () => clearInterval(interval);
-  }, [isOpen, getCooldownSeconds]);
+    return () => clearInterval(displayInterval);
+  }, [isOpen, getCooldownSeconds, getBuffRemainingSeconds, activeBuffs]);
 
   const handleWatchAd = useCallback(
     (type: string) => {
       if (!isRewardAvailable(type as any)) return;
 
       setWatching(type);
+      setAdPlaying(true); // Таймеры остановятся
+
       adService.showRewardedAd((success) => {
         setWatching(null);
+        setAdPlaying(false); // Таймеры продолжат
+
         if (success) {
           applyReward(type as any);
           const newTimers: Record<string, number> = {};
@@ -2567,7 +2592,7 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
         }
       });
     },
-    [isRewardAvailable, applyReward, getCooldownSeconds],
+    [isRewardAvailable, applyReward, getCooldownSeconds, setAdPlaying],
   );
 
   if (!isOpen) return null;
@@ -2584,10 +2609,30 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
           </button>
         </div>
 
+        {/* Индикаторы активных баффов */}
+        {(activeBuffs.damage || activeBuffs.drop) && (
+          <div className="active-buffs-bar">
+            {activeBuffs.damage && (
+              <div className="buff-indicator damage-buff">
+                <Icon name="crit" size="sm" />
+                <span>2x {t("ui.damage")}</span>
+                <span className="buff-timer">{formatTime(timers["buff_damage"] || 0)}</span>
+              </div>
+            )}
+            {activeBuffs.drop && (
+              <div className="buff-indicator drop-buff">
+                <Icon name="collection" size="sm" />
+                <span>2x {t("ui.ads")}</span>
+                <span className="buff-timer">{formatTime(timers["buff_drop"] || 0)}</span>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="bonus-rewards-grid">
           {AD_REWARD_LIST.map((type) => {
             const config = AD_REWARDS[type];
-            if (!config) return null; // Защита от undefined
+            if (!config) return null;
 
             const cooldown = timers[type] || 0;
             const available = cooldown <= 0 && !watching;
@@ -2606,7 +2651,7 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
 
                   {isBuff && (
                     <span className="duration-badge">
-                      {t("ads.duration")}: 5 {t("ui.minutes")}
+                      {t("ads.duration")}: {Math.floor((config.durationSeconds || 300) / 60)} {t("ui.minutes")}
                     </span>
                   )}
                 </div>
@@ -4787,6 +4832,7 @@ import { useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
 import "./Pause.css"; // Оставим локальные стили для специфичных кнопок, если нужно, или удалим их позже
+import { useAdStore } from "../../../../store/adStore";
 
 interface PauseProps {
   isOpen: boolean;
@@ -4796,6 +4842,17 @@ interface PauseProps {
 }
 
 export function Pause({ isOpen, onClose, onSettings, onMenu }: PauseProps) {
+  useEffect(() => {
+    const setGamePaused = useAdStore.getState().setGamePaused;
+    if (isOpen) {
+      setGamePaused(true);
+    }
+    return () => {
+      if (!isOpen) {
+        setGamePaused(false);
+      }
+    };
+  }, [isOpen]);
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) onClose();
@@ -6210,7 +6267,7 @@ export const AD_REWARDS: Record<string, AdRewardConfig> = {
     titleKey: "ads.reward.abyssBundle.title",
     descriptionKey: "ads.reward.abyssBundle.desc",
     icon: "scroll_abyss_down",
-    cooldownSeconds: 600,
+    cooldownSeconds: 400,
   },
 };
 
@@ -7765,7 +7822,7 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { resetGame, setCanSave } from "./useSave";
 
 const MAX_CPS = 20;
-const WARNING_DURATION = 6;
+const WARNING_DURATION = 3;
 const RESET_DELAY = 5000;
 
 interface CPSState {
@@ -7955,13 +8012,13 @@ export function getDeviceClasses(deviceInfo: DeviceInfo): string {
 import { useState, useEffect, useCallback, useRef } from "react";
 import { adService } from "../services/AdService";
 import { useGameStore } from "../store/gameStore";
+import { STORAGE_KEYS } from "../utils/storageKeys";
 
 interface LeaderboardState {
   rank: number | null;
   totalScore: number;
   isLoading: boolean;
 }
-export const LAST_SENT_SCORE_KEY = "harem-leaderboard-last-sent";
 
 export function useLeaderboard() {
   const locationProgress = useGameStore((s) => s.locationProgress);
@@ -7982,7 +8039,7 @@ export function useLeaderboard() {
   // Инициализация lastSubmittedRef из localStorage
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(LAST_SENT_SCORE_KEY);
+      const saved = localStorage.getItem(STORAGE_KEYS.LEADERBOARD_LAST_SENT);
       if (saved) {
         lastSubmittedRef.current = parseInt(saved, 10) || 0;
       }
@@ -8007,7 +8064,7 @@ export function useLeaderboard() {
   // Сохраняем lastSubmittedScore в localStorage
   const saveLastSentScore = useCallback((score: number) => {
     try {
-      localStorage.setItem(LAST_SENT_SCORE_KEY, score.toString());
+      localStorage.setItem(STORAGE_KEYS.LEADERBOARD_LAST_SENT, score.toString());
       lastSubmittedRef.current = score;
     } catch (e) {
       console.warn("[useLeaderboard] Failed to save last sent score:", e);
@@ -8693,6 +8750,8 @@ export function getLang(): Lang {
 }
  
  
+
+ 
 ===== FILE: C:\Users\Me\Documents\GitHub\HaremClickerInfinity\src\services\AdService.ts ===== 
 import { SDK, Player } from "ysdk";
 import { audioManager } from "../audio/AudioManager";
@@ -9083,33 +9142,46 @@ export const BattleService = {
 // src/store/adStore.ts
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { AdRewardType, AdCooldownState, ActiveAdBuff } from "../types/ads";
+import type { AdRewardType, AdCooldownState, ActiveAdBuff, TimerState } from "../types/ads";
 import { useGameStore } from "./gameStore";
 import { AD_REWARDS } from "../game/adConstants";
+import { STORAGE_KEYS } from "../utils/storageKeys";
 
 interface AdState {
-  // Перезарядки (timestamp когда доступно)
-  cooldowns: AdCooldownState;
-  // Активные баффы
+  cooldowns: Record<string, TimerState>;
   activeBuffs: {
     damage?: ActiveAdBuff;
     drop?: ActiveAdBuff;
   };
+  isGamePaused: boolean;
+  isAdPlaying: boolean;
 }
 
 interface AdActions {
-  // Проверить доступность награды
   isRewardAvailable: (type: AdRewardType) => boolean;
-  // Получить оставшееся время перезарядки в секундах
   getCooldownSeconds: (type: AdRewardType) => number;
-  // Применить награду (вызывается после просмотра рекламы)
+  getBuffRemainingSeconds: (type: "damage" | "drop") => number;
   applyReward: (type: AdRewardType) => void;
-  // Проверить и очистить истекшие баффы
   checkBuffsExpiration: () => void;
-  // Получить текущий множитель урона (1 если нет баффа)
   getDamageMultiplier: () => number;
-  // Получить текущий множитель дропа (1 если нет баффа)
   getDropMultiplier: () => number;
+  setGamePaused: (paused: boolean) => void;
+  setAdPlaying: (playing: boolean) => void;
+  tick: () => void;
+}
+
+function createTimer(totalSeconds: number): TimerState {
+  return {
+    totalSeconds,
+    remainingSeconds: totalSeconds,
+    isRunning: true,
+    lastTickTime: Date.now(),
+  };
+}
+
+function isTimerExpired(timer: TimerState | undefined): boolean {
+  if (!timer) return true;
+  return timer.remainingSeconds <= 0;
 }
 
 export const useAdStore = create<AdState & AdActions>()(
@@ -9117,22 +9189,30 @@ export const useAdStore = create<AdState & AdActions>()(
     (set, get) => ({
       cooldowns: {},
       activeBuffs: {},
+      isGamePaused: false,
+      isAdPlaying: false,
 
       isRewardAvailable: (type) => {
-        const now = Date.now();
-        const availableAt = get().cooldowns[type] || 0;
-        return now >= availableAt;
+        const timer = get().cooldowns[type];
+        if (!timer) return true;
+        return timer.remainingSeconds <= 0;
       },
 
       getCooldownSeconds: (type) => {
-        const now = Date.now();
-        const availableAt = get().cooldowns[type] || 0;
-        const diff = Math.ceil((availableAt - now) / 1000);
-        return Math.max(0, diff);
+        const timer = get().cooldowns[type];
+        if (!timer) return 0;
+        return Math.max(0, Math.ceil(timer.remainingSeconds));
+      },
+
+      getBuffRemainingSeconds: (type) => {
+        const buff = get().activeBuffs[type];
+        if (!buff) return 0;
+        const timer = buff.timer;
+        if (!timer) return 0;
+        return Math.max(0, Math.ceil(timer.remainingSeconds));
       },
 
       applyReward: (type) => {
-        const now = Date.now();
         const config = AD_REWARDS[type];
         const gameStore = useGameStore.getState();
 
@@ -9140,53 +9220,56 @@ export const useAdStore = create<AdState & AdActions>()(
           console.error(`[AdStore] Unknown reward type: ${type}`);
           return;
         }
+
+        const cooldownTimer = createTimer(config.cooldownSeconds);
+
         set((state) => ({
           cooldowns: {
             ...state.cooldowns,
-            [type]: now + config.cooldownSeconds * 1000,
+            [type]: cooldownTimer,
           },
         }));
 
-        // Выдаем награды
         switch (type) {
           case "essence_100":
             gameStore.addItem("essence", 100);
             break;
-
           case "gems_10000":
             gameStore.addItem("gem", 10000);
             break;
-
-          case "damage_2x":
+          case "damage_2x": {
+            const duration = config.durationSeconds || 300;
+            const buffTimer = createTimer(duration);
             set((state) => ({
               activeBuffs: {
                 ...state.activeBuffs,
                 damage: {
                   type: "damage",
                   multiplier: 2,
-                  expiresAt: now + (config.durationSeconds || 300) * 1000,
+                  timer: buffTimer,
                 },
               },
             }));
             break;
-
-          case "drop_2x":
+          }
+          case "drop_2x": {
+            const duration = config.durationSeconds || 300;
+            const buffTimer = createTimer(duration);
             set((state) => ({
               activeBuffs: {
                 ...state.activeBuffs,
                 drop: {
                   type: "drop",
                   multiplier: 2,
-                  expiresAt: now + (config.durationSeconds || 300) * 1000,
+                  timer: buffTimer,
                 },
               },
             }));
             break;
-
+          }
           case "scroll_forest_40":
             gameStore.addItem("level_down_scroll_forest", 40);
             break;
-
           case "scroll_abyss_bundle":
             gameStore.addItem("exp_scroll_abyss", 1);
             gameStore.addItem("affection_potion_abyss", 1);
@@ -9195,17 +9278,14 @@ export const useAdStore = create<AdState & AdActions>()(
       },
 
       checkBuffsExpiration: () => {
-        const now = Date.now();
         set((state) => {
           const newBuffs = { ...state.activeBuffs };
-
-          if (newBuffs.damage && newBuffs.damage.expiresAt <= now) {
+          if (newBuffs.damage && isTimerExpired(newBuffs.damage.timer)) {
             delete newBuffs.damage;
           }
-          if (newBuffs.drop && newBuffs.drop.expiresAt <= now) {
+          if (newBuffs.drop && isTimerExpired(newBuffs.drop.timer)) {
             delete newBuffs.drop;
           }
-
           return { activeBuffs: newBuffs };
         });
       },
@@ -9213,8 +9293,7 @@ export const useAdStore = create<AdState & AdActions>()(
       getDamageMultiplier: () => {
         const buff = get().activeBuffs.damage;
         if (!buff) return 1;
-        // Проверяем не истек ли
-        if (buff.expiresAt <= Date.now()) {
+        if (isTimerExpired(buff.timer)) {
           get().checkBuffsExpiration();
           return 1;
         }
@@ -9224,19 +9303,197 @@ export const useAdStore = create<AdState & AdActions>()(
       getDropMultiplier: () => {
         const buff = get().activeBuffs.drop;
         if (!buff) return 1;
-        if (buff.expiresAt <= Date.now()) {
+        if (isTimerExpired(buff.timer)) {
           get().checkBuffsExpiration();
           return 1;
         }
         return buff.multiplier;
       },
+
+      setGamePaused: (paused: boolean) => {
+        set({ isGamePaused: paused });
+      },
+
+      setAdPlaying: (playing: boolean) => {
+        set({ isAdPlaying: playing });
+      },
+
+      tick: () => {
+        const state = get();
+        console.log(state.isGamePaused || state.isAdPlaying, 1000000);
+        // НЕ уменьшаем таймеры если игра на паузе или показывается реклама
+        if (state.isGamePaused || state.isAdPlaying) {
+          // Обновляем lastTickTime чтобы не было скачка после паузы
+          const now = Date.now();
+          set((s) => {
+            const newCooldowns = { ...s.cooldowns };
+            Object.keys(newCooldowns).forEach((key) => {
+              if (newCooldowns[key]) {
+                newCooldowns[key] = {
+                  ...newCooldowns[key],
+                  lastTickTime: now,
+                };
+              }
+            });
+
+            const newBuffs = { ...s.activeBuffs };
+            if (newBuffs.damage?.timer) {
+              newBuffs.damage = {
+                ...newBuffs.damage,
+                timer: {
+                  ...newBuffs.damage.timer,
+                  lastTickTime: now,
+                },
+              };
+            }
+            if (newBuffs.drop?.timer) {
+              newBuffs.drop = {
+                ...newBuffs.drop,
+                timer: {
+                  ...newBuffs.drop.timer,
+                  lastTickTime: now,
+                },
+              };
+            }
+
+            return { cooldowns: newCooldowns, activeBuffs: newBuffs };
+          });
+          return;
+        }
+
+        const now = Date.now();
+
+        // Обновляем кулдауны
+        set((s) => {
+          const newCooldowns = { ...s.cooldowns };
+          Object.keys(newCooldowns).forEach((key) => {
+            const timer = newCooldowns[key];
+            if (timer && timer.isRunning && timer.remainingSeconds > 0) {
+              const elapsed = (now - timer.lastTickTime) / 1000;
+              timer.remainingSeconds = Math.max(0, timer.remainingSeconds - elapsed);
+              timer.lastTickTime = now;
+            }
+          });
+          return { cooldowns: newCooldowns };
+        });
+
+        // Обновляем баффы
+        set((s) => {
+          const newBuffs = { ...s.activeBuffs };
+
+          if (newBuffs.damage?.timer) {
+            const timer = newBuffs.damage.timer;
+            if (timer.isRunning && timer.remainingSeconds > 0) {
+              const elapsed = (now - timer.lastTickTime) / 1000;
+              timer.remainingSeconds = Math.max(0, timer.remainingSeconds - elapsed);
+              timer.lastTickTime = now;
+            }
+          }
+
+          if (newBuffs.drop?.timer) {
+            const timer = newBuffs.drop.timer;
+            if (timer.isRunning && timer.remainingSeconds > 0) {
+              const elapsed = (now - timer.lastTickTime) / 1000;
+              timer.remainingSeconds = Math.max(0, timer.remainingSeconds - elapsed);
+              timer.lastTickTime = now;
+            }
+          }
+
+          return { activeBuffs: newBuffs };
+        });
+
+        get().checkBuffsExpiration();
+      },
     }),
     {
-      name: "harem-clicker-ads-v1",
+      name: STORAGE_KEYS.ADS_STATE,
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        cooldowns: state.cooldowns,
-      }),
+      partialize: (state) => {
+        const cooldownsToSave: AdCooldownState = {};
+        Object.entries(state.cooldowns).forEach(([key, timer]) => {
+          if (timer && timer.remainingSeconds > 0) {
+            cooldownsToSave[key] = timer.remainingSeconds;
+          }
+        });
+
+        const activeBuffsToSave: any = {};
+        if (state.activeBuffs.damage) {
+          activeBuffsToSave.damage = {
+            type: state.activeBuffs.damage.type,
+            multiplier: state.activeBuffs.damage.multiplier,
+            remainingSeconds: state.activeBuffs.damage.timer?.remainingSeconds || 0,
+          };
+        }
+        if (state.activeBuffs.drop) {
+          activeBuffsToSave.drop = {
+            type: state.activeBuffs.drop.type,
+            multiplier: state.activeBuffs.drop.multiplier,
+            remainingSeconds: state.activeBuffs.drop.timer?.remainingSeconds || 0,
+          };
+        }
+
+        return {
+          cooldowns: cooldownsToSave,
+          activeBuffs: activeBuffsToSave,
+        };
+      },
+      merge: (persistedState, currentState) => {
+        if (!persistedState || typeof persistedState !== "object") {
+          return currentState;
+        }
+
+        const saved = persistedState as Record<string, unknown>;
+
+        const restoredCooldowns: Record<string, TimerState> = {};
+        const savedCooldowns = saved.cooldowns as Record<string, number> | undefined;
+        if (savedCooldowns) {
+          Object.entries(savedCooldowns).forEach(([key, remainingSeconds]) => {
+            if (typeof remainingSeconds === "number" && remainingSeconds > 0) {
+              restoredCooldowns[key] = {
+                totalSeconds: remainingSeconds,
+                remainingSeconds,
+                isRunning: true,
+                lastTickTime: Date.now(),
+              };
+            }
+          });
+        }
+
+        const restoredBuffs: any = {};
+        const savedBuffs = saved.activeBuffs as Record<string, any> | undefined;
+        if (savedBuffs) {
+          if (savedBuffs.damage && savedBuffs.damage.remainingSeconds > 0) {
+            restoredBuffs.damage = {
+              type: "damage",
+              multiplier: savedBuffs.damage.multiplier,
+              timer: {
+                totalSeconds: savedBuffs.damage.remainingSeconds,
+                remainingSeconds: savedBuffs.damage.remainingSeconds,
+                isRunning: true,
+                lastTickTime: Date.now(),
+              },
+            };
+          }
+          if (savedBuffs.drop && savedBuffs.drop.remainingSeconds > 0) {
+            restoredBuffs.drop = {
+              type: "drop",
+              multiplier: savedBuffs.drop.multiplier,
+              timer: {
+                totalSeconds: savedBuffs.drop.remainingSeconds,
+                remainingSeconds: savedBuffs.drop.remainingSeconds,
+                isRunning: true,
+                lastTickTime: Date.now(),
+              },
+            };
+          }
+        }
+
+        return {
+          ...currentState,
+          cooldowns: restoredCooldowns,
+          activeBuffs: restoredBuffs,
+        };
+      },
     },
   ),
 );
@@ -9268,6 +9525,7 @@ import type {
   TInventoryItemId,
 } from "../types";
 import { useAdStore } from "./adStore";
+import { STORAGE_KEYS } from "../utils/storageKeys";
 
 const createInitialState = (): GameState => ({
   inventory: new Inventory(),
@@ -9729,7 +9987,7 @@ export const useGameStore = create<GameState & GameActions>()(
       },
     }),
     {
-      name: "harem-clicker-save-v2",
+      name: STORAGE_KEYS.SAVE,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => {
         const partial: PersistedGameState = {
@@ -10006,21 +10264,29 @@ export type AdRewardType =
 
 export interface AdRewardConfig {
   id: AdRewardType;
-  titleKey: string; // ключ для i18n
+  titleKey: string;
   descriptionKey: string;
   icon: string;
   cooldownSeconds: number;
-  durationSeconds?: number; // для временных баффов
+  durationSeconds?: number;
 }
 
+// Упрощённое состояние для сохранения (только оставшиеся секунды)
 export interface AdCooldownState {
-  [key: string]: number; // timestamp когда будет доступно
+  [key: string]: number;
+}
+
+export interface TimerState {
+  totalSeconds: number;
+  remainingSeconds: number;
+  isRunning: boolean;
+  lastTickTime: number;
 }
 
 export interface ActiveAdBuff {
   type: "damage" | "drop";
   multiplier: number;
-  expiresAt: number;
+  timer: TimerState;
 }
  
  

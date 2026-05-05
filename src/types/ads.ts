@@ -1,3 +1,4 @@
+// src/types/ads.ts
 export type AdRewardType =
   | "essence_100"
   | "gems_10000"
@@ -8,19 +9,27 @@ export type AdRewardType =
 
 export interface AdRewardConfig {
   id: AdRewardType;
-  titleKey: string; // ключ для i18n
+  titleKey: string;
   descriptionKey: string;
   icon: string;
   cooldownSeconds: number;
-  durationSeconds?: number; // для временных баффов
+  durationSeconds?: number;
 }
 
+// Упрощённое состояние для сохранения (только оставшиеся секунды)
 export interface AdCooldownState {
-  [key: string]: number; // timestamp когда будет доступно
+  [key: string]: number;
+}
+
+export interface TimerState {
+  totalSeconds: number;
+  remainingSeconds: number;
+  isRunning: boolean;
+  lastTickTime: number;
 }
 
 export interface ActiveAdBuff {
   type: "damage" | "drop";
   multiplier: number;
-  expiresAt: number;
+  timer: TimerState;
 }

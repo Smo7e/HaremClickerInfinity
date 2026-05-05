@@ -1689,7 +1689,7 @@ export const locales = {
     },
     title: {
       accent: "Harem",
-      main: "Tıklayıcının",
+      main: "Tıklayıcı",
       sub: "Sonsuzluk",
     },
     languages: {

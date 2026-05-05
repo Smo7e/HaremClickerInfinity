@@ -1,5 +1,6 @@
 import { SDK, Player } from "ysdk";
 import { audioManager } from "../audio/AudioManager";
+import { useAdStore } from "../store/adStore";
 
 type AdCallback = (success: boolean) => void;
 
@@ -247,9 +248,17 @@ class AdService {
       return;
     }
 
+    // ⏸ Ставим игру на паузу ПЕРЕД показом рекламы
+    const adStore = useAdStore.getState();
+    adStore.setGamePaused(true);
+    adStore.setAdPlaying(true); // Останавливаем таймеры кулдаунов рекламы
     audioManager.setMuted(true);
+
     if (!this.ysdk?.adv) {
       setTimeout(() => {
+        // ▶ Возобновляем игру при отсутствии SDK
+        adStore.setGamePaused(false);
+        adStore.setAdPlaying(false);
         audioManager.setMuted(false);
         onClose?.(true);
       }, 1000);
@@ -260,18 +269,27 @@ class AdService {
     this.ysdk.adv.showFullscreenAdv({
       callbacks: {
         onClose: (wasShown: boolean) => {
+          // ▶ Возобновляем игру ТОЛЬКО если реклама реально показалась
+          // или если wasShown === false (пользователь закрыл рано)
+          // В любом случае снимаем паузу — игра должна продолжаться
+          adStore.setGamePaused(false);
+          adStore.setAdPlaying(false);
+
           audioManager.setMuted(false);
           onClose?.(wasShown);
           this.lastFullscreenAdTime = Date.now();
         },
         onError: () => {
+          // ▶ Возобновляем игру при ошибке
+          adStore.setGamePaused(false);
+          adStore.setAdPlaying(false);
+
           audioManager.setMuted(false);
           onClose?.(false);
         },
       },
     });
   }
-
   showRewardedAd(callback: AdCallback): void {
     audioManager.setMuted(true);
     if (!this.ysdk?.adv) {

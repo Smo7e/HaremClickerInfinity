@@ -10,13 +10,12 @@ import "./AdPanel.css";
 interface AdPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  isPaused: boolean;
 }
 
 function formatTime(seconds: number): string {
   if (seconds <= 0) return "00:00";
   const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
+  const secs = Math.floor(seconds % 60);
   return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 }
 
@@ -26,40 +25,58 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
 
   const isRewardAvailable = useAdStore((state) => state.isRewardAvailable);
   const getCooldownSeconds = useAdStore((state) => state.getCooldownSeconds);
+  const getBuffRemainingSeconds = useAdStore((state) => state.getBuffRemainingSeconds);
   const applyReward = useAdStore((state) => state.applyReward);
+  const tick = useAdStore((state) => state.tick);
+  const setAdPlaying = useAdStore((state) => state.setAdPlaying);
+  const activeBuffs = useAdStore((state) => state.activeBuffs);
 
-  // Обновление таймеров каждую секунду
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      tick();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [tick]);
+
   useEffect(() => {
     if (!isOpen) return;
 
-    const interval = setInterval(() => {
+    const updateTimers = () => {
       const newTimers: Record<string, number> = {};
       AD_REWARD_LIST.forEach((type) => {
         newTimers[type] = getCooldownSeconds(type);
       });
+
+      if (activeBuffs.damage) {
+        newTimers["buff_damage"] = getBuffRemainingSeconds("damage");
+      }
+      if (activeBuffs.drop) {
+        newTimers["buff_drop"] = getBuffRemainingSeconds("drop");
+      }
+
       setTimers(newTimers);
-    }, 1000);
+    };
 
-    // Первый запуск
-    const initialTimers: Record<string, number> = {};
-    AD_REWARD_LIST.forEach((type) => {
-      initialTimers[type] = getCooldownSeconds(type);
-    });
-    setTimers(initialTimers);
+    updateTimers();
+    const displayInterval = window.setInterval(updateTimers, 500);
 
-    return () => clearInterval(interval);
-  }, [isOpen, getCooldownSeconds]);
+    return () => clearInterval(displayInterval);
+  }, [isOpen, getCooldownSeconds, getBuffRemainingSeconds, activeBuffs]);
 
   const handleWatchAd = useCallback(
     (type: string) => {
       if (!isRewardAvailable(type as any)) return;
 
       setWatching(type);
+      setAdPlaying(true); // Таймеры остановятся
+
       adService.showRewardedAd((success) => {
         setWatching(null);
+        setAdPlaying(false); // Таймеры продолжат
+
         if (success) {
           applyReward(type as any);
-          // Обновим таймеры сразу
           const newTimers: Record<string, number> = {};
           AD_REWARD_LIST.forEach((t) => {
             newTimers[t] = getCooldownSeconds(t);
@@ -68,7 +85,7 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
         }
       });
     },
-    [isRewardAvailable, applyReward, getCooldownSeconds],
+    [isRewardAvailable, applyReward, getCooldownSeconds, setAdPlaying],
   );
 
   if (!isOpen) return null;
@@ -85,10 +102,30 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
           </button>
         </div>
 
+        {/* Индикаторы активных баффов */}
+        {(activeBuffs.damage || activeBuffs.drop) && (
+          <div className="active-buffs-bar">
+            {activeBuffs.damage && (
+              <div className="buff-indicator damage-buff">
+                <Icon name="crit" size="sm" />
+                <span>2x {t("ui.damage")}</span>
+                <span className="buff-timer">{formatTime(timers["buff_damage"] || 0)}</span>
+              </div>
+            )}
+            {activeBuffs.drop && (
+              <div className="buff-indicator drop-buff">
+                <Icon name="collection" size="sm" />
+                <span>2x {t("ui.ads")}</span>
+                <span className="buff-timer">{formatTime(timers["buff_drop"] || 0)}</span>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="bonus-rewards-grid">
           {AD_REWARD_LIST.map((type) => {
             const config = AD_REWARDS[type];
-            if (!config) return null; // Защита от undefined
+            if (!config) return null;
 
             const cooldown = timers[type] || 0;
             const available = cooldown <= 0 && !watching;
@@ -107,7 +144,7 @@ export function AdPanel({ isOpen, onClose }: AdPanelProps) {
 
                   {isBuff && (
                     <span className="duration-badge">
-                      {t("ads.duration")}: 5 {t("ui.minutes")}
+                      {t("ads.duration")}: {Math.floor((config.durationSeconds || 300) / 60)} {t("ui.minutes")}
                     </span>
                   )}
                 </div>

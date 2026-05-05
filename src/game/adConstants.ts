@@ -44,7 +44,7 @@ export const AD_REWARDS: Record<string, AdRewardConfig> = {
     titleKey: "ads.reward.abyssBundle.title",
     descriptionKey: "ads.reward.abyssBundle.desc",
     icon: "scroll_abyss_down",
-    cooldownSeconds: 600,
+    cooldownSeconds: 400,
   },
 };
 

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { t } from "../../../../locales/i18n";
 import { Icon } from "../../../Icon/Icon";
 import "./Pause.css"; // Оставим локальные стили для специфичных кнопок, если нужно, или удалим их позже
+import { useAdStore } from "../../../../store/adStore";
 
 interface PauseProps {
   isOpen: boolean;
@@ -11,6 +12,17 @@ interface PauseProps {
 }
 
 export function Pause({ isOpen, onClose, onSettings, onMenu }: PauseProps) {
+  useEffect(() => {
+    const setGamePaused = useAdStore.getState().setGamePaused;
+    if (isOpen) {
+      setGamePaused(true);
+    }
+    return () => {
+      if (!isOpen) {
+        setGamePaused(false);
+      }
+    };
+  }, [isOpen]);
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) onClose();

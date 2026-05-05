@@ -2,13 +2,13 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { adService } from "../services/AdService";
 import { useGameStore } from "../store/gameStore";
+import { STORAGE_KEYS } from "../utils/storageKeys";
 
 interface LeaderboardState {
   rank: number | null;
   totalScore: number;
   isLoading: boolean;
 }
-export const LAST_SENT_SCORE_KEY = "harem-leaderboard-last-sent";
 
 export function useLeaderboard() {
   const locationProgress = useGameStore((s) => s.locationProgress);
@@ -29,7 +29,7 @@ export function useLeaderboard() {
   // Инициализация lastSubmittedRef из localStorage
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(LAST_SENT_SCORE_KEY);
+      const saved = localStorage.getItem(STORAGE_KEYS.LEADERBOARD_LAST_SENT);
       if (saved) {
         lastSubmittedRef.current = parseInt(saved, 10) || 0;
       }
@@ -54,7 +54,7 @@ export function useLeaderboard() {
   // Сохраняем lastSubmittedScore в localStorage
   const saveLastSentScore = useCallback((score: number) => {
     try {
-      localStorage.setItem(LAST_SENT_SCORE_KEY, score.toString());
+      localStorage.setItem(STORAGE_KEYS.LEADERBOARD_LAST_SENT, score.toString());
       lastSubmittedRef.current = score;
     } catch (e) {
       console.warn("[useLeaderboard] Failed to save last sent score:", e);
